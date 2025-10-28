@@ -112,17 +112,14 @@ public class PlayerController : MonoBehaviour
         // --- ARRÊT PROGRESSIF (GLISSADE) ---
         else if (isGrounded)
         {
-            // Réduit progressivement la vélocité horizontale à zéro
             Vector3 horizontalVelocity = new Vector3(body.velocity.x, 0, body.velocity.z);
             Vector3 smoothedHorizontal = Vector3.SmoothDamp(horizontalVelocity, Vector3.zero, ref stoppingVelocity, decelerationSmoothness);
             body.velocity = new Vector3(smoothedHorizontal.x, body.velocity.y, smoothedHorizontal.z);
         }
 
         // --- ROTATION ---
-        // On ne tourne que s'il y a une intention de mouvement
         if (moveDirection.magnitude >= 0.1f)
         {
-            // 1. Lisse le vecteur de direction pour la rotation
             smoothedMoveDirection = Vector3.SmoothDamp(
                 smoothedMoveDirection,
                 moveDirection,
@@ -130,10 +127,8 @@ public class PlayerController : MonoBehaviour
                 rotationSmoothness
             );
 
-            // 2. Crée la rotation cible à partir de la direction lissée
             Quaternion targetRotation = Quaternion.LookRotation(smoothedMoveDirection);
 
-            // 3. Applique la rotation avec une vitesse maximale
             body.rotation = Quaternion.RotateTowards(body.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
     }
