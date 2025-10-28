@@ -26,11 +26,13 @@ public class Plantation_interaction : MonoBehaviour
 
         if (planted && timer/graine.GrowthTimeTotal >= 0.5 && timer / graine.GrowthTimeTotal < 1)
         {
-            plante.transform.localScale = new Vector3 (0.6f,0.8f,0.6f);
+            plante.transform.localPosition = new Vector3(0, 0.4f, 0);
+            plante.transform.localScale = new Vector3 (0.15f,0.15f,0.15f);
         }
         if (planted && timer / graine.GrowthTimeTotal >= 1)
         {
-            plante.transform.localScale = new Vector3(0.8f, 1, 0.8f);
+            plante.transform.localPosition = new Vector3(0, 0.45f, 0);
+            plante.transform.localScale = new Vector3(0.18f, 0.18f, 0.18f);
             finished = true;
         }
 
@@ -66,7 +68,8 @@ public class Plantation_interaction : MonoBehaviour
         if (Input.GetButtonDown("Fire1") && finished == false)
         {
             //Mettre le mesh de plante ici
-            plante.transform.localScale = new Vector3(0.4f, 0.6f, 0.4f);
+            plante.transform.localPosition = new Vector3(0, 0.35f, 0);
+            plante.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
             plante.SetActive(true);
             timer = 0;
             planted = true;
