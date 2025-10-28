@@ -8,19 +8,21 @@ public class Seed : Vegetable_Scriptable
 {
 
     [Header("Seed Stats")]
-    [Tooltip("Temps total (en ticks ou unités de jeu) nécessaire pour la croissance.")]
+
     [SerializeField] private int growthTimeTotal;
-    [Tooltip("Influence sur le bonheur des plantes adjacentes (peut-être pas utilisé ici).")]
-    [SerializeField] private int happynessInfluence;
+
+    [SerializeField] private int happyness;
+    [SerializeField] private int happynessNeed;
 
     public int GrowthTimeTotal => growthTimeTotal;
-    public int HappynessInfluence => happynessInfluence;
+    public int Happyness => happyness;
+    public int HappynessNeed => happynessNeed;
 
-  
+
     [Header("Growth Stages")]
-    [Tooltip("Nombre total de stades de croissance avant la maturité (inclut la graine et le légume final).")]
+
     [SerializeField] private int numberOfStages = 3;
-    [Tooltip("Le ScriptableObject du légume final après la croissance.")]
+
     public Vegetable VegetableProductData;
 
 

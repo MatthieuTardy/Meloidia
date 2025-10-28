@@ -6,18 +6,37 @@ using UnityEngine;
 public class Plantation_interaction : MonoBehaviour
 {
     private bool detected = false;
+    private bool planted = false;
+    private bool finished = false;
     public GameObject plante;
+    public Seed graine;
+    private float timer;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        timer += Time.deltaTime;
+
+        if (planted && timer/graine.GrowthTimeTotal >= 0.5 && timer / graine.GrowthTimeTotal < 1)
+        {
+            plante.transform.localScale = new Vector3 (0.6f,0.8f,0.6f);
+        }
+        if (planted && timer / graine.GrowthTimeTotal >= 1)
+        {
+            plante.transform.localScale = new Vector3(0.8f, 1, 0.8f);
+            finished = true;
+        }
+
+
+
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -36,20 +55,36 @@ public class Plantation_interaction : MonoBehaviour
     {
         detected = false;
     }
+    IEnumerator Grow()
+    {
+
+        yield return null;
+    }
 
     IEnumerator Action()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && finished == false)
         {
             //Mettre le mesh de plante ici
+            plante.transform.localScale = new Vector3(0.4f, 0.6f, 0.4f);
             plante.SetActive(true);
-            Debug.Log("Touché");
+            timer = 0;
+            planted = true;
+            Debug.Log("Planté");
+        }
+        if (Input.GetButtonDown("Fire1") && finished == true)
+        {
+            finished = false;
+            plante.SetActive(false);
+            timer = 0;
+            planted = false;
+            Debug.Log("Mangé");
         }
         if (detected == false)
         {
             yield break;
         }
         yield return null;
-
+        StartCoroutine(Action());
     }
 }
