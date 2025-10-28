@@ -65,7 +65,7 @@ public class Plantation_interaction : MonoBehaviour
 
     IEnumerator Action()
     {
-        if (Input.GetButtonDown("Fire1") && finished == false)
+        if (Input.GetButtonDown("Fire1") && finished == false && planted == false)
         {
             //Mettre le mesh de plante ici
             plante.transform.localPosition = new Vector3(0, 0.35f, 0);
@@ -73,6 +73,7 @@ public class Plantation_interaction : MonoBehaviour
             plante.SetActive(true);
             timer = 0;
             planted = true;
+            //Mettre particule de plantage
             Debug.Log("Planté");
         }
         if (Input.GetButtonDown("Fire1") && finished == true)

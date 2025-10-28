@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
 
-public class WandersongNoteSystem : MonoBehaviour
+public class NoteSystem : MonoBehaviour
 {
 
 
-    // Les 8 notes, dans l'ordre de la logique angulaire du code : Nord, NE, Est, SE, Sud, SO, Ouest, NO
+
     public string[] musicalNotes = new string[8]
     {
         "Do (Nord)",
@@ -35,7 +35,6 @@ public class WandersongNoteSystem : MonoBehaviour
             else if ((Input.GetAxis("SongX_Xbox") < -0.5f) && Input.GetAxis("SongY_Xbox") < 0.5f && Input.GetAxis("SongY_Xbox") > -0.5f) { noteIndex = 6; } // Ouest
             else if ((Input.GetAxis("SongX_Xbox") < -0.5f) && Input.GetAxis("SongY_Xbox") > 0.5f) { noteIndex = 5; } // Nord-Ouest
 
-            // 4. Déclencher l'action
             PlayNote(noteIndex);
         }
     }
@@ -44,6 +43,7 @@ public class WandersongNoteSystem : MonoBehaviour
     {
         string note = musicalNotes[index];
         Debug.Log($"Note Jouée : {note} (Index {index})");
+        //Mettre particule de plantage
 
 
     }
