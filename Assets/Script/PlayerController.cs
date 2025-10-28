@@ -16,10 +16,10 @@ public class PlayerController : MonoBehaviour
     public float decelerationSmoothness = 0.15f;
 
     [Header("Rotation")]
-    [Tooltip("Vitesse angulaire maximale en degrés/sec.")]
-    public float rotationSpeed = 1200f;
-    [Tooltip("Fluidité de la rotation. Plus la valeur est basse, plus le personnage est lent à changer de direction.")]
-    public float rotationSmoothness = 0.1f;
+    [Tooltip("Vitesse de rotation en degrés/sec")]
+    public float rotationSpeed = 720f;
+    [Tooltip("Temps de lissage pour la rotation")]
+    public float rotationSmoothTime = 0.1f;
 
     [Header("Juice - Effets visuels")]
     public bool enableJuice = true;
@@ -38,11 +38,9 @@ public class PlayerController : MonoBehaviour
     public Vector3 landSquash = new Vector3(1.5f, 0.5f, 1.5f);
     public float squashReturnSpeed = 8f;
 
-    // --- Variables privées ---
-    private Vector3 moveDirection;
-    private Vector3 smoothedMoveDirection;
-    private Vector3 moveDirectionVelocity; // Pour le lissage de la rotation
-    private Vector3 stoppingVelocity; // Pour le lissage de l'arrêt
+    private Vector3 inputDirection;
+    private Vector3 lastValidDirection;
+    private Vector3 stoppingVelocity;
     private bool isGrounded;
     private Vector3 initialVisualsScale;
     private Vector3 targetVisualsPos;
@@ -50,6 +48,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 visualsPosVelocity;
     private Vector3 visualsScaleVelocity;
     private bool isSquashing = false;
+    private float currentRotationVelocity;
+    private float targetRotation;
+    private float currentRotation;
 
     void Start()
     {
@@ -60,6 +61,8 @@ public class PlayerController : MonoBehaviour
         initialVisualsScale = playerVisuals.localScale;
         targetVisualsScale = initialVisualsScale;
         targetVisualsPos = Vector3.zero;
+        currentRotation = transform.eulerAngles.y;
+        body.freezeRotation = true;
     }
 
     void Update()
@@ -82,7 +85,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        HandleMovementAndRotation();
+        HandleMovement();
+        HandleRotation();
     }
 
     private void HandleInputs()
@@ -90,46 +94,50 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        Vector3 camForward = cameraTransform.forward;
-        Vector3 camRight = cameraTransform.right;
-        camForward.y = 0;
-        camRight.y = 0;
-        camForward.Normalize();
-        camRight.Normalize();
+        Vector3 forward = cameraTransform.forward;
+        Vector3 right = cameraTransform.right;
+        forward.y = 0;
+        right.y = 0;
+        forward.Normalize();
+        right.Normalize();
 
-        moveDirection = (camForward * vertical + camRight * horizontal).normalized;
+        inputDirection = (forward * vertical + right * horizontal);
+
+        if (inputDirection.magnitude >= 0.1f)
+        {
+            inputDirection.Normalize();
+            lastValidDirection = inputDirection;
+            targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg;
+        }
     }
 
-    private void HandleMovementAndRotation()
+    private void HandleMovement()
     {
-        // --- MOUVEMENT ---
-        if (moveDirection.magnitude >= 0.1f)
+        if (inputDirection.magnitude >= 0.1f)
         {
-            // Applique la vélocité pour le mouvement
-            Vector3 targetVelocity = moveDirection * speed;
+            Vector3 targetVelocity = inputDirection * speed;
             body.velocity = new Vector3(targetVelocity.x, body.velocity.y, targetVelocity.z);
         }
-        // --- ARRÊT PROGRESSIF (GLISSADE) ---
         else if (isGrounded)
         {
             Vector3 horizontalVelocity = new Vector3(body.velocity.x, 0, body.velocity.z);
             Vector3 smoothedHorizontal = Vector3.SmoothDamp(horizontalVelocity, Vector3.zero, ref stoppingVelocity, decelerationSmoothness);
             body.velocity = new Vector3(smoothedHorizontal.x, body.velocity.y, smoothedHorizontal.z);
         }
+    }
 
-        // --- ROTATION ---
-        if (moveDirection.magnitude >= 0.1f)
+    private void HandleRotation()
+    {
+        if (inputDirection.magnitude >= 0.1f)
         {
-            smoothedMoveDirection = Vector3.SmoothDamp(
-                smoothedMoveDirection,
-                moveDirection,
-                ref moveDirectionVelocity,
-                rotationSmoothness
+            currentRotation = Mathf.SmoothDampAngle(
+                currentRotation,
+                targetRotation,
+                ref currentRotationVelocity,
+                rotationSmoothTime
             );
 
-            Quaternion targetRotation = Quaternion.LookRotation(smoothedMoveDirection);
-
-            body.rotation = Quaternion.RotateTowards(body.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+            transform.rotation = Quaternion.Euler(0f, currentRotation, 0f);
         }
     }
 
@@ -159,7 +167,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded)
         {
-            if (body.velocity.magnitude < 0.2f) // Basé sur la vélocité réelle pour plus de précision
+            if (body.velocity.magnitude < 0.2f)
             {
                 float breathe = Mathf.Sin(Time.time * idleBreatheFrequency) * idleBreatheAmplitude;
                 targetVisualsScale = new Vector3(initialVisualsScale.x, initialVisualsScale.y + breathe, initialVisualsScale.z);
