@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public Rigidbody body;
     public Transform playerVisuals;
     public Transform cameraTransform;
+    public ParticleSystem sprintParticles;
 
     [Header("Mouvement")]
     public float speed = 5f;
@@ -14,6 +15,10 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;
     [Tooltip("Contrôle la glissade à l'arrêt. 0 = arrêt net. 0.2 = légère glissade.")]
     public float decelerationSmoothness = 0.15f;
+
+    [Header("Sprint")]
+    public float sprintSpeed = 10f;
+    private bool isSprinting;
 
     [Header("Rotation")]
     [Tooltip("Vitesse de rotation en degrés/sec")]
@@ -32,6 +37,10 @@ public class PlayerController : MonoBehaviour
     [Header("Juice - Mouvement (Sautillement)")]
     public float bobbingFrequency = 10f;
     public float bobbingAmplitude = 0.1f;
+    // AJOUT: Paramètres d'oscillation pour le sprint
+    public float sprintBobbingFrequency = 15f;
+    public float sprintBobbingAmplitude = 0.15f;
+
 
     [Header("Juice - Saut (Déformation)")]
     public Vector3 jumpSquash = new Vector3(1.25f, 0.75f, 1.25f);
@@ -81,6 +90,7 @@ public class PlayerController : MonoBehaviour
         }
 
         ApplyJuiceSmoothly();
+        HandleSprintVisuals();
     }
 
     void FixedUpdate()
@@ -109,13 +119,17 @@ public class PlayerController : MonoBehaviour
             lastValidDirection = inputDirection;
             targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg;
         }
+
+        isSprinting = Input.GetButton("Fire3");
     }
 
     private void HandleMovement()
     {
+        float currentSpeed = isSprinting && isGrounded ? sprintSpeed : speed;
+
         if (inputDirection.magnitude >= 0.1f)
         {
-            Vector3 targetVelocity = inputDirection * speed;
+            Vector3 targetVelocity = inputDirection * currentSpeed;
             body.velocity = new Vector3(targetVelocity.x, body.velocity.y, targetVelocity.z);
         }
         else if (isGrounded)
@@ -123,6 +137,27 @@ public class PlayerController : MonoBehaviour
             Vector3 horizontalVelocity = new Vector3(body.velocity.x, 0, body.velocity.z);
             Vector3 smoothedHorizontal = Vector3.SmoothDamp(horizontalVelocity, Vector3.zero, ref stoppingVelocity, decelerationSmoothness);
             body.velocity = new Vector3(smoothedHorizontal.x, body.velocity.y, smoothedHorizontal.z);
+        }
+    }
+
+    private void HandleSprintVisuals()
+    {
+        if (sprintParticles != null)
+        {
+            if (isSprinting && inputDirection.magnitude > 0.1f && isGrounded)
+            {
+                if (!sprintParticles.isPlaying)
+                {
+                    sprintParticles.Play();
+                }
+            }
+            else
+            {
+                if (sprintParticles.isPlaying)
+                {
+                    sprintParticles.Stop();
+                }
+            }
         }
     }
 
@@ -175,7 +210,11 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                float bobbingOffset = Mathf.Sin(Time.time * bobbingFrequency) * bobbingAmplitude;
+                // MODIFICATION: Choisir les bons paramètres d'oscillation si on sprinte ou non
+                float currentBobbingFrequency = (isSprinting && isGrounded) ? sprintBobbingFrequency : bobbingFrequency;
+                float currentBobbingAmplitude = (isSprinting && isGrounded) ? sprintBobbingAmplitude : bobbingAmplitude;
+
+                float bobbingOffset = Mathf.Sin(Time.time * currentBobbingFrequency) * currentBobbingAmplitude;
                 targetVisualsPos = new Vector3(0, bobbingOffset, 0);
                 targetVisualsScale = initialVisualsScale;
             }
