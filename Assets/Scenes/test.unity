@@ -1130,6 +1130,99 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1723050754
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1.3743463
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: -1.3743463
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: -1.3743463
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.64
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.016964562
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.016964588
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70690334
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7069031
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 89.98
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 182.749
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ccf38eb45a3f97d48b2a8a3fa43795c4, type: 2}
+    - target: {fileID: 919132149155446097, guid: f4afe2c84ba3ca741a28b0ddce88c33b,
+        type: 3}
+      propertyPath: m_Name
+      value: banjo
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f4afe2c84ba3ca741a28b0ddce88c33b, type: 3}
 --- !u!1 &1896771100
 GameObject:
   m_ObjectHideFlags: 3
@@ -6244,6 +6337,7 @@ MonoBehaviour:
   - La (Sud-Ouest)
   - Si (Ouest)
   - Do' (Nord-Ouest)
+  playedPartition: []
 --- !u!23 &136011705280888364
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6481,7 +6575,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &1079662025073077294
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7360,3 +7454,4 @@ SceneRoots:
   - {fileID: 281191884}
   - {fileID: 1079703026}
   - {fileID: 404226068}
+  - {fileID: 1723050754}
