@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 
 public class NoteSystem : MonoBehaviour
 {
 
-
+    float playedTime;
+    string noteBefore;
 
     public string[] musicalNotes = new string[8]
     {
@@ -18,10 +21,30 @@ public class NoteSystem : MonoBehaviour
         "Do' (Nord-Ouest)"
     };
 
-    void Update()
+    public List<string> playedPartition;
+
+    private void Start()
     {
 
-        if (Input.GetAxis("SongX_Xbox") > 0.5f || Input.GetAxis("SongY_Xbox") > 0.5f|| Input.GetAxis("SongX_Xbox") < -0.5f || Input.GetAxis("SongY_Xbox") < -0.5f)
+    }
+
+    void Update()
+    {
+        playedTime += Time.deltaTime;
+        PlayMusic();
+        if (playedTime >= 3)
+        {
+            playedTime = 0;
+            for (var i = 0; i < playedPartition.Count; i++)
+            {
+                playedPartition.RemoveAt(i);
+            }
+        }
+    }
+
+    private void PlayMusic()
+    {
+        if (Input.GetAxis("SongX_Xbox") > 0.5f || Input.GetAxis("SongY_Xbox") > 0.5f || Input.GetAxis("SongX_Xbox") < -0.5f || Input.GetAxis("SongY_Xbox") < -0.5f)
         {
 
             int noteIndex = 0;
@@ -41,10 +64,15 @@ public class NoteSystem : MonoBehaviour
 
     void PlayNote(int index)
     {
+
+        if (musicalNotes[index] != noteBefore && playedTime > 3)
+        {
+            playedPartition.Add(musicalNotes[index]);
+            Debug.Log(playedPartition[-1]);
+        }
+        playedTime = 0;
+        noteBefore = musicalNotes[index];
         string note = musicalNotes[index];
         Debug.Log($"Note Jouée : {note} (Index {index})");
-        //Mettre particule de plantage
-
-
     }
 }
