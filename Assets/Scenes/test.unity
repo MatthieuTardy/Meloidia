@@ -315,6 +315,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plante: {fileID: 919132147662582948}
   graine: {fileID: 11400000, guid: 20781085c2836d24389e1247d2086b04, type: 2}
+  plantingParticles: {fileID: 5700504641014153958, guid: 001154213c9400c499bd649bda32bfd0,
+    type: 3}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -808,6 +810,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plante: {fileID: 919132149520904430}
   graine: {fileID: 11400000, guid: 20781085c2836d24389e1247d2086b04, type: 2}
+  plantingParticles: {fileID: 5700504641014153958, guid: 001154213c9400c499bd649bda32bfd0,
+    type: 3}
 --- !u!65 &1079703023
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2191,6 +2195,24 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0.33807373
           value: 0.97104645
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.6904277
+          value: 0.9732739
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0

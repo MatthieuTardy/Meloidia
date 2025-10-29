@@ -10,6 +10,7 @@ public class Plantation_interaction : MonoBehaviour
     private bool finished = false;
     public GameObject plante;
     public Seed graine;
+    public ParticleSystem plantingParticles; // La particule à jouer
     private float timer;
 
 
@@ -24,10 +25,10 @@ public class Plantation_interaction : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if (planted && timer/graine.GrowthTimeTotal >= 0.5 && timer / graine.GrowthTimeTotal < 1)
+        if (planted && timer / graine.GrowthTimeTotal >= 0.5 && timer / graine.GrowthTimeTotal < 1)
         {
             plante.transform.localPosition = new Vector3(0, 0.4f, 0);
-            plante.transform.localScale = new Vector3 (0.15f,0.15f,0.15f);
+            plante.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
         }
         if (planted && timer / graine.GrowthTimeTotal >= 1)
         {
@@ -55,7 +56,10 @@ public class Plantation_interaction : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        detected = false;
+        if (other.CompareTag("Detecteur"))
+        {
+            detected = false;
+        }
     }
     IEnumerator Grow()
     {
@@ -73,7 +77,16 @@ public class Plantation_interaction : MonoBehaviour
             plante.SetActive(true);
             timer = 0;
             planted = true;
+
             //Mettre particule de plantage
+            if (plantingParticles != null)
+            {
+                // On instancie la particule avec une rotation de -90 degrés sur l'axe X pour la rendre horizontale
+                Quaternion particleRotation = Quaternion.Euler(-90, 0, 0);
+                Vector3 particlePosition = plante.transform.position + new Vector3(0, 1f, 0);
+
+                Instantiate(plantingParticles, particlePosition, particleRotation);
+            }
             Debug.Log("Planté");
         }
         if (Input.GetButtonDown("Fire1") && finished == true)
