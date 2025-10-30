@@ -1,21 +1,21 @@
 using UnityEngine;
+using System.Collections;
 
-// Ce script doit être sur le Prefab instancié lors de la plantation
 public class Crop : MonoBehaviour
 {
     private Seed _seedData;
     private int _actualGrowthTime = 0;
     private int _currentStage = 0;
+    private bool isHarvesting = false;
 
     [Header("Référence Visuelle")]
     [Tooltip("Le conteneur des visuels (enfant de ce GameObject) qui sera mis à jour.")]
-    public Transform visualContainer; // Pour y instancier les modèles/sprites du stade
+    public Transform visualContainer;
 
     private GameObject _currentVisualInstance;
 
-    /// <summary>
-    /// Initialise la plante avec les données de la graine.
-    /// </summary>
+    public System.Action<Crop> OnHarvestedAndDestroyed;
+
     public void Initialize(Seed seed)
     {
         _seedData = seed;
@@ -24,22 +24,19 @@ public class Crop : MonoBehaviour
 
         if (visualContainer == null)
         {
-            Debug.LogError("Crop: visualContainer n'est pas assigné. Assurez-vous d'avoir un enfant pour les visuels.");
+            visualContainer = transform; // Si non assigné, on utilise le transform du Crop lui-même.
+            Debug.LogWarning("Crop: visualContainer n'est pas assigné. Utilisation du Transform du prefab Crop par défaut.");
         }
 
         UpdateVisual();
     }
 
-    /// <summary>
-    /// Met à jour l'état de la plante (à appeler par un Game Manager à intervalle régulier).
-    /// </summary>
     public void TickGrowth(int timeIncrease = 1)
     {
-        if (_seedData == null || _actualGrowthTime >= _seedData.GrowthTimeTotal)
-            return; // Déjà mûr ou non initialisé
+        if (_seedData == null || _actualGrowthTime >= _seedData.GrowthTimeTotal || isHarvesting)
+            return;
 
         _actualGrowthTime += timeIncrease;
-
         int newStage = _seedData.CalculateCurrentStage(_actualGrowthTime);
 
         if (newStage != _currentStage)
@@ -47,32 +44,21 @@ public class Crop : MonoBehaviour
             _currentStage = newStage;
             UpdateVisual();
         }
-
-        if (_actualGrowthTime >= _seedData.GrowthTimeTotal)
-        {
-            Debug.Log($"{_seedData.name} est prête à être récoltée !");
-        }
     }
 
-    /// <summary>
-    /// Détruit l'ancien visuel et instancie le nouveau pour le stade actuel.
-    /// </summary>
     private void UpdateVisual()
     {
         if (_seedData == null || _seedData.stageVisuals == null || _seedData.stageVisuals.Length == 0) return;
 
-        // 1. Détruire l'ancien visuel
         if (_currentVisualInstance != null)
         {
             Destroy(_currentVisualInstance);
         }
 
-        // 2. Instancier le nouveau visuel
         GameObject stageVisualPrefab = _seedData.stageVisuals[_currentStage];
-        if (stageVisualPrefab != null && visualContainer != null)
+        if (stageVisualPrefab != null)
         {
             _currentVisualInstance = Instantiate(stageVisualPrefab, visualContainer);
-            // On s'assure qu'il est bien centré localement
             _currentVisualInstance.transform.localPosition = Vector3.zero;
         }
         else
@@ -81,19 +67,55 @@ public class Crop : MonoBehaviour
         }
     }
 
-    // Fonction à appeler lors d'un clic sur la plante mûre
     public void Harvest()
     {
-        if (_actualGrowthTime >= _seedData.GrowthTimeTotal)
+        if (_actualGrowthTime >= _seedData.GrowthTimeTotal && !isHarvesting)
         {
+            isHarvesting = true;
             Debug.Log($"Récolte de {_seedData.VegetableProductData.name} !");
-            // Logique d'ajout à l'inventaire ici
+            // Logique d'inventaire ici
 
-            Destroy(gameObject); // Supprimer la plante
+            // On s'assure qu'il y a bien un visuel à animer
+            if (_currentVisualInstance != null)
+            {
+                StartCoroutine(ShrinkAndDestroy());
+            }
+            else
+            {
+                // S'il n'y a pas de visuel, on détruit directement pour ne pas laisser un objet vide
+                FinalizeDestruction();
+            }
         }
-        else
+    }
+
+    private IEnumerator ShrinkAndDestroy()
+    {
+        float duration = 0.5f;
+        // On cible directement le Transform de l'instance du visuel
+        Transform visualTransform = _currentVisualInstance.transform;
+        Vector3 initialScale = visualTransform.localScale;
+        Vector3 targetScale = Vector3.zero;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
         {
-            Debug.Log("La plante n'est pas encore mûre.");
+            visualTransform.localScale = Vector3.Lerp(initialScale, targetScale, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
+
+        visualTransform.localScale = targetScale;
+
+        // On finalise la destruction
+        FinalizeDestruction();
+    }
+
+    private void FinalizeDestruction()
+    {
+        // Notifier le manager que la plante est prête à être retirée du dictionnaire
+        OnHarvestedAndDestroyed?.Invoke(this);
+
+        // Détruire l'objet racine de la plante (le prefab Crop)
+        Destroy(gameObject);
     }
 }
