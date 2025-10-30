@@ -14,9 +14,11 @@ public class GameManager : MonoBehaviour
     }
 
     public PlayerManager playerManager;
+    public DeplacementAleatoire deplacementAleatoire;
 
     private void Start()
     {
         playerManager = FindObjectOfType<PlayerManager>();
+        deplacementAleatoire = FindObjectOfType<DeplacementAleatoire>();
     }
 }

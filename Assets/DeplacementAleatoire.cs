@@ -3,7 +3,7 @@ using UnityEngine;
 
 // Assurez-vous d'avoir un Rigidbody sur ce GameObject
 [RequireComponent(typeof(Rigidbody))]
-public class DeplacementAleatoireRigidbody : MonoBehaviour
+public class DeplacementAleatoire : MonoBehaviour
 {
     // Durée du déplacement
     public float dureeDeplacement = 1f;

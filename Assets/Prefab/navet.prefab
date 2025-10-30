@@ -12,6 +12,10 @@ GameObject:
   - component: {fileID: 2175433345319883182}
   - component: {fileID: 5246390554295127632}
   - component: {fileID: 475697781468658752}
+  - component: {fileID: 5406721253068931219}
+  - component: {fileID: 663085383206316665}
+  - component: {fileID: 572334599460539091}
+  - component: {fileID: 3433961319903273884}
   m_Layer: 7
   m_Name: navet
   m_TagString: Untagged
@@ -102,6 +106,115 @@ MonoBehaviour:
   vitesse: 5
   vitesseRotation: 10
   rb: {fileID: 5246390554295127632}
+--- !u!114 &5406721253068931219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915118827783939439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6d29ecb4fecaee419b1e6ed258cf419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DO: {fileID: 663085383206316665}
+  RE: {fileID: 572334599460539091}
+  MI: {fileID: 3433961319903273884}
+  FA: {fileID: 0}
+--- !u!114 &663085383206316665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915118827783939439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1260669548
+      Data2: 1154893480
+      Data3: 1331610507
+      Data4: -419372798
+    Path: event:/DO
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &572334599460539091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915118827783939439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -568615340
+      Data2: 1288887963
+      Data3: -125869401
+      Data4: 2086306431
+    Path: event:/RE
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &3433961319903273884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915118827783939439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -577138497
+      Data2: 1338497565
+      Data3: 349194897
+      Data4: -1258335613
+    Path: event:/MI
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &2014060185222113137
 GameObject:
   m_ObjectHideFlags: 0

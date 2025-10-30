@@ -225,6 +225,7 @@ public class NoteSystem : MonoBehaviour
             }
             else if (playedPartition.SequenceEqual(listeDeNotes2))
             {
+                StartCoroutine(VictoryPlay());
                 Debug.LogWarning("Chant du Bonheur");
             }
             else if (playedPartition.SequenceEqual(listeDeNotes3))
