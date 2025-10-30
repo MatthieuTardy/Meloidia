@@ -51,6 +51,7 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     {
         // Affiche les infos de la note survolée
         UpdateDisplay(itemName, itemIcon, true);
+        Highlight();
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -63,6 +64,13 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         else
         {
             ClearDisplay();
+        }
+
+        // Quand on sort du survol, on arrête la surbrillance pour cette instance (si elle n'est pas sélectionnée)
+        // Si c'est l'élément sélectionné, on garde la surbrillance (comportement original) — sinon on reset
+        if (selectedItem != this)
+        {
+            StopHighlightImmediate();
         }
     }
 
@@ -81,14 +89,28 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     private void SelectItem()
     {
+        // Déverrouille l'ancienne sélection (retire sa surbrillance) si besoin
+        if (selectedItem != null && selectedItem != this)
+        {
+            selectedItem.StopHighlightImmediate();
+        }
+
         selectedItem = this;
         UpdateDisplay(itemName, itemIcon, true);
+        // S'assurer que l'item sélectionné reste mis en évidence
+        Highlight();
     }
 
     // Méthode publique statique pour pouvoir la vider depuis n'importe où (ex: NoteSystem)
     public static void DeselectAll()
     {
-        selectedItem = null;
+        // Si une note est sélectionnée, lui demander d'arrêter immédiatement la surbrillance avant de la désélectionner
+        if (selectedItem != null)
+        {
+            selectedItem.StopHighlightImmediate();
+            selectedItem = null;
+        }
+
         ClearDisplay();
     }
 
@@ -116,6 +138,7 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         if (highlightCoroutine != null)
         {
             StopCoroutine(highlightCoroutine);
+            highlightCoroutine = null;
         }
 
         if (graphic != null)
@@ -134,5 +157,21 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         yield return new WaitForSeconds(0.2f); // Durée
         graphic.color = originalColor; // Retour à la normale
         highlightCoroutine = null;
+    }
+
+    // Arrête immédiatement la coroutine de surbrillance (si active) et remet la couleur d'origine.
+    // Méthode publique pour permettre à DeselectAll ou à d'autres instances d'appeler le reset.
+    public void StopHighlightImmediate()
+    {
+        if (highlightCoroutine != null)
+        {
+            StopCoroutine(highlightCoroutine);
+            highlightCoroutine = null;
+        }
+
+        if (graphic != null)
+        {
+            graphic.color = originalColor;
+        }
     }
 }
