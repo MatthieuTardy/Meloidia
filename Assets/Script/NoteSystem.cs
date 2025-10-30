@@ -13,6 +13,11 @@ public class NoteSystem : MonoBehaviour
     float singDelay;
     bool isPlaying;
 
+    [Header("Éléments d'UI")]
+    [Tooltip("Glissez ici les boutons de notes de l'UI, dans le même ordre que musicalNotes.")]
+    public Note[] noteUIElements; // Le tableau pour lier les notes de l'UI
+
+    [Header("Événements FMOD")]
     public FMODUnity.StudioEventEmitter DO;
     public FMODUnity.StudioEventEmitter RE;
     public FMODUnity.StudioEventEmitter MI;
@@ -58,7 +63,7 @@ public class NoteSystem : MonoBehaviour
         "Do (Nord)",
         "Fa (Sud-Est)",
         "Mi (Est)"
-        
+
     };
     public List<string> playedPartition;
 
@@ -72,8 +77,8 @@ public class NoteSystem : MonoBehaviour
         PlayMusic();
         if (playedTime >= 3 && playedPartition.Count != 0)
         {
-            if (playedPartition.SequenceEqual(listeDeNotes) || 
-                playedPartition.SequenceEqual(listeDeNotes2) || 
+            if (playedPartition.SequenceEqual(listeDeNotes) ||
+                playedPartition.SequenceEqual(listeDeNotes2) ||
                 playedPartition.SequenceEqual(listeDeNotes3))
             {
                 for (var i = 0; i < playedPartition.Count; i++)
@@ -98,7 +103,7 @@ public class NoteSystem : MonoBehaviour
         {
             for (var i = 0; i < playedPartition.Count; i++)
             {
-                noteBefore = playedPartition[playedPartition.Count-1];
+                noteBefore = playedPartition[playedPartition.Count - 1];
                 playedPartition.RemoveAt(i);
 
             }
@@ -193,6 +198,11 @@ public class NoteSystem : MonoBehaviour
 
         if (musicalNotes[index] != noteBefore || playedTime > 3)
         {
+            // Déclenche l'effet visuel sur l'UI
+            if (noteUIElements != null && index >= 0 && index < noteUIElements.Length && noteUIElements[index] != null)
+            {
+                noteUIElements[index].Highlight();
+            }
 
             if (isPlaying == false)
                 StartChant(index);
@@ -202,7 +212,7 @@ public class NoteSystem : MonoBehaviour
                 playedPartition.Add(musicalNotes[index]);
                 noteBefore = musicalNotes[index];
             }
-            else 
+            else
             {
                 isPlaying = true;
                 noteBefore = null;
@@ -223,7 +233,7 @@ public class NoteSystem : MonoBehaviour
             }
 
 
-            
+
         }
         playedTime = 0;
 

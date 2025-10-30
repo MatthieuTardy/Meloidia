@@ -1,146 +1,138 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
+using System.Collections;
+
 public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-
     public string itemName;
     public Sprite itemIcon;
 
-    private string itemNameText = "Name";
-    private string itemPreview = "Selected";
+    private const string ItemNameTextObjectName = "Name";
+    private const string ItemPreviewImageObjectName = "Selected";
 
-    private Text itemText;
-    private Image itemImage;
-
+    // Les éléments d'UI sont statiques pour être partagés entre toutes les instances de Note
+    private static Text itemText;
+    private static Image itemImage;
     private static Note selectedItem;
-    // Start is called before the first frame update
+
+    private Graphic graphic;
+    private Color originalColor;
+    private Coroutine highlightCoroutine;
+
+    void Awake()
+    {
+        graphic = GetComponent<Graphic>();
+        if (graphic != null)
+        {
+            originalColor = graphic.color; // Sauvegarde de la couleur initiale
+        }
+    }
+
     void Start()
     {
-
-        if (!string.IsNullOrEmpty(itemNameText))
+        // On cherche les références de l'UI une seule fois pour optimiser
+        if (itemText == null)
         {
-            GameObject textObject = GameObject.Find(itemNameText);
-
-            if (textObject != null)
-            {                 
-                itemText = textObject.GetComponent<Text>();
-            }
-            else
-            {
-                Debug.Log("Item Name Text not found with name: " + itemNameText);
-            }
-
+            GameObject textObject = GameObject.Find(ItemNameTextObjectName);
+            if (textObject != null) itemText = textObject.GetComponent<Text>();
+            else Debug.LogWarning("Objet UI 'Name' non trouvé.");
         }
 
-        if (!string.IsNullOrEmpty(itemPreview))
+        if (itemImage == null)
         {
-            GameObject imageObject = GameObject.Find(itemPreview);
-            if (imageObject != null)
-            {
-                itemImage = imageObject.GetComponent<Image>();
-            }
-            else
-            {
-                Debug.Log("No Preview Image found");
-            }
+            GameObject imageObject = GameObject.Find(ItemPreviewImageObjectName);
+            if (imageObject != null) itemImage = imageObject.GetComponent<Image>();
+            else Debug.LogWarning("Objet UI 'Selected' non trouvé.");
         }
-
-
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(itemText != null)
-        {
-            itemText.text = itemName;
-        }
-
-        if(itemImage != null)
-        {
-            itemImage.sprite = itemIcon;
-            itemImage.enabled = true;
-        }
+        // Affiche les infos de la note survolée
+        UpdateDisplay(itemName, itemIcon, true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        // Si une note est "verrouillée", on affiche ses infos, sinon on efface tout
         if (selectedItem != null)
         {
-            if (itemText != null)
-            {
-                itemText.text = selectedItem.itemName;
-            }
-            if (itemImage != null)
-            {
-                itemImage.sprite = selectedItem.itemIcon;
-                itemImage.enabled = true;
-
-            }
-            else
-            {
-                if (itemText != null)
-                {
-                    itemText.text = "";
-                }
-
-                if (itemImage != null)
-                {
-                    itemImage.enabled = false;
-                }
-
-            }
-
-
+            UpdateDisplay(selectedItem.itemName, selectedItem.itemIcon, true);
+        }
+        else
+        {
+            ClearDisplay();
         }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        SelectItem();
+        // Si on clique sur une note déjà sélectionnée, on la déverrouille
+        if (selectedItem == this)
+        {
+            DeselectAll();
+        }
+        else // Sinon, on la sélectionne (verrouille)
+        {
+            SelectItem();
+        }
     }
 
     private void SelectItem()
     {
-        if(selectedItem != null)
-        {
-            selectedItem.DeselectItem();
-        }
-
         selectedItem = this;
-
-        if(itemText != null)
-        {
-            itemText.text = itemName;
-        }
-        if(itemImage != null)
-        {
-            itemImage.sprite = itemIcon;
-            itemImage.enabled = true;
-        }
+        UpdateDisplay(itemName, itemIcon, true);
     }
 
-    private void DeselectItem()
+    // Méthode publique statique pour pouvoir la vider depuis n'importe où (ex: NoteSystem)
+    public static void DeselectAll()
     {
-        if(selectedItem == this)
+        selectedItem = null;
+        ClearDisplay();
+    }
+
+    private static void UpdateDisplay(string name, Sprite icon, bool isEnabled)
+    {
+        if (itemText != null)
         {
-            if(itemText != null)
-            {
-                itemText.text = "";
-            }
-            if(itemImage != null)
-            {
-                itemImage.enabled = false;
-            }
+            itemText.text = name;
+        }
+        if (itemImage != null)
+        {
+            itemImage.sprite = icon;
+            itemImage.enabled = isEnabled;
         }
     }
 
+    private static void ClearDisplay()
+    {
+        UpdateDisplay("", null, false);
+    }
+
+    // Gère l'animation de surbrillance sans rester bloqué
+    public void Highlight()
+    {
+        if (highlightCoroutine != null)
+        {
+            StopCoroutine(highlightCoroutine);
+        }
+
+        if (graphic != null)
+        {
+            graphic.color = originalColor;
+        }
+
+        highlightCoroutine = StartCoroutine(HighlightCoroutine());
+    }
+
+    private IEnumerator HighlightCoroutine()
+    {
+        if (graphic == null) yield break;
+
+        graphic.color = Color.yellow; // Couleur de surbrillance
+        yield return new WaitForSeconds(0.2f); // Durée
+        graphic.color = originalColor; // Retour à la normale
+        highlightCoroutine = null;
+    }
 }
