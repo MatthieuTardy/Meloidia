@@ -52,7 +52,7 @@ public class Plantation_interaction : MonoBehaviour
             {
                 if (!finished)
                 {
-                    plante.transform.localPosition = new Vector3(0, 0.45f, 0);
+                    plante.transform.localPosition = new Vector3(0, 0.30f, 0);
                     plante.transform.localScale = new Vector3(0.18f, 0.18f, 0.18f);
                     finished = true;
                     originalRotation = plante.transform.localRotation;
@@ -60,7 +60,7 @@ public class Plantation_interaction : MonoBehaviour
             }
             else if (timer / graine.GrowthTimeTotal >= 0.5)
             {
-                plante.transform.localPosition = new Vector3(0, 0.4f, 0);
+                plante.transform.localPosition = new Vector3(0, 0.25f, 0);
                 plante.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
             }
         }
@@ -136,7 +136,7 @@ public class Plantation_interaction : MonoBehaviour
         float elapsedTime = 0f;
 
         // Prépare la plante mais la garde invisible (scale = 0)
-        plante.transform.localPosition = new Vector3(0, 0.35f, 0);
+        plante.transform.localPosition = new Vector3(0, 0.20f, 0);
         plante.transform.localScale = initialScale;
         plante.SetActive(true);
         originalRotation = plante.transform.localRotation; // Sauvegarder la rotation de base
