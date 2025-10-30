@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class Plantation_interaction : MonoBehaviour
 {
+
+    [Header("Init")]
     private bool detected = false;
+
+    [Header("State")]
+    private bool watered = false;
+    private bool prepared = false;
+    private bool clean = false;
+
     private bool planted = false;
     private bool finished = false;
     private bool isHarvesting = false;
     private bool isPlanting = false; // Pour gérer l'état de l'animation de plantation
+    public int happyness = 0;
+
     public GameObject plante;
     public Seed graine;
+
     public ParticleSystem plantingParticles; // Renommé, car c'est seulement pour la plantation
     private float timer;
 
@@ -22,6 +33,11 @@ public class Plantation_interaction : MonoBehaviour
     public float harvestSpinSpeed = 360f;
 
     private Quaternion originalRotation;
+
+    private void Start()
+    {
+
+    }
 
     void Update()
     {
@@ -55,9 +71,28 @@ public class Plantation_interaction : MonoBehaviour
             plante.transform.localRotation = originalRotation * Quaternion.Euler(0, 0, angle);
         }
 
-        if (detected && Input.GetButtonDown("Fire1"))
+        if (detected && Input.GetButtonDown("Fire1") && GameManager.Instance.playerManager.outils == 0 && prepared == true && clean == true)
         {
             HandleAction();
+        }
+        else if (detected && Input.GetButtonDown("Fire1") && GameManager.Instance.playerManager.outils == 1 && watered == false && GameManager.Instance.playerManager.eau > 0)
+        {
+            GameManager.Instance.playerManager.eau -= 1;
+            watered = true;
+            timer += 10;
+            happyness += 10;
+        }
+        else if (detected && Input.GetButtonDown("Fire1") && GameManager.Instance.playerManager.outils == 2 && prepared == false && GameManager.Instance.playerManager.terre > 0)
+        {
+            GameManager.Instance.playerManager.terre -= 1;
+            prepared = true;
+            Debug.Log("Terre est mise");
+        }
+        else if (detected && Input.GetButtonDown("Fire1") && GameManager.Instance.playerManager.outils == 3 && clean == false && prepared == true)
+        {
+            clean = true;
+
+            Debug.Log("Terrain propre");
         }
     }
 
@@ -143,6 +178,9 @@ public class Plantation_interaction : MonoBehaviour
         }
 
         Debug.Log("Mangé !");
+        clean = false;
+        prepared = false;
+        watered = false;
         plante.SetActive(false);
         plante.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         plante.transform.localRotation = originalRotation;

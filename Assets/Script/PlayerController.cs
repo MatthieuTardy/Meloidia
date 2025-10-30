@@ -61,6 +61,12 @@ public class PlayerController : MonoBehaviour
     private float targetRotation;
     private float currentRotation;
 
+    [Header("Outils")]
+    public GameObject Gant;
+    public GameObject Arrosoir;
+    public GameObject Pelle;
+    public GameObject Houe;
+
     void Start()
     {
         if (body == null) body = GetComponent<Rigidbody>();
@@ -87,6 +93,39 @@ public class PlayerController : MonoBehaviour
         if (enableJuice)
         {
             CalculateJuiceTargets();
+        }
+
+        if (Input.GetButtonDown("Outils 1") && GameManager.Instance.playerManager.outils != 0 || Input.GetAxis("OutilsY_Xbox") >= 0.8 )
+        {
+            GameManager.Instance.playerManager.outils = 0;
+            Gant.SetActive(true);
+            Pelle.SetActive(false);
+            Houe.SetActive(false);
+            Arrosoir.SetActive(false);
+        }
+        else if (Input.GetButtonDown("Outils 2") && GameManager.Instance.playerManager.outils != 1 || Input.GetAxis("OutilsX_Xbox") >= 0.8)
+        {
+            GameManager.Instance.playerManager.outils = 1;
+            Gant.SetActive(false);
+            Pelle.SetActive(false);
+            Houe.SetActive(false);
+            Arrosoir.SetActive(true);
+        }
+        else if (Input.GetButtonDown("Outils 3") && GameManager.Instance.playerManager.outils != 2 || Input.GetAxis("OutilsY_Xbox") <= -0.8)
+        {
+            GameManager.Instance.playerManager.outils = 2;
+            Gant.SetActive(false);
+            Pelle.SetActive(true);
+            Houe.SetActive(false);
+            Arrosoir.SetActive(false);
+        }
+        else if (Input.GetButtonDown("Outils 4") && GameManager.Instance.playerManager.outils != 3 || Input.GetAxis("OutilsX_Xbox") <= -0.8)
+        {
+            GameManager.Instance.playerManager.outils = 3;
+            Gant.SetActive(false);
+            Pelle.SetActive(false);
+            Houe.SetActive(true);
+            Arrosoir.SetActive(false);
         }
 
         ApplyJuiceSmoothly();

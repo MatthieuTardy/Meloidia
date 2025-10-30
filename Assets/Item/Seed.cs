@@ -11,7 +11,7 @@ public class Seed : Vegetable_Scriptable
 
     [SerializeField] private int growthTimeTotal;
 
-    [SerializeField] private int happyness;
+    [SerializeField] public int happyness;
     [SerializeField] private int happynessNeed;
 
     public int GrowthTimeTotal => growthTimeTotal;
