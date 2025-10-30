@@ -11,14 +11,17 @@ public class NoteSystem : MonoBehaviour
     float playedTime;
     string noteBefore;
 
-    public StudioEventEmitter DO;
-    public StudioEventEmitter RE;
-    public StudioEventEmitter MI;
-    public StudioEventEmitter FA;
-    public StudioEventEmitter SOL;
-    public StudioEventEmitter LA;
-    public StudioEventEmitter SI;
-    public StudioEventEmitter DO2;
+    public FMODUnity.StudioEventEmitter DO;
+    public FMODUnity.StudioEventEmitter RE;
+    public FMODUnity.StudioEventEmitter MI;
+    public FMODUnity.StudioEventEmitter FA;
+    public FMODUnity.StudioEventEmitter SOL;
+    public FMODUnity.StudioEventEmitter LA;
+    public FMODUnity.StudioEventEmitter SI;
+    public FMODUnity.StudioEventEmitter DO2;
+
+    public FMODUnity.StudioEventEmitter Victoire;
+    public FMODUnity.StudioEventEmitter No;
 
 
     public string[] musicalNotes = new string[8]
@@ -45,24 +48,60 @@ public class NoteSystem : MonoBehaviour
         "Do (Nord)",
         "Mi (Est)"
     };
+    public List<string> listeDeNotes3 = new List<string>
+    {
+        "Do (Nord)",
+        "Do (Nord)",
+        "Ré (Nord-Est)",
+        "Do (Nord)",
+        "Fa (Sud-Est)",
+        "Mi (Est)"
+        
+    };
     public List<string> playedPartition;
 
     private void Start()
     {
-
     }
 
     void Update()
     {
         playedTime += Time.deltaTime;
         PlayMusic();
-        if (playedTime >= 3)
+        if (playedTime >= 3 && playedPartition.Count != 0)
+        {
+            if (playedPartition.SequenceEqual(listeDeNotes) || 
+                playedPartition.SequenceEqual(listeDeNotes2) || 
+                playedPartition.SequenceEqual(listeDeNotes3))
+            {
+                for (var i = 0; i < playedPartition.Count; i++)
+                {
+                    playedPartition.RemoveAt(i);
+
+                }
+            }
+            else
+            {
+                No.Play();
+                for (var i = 0; i < playedPartition.Count; i++)
+                {
+                    playedPartition.RemoveAt(i);
+
+                }
+            }
+        }
+        else if (playedPartition.SequenceEqual(listeDeNotes) ||
+                 playedPartition.SequenceEqual(listeDeNotes2) ||
+                 playedPartition.SequenceEqual(listeDeNotes3))
         {
             for (var i = 0; i < playedPartition.Count; i++)
             {
+                noteBefore = playedPartition[playedPartition.Count-1];
                 playedPartition.RemoveAt(i);
+
             }
         }
+
     }
 
     private void PlayMusic()
@@ -81,7 +120,12 @@ public class NoteSystem : MonoBehaviour
             PlayNote(noteIndex);
         }
         else
+        {
             StopChant();
+            noteBefore = null;
+        }
+
+
     }
 
     void StopChant()
@@ -146,20 +190,31 @@ public class NoteSystem : MonoBehaviour
         {
             StartChant(index);
             playedPartition.Add(musicalNotes[index]);
-            Debug.Log(playedPartition[playedPartition.Count-1]);
             if (playedPartition.SequenceEqual(listeDeNotes))
             {
+                StartCoroutine(VictoryPlay());
                 Debug.LogWarning("Chant du diabète");
             }
-            if (playedPartition.SequenceEqual(listeDeNotes2))
+            else if (playedPartition.SequenceEqual(listeDeNotes2))
             {
                 Debug.LogWarning("Chant du Bonheur");
             }
+            else if (playedPartition.SequenceEqual(listeDeNotes3))
+            {
+                Debug.LogWarning("Chant de l'anniversaire");
+            }
 
+
+            noteBefore = musicalNotes[index];
         }
         playedTime = 0;
-        noteBefore = musicalNotes[index];
+
         string note = musicalNotes[index];
 
+    }
+    IEnumerator VictoryPlay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Victoire.Play();
     }
 }

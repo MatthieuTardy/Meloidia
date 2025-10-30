@@ -5,7 +5,7 @@
 			<value>SOL</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{5d8f369d-32da-4848-b6d4-027bcaff3e7e}</destination>
@@ -76,6 +76,9 @@
 		<relationship name="modules">
 			<destination>{280bc53d-1773-4641-9f1c-472c0668cbd7}</destination>
 		</relationship>
+		<relationship name="markers">
+			<destination>{7e54cf2b-fd59-4f65-9e2d-5c82d15891b4}</destination>
+		</relationship>
 	</object>
 	<object class="ActionSheet" id="{83f2af24-1f5a-4edf-9c31-7b3a3b7fe7dd}">
 		<relationship name="modules">
@@ -125,9 +128,24 @@
 			<destination>{cecdde6a-ae58-4687-a365-ee40e3aaaef5}</destination>
 		</relationship>
 	</object>
+	<object class="LoopRegion" id="{7e54cf2b-fd59-4f65-9e2d-5c82d15891b4}">
+		<property name="position">
+			<value>3.7000000000000002</value>
+		</property>
+		<property name="length">
+			<value>0.59999999999999964</value>
+		</property>
+		<relationship name="timeline">
+			<destination>{1f50a103-3eb4-4544-9b69-eba30ee80b02}</destination>
+		</relationship>
+		<relationship name="markerTrack">
+			<destination>{4f137807-bdf3-4dd4-a02f-7eb2c4f9bd7d}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusEffectChain" id="{9d5349ae-772f-48bc-bd4a-06fdd72e666c}">
 		<relationship name="effects">
 			<destination>{5cf74134-ef98-4bae-a5b7-310be1b1da7b}</destination>
+			<destination>{d01abccb-9f62-44fb-86cb-b0dd9db8ae2b}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{e567999a-19d3-480e-abac-c2ecf4406704}" />
@@ -139,5 +157,6 @@
 	</object>
 	<object class="MixerBusPanner" id="{15e72d70-f461-4491-9d8f-f40f0ffb818e}" />
 	<object class="MixerBusFader" id="{5cf74134-ef98-4bae-a5b7-310be1b1da7b}" />
+	<object class="SpatialiserEffect" id="{d01abccb-9f62-44fb-86cb-b0dd9db8ae2b}" />
 	<object class="MixerBusFader" id="{3012bc72-9db4-4ef4-bf67-e63df325e30d}" />
 </objects>

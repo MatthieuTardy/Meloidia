@@ -21,8 +21,8 @@ MonoBehaviour:
   Banks:
   - {fileID: 4158438079306407908}
   IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
+  Is3D: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
@@ -48,8 +48,8 @@ MonoBehaviour:
   Banks:
   - {fileID: 4158438079306407908}
   IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
+  Is3D: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
@@ -75,8 +75,8 @@ MonoBehaviour:
   Banks:
   - {fileID: 4158438079306407908}
   IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
+  Is3D: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
@@ -102,12 +102,39 @@ MonoBehaviour:
   Banks:
   - {fileID: 4158438079306407908}
   IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
+  Is3D: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
   Length: 4374
+--- !u!114 &-835505204307562582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Victoire
+  m_EditorClassIdentifier: 
+  Path: event:/Victoire
+  Guid:
+    Data1: -157865692
+    Data2: 1335693608
+    Data3: 2071112348
+    Data4: 1055777526
+  Banks:
+  - {fileID: 4158438079306407908}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 350
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,13 +159,15 @@ MonoBehaviour:
   - {fileID: 6709109357601264449}
   - {fileID: -7667873751745437306}
   - {fileID: 5133797850908652231}
+  - {fileID: 7662684490723809364}
+  - {fileID: -835505204307562582}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4158438079306407908}
   StringsBanks:
   - {fileID: 3856348917924897851}
   cacheVersion: 131849
-  cacheTime: 638973721630932177
+  cacheTime: 638974237856161532
   SerializableEventsDict:
   - key: event:/DO
     index: 0
@@ -156,6 +185,10 @@ MonoBehaviour:
     index: 6
   - key: event:/DO2
     index: 7
+  - key: event:/Non
+    index: 8
+  - key: event:/Victoire
+    index: 9
 --- !u!114 &3856348917924897851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,10 +204,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638973721630932177
+  lastModified: 638974237856161532
   FileSizes:
   - Name: Desktop
-    Value: 1028
+    Value: 1102
   Exists: 1
 --- !u!114 &4158438079306407908
 MonoBehaviour:
@@ -191,10 +224,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638973721630922166
+  lastModified: 638974237856136470
   FileSizes:
   - Name: Desktop
-    Value: 412768
+    Value: 426176
   Exists: 1
 --- !u!114 &4842816002087058105
 MonoBehaviour:
@@ -217,8 +250,8 @@ MonoBehaviour:
   Banks:
   - {fileID: 4158438079306407908}
   IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
+  Is3D: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
@@ -244,8 +277,8 @@ MonoBehaviour:
   Banks:
   - {fileID: 4158438079306407908}
   IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
+  Is3D: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
@@ -271,12 +304,39 @@ MonoBehaviour:
   Banks:
   - {fileID: 4158438079306407908}
   IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
+  Is3D: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
   Length: 4409
+--- !u!114 &7662684490723809364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Non
+  m_EditorClassIdentifier: 
+  Path: event:/Non
+  Guid:
+    Data1: -137921521
+    Data2: 1087753097
+    Data3: 890451096
+    Data4: 2059992726
+  Banks:
+  - {fileID: 4158438079306407908}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 415
 --- !u!114 &7696613799291141588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,8 +358,8 @@ MonoBehaviour:
   Banks:
   - {fileID: 4158438079306407908}
   IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
+  Is3D: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20

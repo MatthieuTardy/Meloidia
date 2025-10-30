@@ -5,7 +5,7 @@
 			<value>RE</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{5d8f369d-32da-4848-b6d4-027bcaff3e7e}</destination>
@@ -76,6 +76,9 @@
 		<relationship name="modules">
 			<destination>{d6fa0032-3d19-4806-ab07-74a4ee9dce4f}</destination>
 		</relationship>
+		<relationship name="markers">
+			<destination>{430e50da-6364-4633-8962-c9b710918b16}</destination>
+		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{06ac85ff-6ed3-4712-b323-d00121e939b4}">
 		<relationship name="effectChain">
@@ -133,9 +136,24 @@
 			<destination>{06ac85ff-6ed3-4712-b323-d00121e939b4}</destination>
 		</relationship>
 	</object>
+	<object class="LoopRegion" id="{430e50da-6364-4633-8962-c9b710918b16}">
+		<property name="position">
+			<value>2.9500000000000002</value>
+		</property>
+		<property name="length">
+			<value>1.3499999999999996</value>
+		</property>
+		<relationship name="timeline">
+			<destination>{e0177fcf-0b68-4b60-8a4d-229a1e1659f0}</destination>
+		</relationship>
+		<relationship name="markerTrack">
+			<destination>{0830d2ca-bdaf-404c-a953-f4c33c06ce58}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusEffectChain" id="{5fb37a5a-5160-4a65-9b6b-5450e1f9f30b}">
 		<relationship name="effects">
 			<destination>{50f040ee-29f7-4590-97c8-e7dba8098f4a}</destination>
+			<destination>{db9a3386-be22-495a-894b-52ca18256ab1}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{57432554-3c14-4b4e-b89a-7066f7652440}" />
@@ -153,6 +171,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{3f285552-2b46-4603-994f-a33ec6d4703c}" />
 	<object class="MixerBusFader" id="{50f040ee-29f7-4590-97c8-e7dba8098f4a}" />
+	<object class="SpatialiserEffect" id="{db9a3386-be22-495a-894b-52ca18256ab1}" />
 	<object class="MixerBusFader" id="{fa221d95-0a4c-4f06-ac21-1fcffce556be}" />
 	<object class="MixerBusFader" id="{35af11d5-c6fe-45fa-8e7e-94b5aadfa81a}" />
 </objects>
