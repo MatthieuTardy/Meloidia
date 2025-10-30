@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class Plantation_interaction : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class Plantation_interaction : MonoBehaviour
     private bool isHarvesting = false;
     private bool isPlanting = false; // Pour gérer l'état de l'animation de plantation
     public int happyness = 0;
+
+    public GameObject legume;
 
     public GameObject plante;
     public Seed graine;
@@ -178,6 +181,7 @@ public class Plantation_interaction : MonoBehaviour
             yield return null;
         }
 
+        Instantiate(legume, new Vector3(transform.position.x, transform.position.y+2, transform.position.z-3 ), new Quaternion(0,180,0,0));
         Debug.Log("Mangé !");
         clean = false;
         prepared = false;
@@ -192,7 +196,9 @@ public class Plantation_interaction : MonoBehaviour
         isHarvesting = false;
     }
 
-    private void PlayPlantingParticles()
+
+
+private void PlayPlantingParticles()
     {
         if (plantingParticles != null)
         {
