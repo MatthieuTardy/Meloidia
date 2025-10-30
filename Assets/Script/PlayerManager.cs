@@ -6,7 +6,12 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
 
-    public int Outils;
+    public int outils;
+
+    public int terre;
+    public int terreMax = 1;
+    public int eau;
+    public int eauMax = 1;
 
 
 

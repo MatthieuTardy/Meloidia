@@ -10,6 +10,8 @@ public class NoteSystem : MonoBehaviour
 
     float playedTime;
     string noteBefore;
+    float singDelay;
+    bool isPlaying;
 
     public FMODUnity.StudioEventEmitter DO;
     public FMODUnity.StudioEventEmitter RE;
@@ -108,6 +110,7 @@ public class NoteSystem : MonoBehaviour
     {
         if (Input.GetAxis("SongX_Xbox") > 0.5f || Input.GetAxis("SongY_Xbox") > 0.5f || Input.GetAxis("SongX_Xbox") < -0.5f || Input.GetAxis("SongY_Xbox") < -0.5f)
         {
+            singDelay += Time.deltaTime;
             int noteIndex = 0;
             if ((Input.GetAxis("SongY_Xbox") > 0.5f) && Input.GetAxis("SongX_Xbox") < 0.5f && Input.GetAxis("SongX_Xbox") > -0.5f) { noteIndex = 4; } // Nord
             else if ((Input.GetAxis("SongX_Xbox") > 0.3f) && Input.GetAxis("SongY_Xbox") > 0.3f) { noteIndex = 3; } // Nord-Est
@@ -121,6 +124,8 @@ public class NoteSystem : MonoBehaviour
         }
         else
         {
+            isPlaying = false;
+            singDelay = 0;
             StopChant();
             noteBefore = null;
         }
@@ -188,8 +193,21 @@ public class NoteSystem : MonoBehaviour
 
         if (musicalNotes[index] != noteBefore || playedTime > 3)
         {
-            StartChant(index);
-            playedPartition.Add(musicalNotes[index]);
+
+            if (isPlaying == false)
+                StartChant(index);
+            if (singDelay >= 0.2f)
+            {
+                isPlaying = false;
+                playedPartition.Add(musicalNotes[index]);
+                noteBefore = musicalNotes[index];
+            }
+            else 
+            {
+                isPlaying = true;
+                noteBefore = null;
+            }
+
             if (playedPartition.SequenceEqual(listeDeNotes))
             {
                 StartCoroutine(VictoryPlay());
@@ -205,7 +223,7 @@ public class NoteSystem : MonoBehaviour
             }
 
 
-            noteBefore = musicalNotes[index];
+            
         }
         playedTime = 0;
 

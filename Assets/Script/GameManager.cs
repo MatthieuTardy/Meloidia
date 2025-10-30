@@ -12,4 +12,11 @@ public class GameManager : MonoBehaviour
         if (Instance != null) Destroy(gameObject);
         Instance = this;
     }
+
+    public PlayerManager playerManager;
+
+    private void Start()
+    {
+        playerManager = FindObjectOfType<PlayerManager>();
+    }
 }
