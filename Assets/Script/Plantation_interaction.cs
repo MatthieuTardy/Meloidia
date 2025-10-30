@@ -8,26 +8,25 @@ public class Plantation_interaction : MonoBehaviour
     private bool planted = false;
     private bool finished = false;
     private bool isHarvesting = false;
+    private bool isPlanting = false; // Pour gérer l'état de l'animation de plantation
     public GameObject plante;
     public Seed graine;
-    public ParticleSystem plantingParticles;
+    public ParticleSystem plantingParticles; // Renommé, car c'est seulement pour la plantation
     private float timer;
 
     [Header("Effet de Gigotement")]
-    [Tooltip("L'angle maximum de l'oscillation en degrés.")]
     public float jiggleAmount = 5f;
-    [Tooltip("La vitesse de l'oscillation.")]
     public float jiggleSpeed = 10f;
 
     [Header("Effet de Récolte")]
-    [Tooltip("La vitesse de rotation de la plante lors de la récolte (en degrés par seconde).")]
     public float harvestSpinSpeed = 360f;
 
     private Quaternion originalRotation;
 
     void Update()
     {
-        if (isHarvesting) return;
+        // On bloque les updates si une animation est en cours
+        if (isHarvesting || isPlanting) return;
 
         if (planted)
         {
@@ -50,7 +49,7 @@ public class Plantation_interaction : MonoBehaviour
             }
         }
 
-        if (finished && !isHarvesting)
+        if (finished)
         {
             float angle = jiggleAmount * Mathf.Sin(Time.time * jiggleSpeed);
             plante.transform.localRotation = originalRotation * Quaternion.Euler(0, 0, angle);
@@ -64,53 +63,64 @@ public class Plantation_interaction : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Detecteur"))
-        {
-            detected = true;
-        }
+        if (other.CompareTag("Detecteur")) { detected = true; }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Detecteur"))
-        {
-            detected = false;
-        }
+        if (other.CompareTag("Detecteur")) { detected = false; }
     }
 
     private void HandleAction()
     {
-        if (finished && !isHarvesting)
+        // S'assure qu'aucune autre action n'est en cours
+        if (isHarvesting || isPlanting) return;
+
+        if (finished)
         {
             StartCoroutine(HarvestAndShrink());
         }
         else if (!planted)
         {
-            plante.transform.localPosition = new Vector3(0, 0.35f, 0);
-            plante.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-            plante.SetActive(true);
-            timer = 0;
-            planted = true;
-            finished = false;
-            originalRotation = plante.transform.localRotation;
-
-            // --- PARTIE MODIFIÉE ---
-            if (plantingParticles != null)
-            {
-                Quaternion particleRotation = Quaternion.Euler(-90, 0, 0);
-                Vector3 particlePosition = plante.transform.position + new Vector3(0, 1f, 0);
-
-                // 1. On instancie les particules et on garde une référence à leur GameObject
-                GameObject particleInstance = Instantiate(plantingParticles.gameObject, particlePosition, particleRotation);
-
-                // 2. On récupère la durée totale de l'effet
-                // (durée de l'émission + durée de vie maximale d'une particule)
-                float totalDuration = plantingParticles.main.duration + plantingParticles.main.startLifetime.constantMax;
-
-                // 3. On programme la destruction du GameObject après cette durée
-                Destroy(particleInstance, totalDuration);
-            }
+            StartCoroutine(PlantAndGrow());
         }
+    }
+
+    // NOUVELLE Coroutine pour l'animation de plantation
+    private IEnumerator PlantAndGrow()
+    {
+        isPlanting = true;
+
+        // Joue les particules au début de la plantation
+        PlayPlantingParticles();
+
+        float duration = 0.3f; // Animation rapide
+        Vector3 initialScale = Vector3.zero;
+        Vector3 targetScale = new Vector3(0.1f, 0.1f, 0.1f);
+        float elapsedTime = 0f;
+
+        // Prépare la plante mais la garde invisible (scale = 0)
+        plante.transform.localPosition = new Vector3(0, 0.35f, 0);
+        plante.transform.localScale = initialScale;
+        plante.SetActive(true);
+        originalRotation = plante.transform.localRotation; // Sauvegarder la rotation de base
+
+        // Boucle d'animation
+        while (elapsedTime < duration)
+        {
+            plante.transform.localScale = Vector3.Lerp(initialScale, targetScale, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // S'assure que la taille est correcte à la fin
+        plante.transform.localScale = targetScale;
+
+        // Finalise l'état de plantation
+        planted = true;
+        finished = false;
+        timer = 0;
+        isPlanting = false; // L'animation est terminée
     }
 
     private IEnumerator HarvestAndShrink()
@@ -141,5 +151,20 @@ public class Plantation_interaction : MonoBehaviour
         planted = false;
         timer = 0;
         isHarvesting = false;
+    }
+
+    private void PlayPlantingParticles()
+    {
+        if (plantingParticles != null)
+        {
+            Quaternion particleRotation = Quaternion.Euler(-90, 0, 0);
+            Vector3 particlePosition = transform.position + new Vector3(0, 1f, 0); // Positionné sur le pot, pas la plante
+
+            GameObject particleInstance = Instantiate(plantingParticles.gameObject, particlePosition, particleRotation);
+
+            float totalDuration = plantingParticles.main.duration + plantingParticles.main.startLifetime.constantMax;
+
+            Destroy(particleInstance, totalDuration);
+        }
     }
 }
