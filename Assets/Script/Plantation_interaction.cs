@@ -81,6 +81,7 @@ public class Plantation_interaction : MonoBehaviour
             watered = true;
             timer += 10;
             happyness += 10;
+            Debug.Log("Arrosé");
         }
         else if (detected && Input.GetButtonDown("Fire1") && GameManager.Instance.playerManager.outils == 2 && prepared == false && GameManager.Instance.playerManager.terre > 0)
         {
