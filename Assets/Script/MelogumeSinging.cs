@@ -4,39 +4,89 @@ using UnityEngine;
 
 public class MelogumeSinging : MonoBehaviour
 {
-    // AVERTISSEMENT : Ces champs doivent être assignés dans l'Inspecteur d'Unity !
+    [Header("Événements FMOD")]
+    [Tooltip("Assignez ici l'émetteur FMOD pour la note DO.")]
     public FMODUnity.StudioEventEmitter DO;
+    [Tooltip("Assignez ici l'émetteur FMOD pour la note RE.")]
     public FMODUnity.StudioEventEmitter RE;
+    [Tooltip("Assignez ici l'émetteur FMOD pour la note MI.")]
     public FMODUnity.StudioEventEmitter MI;
+
+    [Header("Effets de Particules")]
+    [Tooltip("Le prefab du système de particules à instancier pour chaque note.")]
+    public GameObject noteParticlePrefab;
+    [Tooltip("Le point d'apparition des particules. Si non défini, la position de cet objet sera utilisée.")]
+    public Transform particleSpawnPoint;
+    [Tooltip("Le matériau pour les particules de la note DO.")]
+    public Material doMaterial;
+    [Tooltip("Le matériau pour les particules de la note RE.")]
+    public Material reMaterial;
+    [Tooltip("Le matériau pour les particules de la note MI.")]
+    public Material miMaterial;
 
     private bool _isGameManagerReady = false;
 
     void Start()
     {
-        // 1. Vérification des références essentielles au démarrage
         if (DO == null || RE == null || MI == null)
         {
             Debug.LogError("Attention : Les émetteurs FMOD (DO, RE, MI) ne sont pas assignés dans l'Inspecteur du GameObject " + gameObject.name + ". La chanson ne démarrera pas.");
-            return; // Sortir si les émetteurs ne sont pas là
+            return;
         }
 
-        // 2. Vérification de la structure GameManager pour la sécurité
         if (GameManager.Instance != null && GameManager.Instance.deplacementAleatoire != null)
         {
             _isGameManagerReady = true;
         }
 
-        // Démarrer la coroutine de la chanson
         StartCoroutine(SongOfHealing());
     }
 
-    // Arrête tous les sons (vérification ajoutée)
+    // Arrête tous les sons joués par ce script
     void StopChant()
     {
-        // On n'appelle Stop() que si la référence n'est pas nulle
         if (DO != null) DO.Stop();
         if (RE != null) RE.Stop();
         if (MI != null) MI.Stop();
+    }
+
+    /// <summary>
+    /// Joue une note et déclenche l'effet de particules associé.
+    /// </summary>
+    /// <param name="noteEmitter">L'émetteur FMOD de la note à jouer.</param>
+    /// <param name="particleMaterial">Le matériau à appliquer aux particules.</param>
+    void PlayNoteWithParticles(FMODUnity.StudioEventEmitter noteEmitter, Material particleMaterial)
+    {
+        // 1. Jouer le son
+        noteEmitter.Play();
+
+        // 2. Créer les particules si tout est configuré
+        if (noteParticlePrefab != null && particleMaterial != null)
+        {
+            // Détermine la position et la rotation
+            Vector3 spawnPosition = particleSpawnPoint != null ? particleSpawnPoint.position : transform.position;
+            // Les particules sont orientées dans la même direction que le GameObject
+            Quaternion spawnRotation = transform.rotation;
+
+            GameObject particleInstance = Instantiate(noteParticlePrefab, spawnPosition, spawnRotation);
+            ParticleSystem ps = particleInstance.GetComponent<ParticleSystem>();
+
+            if (ps != null)
+            {
+                // Applique le bon matériau
+                var renderer = ps.GetComponent<ParticleSystemRenderer>();
+                if (renderer != null)
+                {
+                    renderer.material = particleMaterial;
+                }
+                // Détruit l'objet après la fin de l'effet
+                Destroy(particleInstance, ps.main.duration + ps.main.startLifetime.constantMax);
+            }
+            else
+            {
+                Destroy(particleInstance, 5f); // Sécurité
+            }
+        }
     }
 
     IEnumerator SongOfHealing()
@@ -47,25 +97,25 @@ public class MelogumeSinging : MonoBehaviour
             GameManager.Instance.deplacementAleatoire.vitesse = 0;
         }
 
-        // --- Séquence musicale ---
+        // --- Séquence musicale avec particules ---
 
-        DO.Play();
+        PlayNoteWithParticles(DO, doMaterial);
         yield return new WaitForSeconds(1);
         StopChant();
 
-        RE.Play();
+        PlayNoteWithParticles(RE, reMaterial);
         yield return new WaitForSeconds(1);
         StopChant();
 
-        DO.Play();
+        PlayNoteWithParticles(DO, doMaterial);
         yield return new WaitForSeconds(1);
         StopChant();
 
-        MI.Play();
+        PlayNoteWithParticles(MI, miMaterial);
         yield return new WaitForSeconds(1);
         StopChant();
 
-        // Rétablir la vitesse de déplacement (si la référence est toujours là)
+        // Rétablir la vitesse de déplacement
         if (_isGameManagerReady)
         {
             GameManager.Instance.deplacementAleatoire.vitesse = 5;
