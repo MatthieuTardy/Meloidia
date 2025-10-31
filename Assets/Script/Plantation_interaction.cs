@@ -34,6 +34,7 @@ public class Plantation_interaction : MonoBehaviour
 
     [Header("Effet de Récolte")]
     public float harvestSpinSpeed = 360f;
+    public int essenceGainOnHarvest = 25;
 
     private Quaternion originalRotation;
 
@@ -76,16 +77,23 @@ public class Plantation_interaction : MonoBehaviour
 
         if (detected && Input.GetButtonDown("Fire1") && GameManager.Instance.playerManager.outils == 0 && prepared == true && clean == true)
         {
-            if (GameManager.Instance.playerManager.indexTuto == 2)
+            // --- DÉBUT DE LA CORRECTION ---
+            PlayerManager playerManager = GameManager.Instance.playerManager;
+
+            // On vérifie si l'index suivant est valide avant de l'incrémenter
+            if (playerManager.indexTuto == 2 && (playerManager.indexTuto + 1) < playerManager.tuto.Count)
             {
-                GameManager.Instance.playerManager.indexTuto += 1;
-                GameManager.Instance.playerManager.tutoSelect = GameManager.Instance.playerManager.tuto[GameManager.Instance.playerManager.indexTuto];
+                playerManager.indexTuto++;
+                playerManager.tutoSelect = playerManager.tuto[playerManager.indexTuto];
             }
-            if (GameManager.Instance.playerManager.indexTuto == 4)
+            // On vérifie si l'index suivant est valide avant de l'incrémenter
+            else if (playerManager.indexTuto == 4 && (playerManager.indexTuto + 1) < playerManager.tuto.Count)
             {
-                GameManager.Instance.playerManager.indexTuto += 1;
-                GameManager.Instance.playerManager.tutoSelect = GameManager.Instance.playerManager.tuto[GameManager.Instance.playerManager.indexTuto];
+                playerManager.indexTuto++;
+                playerManager.tutoSelect = playerManager.tuto[playerManager.indexTuto];
             }
+            // --- FIN DE LA CORRECTION ---
+
             HandleAction();
         }
         else if (detected && Input.GetButtonDown("Fire1") && GameManager.Instance.playerManager.outils == 1 && watered == false && GameManager.Instance.playerManager.eau > 0)
@@ -176,6 +184,8 @@ public class Plantation_interaction : MonoBehaviour
     {
         isHarvesting = true;
 
+        GameManager.Instance.playerManager.essenceMagique += essenceGainOnHarvest;
+
         float duration = 0.5f;
         Vector3 initialScale = plante.transform.localScale;
         float elapsedTime = 0f;
@@ -191,8 +201,8 @@ public class Plantation_interaction : MonoBehaviour
             yield return null;
         }
 
-        Instantiate(legume, new Vector3(transform.position.x, transform.position.y+2, transform.position.z-3 ), new Quaternion(0,180,0,0));
-        Debug.Log("Mangé !");
+        Instantiate(legume, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z - 3), new Quaternion(0, 180, 0, 0));
+        Debug.Log("Récolté ! Essence gagnée : " + essenceGainOnHarvest);
         clean = false;
         prepared = false;
         watered = false;

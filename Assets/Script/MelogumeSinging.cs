@@ -24,6 +24,7 @@ public class MelogumeSinging : MonoBehaviour
     [Tooltip("Le matériau pour les particules de la note MI.")]
     public Material miMaterial;
 
+
     private bool _isGameManagerReady = false;
 
     void Start()

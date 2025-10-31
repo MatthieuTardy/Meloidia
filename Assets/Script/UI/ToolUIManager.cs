@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ToolUIManager : MonoBehaviour
 {
@@ -16,10 +17,18 @@ public class ToolUIManager : MonoBehaviour
     public GameObject arrosoirUiEauPleine; // Image si eau > 0
     public GameObject arrosoirUiEauVide;   // Image si eau <= 0
 
+
+    [Header("UI pour Essence Magique")]
+    public TextMeshProUGUI essenceText;
+
     void Start()
     {
         if (pelleUiContainer != null) pelleUiContainer.SetActive(false);
         if (arrosoirUiContainer != null) arrosoirUiContainer.SetActive(false);
+        if (playerManager == null)
+        {
+            playerManager = FindObjectOfType<PlayerManager>();
+        }
     }
 
     void Update()
@@ -28,6 +37,11 @@ public class ToolUIManager : MonoBehaviour
         {
             Debug.LogWarning("Le PlayerManager n'est pas assigné dans le ToolUIManager !");
             return;
+        }
+        if (playerManager != null && essenceText != null)
+        {
+            // Affiche uniquement le nombre actuel
+            essenceText.text = "" + playerManager.essenceMagique;
         }
 
         // --- GESTION DE L'UI POUR LA PELLE (outils = 2) ---

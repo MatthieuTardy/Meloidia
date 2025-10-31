@@ -13,9 +13,10 @@ public class PlayerManager : MonoBehaviour
     public int terreMax = 1;
     public int eau;
     public int eauMax = 1;
+    public int essenceMagique; // La variable Max est supprimée
 
     public List<Transform> tuto;
-    public int indexTuto=0;
+    public int indexTuto = 0;
     public Transform tutoSelect;
 
     [Header("Outils")]
@@ -27,12 +28,12 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        essenceMagique = 0; // On commence à 0
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

@@ -37,6 +37,8 @@ public class NoteSystem : MonoBehaviour
     public FMODUnity.StudioEventEmitter Victoire;
     public FMODUnity.StudioEventEmitter No;
 
+    public int essenceGainOnMelody = 75;
+
     public string[] musicalNotes = new string[8]
     {
         "Do (Nord)", "Ré (Nord-Est)", "Mi (Est)", "Fa (Sud-Est)",
@@ -173,7 +175,7 @@ public class NoteSystem : MonoBehaviour
                 }
 
                 if (playedPartition.SequenceEqual(listeDeNotes)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du diabète"); }
-                else if (playedPartition.SequenceEqual(listeDeNotes2)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du Bonheur"); }
+                else if (playedPartition.SequenceEqual(listeDeNotes2)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du Bonheur"); GameManager.Instance.playerManager.essenceMagique += essenceGainOnMelody; }
                 else if (playedPartition.SequenceEqual(listeDeNotes3)) { Debug.LogWarning("Chant de l'anniversaire"); }
             }
             else
