@@ -76,6 +76,16 @@ public class Plantation_interaction : MonoBehaviour
 
         if (detected && Input.GetButtonDown("Fire1") && GameManager.Instance.playerManager.outils == 0 && prepared == true && clean == true)
         {
+            if (GameManager.Instance.playerManager.indexTuto == 2)
+            {
+                GameManager.Instance.playerManager.indexTuto += 1;
+                GameManager.Instance.playerManager.tutoSelect = GameManager.Instance.playerManager.tuto[GameManager.Instance.playerManager.indexTuto];
+            }
+            if (GameManager.Instance.playerManager.indexTuto == 4)
+            {
+                GameManager.Instance.playerManager.indexTuto += 1;
+                GameManager.Instance.playerManager.tutoSelect = GameManager.Instance.playerManager.tuto[GameManager.Instance.playerManager.indexTuto];
+            }
             HandleAction();
         }
         else if (detected && Input.GetButtonDown("Fire1") && GameManager.Instance.playerManager.outils == 1 && watered == false && GameManager.Instance.playerManager.eau > 0)

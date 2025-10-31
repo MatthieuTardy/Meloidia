@@ -16,6 +16,12 @@ public class ComposteManager : MonoBehaviour
     {
         if (detected && Input.GetButtonDown("Fire1") && GameManager.Instance.playerManager.outils == 2 && GameManager.Instance.playerManager.terre < GameManager.Instance.playerManager.terreMax)
         {
+            if (GameManager.Instance.playerManager.indexTuto == 1)
+            {
+                GameManager.Instance.playerManager.indexTuto += 1;
+                GameManager.Instance.playerManager.tutoSelect = GameManager.Instance.playerManager.tuto[GameManager.Instance.playerManager.indexTuto];
+            }
+
             GameManager.Instance.playerManager.terre = GameManager.Instance.playerManager.terreMax;
         }
     }

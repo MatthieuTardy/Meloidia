@@ -16,6 +16,8 @@ public class Outils_Recup : MonoBehaviour
     {
         if (detected && Input.GetButtonDown("Fire1") && GameManager.Instance.playerManager.havingTools == false)
         {
+            GameManager.Instance.playerManager.indexTuto += 1;
+            GameManager.Instance.playerManager.tutoSelect = GameManager.Instance.playerManager.tuto[GameManager.Instance.playerManager.indexTuto];
             GameManager.Instance.playerManager.havingTools = true;
             GameManager.Instance.playerManager.Gant.SetActive(true);
         }

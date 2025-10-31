@@ -16,6 +16,11 @@ public class PuitManager : MonoBehaviour
     {
         if (detected && Input.GetButtonDown("Fire1") && GameManager.Instance.playerManager.outils == 1 && GameManager.Instance.playerManager.eau < GameManager.Instance.playerManager.eauMax)
         {
+            if (GameManager.Instance.playerManager.indexTuto == 3)
+            {
+                GameManager.Instance.playerManager.indexTuto += 1;
+                GameManager.Instance.playerManager.tutoSelect = GameManager.Instance.playerManager.tuto[GameManager.Instance.playerManager.indexTuto];
+            }
             GameManager.Instance.playerManager.eau = GameManager.Instance.playerManager.eauMax;
         }
     }

@@ -14,6 +14,10 @@ public class PlayerManager : MonoBehaviour
     public int eau;
     public int eauMax = 1;
 
+    public List<Transform> tuto;
+    public int indexTuto=0;
+    public Transform tutoSelect;
+
     [Header("Outils")]
     public GameObject Gant;
     public GameObject Arrosoir;
