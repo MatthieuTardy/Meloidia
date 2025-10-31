@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
             CalculateJuiceTargets();
         }
 
-        if (Input.GetButtonDown("Outils 1") && GameManager.Instance.playerManager.outils != 0 || Input.GetAxis("OutilsY_Xbox") >= 0.8 && GameManager.Instance.playerManager.havingTools == true)
+        if (Input.GetButtonDown("Outils 1") && GameManager.Instance.playerManager.outils != 0 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") >= 0.8 && GameManager.Instance.playerManager.havingTools == true)
         {
             GameManager.Instance.playerManager.outils = 0;
             GameManager.Instance.playerManager.Gant.SetActive(true);
@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
             GameManager.Instance.playerManager.Houe.SetActive(false);
             GameManager.Instance.playerManager.Arrosoir.SetActive(false);
         }
-        else if (Input.GetButtonDown("Outils 2") && GameManager.Instance.playerManager.outils != 1 || Input.GetAxis("OutilsX_Xbox") >= 0.8 && GameManager.Instance.playerManager.havingTools == true)
+        else if (Input.GetButtonDown("Outils 2") && GameManager.Instance.playerManager.outils != 1 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") >= 0.8 && GameManager.Instance.playerManager.havingTools == true)
         {
             GameManager.Instance.playerManager.outils = 1;
             GameManager.Instance.playerManager.Gant.SetActive(false);
@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour
             GameManager.Instance.playerManager.Houe.SetActive(false);
             GameManager.Instance.playerManager.Arrosoir.SetActive(true);
         }
-        else if (Input.GetButtonDown("Outils 3") && GameManager.Instance.playerManager.outils != 2 || Input.GetAxis("OutilsY_Xbox") <= -0.8 && GameManager.Instance.playerManager.havingTools == true)
+        else if (Input.GetButtonDown("Outils 3") && GameManager.Instance.playerManager.outils != 2 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") <= -0.8 && GameManager.Instance.playerManager.havingTools == true)
         {
             GameManager.Instance.playerManager.outils = 2;
             GameManager.Instance.playerManager.Gant.SetActive(false);
@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
             GameManager.Instance.playerManager.Houe.SetActive(false);
             GameManager.Instance.playerManager.Arrosoir.SetActive(false);
         }
-        else if (Input.GetButtonDown("Outils 4") && GameManager.Instance.playerManager.outils != 3 || Input.GetAxis("OutilsX_Xbox") <= -0.8 && GameManager.Instance.playerManager.havingTools == true)
+        else if (Input.GetButtonDown("Outils 4") && GameManager.Instance.playerManager.outils != 3 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") <= -0.8 && GameManager.Instance.playerManager.havingTools == true)
         {
             GameManager.Instance.playerManager.outils = 3;
             GameManager.Instance.playerManager.Gant.SetActive(false);
