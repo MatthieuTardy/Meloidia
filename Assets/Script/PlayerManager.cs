@@ -7,13 +7,18 @@ public class PlayerManager : MonoBehaviour
 {
 
     public int outils;
+    public bool havingTools = false;
 
     public int terre;
     public int terreMax = 1;
     public int eau;
     public int eauMax = 1;
 
-
+    [Header("Outils")]
+    public GameObject Gant;
+    public GameObject Arrosoir;
+    public GameObject Pelle;
+    public GameObject Houe;
 
     // Start is called before the first frame update
     void Start()

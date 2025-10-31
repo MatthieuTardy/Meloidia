@@ -198,17 +198,23 @@ public class Plantation_interaction : MonoBehaviour
 
 
 
-private void PlayPlantingParticles()
+    private void PlayPlantingParticles()
     {
         if (plantingParticles != null)
         {
             Quaternion particleRotation = Quaternion.Euler(-90, 0, 0);
-            Vector3 particlePosition = transform.position + new Vector3(0, 1f, 0); // Positionné sur le pot, pas la plante
+            Vector3 particlePosition = transform.position + new Vector3(0, 1f, 0);
 
             GameObject particleInstance = Instantiate(plantingParticles.gameObject, particlePosition, particleRotation);
 
-            float totalDuration = plantingParticles.main.duration + plantingParticles.main.startLifetime.constantMax;
+            // Assurez-vous que le ParticleSystem est en lecture
+            ParticleSystem ps = particleInstance.GetComponent<ParticleSystem>();
+            if (ps != null && !ps.isPlaying)
+            {
+                ps.Play();
+            }
 
+            float totalDuration = ps != null ? ps.main.duration + ps.main.startLifetime.constantMax : 1f; // Vérification de nullité
             Destroy(particleInstance, totalDuration);
         }
     }
