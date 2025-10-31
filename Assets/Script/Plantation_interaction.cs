@@ -11,6 +11,7 @@ public class Plantation_interaction : MonoBehaviour
     public Seed graine;
     public GameObject legume;
     public GameObject plante;
+    public GameObject maison;
 
     [Header("Particle Systems")]
     public ParticleSystem plantingParticles;
@@ -188,6 +189,7 @@ public class Plantation_interaction : MonoBehaviour
         }
 
         Instantiate(legume, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z - 3), new Quaternion(0, 180, 0, 0));
+        maison.SetActive(true);
         if (GameManager.Instance.playerManager.indexTuto == 4)
         {
             GameManager.Instance.playerManager.indexTuto++;
