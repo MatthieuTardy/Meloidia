@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using FMODUnity;
 
-
 public class NoteSystem : MonoBehaviour
 {
 
@@ -15,7 +14,15 @@ public class NoteSystem : MonoBehaviour
 
     [Header("Éléments d'UI")]
     [Tooltip("Glissez ici les boutons de notes de l'UI, dans le même ordre que musicalNotes.")]
-    public Note[] noteUIElements; // Le tableau pour lier les notes de l'UI
+    public Note[] noteUIElements;
+
+    [Header("Effets de Particules")]
+    [Tooltip("Le prefab du système de particules à instancier pour chaque note.")]
+    public GameObject noteParticlePrefab;
+    [Tooltip("Les matériaux pour chaque note, dans le même ordre que musicalNotes.")]
+    public Material[] noteParticleMaterials;
+    [Tooltip("Le point d'apparition pour les particules. Si non défini, la position de cet objet sera utilisée.")]
+    public Transform particleSpawnPoint;
 
     [Header("Événements FMOD")]
     public FMODUnity.StudioEventEmitter DO;
@@ -30,101 +37,55 @@ public class NoteSystem : MonoBehaviour
     public FMODUnity.StudioEventEmitter Victoire;
     public FMODUnity.StudioEventEmitter No;
 
-
     public string[] musicalNotes = new string[8]
     {
-        "Do (Nord)",
-        "Ré (Nord-Est)",
-        "Mi (Est)",
-        "Fa (Sud-Est)",
-        "Sol (Sud)",
-        "La (Sud-Ouest)",
-        "Si (Ouest)",
-        "Do' (Nord-Ouest)"
+        "Do (Nord)", "Ré (Nord-Est)", "Mi (Est)", "Fa (Sud-Est)",
+        "Sol (Sud)", "La (Sud-Ouest)", "Si (Ouest)", "Do' (Nord-Ouest)"
     };
-    public List<string> listeDeNotes = new List<string>
-    {
-        "Do (Nord)",
-        "Ré (Nord-Est)",
-        "Mi (Est)"
-    };
-    public List<string> listeDeNotes2 = new List<string>
-    {
-        "Do (Nord)",
-        "Ré (Nord-Est)",
-        "Do (Nord)",
-        "Mi (Est)"
-    };
-    public List<string> listeDeNotes3 = new List<string>
-    {
-        "Do (Nord)",
-        "Do (Nord)",
-        "Ré (Nord-Est)",
-        "Do (Nord)",
-        "Fa (Sud-Est)",
-        "Mi (Est)"
-
-    };
+    public List<string> listeDeNotes = new List<string> { "Do (Nord)", "Ré (Nord-Est)", "Mi (Est)" };
+    public List<string> listeDeNotes2 = new List<string> { "Do (Nord)", "Ré (Nord-Est)", "Do (Nord)", "Mi (Est)" };
+    public List<string> listeDeNotes3 = new List<string> { "Do (Nord)", "Do (Nord)", "Ré (Nord-Est)", "Do (Nord)", "Fa (Sud-Est)", "Mi (Est)" };
     public List<string> playedPartition;
-
-    private void Start()
-    {
-    }
 
     void Update()
     {
         playedTime += Time.deltaTime;
         PlayMusic();
+
         if (playedTime >= 3 && playedPartition.Count != 0)
         {
-            if (playedPartition.SequenceEqual(listeDeNotes) ||
-                playedPartition.SequenceEqual(listeDeNotes2) ||
-                playedPartition.SequenceEqual(listeDeNotes3))
-            {
-                for (var i = 0; i < playedPartition.Count; i++)
-                {
-                    playedPartition.RemoveAt(i);
-
-                }
-            }
-            else
+            if (!playedPartition.SequenceEqual(listeDeNotes) && !playedPartition.SequenceEqual(listeDeNotes2) && !playedPartition.SequenceEqual(listeDeNotes3))
             {
                 No.Play();
-                for (var i = 0; i < playedPartition.Count; i++)
-                {
-                    playedPartition.RemoveAt(i);
-
-                }
             }
+            playedPartition.Clear();
         }
-        else if (playedPartition.SequenceEqual(listeDeNotes) ||
-                 playedPartition.SequenceEqual(listeDeNotes2) ||
-                 playedPartition.SequenceEqual(listeDeNotes3))
+        else if (playedPartition.Count > 0 && (playedPartition.SequenceEqual(listeDeNotes) || playedPartition.SequenceEqual(listeDeNotes2) || playedPartition.SequenceEqual(listeDeNotes3)))
         {
-            for (var i = 0; i < playedPartition.Count; i++)
-            {
-                noteBefore = playedPartition[playedPartition.Count - 1];
-                playedPartition.RemoveAt(i);
-
-            }
+            noteBefore = playedPartition.LastOrDefault();
+            playedPartition.Clear();
         }
-
     }
 
     private void PlayMusic()
     {
-        if (Input.GetAxis("SongX_Xbox") > 0.5f || Input.GetAxis("SongY_Xbox") > 0.5f || Input.GetAxis("SongX_Xbox") < -0.5f || Input.GetAxis("SongY_Xbox") < -0.5f)
+        float inputX = Input.GetAxis("SongX_Xbox");
+        float inputY = Input.GetAxis("SongY_Xbox");
+
+        if (Mathf.Abs(inputX) > 0.5f || Mathf.Abs(inputY) > 0.5f)
         {
             singDelay += Time.deltaTime;
             int noteIndex = 0;
-            if ((Input.GetAxis("SongY_Xbox") > 0.5f) && Input.GetAxis("SongX_Xbox") < 0.5f && Input.GetAxis("SongX_Xbox") > -0.5f) { noteIndex = 4; } // Nord
-            else if ((Input.GetAxis("SongX_Xbox") > 0.3f) && Input.GetAxis("SongY_Xbox") > 0.3f) { noteIndex = 3; } // Nord-Est
-            else if ((Input.GetAxis("SongX_Xbox") > 0.5f) && Input.GetAxis("SongY_Xbox") < 0.5f && Input.GetAxis("SongY_Xbox") > -0.5f) { noteIndex = 2; } // Est
-            else if ((Input.GetAxis("SongX_Xbox") > 0.3f) && Input.GetAxis("SongY_Xbox") < -0.3f) { noteIndex = 1; } // Sud-Est
-            else if ((Input.GetAxis("SongY_Xbox") < -0.5f) && Input.GetAxis("SongX_Xbox") < 0.5f && Input.GetAxis("SongX_Xbox") > -0.5f) { noteIndex = 0; } // Sud
-            else if ((Input.GetAxis("SongX_Xbox") < -0.3f) && Input.GetAxis("SongY_Xbox") < -0.3f) { noteIndex = 7; } // Sud-Ouest
-            else if ((Input.GetAxis("SongX_Xbox") < -0.5f) && Input.GetAxis("SongY_Xbox") < 0.5f && Input.GetAxis("SongY_Xbox") > -0.5f) { noteIndex = 6; } // Ouest
-            else if ((Input.GetAxis("SongX_Xbox") < -0.3f) && Input.GetAxis("SongY_Xbox") > 0.3f) { noteIndex = 5; } // Nord-Ouest       
+
+            if (inputY > 0.5f && Mathf.Abs(inputX) < 0.5f) { noteIndex = 4; }
+            else if (inputX > 0.3f && inputY > 0.3f) { noteIndex = 3; }
+            else if (inputX > 0.5f && Mathf.Abs(inputY) < 0.5f) { noteIndex = 2; }
+            else if (inputX > 0.3f && inputY < -0.3f) { noteIndex = 1; }
+            else if (inputY < -0.5f && Mathf.Abs(inputX) < 0.5f) { noteIndex = 0; }
+            else if (inputX < -0.3f && inputY < -0.3f) { noteIndex = 7; }
+            else if (inputX < -0.5f && Mathf.Abs(inputY) < 0.5f) { noteIndex = 6; }
+            else if (inputX < -0.3f && inputY > 0.3f) { noteIndex = 5; }
+
             PlayNote(noteIndex);
         }
         else
@@ -134,113 +95,95 @@ public class NoteSystem : MonoBehaviour
             StopChant();
             noteBefore = null;
         }
-
-
     }
 
     void StopChant()
     {
-        DO.Stop();
-        RE.Stop();
-        MI.Stop();
-        FA.Stop();
-        SOL.Stop();
-        LA.Stop();
-        SI.Stop();
-        DO2.Stop();
+        DO.Stop(); RE.Stop(); MI.Stop(); FA.Stop();
+        SOL.Stop(); LA.Stop(); SI.Stop(); DO2.Stop();
     }
 
     void StartChant(int index)
     {
-        if (index == 0)
+        StopChant();
+        switch (index)
         {
-            StopChant();
-            DO.Play();
-        }
-        if (index == 1)
-        {
-            StopChant();
-            RE.Play();
-        }
-        if (index == 2)
-        {
-            StopChant();
-            MI.Play();
-        }
-        if (index == 3)
-        {
-            StopChant();
-            FA.Play();
-        }
-        if (index == 4)
-        {
-            StopChant();
-            SOL.Play();
-        }
-        if (index == 5)
-        {
-            StopChant();
-            LA.Play();
-        }
-        if (index == 6)
-        {
-            StopChant();
-            SI.Play();
-        }
-        if (index == 7)
-        {
-            StopChant();
-            DO2.Play();
+            case 0: DO.Play(); break;
+            case 1: RE.Play(); break;
+            case 2: MI.Play(); break;
+            case 3: FA.Play(); break;
+            case 4: SOL.Play(); break;
+            case 5: LA.Play(); break;
+            case 6: SI.Play(); break;
+            case 7: DO2.Play(); break;
         }
     }
+
     void PlayNote(int index)
     {
-
         if (musicalNotes[index] != noteBefore || playedTime > 3)
         {
-            // Déclenche l'effet visuel sur l'UI
             if (noteUIElements != null && index >= 0 && index < noteUIElements.Length && noteUIElements[index] != null)
             {
                 noteUIElements[index].Highlight();
             }
 
-            if (isPlaying == false)
+            if (!isPlaying)
+            {
                 StartChant(index);
+            }
+
             if (singDelay >= 0.2f)
             {
                 isPlaying = false;
                 playedPartition.Add(musicalNotes[index]);
                 noteBefore = musicalNotes[index];
+
+                if (noteParticlePrefab != null && noteParticleMaterials != null && index < noteParticleMaterials.Length && noteParticleMaterials[index] != null)
+                {
+                    Vector3 spawnPosition = particleSpawnPoint != null ? particleSpawnPoint.position : transform.position;
+
+                    // On crée un vecteur de direction 3D sur le plan XZ. L'axe Y du joystick contrôle l'axe Z du monde.
+                    Vector3 direction = new Vector3(Input.GetAxis("SongX_Xbox"), 0f, Input.GetAxis("SongY_Xbox"));
+
+                    // On s'assure que le vecteur n'est pas nul pour éviter une erreur avec LookRotation.
+                    Quaternion spawnRotation = Quaternion.identity; // Rotation par défaut.
+                    if (direction.sqrMagnitude > 0.01f)
+                    {
+                        // Crée une rotation qui "regarde" dans la direction du joystick sur le plan XZ.
+                        spawnRotation = Quaternion.LookRotation(direction);
+                    }
+
+                    GameObject particleInstance = Instantiate(noteParticlePrefab, spawnPosition, spawnRotation);
+
+                    ParticleSystem ps = particleInstance.GetComponent<ParticleSystem>();
+                    if (ps != null)
+                    {
+                        var renderer = ps.GetComponent<ParticleSystemRenderer>();
+                        if (renderer != null)
+                        {
+                            renderer.material = noteParticleMaterials[index];
+                        }
+                        Destroy(particleInstance, ps.main.duration + ps.main.startLifetime.constantMax);
+                    }
+                    else
+                    {
+                        Destroy(particleInstance, 5f);
+                    }
+                }
+
+                if (playedPartition.SequenceEqual(listeDeNotes)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du diabète"); }
+                else if (playedPartition.SequenceEqual(listeDeNotes2)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du Bonheur"); }
+                else if (playedPartition.SequenceEqual(listeDeNotes3)) { Debug.LogWarning("Chant de l'anniversaire"); }
             }
             else
             {
                 isPlaying = true;
-                noteBefore = null;
             }
-
-            if (playedPartition.SequenceEqual(listeDeNotes))
-            {
-                StartCoroutine(VictoryPlay());
-                Debug.LogWarning("Chant du diabète");
-            }
-            else if (playedPartition.SequenceEqual(listeDeNotes2))
-            {
-                StartCoroutine(VictoryPlay());
-                Debug.LogWarning("Chant du Bonheur");
-            }
-            else if (playedPartition.SequenceEqual(listeDeNotes3))
-            {
-                Debug.LogWarning("Chant de l'anniversaire");
-            }
-
-
-
         }
         playedTime = 0;
-
-        string note = musicalNotes[index];
-
     }
+
     IEnumerator VictoryPlay()
     {
         yield return new WaitForSeconds(0.5f);

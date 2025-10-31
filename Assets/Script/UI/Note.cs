@@ -8,10 +8,22 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public string itemName;
     public Sprite itemIcon;
 
+    [Tooltip("La couleur de la note lorsqu'elle est survolée ou sélectionnée.")]
+    public Color highlightColor = Color.black;
+
+    [Header("Juice Settings")]
+    [Tooltip("L'objet enfant qui contient les visuels à animer. Si laissé vide, essaiera de trouver un enfant nommé 'Visuals'.")]
+    public Transform visualsTransform; // Référence à l'enfant contenant les visuels
+
+    [Tooltip("Le facteur de grossissement de la note au clic.")]
+    public float scaleFactor = 1.1f;
+
+    [Tooltip("La durée de l'animation de grossissement.")]
+    public float scaleDuration = 0.1f;
+
     private const string ItemNameTextObjectName = "Name";
     private const string ItemPreviewImageObjectName = "Selected";
 
-    // Les éléments d'UI sont statiques pour être partagés entre toutes les instances de Note
     private static Text itemText;
     private static Image itemImage;
     private static Note selectedItem;
@@ -19,19 +31,37 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     private Graphic graphic;
     private Color originalColor;
     private Coroutine highlightCoroutine;
+    private Vector3 originalScale;
 
     void Awake()
     {
         graphic = GetComponent<Graphic>();
         if (graphic != null)
         {
-            originalColor = graphic.color; // Sauvegarde de la couleur initiale
+            originalColor = graphic.color;
+        }
+
+        // Si visualsTransform n'est pas assigné, on cherche un enfant nommé "Visuals"
+        if (visualsTransform == null)
+        {
+            visualsTransform = transform.Find("Visuals");
+        }
+
+        if (visualsTransform != null)
+        {
+            originalScale = visualsTransform.localScale;
+        }
+        else
+        {
+            // Fallback si on ne trouve pas d'enfant : on anime l'objet lui-même
+            Debug.LogWarning("Aucun 'visualsTransform' assigné ou enfant 'Visuals' trouvé. L'animation de scale pourrait ne pas fonctionner avec un Layout Group.", this);
+            visualsTransform = transform;
+            originalScale = visualsTransform.localScale;
         }
     }
 
     void Start()
     {
-        // On cherche les références de l'UI une seule fois pour optimiser
         if (itemText == null)
         {
             GameObject textObject = GameObject.Find(ItemNameTextObjectName);
@@ -49,14 +79,12 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // Affiche les infos de la note survolée
         UpdateDisplay(itemName, itemIcon, true);
         Highlight();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        // Si une note est "verrouillée", on affiche ses infos, sinon on efface tout
         if (selectedItem != null)
         {
             UpdateDisplay(selectedItem.itemName, selectedItem.itemIcon, true);
@@ -66,8 +94,6 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             ClearDisplay();
         }
 
-        // Quand on sort du survol, on arrête la surbrillance pour cette instance (si elle n'est pas sélectionnée)
-        // Si c'est l'élément sélectionné, on garde la surbrillance (comportement original) — sinon on reset
         if (selectedItem != this)
         {
             StopHighlightImmediate();
@@ -76,12 +102,14 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        // Si on clique sur une note déjà sélectionnée, on la déverrouille
+        // Joue l'animation de "juice" à chaque clic
+        StartCoroutine(ScaleJuiceCoroutine());
+
         if (selectedItem == this)
         {
             DeselectAll();
         }
-        else // Sinon, on la sélectionne (verrouille)
+        else
         {
             SelectItem();
         }
@@ -89,7 +117,6 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     private void SelectItem()
     {
-        // Déverrouille l'ancienne sélection (retire sa surbrillance) si besoin
         if (selectedItem != null && selectedItem != this)
         {
             selectedItem.StopHighlightImmediate();
@@ -97,14 +124,11 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
         selectedItem = this;
         UpdateDisplay(itemName, itemIcon, true);
-        // S'assurer que l'item sélectionné reste mis en évidence
         Highlight();
     }
 
-    // Méthode publique statique pour pouvoir la vider depuis n'importe où (ex: NoteSystem)
     public static void DeselectAll()
     {
-        // Si une note est sélectionnée, lui demander d'arrêter immédiatement la surbrillance avant de la désélectionner
         if (selectedItem != null)
         {
             selectedItem.StopHighlightImmediate();
@@ -116,10 +140,7 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     private static void UpdateDisplay(string name, Sprite icon, bool isEnabled)
     {
-        if (itemText != null)
-        {
-            itemText.text = name;
-        }
+        if (itemText != null) itemText.text = name;
         if (itemImage != null)
         {
             itemImage.sprite = icon;
@@ -132,46 +153,53 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         UpdateDisplay("", null, false);
     }
 
-    // Gère l'animation de surbrillance sans rester bloqué
     public void Highlight()
     {
-        if (highlightCoroutine != null)
-        {
-            StopCoroutine(highlightCoroutine);
-            highlightCoroutine = null;
-        }
-
-        if (graphic != null)
-        {
-            graphic.color = originalColor;
-        }
-
+        if (highlightCoroutine != null) StopCoroutine(highlightCoroutine);
+        if (graphic != null) graphic.color = originalColor;
         highlightCoroutine = StartCoroutine(HighlightCoroutine());
     }
 
     private IEnumerator HighlightCoroutine()
     {
         if (graphic == null) yield break;
-
-        graphic.color = Color.yellow; // Couleur de surbrillance
-        yield return new WaitForSeconds(0.2f); // Durée
-        graphic.color = originalColor; // Retour à la normale
+        graphic.color = highlightColor;
+        yield return new WaitForSeconds(0.2f);
+        graphic.color = originalColor;
         highlightCoroutine = null;
     }
 
-    // Arrête immédiatement la coroutine de surbrillance (si active) et remet la couleur d'origine.
-    // Méthode publique pour permettre à DeselectAll ou à d'autres instances d'appeler le reset.
     public void StopHighlightImmediate()
     {
-        if (highlightCoroutine != null)
-        {
-            StopCoroutine(highlightCoroutine);
-            highlightCoroutine = null;
-        }
+        if (highlightCoroutine != null) StopCoroutine(highlightCoroutine);
+        if (graphic != null) graphic.color = originalColor;
+    }
 
-        if (graphic != null)
+    private IEnumerator ScaleJuiceCoroutine()
+    {
+        if (visualsTransform == null) yield break;
+
+        Vector3 targetScale = originalScale * scaleFactor;
+        float elapsedTime = 0f;
+
+        // Grossir
+        while (elapsedTime < scaleDuration)
         {
-            graphic.color = originalColor;
+            visualsTransform.localScale = Vector3.Lerp(originalScale, targetScale, elapsedTime / scaleDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
+        visualsTransform.localScale = targetScale;
+
+        elapsedTime = 0f;
+
+        // Rétrécir
+        while (elapsedTime < scaleDuration)
+        {
+            visualsTransform.localScale = Vector3.Lerp(targetScale, originalScale, elapsedTime / scaleDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        visualsTransform.localScale = originalScale;
     }
 }
