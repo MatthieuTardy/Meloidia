@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class DeplacementAleatoire : MonoBehaviour
+public class LegumeManager : MonoBehaviour
 {
     private enum Etat { Attente, TransitionVersDeplacement, Deplacement }
     private Etat etatActuel;

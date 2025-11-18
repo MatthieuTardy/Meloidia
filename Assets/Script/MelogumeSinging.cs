@@ -35,7 +35,7 @@ public class MelogumeSinging : MonoBehaviour
             return;
         }
 
-        if (GameManager.Instance != null && GameManager.Instance.deplacementAleatoire != null)
+        if (GameManager.Instance != null && GameManager.Instance.legumeManager != null)
         {
             _isGameManagerReady = true;
         }
@@ -95,7 +95,7 @@ public class MelogumeSinging : MonoBehaviour
         // Gérer la vitesse uniquement si la référence GameManager est prête
         if (_isGameManagerReady)
         {
-            GameManager.Instance.deplacementAleatoire.vitesse = 0;
+            GameManager.Instance.legumeManager.vitesse = 0;
         }
 
         // --- Séquence musicale avec particules ---
@@ -119,7 +119,7 @@ public class MelogumeSinging : MonoBehaviour
         // Rétablir la vitesse de déplacement
         if (_isGameManagerReady)
         {
-            GameManager.Instance.deplacementAleatoire.vitesse = 5;
+            GameManager.Instance.legumeManager.vitesse = 5;
         }
 
         // Attente aléatoire avant de répéter la chanson
