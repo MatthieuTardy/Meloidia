@@ -5,18 +5,27 @@ using UnityEngine;
 public class BuildInterraction : MonoBehaviour
 {
     [Header("Debug")]
-
-
     [SerializeField] bool PlayerIsBuildMode;
     [SerializeField] KeyCode buildKey;
+
     bool previewInstantiate;
+
+    [Header("Construction Setting")]
     [Range(1,10)][SerializeField] int Ratio;
+    [SerializeField] float floorPosition;
 
     [SerializeField] ConstructionScriptable constructChosen;
     GameObject construct;
     [SerializeField] Transform constructionSpawn;
     Transform Spawn;
     
+
+    /// <summary>
+    /// A faire:    Definir le bon input avec un axe pour le build.
+    ///             Changer le material de la preview selon "CanBuild()".
+    ///             Mettre CanBuild en Update pour la preview
+    ///             mettre le bon material pour le build
+    /// </summary>
     private void Update()
     {
         if (PlayerIsBuildMode)
@@ -41,8 +50,7 @@ public class BuildInterraction : MonoBehaviour
     {
         if (!previewInstantiate)
         {
-            Spawn = constructionSpawn;
-            construct = Instantiate(constructChosen.MeshPrefab, constructionSpawn.position, Quaternion.identity, Spawn);
+            construct = Instantiate(constructChosen.MeshPrefab, constructionSpawn.position, Quaternion.identity, constructionSpawn);
             previewInstantiate = true;
         }
     }
@@ -65,24 +73,25 @@ public class BuildInterraction : MonoBehaviour
         if (CanBuild())
         {
             Debug.Log("BUILDED");
+            Build();
         }
     }
 
-        bool m_HitDetect;
-        RaycastHit m_Hit;
     bool CanBuild()
     {
-
-        //Test to see if there is a hit using a BoxCast
-        //Calculate using the center of the the GameObject's rotation, and the maximum distance as variables.
-        //Also fetch the hit data
-
-        m_HitDetect = Physics.BoxCast(Spawn.position,(Spawn.localScale*Ratio)*0.5f,Spawn.position,out m_Hit,Spawn.rotation,1);
-        if (m_HitDetect)
+        Vector3 halfExtents = (construct.transform.localScale * 0.5f);
+        bool blocked = Physics.CheckBox(construct.transform.position,halfExtents,construct.transform.rotation);
+        if (blocked)
         {
-            //Output the name of the Collider your Box hit
-            Debug.Log("Hit : " + m_Hit.collider.name);
+            Debug.Log("Blocked");
+            return false;
         }
         return true;
+    }
+
+    void Build()
+    {
+        Vector3 buildPos = new Vector3(construct.transform.position.x, floorPosition, construct.transform.position.z);
+        Instantiate(construct, buildPos,construct.transform.rotation);
     }
 }

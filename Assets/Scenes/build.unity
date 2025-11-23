@@ -43326,7 +43326,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1633466597}
-  - component: {fileID: 1633466598}
   - component: {fileID: 1633466599}
   m_Layer: 8
   m_Name: BuildZone
@@ -43350,27 +43349,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1981031375}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1633466598
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633466596}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 3, y: 3, z: 3}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1633466599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43386,6 +43364,7 @@ MonoBehaviour:
   PlayerIsBuildMode: 0
   buildKey: 9
   Ratio: 1
+  floorPosition: 0
   constructChosen: {fileID: 11400000, guid: 036bd05f7b2d7ab438ebad9e8c6f86bc, type: 2}
   constructionSpawn: {fileID: 1633466597}
 --- !u!1001 &1634808388
