@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditorInternal.Profiling.Memory.Experimental;
 
 //using System.Diagnostics;
@@ -44,12 +45,6 @@ namespace Inventory
                 Quantity = 0;
             }
         }
-
-
-        public bool IsEmpty()
-        {
-            return Quantity <= 0;
-        }
     }
 
     public class Inventory
@@ -57,7 +52,7 @@ namespace Inventory
         public IReadOnlyList<ItemSlot> Items => items.AsReadOnly();
         private List<ItemSlot> items;
 
-        private int InventoryMaxSize;
+        private int InventoryMaxSize = 4;
 
         public bool IsThereSpaceInInventory(Item newItem)
         {
@@ -76,7 +71,8 @@ namespace Inventory
 
         public void start()
         {
-            AddItem(legume);
+            AddItem(new Legume());
+            Debug.Log(Items);
         }
         public void AddItem(Item newItem)
         {
