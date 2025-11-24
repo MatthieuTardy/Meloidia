@@ -1,20 +1,18 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
+
+//using System.Diagnostics;
+using UnityEngine;
 
 namespace Inventory
 {
     public abstract class Item
     {
-
+        
     }
-
     public class Legume : Item
     {
-
-    }
-
-    public class Tool : Item
-    {
-
+        
     }
 
     public class ItemSlot
@@ -26,6 +24,31 @@ namespace Inventory
         {
             Item = item;
             Quantity = quantity;
+        }
+
+        public void IncreaseQuantity(int amount)
+        {
+            if (amount <= 0) return; 
+            Quantity += amount;
+        }
+
+
+        public void DecreaseQuantity(int amount)
+        {
+            if (amount <= 0) return;
+
+    
+            Quantity -= amount;
+            if (Quantity < 0)
+            {
+                Quantity = 0;
+            }
+        }
+
+
+        public bool IsEmpty()
+        {
+            return Quantity <= 0;
         }
     }
 
@@ -51,6 +74,10 @@ namespace Inventory
             return foundExistingItem || items.Count < InventoryMaxSize;
         }
 
+        public void start()
+        {
+            AddItem(legume);
+        }
         public void AddItem(Item newItem)
         {
             bool foundExistingItem = false;
@@ -65,7 +92,12 @@ namespace Inventory
             }
 
             if (!foundExistingItem)
+            {
                 items.Add(new ItemSlot(newItem, 1));
+                Debug.Log("Ajout de " + newItem);
+            }
+                
+            
         }
 
         public void UseItem(ItemSlot item)
@@ -75,7 +107,7 @@ namespace Inventory
                 if (itemSlot.Item.Equals(item.Item))
                 {
                     item.DecreaseQuantity(1);
-                    // Gerer cas quantit� = 0
+                    // Gerer cas quantité = 0
                 }
             }
         }
