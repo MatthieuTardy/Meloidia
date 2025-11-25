@@ -5,49 +5,10 @@ using UnityEditorInternal.Profiling.Memory.Experimental;
 //using System.Diagnostics;
 using UnityEngine;
 
-namespace Inventory
+namespace Inventory 
 {
-    public abstract class Item
-    {
-        
-    }
-    public class Legume : Item
-    {
-        
-    }
 
-    public class ItemSlot
-    {
-        public Item Item { get; private set; }
-        public int Quantity { get; private set; }
-
-        public ItemSlot(Item item, int quantity)
-        {
-            Item = item;
-            Quantity = quantity;
-        }
-
-        public void IncreaseQuantity(int amount)
-        {
-            if (amount <= 0) return; 
-            Quantity += amount;
-        }
-
-
-        public void DecreaseQuantity(int amount)
-        {
-            if (amount <= 0) return;
-
-    
-            Quantity -= amount;
-            if (Quantity < 0)
-            {
-                Quantity = 0;
-            }
-        }
-    }
-
-    public class Inventory
+    public class Inventory : MonoBehaviour
     {
         public IReadOnlyList<ItemSlot> Items => items.AsReadOnly();
         private List<ItemSlot> items;
@@ -69,10 +30,34 @@ namespace Inventory
             return foundExistingItem || items.Count < InventoryMaxSize;
         }
 
-        public void start()
+        public void Update()
         {
-            AddItem(new Legume());
+            if (Input.GetButtonDown("Fire2"))
+            {
+                if (Items[0] != null)
+                {
+                    Debug.Log("Objet 1 est " + Items[0]);
+                }
+                if (Items[1] != null)
+                {
+                    Debug.Log("Objet 2 est " + Items[1]);
+                }
+                if (Items[2] != null)
+                {
+                    Debug.Log("Objet 3 est " + Items[2]);
+                }
+                if (Items[3] != null)
+                {
+                    Debug.Log("Objet 4 est " + Items[3]);
+                }
+            }
+        }
+        public void Start()
+        {
+            items = new List<ItemSlot>();
+            AddItem(new Resources());
             Debug.Log(Items);
+            
         }
         public void AddItem(Item newItem)
         {
@@ -108,4 +93,44 @@ namespace Inventory
             }
         }
     }
+    public class Item
+    {
+
+    }
+    public class Resources : Item
+    {
+
+    }
+
+    public class ItemSlot
+    {
+        public Item Item { get; private set; }
+        public int Quantity { get; private set; }
+
+        public ItemSlot(Item item, int quantity)
+        {
+            Item = item;
+            Quantity = quantity;
+        }
+
+        public void IncreaseQuantity(int amount)
+        {
+            if (amount <= 0) return;
+            Quantity += amount;
+        }
+
+
+        public void DecreaseQuantity(int amount)
+        {
+            if (amount <= 0) return;
+
+
+            Quantity -= amount;
+            if (Quantity < 0)
+            {
+                Quantity = 0;
+            }
+        }
+    }
+
 }
