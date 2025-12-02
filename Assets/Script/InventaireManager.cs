@@ -32,6 +32,7 @@ namespace Inventory
 
         public void Update()
         {
+            /*
             if (Input.GetButtonDown("Fire2"))
             {
                 if (Items[0] != null)
@@ -50,7 +51,7 @@ namespace Inventory
                 {
                     Debug.Log("Objet 4 est " + Items[3]);
                 }
-            }
+            }*/
         }
         public void Start()
         {

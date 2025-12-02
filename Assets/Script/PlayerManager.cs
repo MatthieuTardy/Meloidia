@@ -9,6 +9,8 @@ public class PlayerManager : MonoBehaviour
     public int outils;
     public bool havingTools = false;
 
+    public bool isBuildMode = false;
+
     public int terre;
     public int terreMax = 1;
     public int eau;
@@ -24,6 +26,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject Arrosoir;
     public GameObject Pelle;
     public GameObject Houe;
+    public GameObject Marteau;
 
     // Start is called before the first frame update
     void Start()

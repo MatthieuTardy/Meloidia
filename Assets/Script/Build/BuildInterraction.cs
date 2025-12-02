@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,18 +15,21 @@ public class BuildInterraction : MonoBehaviour
     [Range(1,10)][SerializeField] int Ratio;
     [SerializeField] float floorPosition;
 
-    [SerializeField] ConstructionScriptable constructChosen;
+    public ConstructionScriptable constructChosen;
     GameObject construct;
     [SerializeField] Transform constructionSpawn;
     Transform Spawn;
-    
+
+    [SerializeField] Material goodMat;
+    [SerializeField] Material wrongMat;
+
 
     /// <summary>
-    /// A faire:    Definir le bon input avec un axe pour le build.
+    /// A faire:    
     ///             Changer le material de la preview selon "CanBuild()".
-    ///             Mettre CanBuild en Update pour la preview
     ///             mettre le bon material pour le build
     /// </summary>
+    /// 
     private void Update()
     {
         if (PlayerIsBuildMode)
@@ -38,7 +42,10 @@ public class BuildInterraction : MonoBehaviour
             }
         }
     }
-
+    private void Start()
+    {
+        
+    }
     #region Build Preview
     void PrevisualizeConstruct()
     {

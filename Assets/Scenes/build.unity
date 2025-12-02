@@ -26414,7 +26414,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &910877100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30195,6 +30195,50 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 47039940}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1074780458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1074780459}
+  - component: {fileID: 1074780460}
+  m_Layer: 8
+  m_Name: Inventory
+  m_TagString: Detecteur
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1074780459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074780458}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1981031375}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1074780460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074780458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1e13440c81785e4e847e1cc62377cf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1079010975 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7524341501557636721, guid: 63db7d056a9a1204aae65a42846483d6,
@@ -42633,7 +42677,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerManager: {fileID: 0}
-  deplacementAleatoire: {fileID: 0}
+  legumeManager: {fileID: 0}
 --- !u!4 &1610676040
 Transform:
   m_ObjectHideFlags: 0
@@ -43326,6 +43370,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1633466597}
+  - component: {fileID: 1633466600}
   - component: {fileID: 1633466599}
   m_Layer: 8
   m_Name: BuildZone
@@ -43363,10 +43408,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerIsBuildMode: 0
   buildKey: 9
-  Ratio: 1
+  Ratio: 3
   floorPosition: 0
   constructChosen: {fileID: 11400000, guid: 036bd05f7b2d7ab438ebad9e8c6f86bc, type: 2}
   constructionSpawn: {fileID: 1633466597}
+  goodMat: {fileID: 2100000, guid: 97eb50e2d27fe8f4096ea70ce41edbcf, type: 2}
+  wrongMat: {fileID: 2100000, guid: 02718c60ad1f414479f699e432feae42, type: 2}
+--- !u!114 &1633466600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633466596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40d030938e3d8e44ea498361d9eff472, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Wheel: {fileID: 1735582550954078935, guid: fec85e92845ad2e42897b236a067c245, type: 3}
+  interraction: {fileID: 0}
 --- !u!1001 &1634808388
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57665,6 +57726,7 @@ Transform:
   - {fileID: 543450653609695207}
   - {fileID: 1589947145}
   - {fileID: 1633466597}
+  - {fileID: 1074780459}
   - {fileID: 1924315658}
   - {fileID: 1905093706}
   m_Father: {fileID: 0}
@@ -57789,6 +57851,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outils: 0
   havingTools: 0
+  isBuildMode: 0
   terre: 0
   terreMax: 1
   eau: 0
@@ -57806,6 +57869,7 @@ MonoBehaviour:
   Arrosoir: {fileID: 2555092240592479666}
   Pelle: {fileID: 919132148095693432}
   Houe: {fileID: 919132147700765389}
+  Marteau: {fileID: 0}
 --- !u!114 &1981031379
 MonoBehaviour:
   m_ObjectHideFlags: 0
