@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class MelogumeSinging : MonoBehaviour
+public class MelogumeSingingManager : MonoBehaviour
 {
     [Header("Événements FMOD")]
     [Tooltip("Assignez ici l'émetteur FMOD pour la note DO.")]
@@ -24,6 +25,7 @@ public class MelogumeSinging : MonoBehaviour
     [Tooltip("Le matériau pour les particules de la note MI.")]
     public Material miMaterial;
 
+    public Coroutine joyeux;
 
     private bool _isGameManagerReady = false;
 
@@ -90,7 +92,7 @@ public class MelogumeSinging : MonoBehaviour
         }
     }
 
-    IEnumerator SongOfHealing()
+    public IEnumerator SongOfHealing()
     {
         // Gérer la vitesse uniquement si la référence GameManager est prête
         if (_isGameManagerReady)
@@ -126,6 +128,60 @@ public class MelogumeSinging : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(3f, 10.0f));
 
         // Répéter la chanson
-        StartCoroutine(SongOfHealing());
+        joyeux = StartCoroutine(SongOfHealing());
+        
+    }
+    public IEnumerator SongOfRage()
+    {
+        // Gérer la vitesse uniquement si la référence GameManager est prête
+        if (_isGameManagerReady)
+        {
+            GameManager.Instance.legumeManager.vitesse = 0;
+        }
+        StopCoroutine(joyeux);
+        
+        // --- Séquence musicale avec particules ---
+
+        PlayNoteWithParticles(DO, doMaterial);
+        yield return new WaitForSeconds(0.3f);
+        StopChant();
+        PlayNoteWithParticles(DO, doMaterial);
+        yield return new WaitForSeconds(0.3f);
+        StopChant();
+        PlayNoteWithParticles(DO, doMaterial);
+        yield return new WaitForSeconds(0.3f);
+        StopChant();
+        PlayNoteWithParticles(DO, doMaterial);
+        yield return new WaitForSeconds(0.3f);
+        StopChant();
+        PlayNoteWithParticles(DO, doMaterial);
+        yield return new WaitForSeconds(0.3f);
+        StopChant();
+        PlayNoteWithParticles(DO, doMaterial);
+        yield return new WaitForSeconds(0.3f);
+        StopChant();
+        PlayNoteWithParticles(DO, doMaterial);
+        yield return new WaitForSeconds(0.3f);
+        StopChant();
+        PlayNoteWithParticles(DO, doMaterial);
+        yield return new WaitForSeconds(0.3f);
+        StopChant();
+        PlayNoteWithParticles(DO, doMaterial);
+        yield return new WaitForSeconds(0.3f);
+        StopChant();
+
+
+
+        // Rétablir la vitesse de déplacement
+        if (_isGameManagerReady)
+        {
+            GameManager.Instance.legumeManager.vitesse = 5;
+        }
+
+        // Attente aléatoire avant de répéter la chanson
+        yield return new WaitForSeconds(Random.Range(3f, 10.0f));
+
+        // Répéter la chanson
+        StartCoroutine(SongOfRage());
     }
 }

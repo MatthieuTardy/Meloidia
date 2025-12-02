@@ -20,5 +20,6 @@ public class GameManager : MonoBehaviour
     {
         playerManager = FindObjectOfType<PlayerManager>();
         legumeManager = FindObjectOfType<LegumeManager>();
+
     }
 }
