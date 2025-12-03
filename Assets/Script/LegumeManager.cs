@@ -217,6 +217,7 @@ public class LegumeManager : MonoBehaviour
     {
         
         StopCoroutine(melogumesSingingManager.joyeux);
+        StartCoroutine(DeathDelay(5, 50));
         Coroutine rage = StartCoroutine(melogumesSingingManager.SongOfRage());
         colere = true;
         Debug.Log("Colère !");
@@ -226,6 +227,23 @@ public class LegumeManager : MonoBehaviour
         StartCoroutine(melogumesSingingManager.SongOfHealing());
         StartCoroutine(MachineDEtats());
         Debug.Log("Calme !");
+
+    }
+
+    public IEnumerator DeathDelay(float deathTimer, int deathChance)
+    {
+
+
+        yield return new WaitForSeconds(deathTimer);
+        int jetDeConstitution = Random.Range(0, 100);
+        if (jetDeConstitution < deathChance)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            colere = false;
+        }
 
     }
 }
