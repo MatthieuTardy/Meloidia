@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour
 
     public bool isBuildMode = false;
 
+    public bool calme;
     public int terre;
     public int terreMax = 1;
     public int eau;
