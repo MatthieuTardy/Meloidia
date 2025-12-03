@@ -62,7 +62,7 @@ public class BuildUI : MonoBehaviour
 
     public void SelectConstruct(int index)
     {
-        // ne marche pas car c'est pas dans le parent -> appelé le GM qui refere le buildManager(buildMode)
-        GetComponentInParent<BuildMode>().ChangeSelectedBuild(index);
+        GameManager.Instance.buildManager.ChangeSelectedBuild(index);
+        Destroy(this.gameObject);
     }
 } 

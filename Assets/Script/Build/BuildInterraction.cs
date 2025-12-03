@@ -6,7 +6,7 @@ using UnityEngine;
 public class BuildInterraction : MonoBehaviour
 {
     [Header("Debug")]
-    [SerializeField] bool PlayerIsBuildMode;
+    [SerializeField] public bool PlayerIsBuildMode;
     [SerializeField] KeyCode buildKey;
 
     bool previewInstantiate;
@@ -36,7 +36,8 @@ public class BuildInterraction : MonoBehaviour
         {
             InstantiatePreViewBuild();
             PrevisualizeConstruct();
-            if (Input.GetKeyDown(buildKey))
+            ChangeMat(CanBuild());
+            if (Input.GetButtonDown("Fire1"))
             {
                 TryToBuild();
             }
@@ -79,7 +80,6 @@ public class BuildInterraction : MonoBehaviour
     {
         if (CanBuild())
         {
-            Debug.Log("BUILDED");
             Build();
         }
     }
@@ -90,7 +90,6 @@ public class BuildInterraction : MonoBehaviour
         bool blocked = Physics.CheckBox(construct.transform.position,halfExtents,construct.transform.rotation);
         if (blocked)
         {
-            Debug.Log("Blocked");
             return false;
         }
         return true;
@@ -100,5 +99,19 @@ public class BuildInterraction : MonoBehaviour
     {
         Vector3 buildPos = new Vector3(construct.transform.position.x, floorPosition, construct.transform.position.z);
         Instantiate(construct, buildPos,construct.transform.rotation);
+        
+    }
+
+    void ChangeMat(bool good)
+    {
+        Debug.Log(good);
+        if (good)
+        {
+            construct.GetComponent<MeshRenderer>().material = goodMat;
+        }
+        else
+        {
+            construct.GetComponent<MeshRenderer>().material = wrongMat;
+        }
     }
 }
