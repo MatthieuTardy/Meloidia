@@ -5,10 +5,7 @@ using UnityEngine;
 
 public class BuildInterraction : MonoBehaviour
 {
-    [Header("Debug")]
-    [SerializeField] public bool PlayerIsBuildMode;
-    [SerializeField] KeyCode buildKey;
-
+    public bool PlayerIsBuildMode;
     bool previewInstantiate;
 
     [Header("Construction Setting")]
@@ -23,13 +20,6 @@ public class BuildInterraction : MonoBehaviour
     [SerializeField] Material goodMat;
     [SerializeField] Material wrongMat;
 
-
-    /// <summary>
-    /// A faire:    
-    ///             Changer le material de la preview selon "CanBuild()".
-    ///             mettre le bon material pour le build
-    /// </summary>
-    /// 
     private void Update()
     {
         if (PlayerIsBuildMode)
@@ -42,6 +32,13 @@ public class BuildInterraction : MonoBehaviour
                 TryToBuild();
             }
         }
+        else
+        {
+            if(construct != null)
+            {
+                Destroy(construct);
+            }
+        }
     }
     private void Start()
     {
@@ -50,17 +47,26 @@ public class BuildInterraction : MonoBehaviour
     #region Build Preview
     void PrevisualizeConstruct()
     {
-        construct.transform.position = SetOnGrid(Ratio);
-        construct.transform.rotation = Quaternion.identity;
+        if (construct != null)
+        {
+            construct.transform.position = SetOnGrid(Ratio);
+            construct.transform.rotation = Quaternion.identity;
+        }
+
     }
 
     public void InstantiatePreViewBuild()
     {
-        if (!previewInstantiate)
+        if (construct == null && PlayerIsBuildMode)
         {
             construct = Instantiate(constructChosen.MeshPrefab, constructionSpawn.position, Quaternion.identity, constructionSpawn);
             previewInstantiate = true;
         }
+        else if(construct != null && !PlayerIsBuildMode)
+        {
+            previewInstantiate = false;
+        }
+        
     }
 
 
@@ -86,32 +92,41 @@ public class BuildInterraction : MonoBehaviour
 
     bool CanBuild()
     {
-        Vector3 halfExtents = (construct.transform.localScale * 0.5f);
-        bool blocked = Physics.CheckBox(construct.transform.position,halfExtents,construct.transform.rotation);
-        if (blocked)
+        if (construct != null)
         {
-            return false;
+            Vector3 halfExtents = (construct.transform.localScale * 0.5f);
+            bool blocked = Physics.CheckBox(construct.transform.position, halfExtents, construct.transform.rotation);
+            if (blocked)
+            {
+                return false;
+            }
         }
-        return true;
+            return true;
+
+
     }
 
     void Build()
     {
         Vector3 buildPos = new Vector3(construct.transform.position.x, floorPosition, construct.transform.position.z);
         Instantiate(construct, buildPos,construct.transform.rotation);
-        
+        GameManager.Instance.buildManager.EndBuild();
     }
 
     void ChangeMat(bool good)
     {
-        Debug.Log(good);
-        if (good)
+        if (construct != null)
         {
-            construct.GetComponent<MeshRenderer>().material = goodMat;
-        }
-        else
-        {
-            construct.GetComponent<MeshRenderer>().material = wrongMat;
+
+            Debug.Log(good);
+            if (good)
+            {
+                construct.GetComponent<MeshRenderer>().material = goodMat;
+            }
+            else
+            {
+                construct.GetComponent<MeshRenderer>().material = wrongMat;
+            }
         }
     }
 }

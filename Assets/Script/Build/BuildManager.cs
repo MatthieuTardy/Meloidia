@@ -18,8 +18,21 @@ public class BuildManager : MonoBehaviour
 
     void WhenBuildModeStarts()
     {
-        Debug.Log("Build Started");
-        InstantiateWheel();
+        if (!isBuilding)
+        {
+            Debug.Log("Build Started");
+            InstantiateWheel();
+            isBuilding = true;
+        }
+        else
+        {
+            if(Clone != null)
+            {
+                Destroy(Clone);
+            }
+            EndBuild();
+            isBuilding = false;
+        }
     }
 
     void InstantiateWheel()
@@ -35,8 +48,9 @@ public class BuildManager : MonoBehaviour
         interraction.PlayerIsBuildMode = true;
     }
 
-    private void EndBuild()
+    public void EndBuild()
     {
-
+        interraction.PlayerIsBuildMode = false;
+        isBuilding = false;
     }
 }
