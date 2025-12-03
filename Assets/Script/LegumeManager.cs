@@ -1,9 +1,29 @@
 using System.Collections;
 using UnityEngine;
 
+
 [RequireComponent(typeof(Rigidbody))]
 public class LegumeManager : MonoBehaviour
 {
+    public enum type
+    {
+        un = 1,
+        deux = 2,
+        trois = 3
+    }
+
+    public int Specisme1 = 50;
+    public int Specisme2;
+    public int Specisme3;
+
+    public MelogumeSingingManager melogumesSingingManager;
+
+    public bool colere;
+
+    public type legumeType;
+    private string legumeName;
+    
+    
     private enum Etat { Attente, TransitionVersDeplacement, Deplacement }
     private Etat etatActuel;
 
@@ -158,5 +178,36 @@ public class LegumeManager : MonoBehaviour
         transform.localScale = echelleInitiale;
 
         etatActuel = Etat.Attente;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 7) 
+        { 
+            if (other.gameObject.GetComponent<LegumeManager>().legumeType == type.un)
+            {
+                int jetDeHaine = Random.Range(0, 100);
+                Debug.Log(jetDeHaine);
+                if (jetDeHaine < Specisme1)
+                {
+                    StopAllCoroutines();
+                    StartCoroutine(melogumesSingingManager.SongOfRage());
+                    transform.LookAt(other.transform);
+                    colere = true;
+                    Debug.Log("Oui, je suis spéciste !");
+                }
+            }
+            if (other.gameObject.GetComponent<LegumeManager>().colere == true)
+            {
+                StopAllCoroutines();
+                
+                StartCoroutine(melogumesSingingManager.SongOfRage());
+                transform.LookAt(other.transform);
+                colere = true;
+                Debug.Log("Oui, je suis spéciste !");
+            }
+        }
+
+
     }
 }
