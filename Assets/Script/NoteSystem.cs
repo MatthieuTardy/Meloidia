@@ -12,6 +12,7 @@ public class NoteSystem : MonoBehaviour
     float singDelay;
     bool isPlaying;
 
+
     [Header("Éléments d'UI")]
     [Tooltip("Glissez ici les boutons de notes de l'UI, dans le même ordre que musicalNotes.")]
     public Note[] noteUIElements;
@@ -44,7 +45,7 @@ public class NoteSystem : MonoBehaviour
         "Do (Nord)", "Ré (Nord-Est)", "Mi (Est)", "Fa (Sud-Est)",
         "Sol (Sud)", "La (Sud-Ouest)", "Si (Ouest)", "Do' (Nord-Ouest)"
     };
-    public List<string> listeDeNotes = new List<string> { "Do (Nord)", "Ré (Nord-Est)", "Mi (Est)" };
+    public List<string> listeDeNotes = new List<string> { "Do (Nord)" ,"Ré (Nord-Est)", "Mi (Est)"  };
     public List<string> listeDeNotes2 = new List<string> { "Do (Nord)", "Ré (Nord-Est)", "Do (Nord)", "Mi (Est)" };
     public List<string> listeDeNotes3 = new List<string> { "Do (Nord)", "Do (Nord)", "Ré (Nord-Est)", "Do (Nord)", "Fa (Sud-Est)", "Mi (Est)" };
     public List<string> playedPartition;
@@ -174,7 +175,7 @@ public class NoteSystem : MonoBehaviour
                     }
                 }
 
-                if (playedPartition.SequenceEqual(listeDeNotes)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du diabète"); }
+                if (playedPartition.SequenceEqual(listeDeNotes)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du diabète"); GameManager.Instance.playerManager.calme = true; }
                 else if (playedPartition.SequenceEqual(listeDeNotes2)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du Bonheur"); GameManager.Instance.playerManager.essenceMagique += essenceGainOnMelody; }
                 else if (playedPartition.SequenceEqual(listeDeNotes3)) { Debug.LogWarning("Chant de l'anniversaire"); }
             }

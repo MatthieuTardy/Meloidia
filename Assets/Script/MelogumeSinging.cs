@@ -42,7 +42,7 @@ public class MelogumeSingingManager : MonoBehaviour
             _isGameManagerReady = true;
         }
 
-        StartCoroutine(SongOfHealing());
+        joyeux = StartCoroutine(SongOfHealing());
     }
 
     // Arrête tous les sons joués par ce script
@@ -138,27 +138,27 @@ public class MelogumeSingingManager : MonoBehaviour
         {
             GameManager.Instance.legumeManager.vitesse = 0;
         }
-        StopCoroutine(joyeux);
+        
         
         // --- Séquence musicale avec particules ---
 
         PlayNoteWithParticles(DO, doMaterial);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
+        StopChant();
+        PlayNoteWithParticles(DO, doMaterial);
+        yield return new WaitForSeconds(0.1f);
+        StopChant();
+        PlayNoteWithParticles(DO, doMaterial);
+        yield return new WaitForSeconds(0.1f);
         StopChant();
         PlayNoteWithParticles(DO, doMaterial);
         yield return new WaitForSeconds(0.3f);
         StopChant();
         PlayNoteWithParticles(DO, doMaterial);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
         StopChant();
         PlayNoteWithParticles(DO, doMaterial);
-        yield return new WaitForSeconds(0.3f);
-        StopChant();
-        PlayNoteWithParticles(DO, doMaterial);
-        yield return new WaitForSeconds(0.3f);
-        StopChant();
-        PlayNoteWithParticles(DO, doMaterial);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
         StopChant();
         PlayNoteWithParticles(DO, doMaterial);
         yield return new WaitForSeconds(0.3f);

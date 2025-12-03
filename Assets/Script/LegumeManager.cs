@@ -191,23 +191,41 @@ public class LegumeManager : MonoBehaviour
                 if (jetDeHaine < Specisme1)
                 {
                     StopAllCoroutines();
-                    StartCoroutine(melogumesSingingManager.SongOfRage());
+
                     transform.LookAt(other.transform);
-                    colere = true;
-                    Debug.Log("Oui, je suis spéciste !");
+
+                    StartCoroutine(RageState());
                 }
             }
             if (other.gameObject.GetComponent<LegumeManager>().colere == true)
             {
                 StopAllCoroutines();
-                
-                StartCoroutine(melogumesSingingManager.SongOfRage());
+                StartCoroutine(RageState());
                 transform.LookAt(other.transform);
-                colere = true;
-                Debug.Log("Oui, je suis spéciste !");
+
             }
         }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (GameManager.Instance.playerManager.calme == true)
+        {
+            colere = false;
+        }
+    }
+    public IEnumerator RageState()
+    {
+        
+        StopCoroutine(melogumesSingingManager.joyeux);
+        Coroutine rage = StartCoroutine(melogumesSingingManager.SongOfRage());
+        colere = true;
+        Debug.Log("Colère !");
 
+        yield return new WaitUntil(()=> colere == false);
+        StopCoroutine(rage);
+        StartCoroutine(melogumesSingingManager.SongOfHealing());
+        StartCoroutine(MachineDEtats());
+        Debug.Log("Calme !");
 
     }
 }
