@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using NaughtyAttributes;
 
 
 [RequireComponent(typeof(Rigidbody))]
@@ -11,10 +12,10 @@ public class LegumeManager : MonoBehaviour
         deux = 2,
         trois = 3
     }
-
+    [Header("Haine par type en %")]
     public int Specisme1 = 50;
-    public int Specisme2;
-    public int Specisme3;
+    public int Specisme2 = 50;
+    public int Specisme3 = 50;
 
     public MelogumeSingingManager melogumesSingingManager;
 
@@ -22,8 +23,12 @@ public class LegumeManager : MonoBehaviour
 
     public type legumeType;
     private string legumeName;
-    
-    
+    private int jetDeHaine;
+
+    [Header("Gestion de la mort")]
+    public float deathTimer = 5;
+    public int chanceToDie = 50;
+
     private enum Etat { Attente, TransitionVersDeplacement, Deplacement }
     private Etat etatActuel;
 
@@ -60,10 +65,17 @@ public class LegumeManager : MonoBehaviour
         rb.useGravity = true;
         StartCoroutine(PosY());
         echelleInitiale = transform.localScale;
-        
+        Rename();
+
+
 
         etatActuel = Etat.Attente;
         StartCoroutine(MachineDEtats());
+    }
+
+    private void Rename()
+    {
+        this.gameObject.name = NameCreator.NewName();
     }
     IEnumerator PosY()
     {
@@ -183,19 +195,47 @@ public class LegumeManager : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 7) 
-        { 
-            if (other.gameObject.GetComponent<LegumeManager>().legumeType == type.un)
+        {
+            jetDeHaine = Random.Range(0, 100);
+            switch (other.gameObject.GetComponent<LegumeManager>().legumeType)
             {
-                int jetDeHaine = Random.Range(0, 100);
-                Debug.Log(jetDeHaine);
-                if (jetDeHaine < Specisme1)
-                {
-                    StopAllCoroutines();
+                case type.un:
+                    Debug.Log(jetDeHaine);
+                    if (jetDeHaine < Specisme1)
+                    {
+                        StopAllCoroutines();
 
-                    transform.LookAt(other.transform);
+                        transform.LookAt(other.transform);
 
-                    StartCoroutine(RageState());
-                }
+                        StartCoroutine(RageState());
+                    }
+                    break;
+
+                case type.deux:
+                    Debug.Log(jetDeHaine);
+                    if (jetDeHaine < Specisme2)
+                    {
+                        StopAllCoroutines();
+
+                        transform.LookAt(other.transform);
+
+                        StartCoroutine(RageState());
+                    }
+                    break;
+
+                case type.trois:
+                    Debug.Log(jetDeHaine);
+                    if (jetDeHaine < Specisme3)
+                    {
+                        StopAllCoroutines();
+
+                        transform.LookAt(other.transform);
+
+                        StartCoroutine(RageState());
+                    }
+                    break;
+
+
             }
             if (other.gameObject.GetComponent<LegumeManager>().colere == true)
             {
@@ -217,7 +257,7 @@ public class LegumeManager : MonoBehaviour
     {
         
         StopCoroutine(melogumesSingingManager.joyeux);
-        StartCoroutine(DeathDelay(5, 50));
+        StartCoroutine(DeathDelay(deathTimer, chanceToDie));
         Coroutine rage = StartCoroutine(melogumesSingingManager.SongOfRage());
         colere = true;
         Debug.Log("Colère !");
