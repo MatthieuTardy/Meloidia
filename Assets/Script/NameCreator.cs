@@ -10,7 +10,7 @@ public class NameCreator : MonoBehaviour
     public static string NewName()
     {
         string name = "";
-        string[] syllabes = { "po", "mi", "ri", "mo","la","ba","si","zo","phy","tchi","mni","pi","chi","tcho", "ro","to","pe","re","le","a","o","poo","so","ma","ta"};
+        string[] syllabes = { "po", "mi", "ri", "mo","la","ba","si","zo","phy","tchi","mni","pi","chi","tcho", "ro","to","pe","re","le","a","o","poo","so","ma","ta", "on","dou","bi"};
 
 
         int longeur = Random.Range(1, 4);
