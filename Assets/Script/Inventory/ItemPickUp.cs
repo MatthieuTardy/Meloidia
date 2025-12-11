@@ -9,7 +9,8 @@ public class ItemPickUp : MonoBehaviour
         if(other.gameObject.layer == 9)
         {
             Debug.Log("PickUp " + other.gameObject.name);
-            GameManager.Instance.inventoryManager.AddItem(other.GetComponent<Ressources>());
+            GameManager.Instance.inventoryManager.TryToPickUp(other.GetComponent<Ressources>());
+
         }
     }
 }

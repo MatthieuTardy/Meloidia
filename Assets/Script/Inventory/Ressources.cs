@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Ressources : Item
 {
-    public Sprite sprite;
+    
 }

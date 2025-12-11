@@ -1,79 +1,109 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class InventoryManager : MonoBehaviour
 {
     public IReadOnlyList<ItemSlot> Items => items.AsReadOnly();
-    private List<ItemSlot> items;
-
-    private int InventoryMaxSize = 4;
-
-
+    [SerializeField]private List<ItemSlot> items;
+    public int InventorySize = 4;
+    public void Awake()
+    {
+        InitInventory();
+    }
+    public void InitInventory()
+    {
+        items = new List<ItemSlot>();
+        for (int i = 0; i < InventorySize; i++)
+        {
+            items.Add(null);
+        }
+    }
     /// <summary>
-    /// a faire:    destroy la ressources au pickup
-    ///             ajouter l'item dans la liste (voir en debug)
-    ///             gerer le count
-    ///             afficher dans l'ui
-    ///             afficher le count
+    /// a faire:    
+    ///             si stack == max et place dispo on ajoute sur l'autre slot si possible, sinon on fait
     ///             si item == stack max || si inventaire rempli on destroy pas et on ajoute pas
-    ///             
-    ///         
     /// </summary>
 
 
+    //si il existe pas, on check si y'a de la place
+    // si il y a de la place -> on l'ajouter
+    #region bool manager
 
-    public bool IsThereSpaceInInventory(Item newItem)
+    public (bool,int) CanStackItem(Item newItem)
     {
-        bool foundExistingItem = false;
-        foreach (ItemSlot itemSlot in items)
+        Debug.Log(items.Count);
+        for(int i=0;i<items.Count;i++)
         {
-            if (itemSlot.Item.Equals(newItem))
+            Debug.Log("can stack item " + i);
+            if (items[i] != null) // si un item existe
             {
-                foundExistingItem = true;
-                break;
+            Debug.Log("item "+ i +" is not null");
+                if (items[i].CurrentItem.type == newItem.type) // si item deja dans l'inventaire
+                {
+                    if (items[i].CurrentQuantity < newItem.MaxStack) //si on a pas un stack
+                    {
+                        return (true,i);
+                    }
+                    else
+                    {
+                        return (false,-1);
+                    }
+                }
             }
         }
-
-        return foundExistingItem || items.Count < InventoryMaxSize;
+        return (false,-1);
     }
+    
+    
+    public bool HaveSlotAvailable()
+    {
+        Debug.Log(items.Count);
+        foreach (ItemSlot slot in items)
+        {
+            if (slot == null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void TryToPickUp(Item newItem)
+    {
+        int amount = newItem.amount;
+        Debug.Log("pick up in inventory");
 
-    public void Update()
+        (bool canStack, int index) = CanStackItem(newItem);
+        //check si il existe une occurance de l'item && si on peut l'add
+        if (canStack)   
+        {
+            Debug.Log("Can Stack");
+            // si on peut l'ajouter on l'ajoute
+            AddItemToExistingSlot(newItem,amount,index);
+            newItem.OnPickUp();
+        }
+        else
+        {
+            Debug.Log("CANNOT Stack");
+            if (HaveSlotAvailable())
+            {
+                Debug.Log("HaveStackAvailable");
+                AddItemToNewSlot(newItem,amount);
+                newItem.OnPickUp();
+            }
+        }
+    }
+    #endregion
+
+    public void AddItemToExistingSlot(Item newItem,int amount,int index)
     {
         /*
-        if (Input.GetButtonDown("Fire2"))
-        {
-            if (Items[0] != null)
-            {
-                Debug.Log("Objet 1 est " + Items[0]);
-            }
-            if (Items[1] != null)
-            {
-                Debug.Log("Objet 2 est " + Items[1]);
-            }
-            if (Items[2] != null)
-            {
-                Debug.Log("Objet 3 est " + Items[2]);
-            }
-            if (Items[3] != null)
-            {
-                Debug.Log("Objet 4 est " + Items[3]);
-            }
-        }
-        */
-    }
-    public void Start()
-    {
-        items = new List<ItemSlot>();
-        Debug.Log(Items);
-
-    }
-    public void AddItem(Item newItem)
-    {
         Debug.Log("new item" + newItem);
         bool foundExistingItem = false;
         foreach (ItemSlot itemSlot in items)
         {
-            if (itemSlot.Item.Equals(newItem))
+            if (itemSlot.CurrentItem.Equals(newItem))
             {
                 foundExistingItem = true;
                 itemSlot.IncreaseQuantity(1);
@@ -86,7 +116,24 @@ public class InventoryManager : MonoBehaviour
             items.Add(new ItemSlot(newItem, 1));
             Debug.Log("Ajout de " + newItem);
         }
+        */
 
+        items[index].IncreaseQuantity(amount);
+    }
+    
+    public void AddItemToNewSlot(Item newItem,int amount)
+    {
+        int index = -1;
+        for(int i = 0; i < items.Count;i++) 
+        {
+            if(items[i] == null)
+            {
+                index = 0;
+                break;
+            }
+        } // get the available slot;
+
+        items[index] = new ItemSlot(newItem, amount);
 
     }
 
@@ -111,6 +158,14 @@ public class InventoryManager : MonoBehaviour
 public class Item : MonoBehaviour
 {
     public TypeOfRessources type;
+    public int MaxStack;
+    public int amount = 1;
+    public Sprite sprite;
+    public void OnPickUp()
+    {
+        Debug.Log("On pickup " + this.gameObject.name);
+        Destroy(this.gameObject);
+    }
 }
 public enum TypeOfRessources
 {
@@ -126,19 +181,19 @@ public enum TypeOfRessources
 
 public class ItemSlot
 {
-    public Item Item { get; private set; }
-    public int Quantity { get; private set; }
+    public Item CurrentItem { get; private set; }
+    public int CurrentQuantity { get; private set; }
 
     public ItemSlot(Item item, int quantity)
     {
-        Item = item;
-        Quantity = quantity;
+        CurrentItem = item;
+        CurrentQuantity = quantity;
     }
 
     public void IncreaseQuantity(int amount)
     {
         if (amount <= 0) return;
-        Quantity += amount;
+        CurrentQuantity += amount;
     }
 
 
@@ -147,10 +202,10 @@ public class ItemSlot
         if (amount <= 0) return;
 
 
-        Quantity -= amount;
-        if (Quantity < 0)
+        CurrentQuantity -= amount;
+        if (CurrentQuantity < 0)
         {
-            Quantity = 0;
+            CurrentQuantity = 0;
         }
     }
 }
