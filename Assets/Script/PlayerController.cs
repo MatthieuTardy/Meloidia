@@ -124,17 +124,29 @@ public class PlayerController : MonoBehaviour
             GameManager.Instance.playerManager.Houe.SetActive(true);
             GameManager.Instance.playerManager.Arrosoir.SetActive(false);
         }
-        else if(Input.GetButtonDown("Build") && GameManager.Instance.playerManager.outils != 5 && GameManager.Instance.playerManager.havingTools == true)
+        else if(Input.GetButtonDown("Build"))
         {
-            GameManager.Instance.playerManager.outils = 5;
-            GameManager.Instance.playerManager.isBuildMode = true;
-            GameManager.Instance.playerManager.Gant.SetActive(false);
-            GameManager.Instance.playerManager.Pelle.SetActive(false);
-            GameManager.Instance.playerManager.Houe.SetActive(false);
-            GameManager.Instance.playerManager.Arrosoir.SetActive(false);
+            if (GameManager.Instance.playerManager.outils != 5 && GameManager.Instance.playerManager.havingTools == true)
+            {
+                GameManager.Instance.playerManager.outils = 5;
+                GameManager.Instance.playerManager.isBuildMode = true;
+                GameManager.Instance.playerManager.Gant.SetActive(false);
+                GameManager.Instance.playerManager.Pelle.SetActive(false);
+                GameManager.Instance.playerManager.Houe.SetActive(false);
+                GameManager.Instance.playerManager.Arrosoir.SetActive(false);
+            }
+            if (!GameManager.Instance.buildManager.isBuilding)
+            {
+                GameManager.Instance.playerManager.outils = 0;
+                GameManager.Instance.playerManager.Gant.SetActive(true);
+                GameManager.Instance.playerManager.Pelle.SetActive(false);
+                GameManager.Instance.playerManager.Houe.SetActive(false);
+                GameManager.Instance.playerManager.Arrosoir.SetActive(false);
+            }
             OnBuildMode.Invoke();
             Debug.Log("Build Mode Enable");
         }
+        
         ApplyJuiceSmoothly();
         HandleSprintVisuals();
     }

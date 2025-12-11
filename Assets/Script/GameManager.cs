@@ -16,11 +16,12 @@ public class GameManager : MonoBehaviour
     public PlayerManager playerManager;
     public LegumeManager legumeManager;
     public BuildManager buildManager;
+    public InventoryManager inventoryManager;
     private void Start()
     {
         playerManager = FindObjectOfType<PlayerManager>();
         legumeManager = FindObjectOfType<LegumeManager>();
         buildManager = FindAnyObjectByType<BuildManager>();
-
+        inventoryManager = FindAnyObjectByType<InventoryManager>();
     }
 }
