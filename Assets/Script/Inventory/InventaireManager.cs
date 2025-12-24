@@ -32,33 +32,35 @@ public class InventoryManager : MonoBehaviour
 
     public (bool,int) CanStackItem(Item newItem)
     {
-        Debug.Log(items.Count);
+        //Debug.Log(items.Count);
         for(int i=0;i<items.Count;i++)
         {
-            Debug.Log("can stack item " + i);
+            Debug.Log("trying to stack on slot " + i);
             if (items[i] != null) // si un item existe
             {
-            Debug.Log("item "+ i +" is not null");
+                Debug.Log("item "+ i +" is not null");
                 if (items[i].CurrentItem.type == newItem.type) // si item deja dans l'inventaire
                 {
+                    Debug.Log("item " + i + "is same type as " + newItem + " : " + newItem.type);
                     if (items[i].CurrentQuantity < newItem.MaxStack) //si on a pas un stack
                     {
+                        Debug.Log("item " + i + " is NOT at maxStack");
                         return (true,i);
                     }
                     else
                     {
-                        return (false,-1);
+                        Debug.Log("item " + i + " is at maxStack");
+                        //return (false,-1);
                     }
                 }
             }
         }
         return (false,-1);
     }
-    
-    
+     
     public bool HaveSlotAvailable()
     {
-        Debug.Log(items.Count);
+        //Debug.Log(items.Count);
         foreach (ItemSlot slot in items)
         {
             if (slot == null)
@@ -72,7 +74,7 @@ public class InventoryManager : MonoBehaviour
     public void TryToPickUp(Item newItem)
     {
         int amount = newItem.amount;
-        Debug.Log("pick up in inventory");
+        Debug.Log("try to pick up in inventory");
 
         (bool canStack, int index) = CanStackItem(newItem);
         //check si il existe une occurance de l'item && si on peut l'add
@@ -88,7 +90,7 @@ public class InventoryManager : MonoBehaviour
             Debug.Log("CANNOT Stack");
             if (HaveSlotAvailable())
             {
-                Debug.Log("HaveStackAvailable");
+                Debug.Log("HaveSlotAvailable");
                 AddItemToNewSlot(newItem,amount);
                 newItem.OnPickUp();
             }
@@ -128,7 +130,7 @@ public class InventoryManager : MonoBehaviour
         {
             if(items[i] == null)
             {
-                index = 0;
+                index = i;
                 break;
             }
         } // get the available slot;
