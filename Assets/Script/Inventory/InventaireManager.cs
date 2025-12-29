@@ -143,7 +143,7 @@ public class InventoryManager : MonoBehaviour
     #endregion
     #region removing item
 
-    public void UseItem(TypeOfRessources type, int amount)
+    public void UseItem(TypeOfRessources type, int amount, bool Merge = true)
     {
         /*
         foreach (ItemSlot itemSlot in items)
@@ -171,7 +171,10 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
-        MergeInventory();
+        if (Merge)
+        {
+            MergeInventory();
+        }
     }
     
 
@@ -181,7 +184,7 @@ public class InventoryManager : MonoBehaviour
         {
             if (items[i] != null && items[i].CurrentQuantity <= 0)
             {
-                Debug.Log("Item " + i + " est devenu vide");
+               // Debug.Log("Item " + i + " est devenu vide");
                 items[i] = null;
             }
         }

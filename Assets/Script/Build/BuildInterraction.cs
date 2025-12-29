@@ -144,6 +144,7 @@ public class BuildInterraction : MonoBehaviour
         //Toutes les ressources sont présentes en quantité suffisante
         return true;
         */
+        bool HaveItem = false;
 
         int quantity = 0;
         if (GameManager.Instance.inventoryManager != null && GameManager.Instance.inventoryManager.Items.Count > 0 && constructChosen != null)
@@ -153,20 +154,27 @@ public class BuildInterraction : MonoBehaviour
             {
                 foreach (var item in GameManager.Instance.inventoryManager.Items)
                 {
-                    if (ressources.type == item.CurrentItem.type)
+                    if (item != null)
                     {
-                       // Debug.Log("HaveItemInInventory");
-                        if (item.CurrentQuantity >= ressources.amount)
+                        if (ressources.type == item.CurrentItem.type)
                         {
-                            //Debug.Log("HaveQuantityNeeded");
-                            return true;
-                        }
-                        else
-                        {
-                            quantity += item.CurrentQuantity;
-                            if(quantity >= ressources.amount)
+                            // Debug.Log("HaveItemInInventory");
+                            if (item.CurrentQuantity >= ressources.amount)
                             {
-                               return true;
+                                //Debug.Log("HaveQuantityNeeded");
+                                HaveItem = true;
+                            }
+                            else
+                            {
+                                quantity += item.CurrentQuantity;
+                                if (quantity >= ressources.amount)
+                                {
+                                    HaveItem = true;
+                                }
+                                else
+                                {
+                                    HaveItem = false;
+                                }
                             }
                         }
                     }
@@ -174,29 +182,51 @@ public class BuildInterraction : MonoBehaviour
             }
         }
       //  Debug.LogWarning("il a pas les items");
-        return false;
+        return HaveItem;
     }
 
     void RemoveItemFromInventory() // search on one slot
     {
         if (GameManager.Instance.inventoryManager != null && GameManager.Instance.inventoryManager.Items.Count > 0 && constructChosen != null)
         {
+           // Debug.LogWarning("Pass in RemoveItemFromInventory");
             foreach (var ressources in constructChosen.RessourceNeeded)
             {
+
+                int quantity = ressources.amount; 
                 foreach (var item in GameManager.Instance.inventoryManager.Items)
                 {
+                   // Debug.Log("Quantity of ressources needed: " +  quantity);
+
                     if (item != null)
                     {
+                       // Debug.Log("looping in item " + item.CurrentItem.type + item.CurrentQuantity);
                         if (ressources.type == item.CurrentItem.type)
                         {
-                            if (item.CurrentQuantity >= ressources.amount)
+                           // Debug.Log("Item type is equal at ressources type : "+ressources.type);
+                            if (item.CurrentQuantity >= quantity)
                             {
-                                //Debug.Log("Removing");
+                               // Debug.Log("item.CurrentQuantity >= ressources.amount" + item.CurrentQuantity + " >= " + quantity);
+                               // Debug.Log("Removing easy way");
                                 //item.DecreaseQuantity(ressources.amount);
-                                GameManager.Instance.inventoryManager.UseItem(ressources.type,ressources.amount);
-                                return;
+                                GameManager.Instance.inventoryManager.UseItem(ressources.type,quantity);
+                                break;
+                            }
+                            else //inferieur
+                            {
+                                //Debug.Log("item.CurrentQuantity < ressources.amount" + item.CurrentQuantity + " < " + quantity);
+                                if (quantity >= item.CurrentQuantity && item.CurrentQuantity > 0)
+                                {
+                                   // Debug.Log("Removing Hard way");
+                                    quantity -= item.CurrentQuantity; //3
+                                    GameManager.Instance.inventoryManager.UseItem(ressources.type,item.CurrentQuantity,false);
+                                }
                             }
                         }
+                    }
+                    else
+                    {
+                        Debug.Log("Item is null");
                     }
                 }
                // RemoveItemsFromInventory(ressources); 
