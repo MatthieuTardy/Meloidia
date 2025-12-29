@@ -21,7 +21,6 @@ public class InventoryManager : MonoBehaviour
     }
     /// <summary>
     /// a faire:    
-    ///             si stack == max et place dispo on ajoute sur l'autre slot si possible, sinon on fait
     ///             si item == stack max || si inventaire rempli on destroy pas et on ajoute pas
     /// </summary>
 
@@ -35,21 +34,21 @@ public class InventoryManager : MonoBehaviour
         //Debug.Log(items.Count);
         for(int i=0;i<items.Count;i++)
         {
-            Debug.Log("trying to stack on slot " + i);
+            //Debug.Log("trying to stack on slot " + i);
             if (items[i] != null) // si un item existe
             {
-                Debug.Log("item "+ i +" is not null");
+                //Debug.Log("item "+ i +" is not null");
                 if (items[i].CurrentItem.type == newItem.type) // si item deja dans l'inventaire
                 {
-                    Debug.Log("item " + i + "is same type as " + newItem + " : " + newItem.type);
+                    //Debug.Log("item " + i + "is same type as " + newItem + " : " + newItem.type);
                     if (items[i].CurrentQuantity < newItem.MaxStack) //si on a pas un stack
                     {
-                        Debug.Log("item " + i + " is NOT at maxStack");
+                        //Debug.Log("item " + i + " is NOT at maxStack");
                         return (true,i);
                     }
                     else
                     {
-                        Debug.Log("item " + i + " is at maxStack");
+                        //Debug.Log("item " + i + " is at maxStack");
                         //return (false,-1);
                     }
                 }
@@ -71,32 +70,34 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
     
+    #endregion
     public void TryToPickUp(Item newItem)
     {
         int amount = newItem.amount;
-        Debug.Log("try to pick up in inventory");
+        //Debug.Log("try to pick up in inventory");
 
         (bool canStack, int index) = CanStackItem(newItem);
         //check si il existe une occurance de l'item && si on peut l'add
         if (canStack)   
         {
-            Debug.Log("Can Stack");
+            //Debug.Log("Can Stack");
             // si on peut l'ajouter on l'ajoute
             AddItemToExistingSlot(newItem,amount,index);
             newItem.OnPickUp();
         }
         else
         {
-            Debug.Log("CANNOT Stack");
+            //Debug.Log("CANNOT Stack");
             if (HaveSlotAvailable())
             {
-                Debug.Log("HaveSlotAvailable");
+                //Debug.Log("HaveSlotAvailable");
                 AddItemToNewSlot(newItem,amount);
                 newItem.OnPickUp();
             }
         }
     }
-    #endregion
+
+    #region adding item
 
     public void AddItemToExistingSlot(Item newItem,int amount,int index)
     {
@@ -139,9 +140,12 @@ public class InventoryManager : MonoBehaviour
 
     }
 
-    /*
-    public void UseItem(ItemSlot item)
+    #endregion
+    #region removing item
+
+    public void UseItem(TypeOfRessources type, int amount)
     {
+        /*
         foreach (ItemSlot itemSlot in items)
         {
             if (itemSlot.Item.Equals(item.Item))
@@ -150,8 +154,82 @@ public class InventoryManager : MonoBehaviour
                 // Gerer cas quantité = 0
             }
         }
+        */
+
+        for (int i = 0; i < items.Count; i++) 
+        {
+            if (items[i] != null)
+            {
+                if (items[i].CurrentQuantity >= amount)
+                {
+
+                    if (items[i].CurrentItem.type == type)
+                    {
+                        items[i].DecreaseQuantity(amount);
+                        break;
+                    }
+                }
+            }
+        }
+        MergeInventory();
     }
-    */
+    
+
+    void DeleteItemIfZeroQuantity()
+    {
+        for (int i = 0; i < items.Count; i++) 
+        {
+            if (items[i] != null && items[i].CurrentQuantity <= 0)
+            {
+                Debug.Log("Item " + i + " est devenu vide");
+                items[i] = null;
+            }
+        }
+    }
+
+    void MergeInventory()
+    {
+
+        // parcours l'inventaire
+        DeleteItemIfZeroQuantity();
+        ItemSlot slot = null;
+        foreach (var item in items)
+        {
+            if(item != null)
+            {
+                // si l'item est pas au stack max
+                if(item.CurrentQuantity < item.CurrentItem.MaxStack && item.CurrentQuantity > 0)
+                {
+                    slot = item;
+                    foreach(var otheritem in items)
+                    {
+                        if (otheritem != null && otheritem != slot) 
+                        {
+                            // si il y a un autre item du meme type
+                            if(otheritem.CurrentItem.type == slot.CurrentItem.type)
+                            {
+                                // si cet item est pas au max stack
+                                if(item.CurrentQuantity < item.CurrentItem.MaxStack && item.CurrentQuantity > 0)
+                                {
+                                    // si le total des deux est <= au stack max, on les ajoutes
+                                    if(otheritem.CurrentQuantity + item.CurrentQuantity <= item.CurrentItem.MaxStack)
+                                    {
+                                        item.IncreaseQuantity(otheritem.CurrentQuantity);
+                                        otheritem.DecreaseQuantity(otheritem.CurrentQuantity);
+                                        // on remplace un stack par null
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        DeleteItemIfZeroQuantity();
+
+    }
+
+    #endregion
 }
 
 
@@ -165,7 +243,7 @@ public class Item : MonoBehaviour
     public Sprite sprite;
     public void OnPickUp()
     {
-        Debug.Log("On pickup " + this.gameObject.name);
+        //Debug.Log("On pickup " + this.gameObject.name);
         Destroy(this.gameObject);
     }
 }

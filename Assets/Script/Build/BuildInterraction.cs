@@ -7,6 +7,7 @@ public class BuildInterraction : MonoBehaviour
 {
     public bool PlayerIsBuildMode;
     bool previewInstantiate;
+    bool isBuilding = false;
 
     [Header("Construction Setting")]
     [Range(1,10)][SerializeField] int Ratio;
@@ -29,7 +30,7 @@ public class BuildInterraction : MonoBehaviour
             ChangeMat(CanBuild());
             if (Input.GetButtonDown("Fire1"))
             {
-                TryToBuild();
+                    TryToBuild();
             }
         }
         else
@@ -84,12 +85,14 @@ public class BuildInterraction : MonoBehaviour
 
     void TryToBuild()
     {
-        if (CanBuild())
+        if (CanBuild() && HaveItemInInventory())
         {
-            Build();
+            {
+                Build();
+                RemoveItemFromInventory();
+            }
         }
     }
-
     bool CanBuild()
     {
         if (construct != null)
@@ -100,12 +103,147 @@ public class BuildInterraction : MonoBehaviour
             {
                 return false;
             }
-        }
             return true;
+        }
+        else
+        {
+            //Debug.LogError("CONSTRUCT == Null");
+            return false;
+        }
 
 
     }
 
+    bool HaveItemInInventory()
+    {
+        /*
+        if (GameManager.Instance.inventoryManager == null)
+            return false;
+
+        var inventory = GameManager.Instance.inventoryManager.Items;
+
+        // Pour chaque ressource requise par la construction
+        foreach (var needed in constructChosen.RessourceNeeded)
+        {
+            int totalAmountInInventory = 0;
+
+            // On cherche cette ressource dans l'inventaire
+            foreach (var item in inventory)
+            {
+                if (item.CurrentItem.type == needed.type) 
+                {
+                    totalAmountInInventory += item.CurrentQuantity;
+                }
+            }
+
+            //Pas assez de cette ressource
+            if (totalAmountInInventory < needed.amount)
+                return false;
+        }
+
+        //Toutes les ressources sont présentes en quantité suffisante
+        return true;
+        */
+
+        int quantity = 0;
+        if (GameManager.Instance.inventoryManager != null && GameManager.Instance.inventoryManager.Items.Count > 0 && constructChosen != null)
+        {
+           // Debug.Log("pass the if");
+            foreach (var ressources in constructChosen.RessourceNeeded)
+            {
+                foreach (var item in GameManager.Instance.inventoryManager.Items)
+                {
+                    if (ressources.type == item.CurrentItem.type)
+                    {
+                       // Debug.Log("HaveItemInInventory");
+                        if (item.CurrentQuantity >= ressources.amount)
+                        {
+                            //Debug.Log("HaveQuantityNeeded");
+                            return true;
+                        }
+                        else
+                        {
+                            quantity += item.CurrentQuantity;
+                            if(quantity >= ressources.amount)
+                            {
+                               return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+      //  Debug.LogWarning("il a pas les items");
+        return false;
+    }
+
+    void RemoveItemFromInventory() // search on one slot
+    {
+        if (GameManager.Instance.inventoryManager != null && GameManager.Instance.inventoryManager.Items.Count > 0 && constructChosen != null)
+        {
+            foreach (var ressources in constructChosen.RessourceNeeded)
+            {
+                foreach (var item in GameManager.Instance.inventoryManager.Items)
+                {
+                    if (item != null)
+                    {
+                        if (ressources.type == item.CurrentItem.type)
+                        {
+                            if (item.CurrentQuantity >= ressources.amount)
+                            {
+                                //Debug.Log("Removing");
+                                //item.DecreaseQuantity(ressources.amount);
+                                GameManager.Instance.inventoryManager.UseItem(ressources.type,ressources.amount);
+                                return;
+                            }
+                        }
+                    }
+                }
+               // RemoveItemsFromInventory(ressources); 
+            }
+        }
+    }
+     /*
+    void RemoveItemsFromInventory(RessourceAmount RA) // search on more slot
+    {
+        int quantity = RA.amount;
+        if (GameManager.Instance.inventoryManager != null && GameManager.Instance.inventoryManager.Items.Count > 0 && constructChosen != null)
+        {
+            
+            foreach (var ressources in constructChosen.RessourceNeeded)
+            {
+                foreach (var item in GameManager.Instance.inventoryManager.Items)
+                {
+                    if (ressources.type == item.CurrentItem.type)
+                    {
+                        if (item.CurrentQuantity >= ressources.amount)
+                        {
+                            item.DecreaseQuantity(ressources.amount);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            foreach (var item in GameManager.Instance.inventoryManager.Items)
+            {
+                if (item.CurrentItem.type == RA.type)
+                {
+                    if (item.CurrentQuantity < quantity)
+                    {
+                        Debug.Log("Removing 2");
+                        quantity -= item.CurrentQuantity;
+                        item.DecreaseQuantity(item.CurrentQuantity);
+                    }
+                    if (quantity <= 0)
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    */
     void Build()
     {
         Vector3 buildPos = new Vector3(construct.transform.position.x, floorPosition, construct.transform.position.z);
@@ -118,7 +256,7 @@ public class BuildInterraction : MonoBehaviour
         if (construct != null)
         {
 
-            Debug.Log(good);
+            //Debug.Log(good);
             if (good)
             {
                 construct.GetComponent<MeshRenderer>().material = goodMat;
