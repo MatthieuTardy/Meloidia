@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DetectionZone : MonoBehaviour
 {
+    GameObject interractableObject;
+
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == 9) //collectable
@@ -18,10 +21,12 @@ public class DetectionZone : MonoBehaviour
     {
         if (other.gameObject.layer == 10) //batiment
         {
-                if (other.GetComponent<Reserve>())
-                {
-                    other.GetComponent<Reserve>().CloseReserve();
-                }
+            if (interractableObject.GetComponent<Reserve>())
+            {
+                interractableObject.GetComponent<Reserve>().CloseReserve();
+            }
+
+            interractableObject = null;
         }
     }
 
@@ -29,12 +34,17 @@ public class DetectionZone : MonoBehaviour
     {
         if (other.gameObject.layer == 10) //batiment
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            interractableObject = other.gameObject;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E)) 
+        {
+            if (interractableObject.GetComponent<Reserve>() && interractableObject.GetComponent<Reserve>().StockingInReserve == null)
             {
-                if (other.GetComponent<Reserve>() && other.GetComponent<Reserve>().StockingInReserve == null)
-                {
-                    other.GetComponent<Reserve>().OpenReserve();
-                }
+                interractableObject.GetComponent<Reserve>().OpenReserve();
             }
         }
     }

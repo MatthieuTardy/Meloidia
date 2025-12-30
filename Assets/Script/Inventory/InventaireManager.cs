@@ -71,8 +71,9 @@ public class InventoryManager : MonoBehaviour
     }
     
     #endregion
-    public void TryToPickUp(Item newItem)
+    public bool TryToPickUp(Item newItem)
     {
+        bool succesToPickUp = false;
         int amount = newItem.amount;
         //Debug.Log("try to pick up in inventory");
 
@@ -83,7 +84,7 @@ public class InventoryManager : MonoBehaviour
             //Debug.Log("Can Stack");
             // si on peut l'ajouter on l'ajoute
             AddItemToExistingSlot(newItem,amount,index);
-            newItem.OnPickUp();
+            succesToPickUp = true;
         }
         else
         {
@@ -92,12 +93,15 @@ public class InventoryManager : MonoBehaviour
             {
                 //Debug.Log("HaveSlotAvailable");
                 AddItemToNewSlot(newItem,amount);
-                newItem.OnPickUp();
+                succesToPickUp = true;
             }
         }
+        if (succesToPickUp) { newItem.OnPickUp(); }
+        return succesToPickUp;
     }
 
     #region adding item
+
 
     public void AddItemToExistingSlot(Item newItem,int amount,int index)
     {
@@ -190,7 +194,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    void MergeInventory()
+    public void MergeInventory()
     {
 
         // parcours l'inventaire
@@ -247,7 +251,10 @@ public class Item : MonoBehaviour
     public void OnPickUp()
     {
         //Debug.Log("On pickup " + this.gameObject.name);
-        Destroy(this.gameObject);
+        if(this != null)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }
 public enum TypeOfRessources
@@ -289,7 +296,10 @@ public class ItemSlot
         if (CurrentQuantity < 0)
         {
             CurrentQuantity = 0;
+            
+            
         }
+        GameManager.Instance.inventoryManager.MergeInventory();
     }
 }
 
