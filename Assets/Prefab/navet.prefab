@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 663085383206316665}
   - component: {fileID: 572334599460539091}
   - component: {fileID: 3433961319903273884}
+  - component: {fileID: 8065598565634391122}
+  - component: {fileID: 7892779070307336598}
   m_Layer: 7
   m_Name: navet
   m_TagString: Untagged
@@ -39,6 +41,7 @@ Transform:
   - {fileID: 2162770176174446840}
   - {fileID: 9191389748378591529}
   - {fileID: 1722407353356880809}
+  - {fileID: 3034657347386683939}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!135 &2175433345319883182
@@ -101,16 +104,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b483e70f210670c42bd4d5afbe67a213, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Specisme1: 50
+  Specisme2: 50
+  Specisme3: 50
+  Specisme4: 50
+  Specisme5: 50
+  melogumesSingingManager: {fileID: 5406721253068931219}
+  legumeType: 1
+  deathTimer: 15
+  chanceToDie: 50
+  finCalme: 30
+  colere: 0
+  isStartRageTimer: -1
   dureeDeplacement: 1
+  walkRadius: 5
   intervalleAttente: 5
   vitesse: 5
   vitesseRotation: 10
+  myNavAgent: {fileID: 7892779070307336598}
   amplitudeRespiration: 0.05
   vitesseRespiration: 2
-  hauteurSaut: 0.5
-  intensiteEtirement: 0.15
-  intensiteEcrasement: 0.07
-  tempsTransition: 0.25
 --- !u!114 &5406721253068931219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +238,49 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
+--- !u!135 &8065598565634391122
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915118827783939439}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 7
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!195 &7892779070307336598
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915118827783939439}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &2014060185222113137
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,6 +447,59 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3540102250162268519
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3034657347386683939}
+  - component: {fileID: 4635556203738985522}
+  m_Layer: 0
+  m_Name: DetectionZoneLegume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3034657347386683939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3540102250162268519}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3931461218680426809}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &4635556203738985522
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3540102250162268519}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 7
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9022519876684920796
 GameObject:
   m_ObjectHideFlags: 0

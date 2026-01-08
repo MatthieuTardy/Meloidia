@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using FMOD.Studio;
+using FMODUnity;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using FMODUnity;
 
 public class NoteSystem : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class NoteSystem : MonoBehaviour
     string noteBefore;
     float singDelay;
     bool isPlaying;
-
+    public StudioEventEmitter music;
 
     [Header("Éléments d'UI")]
     [Tooltip("Glissez ici les boutons de notes de l'UI, dans le même ordre que musicalNotes.")]
@@ -50,6 +51,7 @@ public class NoteSystem : MonoBehaviour
     public List<string> listeDeNotes3 = new List<string> { "Do (Nord)", "Do (Nord)", "Ré (Nord-Est)", "Do (Nord)", "Fa (Sud-Est)", "Mi (Est)" };
     public List<string> playedPartition;
 
+
     void Update()
     {
         playedTime += Time.deltaTime;
@@ -69,7 +71,23 @@ public class NoteSystem : MonoBehaviour
             playedPartition.Clear();
         }
     }
+    public void ToggleTrackOne(bool active)
+    {
+        if (music.IsPlaying())
+        {
+            float value = active ? 1f : 0f;
+            FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", value);
 
+            if (result != FMOD.RESULT.OK)
+            {
+                Debug.LogError("FMOD n'a pas trouvé le paramètre : " + result);
+            }
+            else
+            {
+                Debug.Log("Paramètre envoyé avec succès !");
+            }
+        }
+    }
     private void PlayMusic()
     {
         float inputX = Input.GetAxis("SongX_Xbox");
@@ -77,6 +95,7 @@ public class NoteSystem : MonoBehaviour
 
         if (Mathf.Abs(inputX) > 0.5f || Mathf.Abs(inputY) > 0.5f)
         {
+            ToggleTrackOne(false);
             singDelay += Time.deltaTime;
             int noteIndex = 0;
 
@@ -93,6 +112,7 @@ public class NoteSystem : MonoBehaviour
         }
         else
         {
+            ToggleTrackOne(true);
             isPlaying = false;
             singDelay = 0;
             StopChant();
@@ -146,14 +166,14 @@ public class NoteSystem : MonoBehaviour
                 {
                     Vector3 spawnPosition = particleSpawnPoint != null ? particleSpawnPoint.position : transform.position;
 
-                    // On crée un vecteur de direction 3D sur le plan XZ. L'axe Y du joystick contrôle l'axe Z du monde.
+
                     Vector3 direction = new Vector3(Input.GetAxis("SongX_Xbox"), 0f, Input.GetAxis("SongY_Xbox"));
 
-                    // On s'assure que le vecteur n'est pas nul pour éviter une erreur avec LookRotation.
-                    Quaternion spawnRotation = Quaternion.identity; // Rotation par défaut.
+
+                    Quaternion spawnRotation = Quaternion.identity;
                     if (direction.sqrMagnitude > 0.01f)
                     {
-                        // Crée une rotation qui "regarde" dans la direction du joystick sur le plan XZ.
+
                         spawnRotation = Quaternion.LookRotation(direction);
                     }
 
@@ -176,7 +196,7 @@ public class NoteSystem : MonoBehaviour
                 }
 
                 if (playedPartition.SequenceEqual(listeDeNotes)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du diabète"); GameManager.Instance.playerManager.calme = true; }
-                else if (playedPartition.SequenceEqual(listeDeNotes2)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du Bonheur"); GameManager.Instance.playerManager.essenceMagique += essenceGainOnMelody; }
+                else if (playedPartition.TakeLast(4).SequenceEqual(listeDeNotes2)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du Bonheur"); GameManager.Instance.playerManager.essenceMagique += essenceGainOnMelody; }
                 else if (playedPartition.SequenceEqual(listeDeNotes3)) { Debug.LogWarning("Chant de l'anniversaire"); }
             }
             else
