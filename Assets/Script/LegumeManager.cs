@@ -62,7 +62,7 @@ public class LegumeManager : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         rb.useGravity = true;
-        baseLegume = FindObjectOfType<PlayerManager>();
+        baseLegume = FindObjectOfType<PlayerManager>().gameObject;
 
         echelleInitiale = transform.localScale;
         Rename();
