@@ -19,7 +19,7 @@ public class ComposteManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (detected && Input.GetButtonDown("Fire1") && GameManager.Instance.playerManager.outils == 2 && GameManager.Instance.playerManager.terre < GameManager.Instance.playerManager.terreMax)
+        if (detected && Input.GetButtonDown("Fire1") && GameManager.Instance.playerManager.outils == 2)
         {
             if (GameManager.Instance.playerManager.indexTuto == 1)
             {
@@ -27,7 +27,7 @@ public class ComposteManager : MonoBehaviour
                 GameManager.Instance.playerManager.tutoSelect = GameManager.Instance.playerManager.tuto[GameManager.Instance.playerManager.indexTuto];
             }
 
-            GameManager.Instance.playerManager.terre = GameManager.Instance.playerManager.terreMax;
+            GameManager.Instance.playerManager.ReloadDirt();
 
             // Create and play the particle system if it's assigned
             if (dirtParticleSystem != null)

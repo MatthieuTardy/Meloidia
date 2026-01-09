@@ -12,10 +12,10 @@ public class PlayerManager : MonoBehaviour
     public bool isBuildMode = false;
 
     public bool calme;
-    public int terre;
-    public int terreMax = 1;
-    public int eau;
-    public int eauMax = 1;
+    int terre;
+    [SerializeField] int terreMax = 1;
+    int eau;
+    [SerializeField] int eauMax = 1;
     public int essenceMagique; // La variable Max est supprimée
 
     public List<Transform> tuto;
@@ -29,15 +29,36 @@ public class PlayerManager : MonoBehaviour
     public GameObject Houe;
     public GameObject Marteau;
 
-    // Start is called before the first frame update
     void Start()
     {
         essenceMagique = 0; // On commence à 0
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ReloadWater()
     {
+        eau = eauMax;
+    }
 
+    public void UseWater()
+    {
+        eau--;
+    }
+    public int GetWater()
+    {
+        return eau;
+    }
+
+    public void ReloadDirt()
+    {
+        terre = terreMax;
+    }
+
+    public void UseDirt() 
+    {
+        terre--;
+    }
+    public int GetDirt()
+    {
+        return terre;
     }
 }
