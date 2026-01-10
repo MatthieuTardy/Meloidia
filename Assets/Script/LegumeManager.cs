@@ -1,6 +1,7 @@
+using NaughtyAttributes;
 using System.Collections;
 using UnityEngine;
-using NaughtyAttributes;
+using UnityEngine.AI;
 
 
 [RequireComponent(typeof(Rigidbody))]
@@ -44,15 +45,19 @@ public class LegumeManager : MonoBehaviour
 
     [Header("Paramètres de Déplacement")]
     public float dureeDeplacement = 1f;
+    public float walkRadius = 5f;
     public float intervalleAttente = 5f;
     public float vitesse = 5f;
     public float vitesseRotation = 10f;
+    public NavMeshAgent myNavAgent;
+    private Coroutine move;
 
     [Header("Effets de 'Juice' - Respiration")]
     public float amplitudeRespiration = 0.05f;
     public float vitesseRespiration = 2f;
 
     private Rigidbody rb;
+
     private Vector3 directionAleatoire;
     private Vector3 echelleInitiale;
     private float positionYInitiale;
@@ -67,12 +72,31 @@ public class LegumeManager : MonoBehaviour
         echelleInitiale = transform.localScale;
         Rename();
 
-
-
         etatActuel = Etat.Attente;
+        move = StartCoroutine(RandomMove());
 
     }
 
+    public IEnumerator RandomMove()
+    {
+        yield return new WaitForSeconds(Random.Range(1, 5));
+        myNavAgent.SetDestination(RandomNavmeshLocation(walkRadius));
+        move = StartCoroutine(RandomMove());
+
+    }
+
+    public Vector3 RandomNavmeshLocation(float radius)
+    {
+        Vector3 randomDirection = Random.insideUnitSphere * radius;
+        randomDirection += transform.position;
+        NavMeshHit hit;
+        Vector3 finalPosition = Vector3.zero;
+        if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
+        {
+            finalPosition = hit.position;
+        }
+        return finalPosition;
+    }
     private void Update()
     {
         calmeTimer += Time.deltaTime;

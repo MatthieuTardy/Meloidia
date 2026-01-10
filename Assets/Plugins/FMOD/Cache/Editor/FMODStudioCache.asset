@@ -54,6 +54,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4445
+--- !u!114 &-7855276135602949334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Desert Song
+  m_EditorClassIdentifier: 
+  Path: event:/Desert Song
+  Guid:
+    Data1: -1518943452
+    Data2: 1226672767
+    Data3: -218127222
+    Data4: -2147232409
+  Banks:
+  - {fileID: -5023280176564322763}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -7382135744081477550}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 148906
 --- !u!114 &-7667873751745437306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +109,50 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4394
+--- !u!114 &-7382135744081477550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Desert Song/Piste1_Volume
+  m_EditorClassIdentifier: 
+  Name: Piste1_Volume
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3295436225
+    data2: 1745184471
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-5023280176564322763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Music.bank
+  m_EditorClassIdentifier: 
+  Path: Fmod Douby/Build/Desktop/Music.bank
+  Name: Music
+  StudioPath: bank:/Music
+  lastModified: 639034919801118753
+  FileSizes:
+  - Name: Desktop
+    Value: 8619552
+  Exists: 1
 --- !u!114 &-3944613120094199949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,6 +222,7 @@ MonoBehaviour:
   EditorBanks:
   - {fileID: 3856348917924897851}
   - {fileID: 4158438079306407908}
+  - {fileID: -5023280176564322763}
   EditorEvents:
   - {fileID: 7696613799291141588}
   - {fileID: -8135672586861583363}
@@ -161,13 +234,14 @@ MonoBehaviour:
   - {fileID: 5133797850908652231}
   - {fileID: 7662684490723809364}
   - {fileID: -835505204307562582}
+  - {fileID: -7855276135602949334}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4158438079306407908}
   StringsBanks:
   - {fileID: 3856348917924897851}
   cacheVersion: 131849
-  cacheTime: 638974237856161532
+  cacheTime: 639034919801118753
   SerializableEventsDict:
   - key: event:/DO
     index: 0
@@ -189,6 +263,8 @@ MonoBehaviour:
     index: 8
   - key: event:/Victoire
     index: 9
+  - key: event:/Desert Song
+    index: 10
 --- !u!114 &3856348917924897851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,10 +280,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638974237856161532
+  lastModified: 639034917191775489
   FileSizes:
   - Name: Desktop
-    Value: 1102
+    Value: 1256
   Exists: 1
 --- !u!114 &4158438079306407908
 MonoBehaviour:
@@ -224,7 +300,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638974237856136470
+  lastModified: 639034917191765408
   FileSizes:
   - Name: Desktop
     Value: 426176
