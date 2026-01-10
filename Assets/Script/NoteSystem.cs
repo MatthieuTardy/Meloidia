@@ -195,7 +195,7 @@ public class NoteSystem : MonoBehaviour
                     }
                 }
 
-                if (playedPartition.SequenceEqual(listeDeNotes)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du diabète"); GameManager.Instance.playerManager.calme = true; }
+                if (playedPartition.TakeLast(3).SequenceEqual(listeDeNotes)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du diabète"); GameManager.Instance.playerManager.calme = true; }
                 else if (playedPartition.TakeLast(4).SequenceEqual(listeDeNotes2)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du Bonheur"); GameManager.Instance.playerManager.essenceMagique += essenceGainOnMelody; }
                 else if (playedPartition.SequenceEqual(listeDeNotes3)) { Debug.LogWarning("Chant de l'anniversaire"); }
             }
