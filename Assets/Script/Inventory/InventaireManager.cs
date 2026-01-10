@@ -257,6 +257,7 @@ public class Item : MonoBehaviour
         }
     }
 }
+
 public enum TypeOfRessources
 {
     ressourceA = 1,
@@ -264,6 +265,11 @@ public enum TypeOfRessources
     ressourceC = 3,
     ressourceD = 4,
     ressourceE = 5,
+    seedA = 6,
+    seedB = 7,
+    seedC = 8,
+    seedD = 9,
+    seedE = 10,
 }
 #endregion
 

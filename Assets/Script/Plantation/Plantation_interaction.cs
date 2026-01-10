@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using static UnityEngine.UI.Image;
 
 public class Plantation_interaction : MonoBehaviour
 {
-
+    /*
     [Header("Init")]
     private bool detected = false;
     public Seed graine;
@@ -226,5 +227,237 @@ public class Plantation_interaction : MonoBehaviour
         float totalDuration = psInstance.main.duration + psInstance.main.startLifetime.constantMax + extraLifetime;
 
         Destroy(psInstance.gameObject, totalDuration);
+    }
+    */
+
+    bool isWatered;
+    bool isDirty;
+    bool isSeeded;
+    bool isSunged = true;
+
+    bool canSpawn = false;
+    bool isGrowing = false;
+
+    [SerializeField] Sprite[] sprites; // 0 null, 1 dirt, 2 water, 3 sing
+    [SerializeField] SpriteRenderer spriteRenderer;
+    
+    [SerializeField] TypeOfRessources SeedType;
+    [SerializeField] GameObject CrocNotePrefab;
+    [SerializeField] Transform SpawnPoint;
+
+    Coroutine GrowRoutine;
+    [SerializeField] float GrowTime;
+    float CurrentTime;
+
+    [SerializeField] int NumberOfPhases;
+    int currentPhases = 0;
+    [SerializeField][Range(0, 100)] int ChanceOfNeedPerPhases;
+    
+    
+    public void Interract(int outil)
+    {
+        Debug.Log("Outils in hand : " + outil);
+        
+            switch (outil)
+            {
+                case 0: // main
+                    AddSeed();
+                    break;
+                case 1: // arrosoir
+                    AddWater();
+                    break;
+                case 2: // pelle
+                    AddDirt();
+                    break;
+                default: // 
+                    Debug.LogError("Unknow tool");
+                    break;
+
+            }
+        
+    }
+
+    #region adding ressources => 1st Dirt - 2nd Seed - 3rd Water
+    void AddDirt()
+    {
+        if (!isDirty && GameManager.Instance.playerManager.GetDirt() > 0)
+        {
+            GameManager.Instance.playerManager.UseDirt();
+            isDirty = true;
+        }
+    }
+    void AddSeed()
+    {
+        if (isDirty)
+        {
+            if (!isSeeded)
+            {
+                // parcourir l'inventaire voir si il y a une graine
+                bool haveSeed = false;
+                foreach (var item in GameManager.Instance.inventoryManager.Items)
+                {
+                    if (item.CurrentItem.type == SeedType)
+                    {
+                        haveSeed = true;
+                        break;
+                    }
+                }
+
+                if (haveSeed)
+                {
+                    isSeeded = true;
+                    GameManager.Instance.inventoryManager.UseItem(SeedType, 1);
+                }
+            }
+        }
+    }
+    void AddWater()
+    {
+        if (isDirty && isSeeded)
+        {
+            if (!isWatered && GameManager.Instance.playerManager.GetWater() > 0)
+            {
+                GameManager.Instance.playerManager.UseWater();
+                isWatered = true;
+                if (!isGrowing)
+                {
+                    StartGrow();
+                }
+            }
+        }
+    }
+    #endregion 
+
+    void StartGrow()
+    {
+        
+        isGrowing = true;
+        CurrentTime = 0;
+        GrowRoutine=StartCoroutine(GrowPlant());
+    }
+
+    IEnumerator GrowPlant()
+    {
+        float time = GrowTime/NumberOfPhases;
+        yield return new WaitForSecondsRealtime(time);
+        EndOfPhases(time);
+    }
+
+    IEnumerator WaitUntilNeedIsComplete()
+    {
+        yield return new WaitUntil(() => isDirty);
+        yield return new WaitUntil(() => isWatered);
+        yield return new WaitUntil(() => isSunged);
+        UpdateSprite();
+        GrowRoutine = StartCoroutine(GrowPlant());
+    }
+
+    //elle pousse elle pourra avoir besoin de : terre - eau - chant
+    //et une fois qu'elle a fini de pousser il faut faire une mélodie pour que le legume spawn 
+
+
+    void KeyByPass()
+    {
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+
+        }
+    }  // delete apres que le son final marche
+
+    #region Seed Need
+    void UpdateSprite()
+    {
+        if (!isDirty)
+        {
+            spriteRenderer.sprite = sprites[1];
+        }
+        else if (!isWatered)
+        {
+            spriteRenderer.sprite = sprites[2];
+        }
+        else if (!isSunged)
+        {
+            spriteRenderer.sprite = sprites[3];
+        }
+        else
+        {
+            spriteRenderer.sprite = sprites[0];
+
+        }
+    }
+    
+    void EndOfPhases(float time)
+    {
+        CurrentTime += time;
+        if (CurrentTime < GrowTime)
+        {
+            ChooseNewNeed();
+        }
+        else
+        {
+            canSpawn = true;
+            NeedToSing();
+            
+        }
+    }
+
+
+    [Button("Sing")]
+    void AddSing()
+    {
+        if(true) //si les notes sont dans le bon ordres
+        isSunged = true;
+
+        if (canSpawn)
+        {
+            SpawnCrocNote();
+        }
+    }
+    void ChooseNewNeed()
+    {
+        int prob = Random.Range(0, 101);
+
+        if (prob <= ChanceOfNeedPerPhases)
+        {
+            int rand = Random.Range(0, 3);
+            switch (rand)
+            {
+                case 0:         //need dirt
+                    NeedToDirt();
+                    break;
+                case 1:         //need water
+                    NeedToWater();
+                    break;
+                case 2:         //need sing
+                    NeedToSing();
+                    break;
+                default:
+                    break;
+            }
+            UpdateSprite();
+        }
+        WaitUntilNeedIsComplete();
+    }
+
+    void NeedToSing()
+    {
+        isSunged = false;
+    }
+
+
+    void NeedToDirt()
+    {
+        isDirty = false;
+    }
+
+    void NeedToWater()
+    {
+        isWatered = false;
+    }
+
+    #endregion
+    void SpawnCrocNote()
+    {
+        Instantiate(CrocNotePrefab, SpawnPoint.position, Quaternion.identity);
     }
 }

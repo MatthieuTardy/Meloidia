@@ -50,7 +50,7 @@ public class ToolUIManager : MonoBehaviour
             if (pelleUiContainer != null) pelleUiContainer.SetActive(true);
 
             // CHANGEMENT : On vérifie s'il reste de la terre.
-            if (playerManager.terre > 0)
+            if (playerManager.GetDirt() > 0)
             {
                 if (pelleUiTerrePleine != null) pelleUiTerrePleine.SetActive(true);
                 if (pelleUiTerreVide != null) pelleUiTerreVide.SetActive(false);
@@ -72,7 +72,7 @@ public class ToolUIManager : MonoBehaviour
             if (arrosoirUiContainer != null) arrosoirUiContainer.SetActive(true);
 
             // CHANGEMENT : On vérifie s'il reste de l'eau.
-            if (playerManager.eau > 0)
+            if (playerManager.GetWater() > 0)
             {
                 if (arrosoirUiEauPleine != null) arrosoirUiEauPleine.SetActive(true);
                 if (arrosoirUiEauVide != null) arrosoirUiEauVide.SetActive(false);

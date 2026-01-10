@@ -42,9 +42,17 @@ public class DetectionZone : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E)) 
         {
-            if (interractableObject.GetComponent<Reserve>() && interractableObject.GetComponent<Reserve>().StockingInReserve == null)
+            if (interractableObject.GetComponent<Reserve>())
             {
-                interractableObject.GetComponent<Reserve>().OpenReserve();
+                if(interractableObject.GetComponent<Reserve>().StockingInReserve == null)
+                {
+                    interractableObject.GetComponent<Reserve>().OpenReserve();
+                }
+            }
+
+            if (interractableObject.GetComponent<Plantation_interaction>())
+            {
+                interractableObject.GetComponent<Plantation_interaction>().Interract(GameManager.Instance.playerManager.outils);
             }
         }
     }
