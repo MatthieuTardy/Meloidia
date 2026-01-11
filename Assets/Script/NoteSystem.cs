@@ -212,4 +212,16 @@ public class NoteSystem : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         Victoire.Play();
     }
+
+    public bool PlayerSingCorrectPattern(List<string> Pattern)
+    {
+        if (playedPartition.TakeLast(Pattern.Count).SequenceEqual(Pattern))
+        {
+            Debug.LogWarning("Sing Correct Pattern");
+            return true; 
+        
+        }
+
+        return false;
+    }
 }
