@@ -255,7 +255,14 @@ public class Plantation_interaction : MonoBehaviour
 
     [SerializeField] List<string> SingPatern = new List<string> { "Do (Nord)", "Mi (Est)","Do (Nord)", "Mi (Est)" };
 
-
+    [Header("Particle Systems")]
+    public ParticleSystem plantingParticles;
+    public ParticleSystem preparingParticles;
+    public ParticleSystem cleaningParticles;
+    public ParticleSystem wateringParticles;
+    public float particleSystemExtraLifetime = 1.0f;
+    public float particleYOffset = 1.0f;
+    public Vector3 particleRotation = new Vector3(90, 0, 0); // NOUVEAU : Rotation des particules
     public void Interract(int outil)
     {
         Debug.Log("Outils in hand : " + outil);
@@ -287,6 +294,8 @@ public class Plantation_interaction : MonoBehaviour
             GameManager.Instance.playerManager.UseDirt();
             Debug.Log("Add Dirt " + isDirty);
             isDirty = true;
+            PlayParticles(preparingParticles, particleSystemExtraLifetime);
+
         }
     }
     void AddSeed()
@@ -309,7 +318,7 @@ public class Plantation_interaction : MonoBehaviour
                 if (haveSeed)
                 {
                     isSeeded = true;
-                    
+                    PlayParticles(plantingParticles, particleSystemExtraLifetime);
                     GameManager.Instance.inventoryManager.UseItem(SeedType, 1);
                 }
             }
@@ -327,12 +336,30 @@ public class Plantation_interaction : MonoBehaviour
                 if (!isGrowing)
                 {
                     StartGrow();
+                    PlayParticles(wateringParticles, particleSystemExtraLifetime);
+
                 }
             }
         }
     }
-    #endregion 
-
+    IEnumerator singRoutine()
+    {
+        yield return new WaitUntil(() => GameManager.Instance.playerManager.noteSystem.PlayerSingCorrectPattern(SingPatern));
+        isSunged = true;
+        PlayParticles(plantingParticles, particleSystemExtraLifetime);
+        if (canSpawn)
+        {
+            SpawnCrocNote();
+        }
+    }
+    [Button("Sing")]
+    void SingDebug()
+    {
+        isSunged = true;
+        PlayParticles(plantingParticles, particleSystemExtraLifetime);
+    }
+    #endregion
+    #region Grow
     void StartGrow()
     {
         
@@ -356,9 +383,6 @@ public class Plantation_interaction : MonoBehaviour
         UpdateSprite();
         GrowRoutine = StartCoroutine(GrowPlant());
     }
-
-    //elle pousse elle pourra avoir besoin de : terre - eau - chant
-    //et une fois qu'elle a fini de pousser il faut faire une mélodie pour que le legume spawn 
     void EndOfPhases(float time)
     {
         CurrentTime += time;
@@ -375,39 +399,15 @@ public class Plantation_interaction : MonoBehaviour
             UpdateSprite();
         }
     }
-    void UpdateSprite()
+    void SpawnCrocNote()
     {
-        if (!isDirty)
-        {
-            spriteRenderer.sprite = sprites[1];
-        }
-        else if (!isWatered)
-        {
-            spriteRenderer.sprite = sprites[2];
-        }
-        else if (!isSunged)
-        {
-            spriteRenderer.sprite = sprites[3];
-        }
-        else
-        {
-            spriteRenderer.sprite = sprites[0];
+        Instantiate(CrocNotePrefab, SpawnPoint.position, Quaternion.identity);
+        UpdateSprite();
+        PlayParticles(plantingParticles, particleSystemExtraLifetime);
 
-        }
     }
-
+    #endregion
     #region Seed Need
-    [Button("Sing")]
-    void AddSing()
-    {
-        if(true) //si les notes sont dans le bon ordres
-        isSunged = true;
-
-        if (canSpawn)
-        {
-            SpawnCrocNote();
-        }
-    }
     void ChooseNewNeed()
     {
         int prob = Random.Range(0, 101);
@@ -435,9 +435,13 @@ public class Plantation_interaction : MonoBehaviour
         StartCoroutine(WaitUntilNeedIsComplete());
     }
 
+
+
+
     void NeedToSing()
     {
         isSunged = false;
+        StartCoroutine(singRoutine());
     }
 
     void NeedToDirt()
@@ -451,9 +455,41 @@ public class Plantation_interaction : MonoBehaviour
     }
 
     #endregion
-    void SpawnCrocNote()
+    #region FeedBack
+    void UpdateSprite()
     {
-        Instantiate(CrocNotePrefab, SpawnPoint.position, Quaternion.identity);
-        UpdateSprite();
+        if (!isDirty)
+        {
+            spriteRenderer.sprite = sprites[1];
+        }
+        else if (!isWatered)
+        {
+            spriteRenderer.sprite = sprites[2];
+        }
+        else if (!isSunged)
+        {
+            spriteRenderer.sprite = sprites[3];
+        }
+        else
+        {
+            spriteRenderer.sprite = sprites[0];
+
+        }
     }
+
+    private void PlayParticles(ParticleSystem particleSystemPrefab, float extraLifetime)
+    {
+        if (particleSystemPrefab == null) return;
+
+        Vector3 spawnPosition = transform.position + Vector3.up * particleYOffset;
+        Quaternion spawnRotation = Quaternion.Euler(particleRotation);
+
+        ParticleSystem psInstance = Instantiate(particleSystemPrefab, spawnPosition, spawnRotation);
+
+        float totalDuration = psInstance.main.duration + psInstance.main.startLifetime.constantMax + extraLifetime;
+
+        Destroy(psInstance.gameObject, totalDuration);
+    }
+
+    #endregion
 }
