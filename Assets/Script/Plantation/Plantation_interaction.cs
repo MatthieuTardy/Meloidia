@@ -252,8 +252,10 @@ public class Plantation_interaction : MonoBehaviour
     [SerializeField] int NumberOfPhases;
     int currentPhases = 0;
     [SerializeField][Range(0, 100)] int ChanceOfNeedPerPhases;
-    
-    
+
+    [SerializeField] List<string> SingPatern = new List<string> { "Do (Nord)", "Mi (Est)","Do (Nord)", "Mi (Est)" };
+
+
     public void Interract(int outil)
     {
         Debug.Log("Outils in hand : " + outil);
@@ -283,6 +285,7 @@ public class Plantation_interaction : MonoBehaviour
         if (!isDirty && GameManager.Instance.playerManager.GetDirt() > 0)
         {
             GameManager.Instance.playerManager.UseDirt();
+            Debug.Log("Add Dirt " + isDirty);
             isDirty = true;
         }
     }
@@ -306,6 +309,7 @@ public class Plantation_interaction : MonoBehaviour
                 if (haveSeed)
                 {
                     isSeeded = true;
+                    
                     GameManager.Instance.inventoryManager.UseItem(SeedType, 1);
                 }
             }
@@ -318,6 +322,7 @@ public class Plantation_interaction : MonoBehaviour
             if (!isWatered && GameManager.Instance.playerManager.GetWater() > 0)
             {
                 GameManager.Instance.playerManager.UseWater();
+                Debug.Log("Add Water " + isWatered);
                 isWatered = true;
                 if (!isGrowing)
                 {
@@ -354,17 +359,22 @@ public class Plantation_interaction : MonoBehaviour
 
     //elle pousse elle pourra avoir besoin de : terre - eau - chant
     //et une fois qu'elle a fini de pousser il faut faire une mélodie pour que le legume spawn 
-
-
-    void KeyByPass()
+    void EndOfPhases(float time)
     {
-        if (Input.GetKeyDown(KeyCode.Y))
+        CurrentTime += time;
+        if (CurrentTime < GrowTime)
         {
-
+            Debug.Log("Choose new need");
+            ChooseNewNeed();
         }
-    }  // delete apres que le son final marche
-
-    #region Seed Need
+        else
+        {
+            Debug.Log("finish growing");
+            canSpawn = true;
+            NeedToSing();
+            UpdateSprite();
+        }
+    }
     void UpdateSprite()
     {
         if (!isDirty)
@@ -385,23 +395,8 @@ public class Plantation_interaction : MonoBehaviour
 
         }
     }
-    
-    void EndOfPhases(float time)
-    {
-        CurrentTime += time;
-        if (CurrentTime < GrowTime)
-        {
-            ChooseNewNeed();
-        }
-        else
-        {
-            canSpawn = true;
-            NeedToSing();
-            
-        }
-    }
 
-
+    #region Seed Need
     [Button("Sing")]
     void AddSing()
     {
@@ -436,14 +431,14 @@ public class Plantation_interaction : MonoBehaviour
             }
             UpdateSprite();
         }
-        WaitUntilNeedIsComplete();
+        
+        StartCoroutine(WaitUntilNeedIsComplete());
     }
 
     void NeedToSing()
     {
         isSunged = false;
     }
-
 
     void NeedToDirt()
     {
@@ -459,5 +454,6 @@ public class Plantation_interaction : MonoBehaviour
     void SpawnCrocNote()
     {
         Instantiate(CrocNotePrefab, SpawnPoint.position, Quaternion.identity);
+        UpdateSprite();
     }
 }

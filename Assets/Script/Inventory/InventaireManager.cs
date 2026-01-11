@@ -31,25 +31,15 @@ public class InventoryManager : MonoBehaviour
 
     public (bool,int) CanStackItem(Item newItem)
     {
-        //Debug.Log(items.Count);
         for(int i=0;i<items.Count;i++)
         {
-            //Debug.Log("trying to stack on slot " + i);
             if (items[i] != null) // si un item existe
             {
-                //Debug.Log("item "+ i +" is not null");
                 if (items[i].CurrentItem.type == newItem.type) // si item deja dans l'inventaire
                 {
-                    //Debug.Log("item " + i + "is same type as " + newItem + " : " + newItem.type);
                     if (items[i].CurrentQuantity < newItem.MaxStack) //si on a pas un stack
                     {
-                        //Debug.Log("item " + i + " is NOT at maxStack");
-                        return (true,i);
-                    }
-                    else
-                    {
-                        //Debug.Log("item " + i + " is at maxStack");
-                        //return (false,-1);
+                        return (true, i);
                     }
                 }
             }

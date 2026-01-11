@@ -17,7 +17,7 @@ public class Reserve : MonoBehaviour
     [SerializeField] int Capacity;
 
     
-    public ItemSlot[] ItemsStocked; //{ get; private set; }
+    public ItemSlot[] ItemsStocked;
 
     int currentIndex;
     public bool? StockingInReserve;
@@ -76,11 +76,6 @@ public class Reserve : MonoBehaviour
     public Item GetItemInStock(int index) 
     {
         return ItemsStocked[index].CurrentItem;
-    }
-
-    public void MergeItem() // se faut auto finalement mais a voir quand on pickup
-    {
-
     }
 
     int SlotAvailable(ItemSlot item) // return index du slot qui est Disponible
@@ -176,7 +171,7 @@ public class Reserve : MonoBehaviour
     {
         if(StockingInReserve == true)
         {
-            if (GameManager.Instance.inventoryManager.Items[currentIndex] != null) // eviter de mettre un item vide dans l'inventaire
+            if (GameManager.Instance.inventoryManager.Items[currentIndex] != null)
             {
                 Debug.Log("Validate transfert of :" + GameManager.Instance.inventoryManager.Items[currentIndex].CurrentItem);
                 AddItemInStock(GameManager.Instance.inventoryManager.Items[currentIndex]);
@@ -185,7 +180,7 @@ public class Reserve : MonoBehaviour
 
         else if(StockingInReserve == false)
         {
-            if(ItemsStocked[currentIndex] != null) // eviter de mettre un item vide dans l'inventaire
+            if(ItemsStocked[currentIndex] != null)
             {
                 bool CanAdd = GameManager.Instance.inventoryManager.TryToPickUp(GetItemInStock(currentIndex));
                 if (CanAdd) 

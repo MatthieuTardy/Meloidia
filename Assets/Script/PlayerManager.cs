@@ -29,6 +29,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject Houe;
     public GameObject Marteau;
 
+    public NoteSystem noteSystem;
     void Start()
     {
         essenceMagique = 0; // On commence à 0
