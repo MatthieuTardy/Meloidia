@@ -5,4 +5,14 @@ using UnityEngine;
 public class PlantationManager : MonoBehaviour
 {
     public List<Plantation_interaction> parcelle;
+
+    public void AddParcelle()
+    {
+
+    }
+
+    public void WaterAllParcelle()
+    {
+
+    }
 }

@@ -417,13 +417,13 @@ public class Plantation_interaction : MonoBehaviour
             int rand = Random.Range(0, 3);
             switch (rand)
             {
-                case 0:         //need dirt
+                case 0:
                     NeedToDirt();
                     break;
-                case 1:         //need water
+                case 1:
                     NeedToWater();
                     break;
-                case 2:         //need sing
+                case 2:
                     NeedToSing();
                     break;
                 default:
@@ -434,9 +434,6 @@ public class Plantation_interaction : MonoBehaviour
         
         StartCoroutine(WaitUntilNeedIsComplete());
     }
-
-
-
 
     void NeedToSing()
     {

@@ -88,7 +88,12 @@ public class NoteSystem : MonoBehaviour
             }
         }
     }
-    private void PlayMusic()
+    public void PlayNoteFromPC(int ForceNote)
+    {
+        PlayMusic(ForceNote);
+    }
+
+    void PlayMusic(int? ForceNote = null)
     {
         float inputX = Input.GetAxis("SongX_Xbox");
         float inputY = Input.GetAxis("SongY_Xbox");
@@ -108,6 +113,14 @@ public class NoteSystem : MonoBehaviour
             else if (inputX < -0.5f && Mathf.Abs(inputY) < 0.5f) { noteIndex = 6; }
             else if (inputX < -0.3f && inputY > 0.3f) { noteIndex = 5; }
 
+            PlayNote(noteIndex);
+        }
+        else if(ForceNote != null)
+        {
+            Debug.Log("ForceNote");
+            ToggleTrackOne(false);
+            singDelay += Time.deltaTime;
+            int noteIndex = ForceNote.Value;
             PlayNote(noteIndex);
         }
         else
@@ -131,14 +144,14 @@ public class NoteSystem : MonoBehaviour
         StopChant();
         switch (index)
         {
-            case 0: DO.Play(); break;
-            case 1: RE.Play(); break;
-            case 2: MI.Play(); break;
-            case 3: FA.Play(); break;
-            case 4: SOL.Play(); break;
-            case 5: LA.Play(); break;
-            case 6: SI.Play(); break;
-            case 7: DO2.Play(); break;
+            case 0: Debug.Log("case 0"); DO.Play(); break;
+            case 1: Debug.Log("case 1"); RE.Play(); break;
+            case 2: Debug.Log("case 2"); MI.Play(); break;
+            case 3: Debug.Log("case 3"); FA.Play(); break;
+            case 4: Debug.Log("case 4"); SOL.Play(); break;
+            case 5: Debug.Log("case 5"); LA.Play(); break;
+            case 6: Debug.Log("case 6"); SI.Play(); break;
+            case 7: Debug.Log("case 7"); DO2.Play(); break;
         }
     }
 

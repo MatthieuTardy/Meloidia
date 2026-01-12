@@ -9074,7 +9074,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 250332352}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1981031377}
+        m_TargetAssemblyTypeName: NoteSystem, Assembly-CSharp
+        m_MethodName: PlayNoteFromPC
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &250332352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9448,7 +9460,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1159655481}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3318783407817859192, guid: c96bba26c1d9fb247a2fcc6069893a98,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1799132698}
   m_SourcePrefab: {fileID: 100100000, guid: c96bba26c1d9fb247a2fcc6069893a98, type: 3}
 --- !u!4 &256051106 stripped
 Transform:
@@ -10524,6 +10540,13 @@ MonoBehaviour:
   - Mi (Est)
   - Do (Nord)
   - Mi (Est)
+  plantingParticles: {fileID: 0}
+  preparingParticles: {fileID: 0}
+  cleaningParticles: {fileID: 0}
+  wateringParticles: {fileID: 0}
+  particleSystemExtraLifetime: 1
+  particleYOffset: 1
+  particleRotation: {x: 90, y: 0, z: 0}
 --- !u!4 &281431620 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1367315463362130991, guid: 1c44898c4e39642418c820740d0b28d6,
@@ -14652,7 +14675,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 421852255}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1981031377}
+        m_TargetAssemblyTypeName: NoteSystem, Assembly-CSharp
+        m_MethodName: PlayNoteFromPC
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &421852255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16745,7 +16780,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 510058625}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1981031377}
+        m_TargetAssemblyTypeName: NoteSystem, Assembly-CSharp
+        m_MethodName: PlayNoteFromPC
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &510058625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24552,6 +24599,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c78a0eb8e43119b47b2b2675a699a40c, type: 3}
+--- !u!1 &725085709 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3318783407817859192, guid: c96bba26c1d9fb247a2fcc6069893a98,
+    type: 3}
+  m_PrefabInstance: {fileID: 255920280}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &725816572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41769,7 +41822,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1378100299}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1981031377}
+        m_TargetAssemblyTypeName: NoteSystem, Assembly-CSharp
+        m_MethodName: PlayNoteFromPC
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1378100299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42720,7 +42785,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1404210529}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1981031377}
+        m_TargetAssemblyTypeName: NoteSystem, Assembly-CSharp
+        m_MethodName: PlayNoteFromPC
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1404210529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43473,7 +43550,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1429718629}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1981031377}
+        m_TargetAssemblyTypeName: NoteSystem, Assembly-CSharp
+        m_MethodName: PlayNoteFromPC
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1429718629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52959,7 +53048,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1718909242}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1981031377}
+        m_TargetAssemblyTypeName: NoteSystem, Assembly-CSharp
+        m_MethodName: PlayNoteFromPC
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1718909242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55483,6 +55584,19 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 255920280}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1799132698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725085709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bc27f0bd2552f44c831f680db8850a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxCrocNote: 0
 --- !u!1 &1804210211 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3762485634392150650, guid: f89fa2087c3d435498617c02ade02b9c,
@@ -56004,7 +56118,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1810716334}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1981031377}
+        m_TargetAssemblyTypeName: NoteSystem, Assembly-CSharp
+        m_MethodName: PlayNoteFromPC
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 7
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1810716334
 MonoBehaviour:
   m_ObjectHideFlags: 0

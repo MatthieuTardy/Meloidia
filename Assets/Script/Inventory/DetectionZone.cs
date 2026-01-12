@@ -40,19 +40,22 @@ public class DetectionZone : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E)) 
+        if (Input.GetButtonDown("Fire1")) 
         {
-            if (interractableObject.GetComponent<Reserve>())
+            if (interractableObject != null)
             {
-                if(interractableObject.GetComponent<Reserve>().StockingInReserve == null)
+                if (interractableObject.GetComponent<Reserve>())
                 {
-                    interractableObject.GetComponent<Reserve>().OpenReserve();
+                    if (interractableObject.GetComponent<Reserve>().StockingInReserve == null)
+                    {
+                        interractableObject.GetComponent<Reserve>().OpenReserve();
+                    }
                 }
-            }
 
-            if (interractableObject.GetComponent<Plantation_interaction>())
-            {
-                interractableObject.GetComponent<Plantation_interaction>().Interract(GameManager.Instance.playerManager.outils);
+                if (interractableObject.GetComponent<Plantation_interaction>())
+                {
+                    interractableObject.GetComponent<Plantation_interaction>().Interract(GameManager.Instance.playerManager.outils);
+                }
             }
         }
     }
