@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 
 [RequireComponent(typeof(Rigidbody))]
@@ -57,6 +58,8 @@ public class LegumeManager : MonoBehaviour
     public float vitesseRespiration = 2f;
 
     private Rigidbody rb;
+    public GameObject NameBoard;
+    GameObject camera;
 
     private Vector3 directionAleatoire;
     private Vector3 echelleInitiale;
@@ -68,6 +71,7 @@ public class LegumeManager : MonoBehaviour
         rb.freezeRotation = true;
         rb.useGravity = true;
         baseLegume = FindObjectOfType<PlayerManager>().gameObject;
+        camera = FindObjectOfType<Camera>().gameObject;
 
         echelleInitiale = transform.localScale;
         Rename();
@@ -76,6 +80,7 @@ public class LegumeManager : MonoBehaviour
         move = StartCoroutine(RandomMove());
 
     }
+
 
     public IEnumerator RandomMove()
     {
@@ -104,6 +109,7 @@ public class LegumeManager : MonoBehaviour
         {
             isStartRageTimer -= Time.deltaTime;
         }
+        NameBoard.transform.rotation = Quaternion.Euler(new Vector3(0,0,0));
 
     }
 
