@@ -88,7 +88,13 @@ public class NoteSystem : MonoBehaviour
             }
         }
     }
-    private void PlayMusic()
+    public void PlayNoteFromPC(int ForceNote)
+    {
+        StopChant();
+        PlayMusic(ForceNote);
+    }
+
+    void PlayMusic(int? ForceNote = null)
     {
         float inputX = Input.GetAxis("SongX_Xbox");
         float inputY = Input.GetAxis("SongY_Xbox");
@@ -110,7 +116,15 @@ public class NoteSystem : MonoBehaviour
 
             PlayNote(noteIndex);
         }
-        else
+        else if(ForceNote != null)
+        {
+            Debug.Log("ForceNote");
+            ToggleTrackOne(false);
+            singDelay += Time.deltaTime;
+            int noteIndex = ForceNote.Value;
+            PlayNote(noteIndex);
+        }
+        else if(!Input.GetKey(KeyCode.R))
         {
             ToggleTrackOne(true);
             isPlaying = false;
@@ -131,14 +145,14 @@ public class NoteSystem : MonoBehaviour
         StopChant();
         switch (index)
         {
-            case 0: DO.Play(); break;
-            case 1: RE.Play(); break;
-            case 2: MI.Play(); break;
-            case 3: FA.Play(); break;
-            case 4: SOL.Play(); break;
-            case 5: LA.Play(); break;
-            case 6: SI.Play(); break;
-            case 7: DO2.Play(); break;
+            case 0: Debug.Log("case 0"); DO.Play(); break;
+            case 1: Debug.Log("case 1"); RE.Play(); break;
+            case 2: Debug.Log("case 2"); MI.Play(); break;
+            case 3: Debug.Log("case 3"); FA.Play(); break;
+            case 4: Debug.Log("case 4"); SOL.Play(); break;
+            case 5: Debug.Log("case 5"); LA.Play(); break;
+            case 6: Debug.Log("case 6"); SI.Play(); break;
+            case 7: Debug.Log("case 7"); DO2.Play(); break;
         }
     }
 
@@ -211,5 +225,17 @@ public class NoteSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         Victoire.Play();
+    }
+
+    public bool PlayerSingCorrectPattern(List<string> Pattern)
+    {
+        if (playedPartition.TakeLast(Pattern.Count).SequenceEqual(Pattern))
+        {
+            Debug.LogWarning("Sing Correct Pattern");
+            return true; 
+        
+        }
+
+        return false;
     }
 }

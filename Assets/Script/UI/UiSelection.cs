@@ -43,7 +43,9 @@ public class UiSelection : MonoBehaviour
         float sx = Input.GetAxis("SongX_Xbox");
         float sy = Input.GetAxis("SongY_Xbox");
 
-        if (Mathf.Abs(sx) > activationThreshold || Mathf.Abs(sy) > activationThreshold)
+        bool inputPC = Input.GetKey(KeyCode.R);
+
+        if (Mathf.Abs(sx) > activationThreshold || Mathf.Abs(sy) > activationThreshold ||inputPC)
         {
             isPlayingInput = true;
         }
