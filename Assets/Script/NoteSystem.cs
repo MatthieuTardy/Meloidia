@@ -90,6 +90,7 @@ public class NoteSystem : MonoBehaviour
     }
     public void PlayNoteFromPC(int ForceNote)
     {
+        StopChant();
         PlayMusic(ForceNote);
     }
 
@@ -123,7 +124,7 @@ public class NoteSystem : MonoBehaviour
             int noteIndex = ForceNote.Value;
             PlayNote(noteIndex);
         }
-        else
+        else if(!Input.GetKey(KeyCode.R))
         {
             ToggleTrackOne(true);
             isPlaying = false;
