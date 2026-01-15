@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ public class PlayerManager : MonoBehaviour
     {
         essenceMagique = 0; // On commence à 0
     }
-
+    #region Use Get and Reload
     public void ReloadWater()
     {
         eau = eauMax;
@@ -54,12 +55,25 @@ public class PlayerManager : MonoBehaviour
         terre = terreMax;
     }
 
-    public void UseDirt() 
+    public void UseDirt()
     {
         terre--;
     }
     public int GetDirt()
     {
         return terre;
+    }
+
+    #endregion
+    [Button("test")] 
+    public void Test()
+    {
+        StartCoroutine(SetSingingStateCalme(15));
+    }
+    public IEnumerator SetSingingStateCalme(float duration)
+    {
+        calme = true;
+        yield return new WaitForSeconds(duration);
+        calme = false;
     }
 }
