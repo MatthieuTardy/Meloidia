@@ -43,7 +43,7 @@ public class UiSelection : MonoBehaviour
         float sx = Input.GetAxis("SongX_Xbox");
         float sy = Input.GetAxis("SongY_Xbox");
 
-        bool inputPC = Input.GetKey(KeyCode.R);
+        bool inputPC = Input.GetButton("SongPC");
 
         if (Mathf.Abs(sx) > activationThreshold || Mathf.Abs(sy) > activationThreshold ||inputPC)
         {

@@ -4,12 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+public enum musicalNotes
+{
+    Do, Ré, Mi, Fa, Sol, La, Si, Do2, None
+}
 public class NoteSystem : MonoBehaviour
 {
 
     float playedTime;
-    string noteBefore;
+    musicalNotes noteBefore;
     float singDelay;
     bool isPlaying;
     public StudioEventEmitter music;
@@ -38,19 +41,13 @@ public class NoteSystem : MonoBehaviour
 
     public FMODUnity.StudioEventEmitter Victoire;
     public FMODUnity.StudioEventEmitter No;
+    
+    public List<musicalNotes> chantDuDiab = new List<musicalNotes> { musicalNotes.Do ,musicalNotes.Ré, musicalNotes.Mi  };
+    public List<musicalNotes> chantDuBonheur = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Ré, musicalNotes.Do, musicalNotes.Ré };
+    public List<musicalNotes> chantDuBirthday = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Do, musicalNotes.Ré, musicalNotes.Do, musicalNotes.Fa, musicalNotes.Mi };
+    public List<musicalNotes> playedPartition;
 
-    public int essenceGainOnMelody = 75;
-
-    public string[] musicalNotes = new string[8]
-    {
-        "Do (Nord)", "Ré (Nord-Est)", "Mi (Est)", "Fa (Sud-Est)",
-        "Sol (Sud)", "La (Sud-Ouest)", "Si (Ouest)", "Do' (Nord-Ouest)"
-    };
-    public List<string> listeDeNotes = new List<string> { "Do (Nord)" ,"Ré (Nord-Est)", "Mi (Est)"  };
-    public List<string> listeDeNotes2 = new List<string> { "Do (Nord)", "Ré (Nord-Est)", "Do (Nord)", "Mi (Est)" };
-    public List<string> listeDeNotes3 = new List<string> { "Do (Nord)", "Do (Nord)", "Ré (Nord-Est)", "Do (Nord)", "Fa (Sud-Est)", "Mi (Est)" };
-    public List<string> playedPartition;
-
+    
 
     void Update()
     {
@@ -59,13 +56,13 @@ public class NoteSystem : MonoBehaviour
 
         if (playedTime >= 3 && playedPartition.Count != 0)
         {
-            if (!playedPartition.SequenceEqual(listeDeNotes) && !playedPartition.SequenceEqual(listeDeNotes2) && !playedPartition.SequenceEqual(listeDeNotes3))
+            if (!playedPartition.SequenceEqual(chantDuDiab) && !playedPartition.SequenceEqual(chantDuBonheur) && !playedPartition.SequenceEqual(chantDuBirthday))
             {
                 No.Play();
             }
             playedPartition.Clear();
         }
-        else if (playedPartition.Count > 0 && (playedPartition.SequenceEqual(listeDeNotes) || playedPartition.SequenceEqual(listeDeNotes2) || playedPartition.SequenceEqual(listeDeNotes3)))
+        else if (playedPartition.Count > 0 && (playedPartition.SequenceEqual(chantDuDiab) || playedPartition.SequenceEqual(chantDuBonheur) || playedPartition.SequenceEqual(chantDuBirthday)))
         {
             noteBefore = playedPartition.LastOrDefault();
             playedPartition.Clear();
@@ -73,24 +70,31 @@ public class NoteSystem : MonoBehaviour
     }
     public void ToggleTrackOne(bool active)
     {
-        if (music.IsPlaying())
+        if (music != null)
         {
-            float value = active ? 1f : 0f;
-            FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", value);
+            if (music.IsPlaying())
+            {
+                float value = active ? 1f : 0f;
+                FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", value);
 
-            if (result != FMOD.RESULT.OK)
-            {
-                Debug.LogError("FMOD n'a pas trouvé le paramètre : " + result);
-            }
-            else
-            {
-                Debug.Log("Paramètre envoyé avec succès !");
+                if (result != FMOD.RESULT.OK)
+                {
+                    Debug.LogError("FMOD n'a pas trouvé le paramètre : " + result);
+                }
+                else
+                {
+                    Debug.Log("Paramètre envoyé avec succès !");
+                }
             }
         }
     }
     public void PlayNoteFromPC(int ForceNote)
     {
+        ToggleTrackOne(true);
+        isPlaying = false;
+        singDelay = 0;
         StopChant();
+        noteBefore = musicalNotes.None;
         PlayMusic(ForceNote);
     }
 
@@ -124,13 +128,13 @@ public class NoteSystem : MonoBehaviour
             int noteIndex = ForceNote.Value;
             PlayNote(noteIndex);
         }
-        else if(!Input.GetKey(KeyCode.R))
+        else if(!Input.GetButton("SongPC"))
         {
             ToggleTrackOne(true);
             isPlaying = false;
             singDelay = 0;
             StopChant();
-            noteBefore = null;
+            noteBefore = musicalNotes.None;
         }
     }
 
@@ -156,9 +160,26 @@ public class NoteSystem : MonoBehaviour
         }
     }
 
+    public musicalNotes GetNoteFromIndex(int index)
+    {
+        switch (index)
+        {
+            case 0: return musicalNotes.Do;
+            case 1: return musicalNotes.Ré;
+            case 2: return musicalNotes.Mi;
+            case 3: return musicalNotes.Fa;
+            case 4: return musicalNotes.Sol;
+            case 5: return musicalNotes.La;
+            case 6: return musicalNotes.Si;
+            case 7: return musicalNotes.Do2;
+            
+            default: return musicalNotes.None;
+        }
+    }
+
     void PlayNote(int index)
     {
-        if (musicalNotes[index] != noteBefore || playedTime > 3)
+        if (GetNoteFromIndex(index) != noteBefore || playedTime > 3)
         {
             if (noteUIElements != null && index >= 0 && index < noteUIElements.Length && noteUIElements[index] != null)
             {
@@ -169,12 +190,13 @@ public class NoteSystem : MonoBehaviour
             {
                 StartChant(index);
             }
-
-            if (singDelay >= 0.2f)
+            Debug.Log("singDelay" + singDelay);
+            if (singDelay != 0.00f)
             {
+                Debug.Log("AAA");
                 isPlaying = false;
-                playedPartition.Add(musicalNotes[index]);
-                noteBefore = musicalNotes[index];
+                playedPartition.Add(GetNoteFromIndex(index));
+                noteBefore = GetNoteFromIndex(index);
 
                 if (noteParticlePrefab != null && noteParticleMaterials != null && index < noteParticleMaterials.Length && noteParticleMaterials[index] != null)
                 {
@@ -209,9 +231,9 @@ public class NoteSystem : MonoBehaviour
                     }
                 }
 
-                if (playedPartition.TakeLast(3).SequenceEqual(listeDeNotes)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du diabète"); StartCoroutine(GameManager.Instance.playerManager.SetSingingStateCalme(15)); }
-                else if (playedPartition.TakeLast(4).SequenceEqual(listeDeNotes2)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du Bonheur"); GameManager.Instance.playerManager.essenceMagique += essenceGainOnMelody; }
-                else if (playedPartition.SequenceEqual(listeDeNotes3)) { Debug.LogWarning("Chant de l'anniversaire"); }
+                if (playedPartition.TakeLast(3).SequenceEqual(chantDuDiab)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du diabète"); StartCoroutine(GameManager.Instance.playerManager.SetSingingStateCalme(15)); }
+                else if (playedPartition.TakeLast(4).SequenceEqual(chantDuBonheur)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du Bonheur");}
+                else if (playedPartition.SequenceEqual(chantDuBirthday)) { Debug.LogWarning("Chant de l'anniversaire"); }
             }
             else
             {
@@ -227,7 +249,7 @@ public class NoteSystem : MonoBehaviour
         Victoire.Play();
     }
 
-    public bool PlayerSingCorrectPattern(List<string> Pattern)
+    public bool PlayerSingCorrectPattern(List<musicalNotes> Pattern)
     {
         if (playedPartition.TakeLast(Pattern.Count).SequenceEqual(Pattern))
         {

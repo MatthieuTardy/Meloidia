@@ -253,7 +253,7 @@ public class Plantation_interaction : MonoBehaviour
     int currentPhases = 0;
     [SerializeField][Range(0, 100)] int ChanceOfNeedPerPhases;
 
-    [SerializeField] List<string> SingPatern = new List<string> { "Do (Nord)", "Mi (Est)","Do (Nord)", "Mi (Est)" };
+    [SerializeField] List<musicalNotes> SingPatern;
 
     [SerializeField] Parcelle parcelle; 
 
