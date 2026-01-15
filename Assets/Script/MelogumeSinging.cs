@@ -29,16 +29,19 @@ public class MelogumeSingingManager : MonoBehaviour
     public Coroutine rage;
 
     private bool _isGameManagerReady = false;
+    [SerializeField] LegumeManager legumeManager;
 
     void Start()
     {
+        legumeManager = GetComponent<LegumeManager>();
+
         if (DO == null || RE == null || MI == null)
         {
             Debug.LogError("Attention : Les émetteurs FMOD (DO, RE, MI) ne sont pas assignés dans l'Inspecteur du GameObject " + gameObject.name + ". La chanson ne démarrera pas.");
             return;
         }
 
-        if (GameManager.Instance != null && GameManager.Instance.legumeManager != null)
+        if (GameManager.Instance != null && legumeManager != null)
         {
             _isGameManagerReady = true;
         }
@@ -98,7 +101,8 @@ public class MelogumeSingingManager : MonoBehaviour
         // Gérer la vitesse uniquement si la référence GameManager est prête
         if (_isGameManagerReady)
         {
-            GameManager.Instance.legumeManager.vitesse = 0;
+            legumeManager.vitesse = 0;
+
         }
 
         // --- Séquence musicale avec particules ---
@@ -122,7 +126,7 @@ public class MelogumeSingingManager : MonoBehaviour
         // Rétablir la vitesse de déplacement
         if (_isGameManagerReady)
         {
-            GameManager.Instance.legumeManager.vitesse = 5;
+            legumeManager.vitesse = 5;
         }
 
         // Attente aléatoire avant de répéter la chanson
@@ -146,7 +150,7 @@ public class MelogumeSingingManager : MonoBehaviour
         // Gérer la vitesse uniquement si la référence GameManager est prête
         if (_isGameManagerReady)
         {
-            GameManager.Instance.legumeManager.vitesse = 0;
+            legumeManager.vitesse = 0;
         }
         
         
@@ -185,7 +189,7 @@ public class MelogumeSingingManager : MonoBehaviour
         // Rétablir la vitesse de déplacement
         if (_isGameManagerReady)
         {
-            GameManager.Instance.legumeManager.vitesse = 5;
+            legumeManager.vitesse = 5;
         }
 
         // Attente aléatoire avant de répéter la chanson
