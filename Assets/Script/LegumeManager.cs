@@ -204,6 +204,7 @@ public class LegumeManager : MonoBehaviour
         yield return new WaitUntil(()=> colere == false);
         melogumesSingingManager.StopRage();
         melogumesSingingManager.StartHappyness();
+        move = StartCoroutine(RandomMove());
         Debug.Log("Calme !");
         calmeTimer = 0;
         //remettre la marche
