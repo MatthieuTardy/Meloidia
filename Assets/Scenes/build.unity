@@ -9369,6 +9369,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6615734308059990292, guid: c96bba26c1d9fb247a2fcc6069893a98,
         type: 3}
+      propertyPath: parcelle
+      value: 
+      objectReference: {fileID: 1799132698}
+    - target: {fileID: 6615734308059990292, guid: c96bba26c1d9fb247a2fcc6069893a98,
+        type: 3}
       propertyPath: SpawnPoint
       value: 
       objectReference: {fileID: 1100227886}
@@ -10540,6 +10545,7 @@ MonoBehaviour:
   - Mi (Est)
   - Do (Nord)
   - Mi (Est)
+  parcelle: {fileID: 0}
   plantingParticles: {fileID: 0}
   preparingParticles: {fileID: 0}
   cleaningParticles: {fileID: 0}
@@ -55596,6 +55602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bc27f0bd2552f44c831f680db8850a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentCrocNote: []
   RessourcesObject: {fileID: 0}
   RessourcesSpawn: {fileID: 0}
   TimeForCreate: 0

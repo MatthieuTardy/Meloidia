@@ -6,7 +6,7 @@ using NaughtyAttributes;
 public class Parcelle : MonoBehaviour
 {
     [Header("Plantation data")]
-    List<GameObject> currentCrocNote;
+    public List<GameObject> currentCrocNote;
     [SerializeField] GameObject RessourcesObject;
     [SerializeField] Transform RessourcesSpawn;
     [SerializeField] float TimeForCreate;
