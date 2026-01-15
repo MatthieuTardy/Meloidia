@@ -9731,11 +9731,7 @@ MonoBehaviour:
   GrowTime: 0
   NumberOfPhases: 0
   ChanceOfNeedPerPhases: 0
-  SingPatern:
-  - Do (Nord)
-  - Mi (Est)
-  - Do (Nord)
-  - Mi (Est)
+  SingPatern: 00000000000000000000000000000000
   parcelle: {fileID: 0}
   plantingParticles: {fileID: 0}
   preparingParticles: {fileID: 0}
@@ -27371,6 +27367,7 @@ GameObject:
   m_Component:
   - component: {fileID: 937749000}
   - component: {fileID: 937749001}
+  - component: {fileID: 937749002}
   m_Layer: 0
   m_Name: Zone Chant
   m_TagString: Chant
@@ -27414,6 +27411,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 7.1082454
   m_Center: {x: 0, y: 1.3569989, z: 0}
+--- !u!114 &937749002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937748999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8fcc2ba5e14c144a87ff4c34bf26e5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &941761691
 GameObject:
   m_ObjectHideFlags: 0
@@ -40073,6 +40082,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: navet (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3777857098683007875, guid: 0d4506b98f9076e4db290746b71d6080,
+        type: 3}
+      propertyPath: m_text
+      value: Noah
       objectReference: {fileID: 0}
     - target: {fileID: 3931461218680426809, guid: 0d4506b98f9076e4db290746b71d6080,
         type: 3}
@@ -58368,33 +58382,10 @@ MonoBehaviour:
   DO2: {fileID: 1981031382}
   Victoire: {fileID: 1981031388}
   No: {fileID: 1981031387}
-  essenceGainOnMelody: 75
-  musicalNotes:
-  - Do (Nord)
-  - "R\xE9 (Nord-Est)"
-  - Mi (Est)
-  - Fa (Sud-Est)
-  - Sol (Sud)
-  - La (Sud-Ouest)
-  - Si (Ouest)
-  - Do' (Nord-Ouest)
-  listeDeNotes:
-  - Do (Nord)
-  - "R\xE9 (Nord-Est)"
-  - Mi (Est)
-  listeDeNotes2:
-  - Do (Nord)
-  - "R\xE9 (Nord-Est)"
-  - Do (Nord)
-  - Mi (Est)
-  listeDeNotes3:
-  - Do (Nord)
-  - Do (Nord)
-  - "R\xE9 (Nord-Est)"
-  - Do (Nord)
-  - Mi (Est)
-  - "R\xE9 (Nord-Est)"
-  playedPartition: []
+  chantDuDiab: 000000000100000002000000
+  chantDuBonheur: 00000000010000000000000001000000
+  chantDuBirthday: 000000000000000001000000000000000300000002000000
+  playedPartition: 
 --- !u!114 &1981031378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60341,6 +60332,139 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6212d787dfde8fb4cb3c3c2a0f86a844, type: 3}
+--- !u!1 &2060110837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2060110841}
+  - component: {fileID: 2060110840}
+  - component: {fileID: 2060110839}
+  - component: {fileID: 2060110838}
+  - component: {fileID: 2060110842}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &2060110838
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060110837}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &2060110839
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060110837}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &2060110840
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060110837}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &2060110841
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060110837}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -18.78, y: 3.62, z: -11.01}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &2060110842
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060110837}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 14
+  m_CollisionDetection: 0
 --- !u!1 &2060633241 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7524341501557636721, guid: 63db7d056a9a1204aae65a42846483d6,
@@ -64824,3 +64948,4 @@ SceneRoots:
   - {fileID: 1972817760}
   - {fileID: 1501815405}
   - {fileID: 1446157318}
+  - {fileID: 2060110841}

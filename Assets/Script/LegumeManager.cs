@@ -66,6 +66,7 @@ public class LegumeManager : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.AddCrocNote(this);
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         rb.useGravity = true;
