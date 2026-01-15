@@ -26,6 +26,7 @@ public class MelogumeSingingManager : MonoBehaviour
     public Material miMaterial;
 
     public Coroutine joyeux;
+    public Coroutine rage;
 
     private bool _isGameManagerReady = false;
 
@@ -131,6 +132,15 @@ public class MelogumeSingingManager : MonoBehaviour
         joyeux = StartCoroutine(SongOfHealing());
         
     }
+    public void StopHappyness()
+    {
+        StopCoroutine(joyeux);
+    }
+
+    public void StartHappyness()
+    {
+        joyeux = StartCoroutine(SongOfHealing());
+    }
     public IEnumerator SongOfRage()
     {
         // Gérer la vitesse uniquement si la référence GameManager est prête
@@ -182,6 +192,15 @@ public class MelogumeSingingManager : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(3f, 10.0f));
 
         // Répéter la chanson
-        StartCoroutine(SongOfRage());
+        rage = StartCoroutine(SongOfRage());
+    }
+
+    public void StartRage()
+    {
+        rage = StartCoroutine(SongOfRage());
+    }
+    public void StopRage()
+    {
+        StopCoroutine(rage);
     }
 }

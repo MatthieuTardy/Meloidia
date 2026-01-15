@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     public PlayerManager playerManager;
     public LegumeManager legumeManager;
+    public List<LegumeManager> legumeManagerlist;
     public BuildManager buildManager;
     public InventoryManager inventoryManager;
     private void Start()
@@ -23,5 +24,10 @@ public class GameManager : MonoBehaviour
         legumeManager = FindObjectOfType<LegumeManager>();
         buildManager = FindAnyObjectByType<BuildManager>();
         inventoryManager = FindAnyObjectByType<InventoryManager>();
+    }
+
+    public void AddCrocNote()
+    {
+
     }
 }
