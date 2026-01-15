@@ -186,7 +186,6 @@ public class LegumeManager : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        //pas fonctionnel
         if (GameManager.Instance.playerManager.calme == true && other.tag == "Chant")
         {
             colere = false;
