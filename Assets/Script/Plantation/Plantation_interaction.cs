@@ -255,6 +255,8 @@ public class Plantation_interaction : MonoBehaviour
 
     [SerializeField] List<string> SingPatern = new List<string> { "Do (Nord)", "Mi (Est)","Do (Nord)", "Mi (Est)" };
 
+    [SerializeField] Parcelle parcelle; 
+
     [Header("Particle Systems")]
     public ParticleSystem plantingParticles;
     public ParticleSystem preparingParticles;
@@ -357,6 +359,10 @@ public class Plantation_interaction : MonoBehaviour
     {
         isSunged = true;
         PlayParticles(plantingParticles, particleSystemExtraLifetime);
+        if (canSpawn)
+        {
+            SpawnCrocNote();
+        }
     }
     #endregion
     #region Grow
@@ -401,10 +407,10 @@ public class Plantation_interaction : MonoBehaviour
     }
     void SpawnCrocNote()
     {
-        Instantiate(CrocNotePrefab, SpawnPoint.position, Quaternion.identity);
+        GameObject CN = Instantiate(CrocNotePrefab, SpawnPoint.position, Quaternion.identity);
         UpdateSprite();
         PlayParticles(plantingParticles, particleSystemExtraLifetime);
-
+        parcelle.AddCrocNoteToParcelle(CN);
     }
     #endregion
     #region Seed Need
