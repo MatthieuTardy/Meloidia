@@ -148,7 +148,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639039098372520344
+  lastModified: 639040914844654977
   FileSizes:
   - Name: Desktop
     Value: 8619680
@@ -180,6 +180,26 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4374
+--- !u!114 &-896964730823188008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Jingle.bank
+  m_EditorClassIdentifier: 
+  Path: Fmod Douby/Build/Desktop/Jingle.bank
+  Name: Jingle
+  StudioPath: bank:/Jingle
+  lastModified: 639040914845689135
+  FileSizes:
+  - Name: Desktop
+    Value: 41696
+  Exists: 1
 --- !u!114 &-835505204307562582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +227,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 350
+--- !u!114 &-742697236197987449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Win
+  m_EditorClassIdentifier: 
+  Path: event:/Win
+  Guid:
+    Data1: 172143741
+    Data2: 1247351468
+    Data3: 1639272097
+    Data4: 255178707
+  Banks:
+  - {fileID: -896964730823188008}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1500
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +270,7 @@ MonoBehaviour:
   - {fileID: 3856348917924897851}
   - {fileID: 4158438079306407908}
   - {fileID: -5023280176564322763}
+  - {fileID: -896964730823188008}
   EditorEvents:
   - {fileID: 7696613799291141588}
   - {fileID: -8135672586861583363}
@@ -235,13 +283,14 @@ MonoBehaviour:
   - {fileID: 7662684490723809364}
   - {fileID: -835505204307562582}
   - {fileID: -7855276135602949334}
+  - {fileID: -742697236197987449}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4158438079306407908}
   StringsBanks:
   - {fileID: 3856348917924897851}
   cacheVersion: 131849
-  cacheTime: 639039098372520344
+  cacheTime: 639040914845689135
   SerializableEventsDict:
   - key: event:/DO
     index: 0
@@ -265,6 +314,8 @@ MonoBehaviour:
     index: 9
   - key: event:/Desert Song
     index: 10
+  - key: event:/Win
+    index: 11
 --- !u!114 &3856348917924897851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,10 +331,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639039098371844183
+  lastModified: 639040914809478731
   FileSizes:
   - Name: Desktop
-    Value: 1256
+    Value: 1340
   Exists: 1
 --- !u!114 &4158438079306407908
 MonoBehaviour:
@@ -300,7 +351,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638974237856136470
+  lastModified: 639040914809444623
   FileSizes:
   - Name: Desktop
     Value: 426176

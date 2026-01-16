@@ -3,6 +3,7 @@ using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 public enum musicalNotes
 {
@@ -254,10 +255,13 @@ public class NoteSystem : MonoBehaviour
         if (playedPartition.TakeLast(Pattern.Count).SequenceEqual(Pattern))
         {
             Debug.LogWarning("Sing Correct Pattern");
-            return true; 
-        
+            return true;
+            
+        }
+        else
+        {
+            return false;
         }
 
-        return false;
     }
 }
