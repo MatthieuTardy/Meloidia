@@ -238,12 +238,14 @@ public class Plantation_interaction : MonoBehaviour
     bool canSpawn = false;
     bool isGrowing = false;
 
-    [SerializeField] Sprite[] sprites; // 0 null, 1 dirt, 2 water, 3 sing
+    [InfoBox("0 null, 1 dirt, 2 water, 3 sing,4 seed")]
+    [SerializeField] Sprite[] sprites;
     [SerializeField] SpriteRenderer spriteRenderer;
     
     [SerializeField] TypeOfRessources SeedType;
     [SerializeField] GameObject CrocNotePrefab;
     [SerializeField] Transform SpawnPoint;
+    [SerializeField] Transform SeedSpawnPoint;
 
     Coroutine GrowRoutine;
     [SerializeField] float GrowTime;
@@ -254,8 +256,11 @@ public class Plantation_interaction : MonoBehaviour
     [SerializeField][Range(0, 100)] int ChanceOfNeedPerPhases;
 
     [SerializeField] List<musicalNotes> SingPatern;
+    [SerializeField] Parcelle parcelle;
 
-    [SerializeField] Parcelle parcelle; 
+    [SerializeField] GameObject seedPrefab;
+    GameObject currentSeed;
+
 
     [Header("Particle Systems")]
     public ParticleSystem plantingParticles;
@@ -320,6 +325,7 @@ public class Plantation_interaction : MonoBehaviour
                 if (haveSeed)
                 {
                     isSeeded = true;
+                    SpawnSeed();
                     PlayParticles(plantingParticles, particleSystemExtraLifetime);
                     GameManager.Instance.inventoryManager.UseItem(SeedType, 1);
                 }
@@ -387,6 +393,7 @@ public class Plantation_interaction : MonoBehaviour
         yield return new WaitUntil(() => isWatered);
         yield return new WaitUntil(() => isSunged);
         UpdateSprite();
+        GrowSeedVisual();
         GrowRoutine = StartCoroutine(GrowPlant());
     }
     void EndOfPhases(float time)
@@ -411,6 +418,7 @@ public class Plantation_interaction : MonoBehaviour
         UpdateSprite();
         PlayParticles(plantingParticles, particleSystemExtraLifetime);
         parcelle.AddCrocNoteToParcelle(CN);
+        ResetParcelleData();
     }
     #endregion
     #region Seed Need
@@ -465,6 +473,10 @@ public class Plantation_interaction : MonoBehaviour
         {
             spriteRenderer.sprite = sprites[1];
         }
+        else if (!isSeeded)
+        {
+            spriteRenderer.sprite = sprites[4];
+        }
         else if (!isWatered)
         {
             spriteRenderer.sprite = sprites[2];
@@ -492,6 +504,37 @@ public class Plantation_interaction : MonoBehaviour
         float totalDuration = psInstance.main.duration + psInstance.main.startLifetime.constantMax + extraLifetime;
 
         Destroy(psInstance.gameObject, totalDuration);
+    }
+    
+    #region seed visual
+    void SpawnSeed()
+    {
+        currentSeed = Instantiate(seedPrefab, SeedSpawnPoint);
+    }
+
+
+
+    void GrowSeedVisual()
+    {
+        currentSeed.transform.localScale += new Vector3(0.1f,0.1f,0.1f);
+    }
+
+
+
+    #endregion
+
+    void ResetParcelleData()
+    {
+        Destroy(currentSeed);
+        isDirty = false;
+        isSeeded = false;
+        isWatered = false;
+        isSunged = true;
+        currentPhases = 0;
+        CurrentTime = 0;
+        spriteRenderer.sprite = sprites[0];
+        isGrowing = false;
+        canSpawn = false;
     }
 
     #endregion
