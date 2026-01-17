@@ -1,0 +1,69 @@
+using NaughtyAttributes;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class RessourcesRare : MonoBehaviour
+{
+    [InfoBox("SpawnDuration est le temps que pour 1 ressources")]
+    [SerializeField] float SpawnDuration;
+    [SerializeField] int MaxStack;
+    public int currentStack;
+
+
+    [SerializeField] TypeOfRessources typeOfRessources;
+    [SerializeField] Sprite ItemSprite;
+
+    [SerializeField] GameObject[] RessourcesObjects;
+
+    private void StartSpawnRoutine()
+    {
+        if (currentStack < MaxStack)
+        {
+            StartCoroutine(Spawn());
+        }
+    }
+    IEnumerator Spawn()
+    {
+        yield return new WaitForSeconds(SpawnDuration);
+        ActivateRessources(currentStack,true);
+        currentStack++;
+        StartSpawnRoutine();
+    }
+
+    public void Interract()
+    {
+        if(currentStack > 0 && GameManager.Instance.inventoryManager.HaveSlotAvailable())
+        { 
+            StopAllCoroutines();
+            GameManager.Instance.inventoryManager.TryToPickUp(newRessources());
+            for (int i = 0; i <= currentStack; i++)
+            {
+                currentStack--;
+                ActivateRessources(currentStack, false);
+            }
+            StartSpawnRoutine();
+        }
+    }
+
+
+
+    Ressources newRessources()
+    {
+        Ressources r = new Ressources();
+        r.type = typeOfRessources;
+        r.amount = currentStack;
+        r.MaxStack = MaxStack;
+        r.sprite = ItemSprite;
+        Debug.Log(r);
+        return r;
+    }
+    void ActivateRessources(int index, bool actif)
+    {
+        Debug.Log(index);
+        RessourcesObjects[index].SetActive(actif);
+    }
+}
+
+

@@ -56,6 +56,11 @@ public class DetectionZone : MonoBehaviour
                 {
                     interractableObject.GetComponent<Plantation_interaction>().Interract(GameManager.Instance.playerManager.outils);
                 }
+
+                if (interractableObject.GetComponent<RessourcesRare>())
+                {
+                    interractableObject.GetComponent<RessourcesRare>().Interract();
+                }
             }
         }
     }
