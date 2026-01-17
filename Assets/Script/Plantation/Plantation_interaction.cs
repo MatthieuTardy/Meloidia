@@ -313,12 +313,18 @@ public class Plantation_interaction : MonoBehaviour
             {
                 // parcourir l'inventaire voir si il y a une graine
                 bool haveSeed = false;
+                Debug.Log("GameManager.Instance = " + GameManager.Instance);
+                Debug.Log("inventory manager = " + GameManager.Instance.inventoryManager);
+                Debug.Log("Items = " + GameManager.Instance.inventoryManager.Items);
                 foreach (var item in GameManager.Instance.inventoryManager.Items)
                 {
-                    if (item.CurrentItem.type == SeedType)
+                    if (item != null)
                     {
-                        haveSeed = true;
-                        break;
+                        if (item.CurrentItem.type == SeedType)
+                        {
+                            haveSeed = true;
+                            break;
+                        }
                     }
                 }
 

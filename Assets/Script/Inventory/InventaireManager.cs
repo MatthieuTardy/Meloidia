@@ -260,6 +260,7 @@ public enum TypeOfRessources
     seedC = 8,
     seedD = 9,
     seedE = 10,
+    Cabais,
 }
 #endregion
 

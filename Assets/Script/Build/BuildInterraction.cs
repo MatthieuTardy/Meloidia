@@ -61,6 +61,7 @@ public class BuildInterraction : MonoBehaviour
         if (construct == null && PlayerIsBuildMode)
         {
             construct = Instantiate(constructChosen.MeshPrefab, constructionSpawn.position, Quaternion.identity, constructionSpawn);
+            construct.GetComponentInChildren<Collider>().isTrigger = true;
             previewInstantiate = true;
         }
         else if(construct != null && !PlayerIsBuildMode)
@@ -85,10 +86,14 @@ public class BuildInterraction : MonoBehaviour
 
     void TryToBuild()
     {
+        Debug.Log("Try to build");
+        Debug.Log("Can build = " + CanBuild());
+        Debug.Log("Have Item = " + HaveItemInInventory());
         if (CanBuild() && HaveItemInInventory())
         {
             {
-                Build();
+                Build(constructChosen);
+                Debug.Log("Builded");
                 RemoveItemFromInventory();
             }
         }
@@ -97,17 +102,28 @@ public class BuildInterraction : MonoBehaviour
     {
         if (construct != null)
         {
-            Vector3 halfExtents = (construct.transform.localScale * 0.5f);
-            bool blocked = Physics.CheckBox(construct.transform.position, halfExtents, construct.transform.rotation);
-            if (blocked)
+            Vector3 halfExtents = construct.transform.localScale * 0.5f;
+
+            Collider[] hits = Physics.OverlapBox(
+                construct.transform.position,
+                halfExtents,
+                construct.transform.rotation
+            );
+
+            foreach (Collider hit in hits)
             {
+                // Ignore si le collider appartient au construct ou à ses enfants
+                if (hit.transform.IsChildOf(construct.transform))
+                    continue;
+
+                // Sinon, c'est bloqué
                 return false;
             }
+
             return true;
         }
         else
         {
-            //Debug.LogError("CONSTRUCT == Null");
             return false;
         }
 
@@ -149,7 +165,7 @@ public class BuildInterraction : MonoBehaviour
         int quantity = 0;
         if (GameManager.Instance.inventoryManager != null && GameManager.Instance.inventoryManager.Items.Count > 0 && constructChosen != null)
         {
-           // Debug.Log("pass the if");
+            Debug.Log("pass the if");
             foreach (var ressources in constructChosen.RessourceNeeded)
             {
                 foreach (var item in GameManager.Instance.inventoryManager.Items)
@@ -158,11 +174,11 @@ public class BuildInterraction : MonoBehaviour
                     {
                         if (ressources.type == item.CurrentItem.type)
                         {
-                            // Debug.Log("HaveItemInInventory");
+                            Debug.Log("HaveItemInInventory");
                             if (item.CurrentQuantity >= ressources.amount)
                             {
-                                //Debug.Log("HaveQuantityNeeded");
-                                HaveItem = true;
+                                Debug.Log("HaveQuantityNeeded");
+                                return true;
                             }
                             else
                             {
@@ -181,7 +197,7 @@ public class BuildInterraction : MonoBehaviour
                 }
             }
         }
-      //  Debug.LogWarning("il a pas les items");
+        Debug.LogWarning("il a pas les items");
         return HaveItem;
     }
 
@@ -274,10 +290,10 @@ public class BuildInterraction : MonoBehaviour
         }
     }
     */
-    void Build()
+    void Build(ConstructionScriptable Build)
     {
         Vector3 buildPos = new Vector3(construct.transform.position.x, floorPosition, construct.transform.position.z);
-        Instantiate(construct, buildPos,construct.transform.rotation);
+        Instantiate(Build.MeshPrefab, buildPos,construct.transform.rotation);
         GameManager.Instance.buildManager.EndBuild();
     }
 
@@ -285,15 +301,14 @@ public class BuildInterraction : MonoBehaviour
     {
         if (construct != null)
         {
-
             //Debug.Log(good);
             if (good)
             {
-                construct.GetComponent<MeshRenderer>().material = goodMat;
+                construct.GetComponentInChildren<MeshRenderer>().material = goodMat;
             }
             else
             {
-                construct.GetComponent<MeshRenderer>().material = wrongMat;
+                construct.GetComponentInChildren<MeshRenderer>().material = wrongMat;
             }
         }
     }
