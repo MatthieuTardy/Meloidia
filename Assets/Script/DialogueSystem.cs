@@ -79,7 +79,7 @@ public class DialogueSystem : MonoBehaviour
 [Serializable]
 public class Dialogue
 {
-    public string[] dialogue;
+    [TextArea]public string[] dialogue;
     public bool isFinish;
     public int CurrentDialogue;
 }
