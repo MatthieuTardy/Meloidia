@@ -28,11 +28,16 @@ public class DetectionZone : MonoBehaviour
 
             interractableObject = null;
         }
+        
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == 10) //batiment
+        {
+            interractableObject = other.gameObject;
+        }
+        else if (other.gameObject.layer == 11)// interractable
         {
             interractableObject = other.gameObject;
         }
@@ -52,14 +57,19 @@ public class DetectionZone : MonoBehaviour
                     }
                 }
 
-                if (interractableObject.GetComponent<Plantation_interaction>())
+                else if (interractableObject.GetComponent<Plantation_interaction>())
                 {
                     interractableObject.GetComponent<Plantation_interaction>().Interract(GameManager.Instance.playerManager.outils);
                 }
 
-                if (interractableObject.GetComponent<RessourcesRare>())
+                else if (interractableObject.GetComponent<RessourcesRare>())
                 {
                     interractableObject.GetComponent<RessourcesRare>().Interract();
+                }
+            
+                else if (interractableObject.GetComponent<DialogueSystem>())
+                {
+                    interractableObject.GetComponent <DialogueSystem>().Interract();
                 }
             }
         }
