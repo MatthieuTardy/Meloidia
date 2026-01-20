@@ -51,6 +51,10 @@ public class UiSelection : MonoBehaviour
             noteSystem.ToggleTrackOne(false);
             isPlayingInput = true;
         }
+        else
+        {
+            noteSystem.ToggleTrackOne(true);
+        }
 
         // Quand on passe de true -> false, on veut s'assurer de réinitialiser les notes du canvas
         bool wasActive = wheelRoot.activeSelf;
@@ -60,7 +64,7 @@ public class UiSelection : MonoBehaviour
 
             if (!isPlayingInput)
             {
-                noteSystem.ToggleTrackOne(true);
+
                 // Le joueur a arrêté de "jouer" : reset des highlights et de la sélection des notes
                 ResetAllNotesOnCanvas();
             }

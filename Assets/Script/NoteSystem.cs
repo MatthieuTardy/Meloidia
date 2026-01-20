@@ -1,10 +1,13 @@
 ﻿using FMOD.Studio;
 using FMODUnity;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
+using static UnityEngine.Rendering.DebugUI;
 public enum musicalNotes
 {
     Do, Ré, Mi, Fa, Sol, La, Si, Do2, None
@@ -48,7 +51,11 @@ public class NoteSystem : MonoBehaviour
     public List<musicalNotes> chantDuBirthday = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Do, musicalNotes.Ré, musicalNotes.Do, musicalNotes.Fa, musicalNotes.Mi };
     public List<musicalNotes> playedPartition;
 
-    
+
+    private void Start()
+    {
+        ToggleTrackOne(true);
+    }
 
     void Update()
     {
@@ -69,31 +76,89 @@ public class NoteSystem : MonoBehaviour
             playedPartition.Clear();
         }
     }
+    bool IsTrackOneToggle;
+
     public void ToggleTrackOne(bool active)
     {
-        if (music != null)
+        if (!IsTrackOneToggle)
         {
-            if (music.IsPlaying())
+            if (music != null)
             {
-                float value = active ? 1f : 0f;
-                FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", value);
-                
-                
+                if (music.IsPlaying())
+                {
+                    //float value = active ? 1f : 0f;
+                    //FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", value);
+                    StartCoroutine(FadeSound(0.5f, active));
+                    IsTrackOneToggle = true;
+                    /*
 
-                if (result != FMOD.RESULT.OK)
-                {
-                    Debug.LogError("FMOD n'a pas trouvé le paramètre : " + result);
-                }
-                else
-                {
-                    Debug.Log("Paramètre envoyé avec succès !");
+                    if (result != FMOD.RESULT.OK)
+                    {
+                        Debug.LogError("FMOD n'a pas trouvé le paramètre : " + result);
+                    }
+                    else
+                    {
+                        Debug.Log("Paramètre envoyé avec succès !");
+                    }
+                    */
                 }
             }
         }
     }
+
+    IEnumerator FadeSound(float time, bool FadeIn)
+    {
+        int step = 5;
+        float volume = FadeIn ? 1f : 0.5f;
+
+
+        float ratio = 1 / step;
+        
+        for (int i = 0; i < step; i++)
+        {
+            if (!FadeIn)
+            {
+                volume -= ratio;
+                FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", volume);
+            }
+            else 
+            {
+                volume += ratio;
+                FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", volume); 
+            }
+            yield return new WaitForSeconds(time / 4);
+
+        }
+        if (!FadeIn)
+        {
+            FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0);
+        }
+
+        IsTrackOneToggle = false;
+        /*
+        if (!active)
+        { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.8f); }
+        else { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.2f); }
+        yield return new WaitForSeconds(time / 4);
+        if (!active)
+        { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.6f); }
+        else { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.4f); }
+        yield return new WaitForSeconds(time/4);
+        if (!active)
+        { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.4f); }
+        else { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.6f); }
+        yield return new WaitForSeconds(time/4);
+        if (!active)
+        { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.2f); }
+        else { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.8f); }
+        yield return new WaitForSeconds(time/4);
+        if (!active)
+        { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0f); }
+        else { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 1f); }*/
+    }
     public void PlayNoteFromPC(int ForceNote)
     {
-        ToggleTrackOne(true);
+        //ToggleTrackOne(true);
         isPlaying = false;
         singDelay = 0;
         StopChant();
@@ -133,7 +198,7 @@ public class NoteSystem : MonoBehaviour
         }
         else if(!Input.GetButton("SongPC"))
         {
-            ToggleTrackOne(true);
+            //ToggleTrackOne(true);
             isPlaying = false;
             singDelay = 0;
             StopChant();
