@@ -77,6 +77,8 @@ public class NoteSystem : MonoBehaviour
             {
                 float value = active ? 1f : 0f;
                 FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", value);
+                
+                
 
                 if (result != FMOD.RESULT.OK)
                 {
