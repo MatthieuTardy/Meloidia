@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using FMODUnity;
 
 public class EnigmeSystem : MonoBehaviour
 {
     // Start is called before the first frame update
     private NoteSystem noteSystem;
+    Coroutine waitRoutine;
+    [SerializeField] List<musicalNotes> chantEnigme = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Ré, musicalNotes.Mi };
     void Start()
     {
-        noteSystem = GetComponent<NoteSystem>();
+
     }
 
     // Update is called once per frame
@@ -16,21 +20,38 @@ public class EnigmeSystem : MonoBehaviour
     {
 
     }
-    private void OnTriggerStay(Collider other)
+
+    private void OnTriggerEnter(Collider other)
     {
-        Debug.LogWarning(noteSystem.PlayerSingCorrectPattern(noteSystem.chantDuDiab));
-        bool chant = noteSystem.PlayerSingCorrectPattern(noteSystem.chantDuDiab);
-        if (chant == true && other.tag == "Enigme1")
+        if (other.tag == "Chant")
         {
-            Debug.LogWarning("Bravo !!!");
+            if(waitRoutine == null)
+            {
+                waitRoutine = StartCoroutine(Chant());
+                Debug.LogWarning("start chant");
+            }
+                
+
         }
-        else if (chant == true)
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Chant")
         {
-            Debug.LogWarning("bon");
+            if (waitRoutine != null)
+            {
+                StopCoroutine(waitRoutine);
+                Debug.LogWarning("stop chant");
+            }
+
+
         }
-        else if (other.tag == "Enigme1")
-        {
-            Debug.LogWarning("TOUCHERRRRR");
-        }
+    }
+    IEnumerator Chant()
+    {
+        Debug.LogWarning("AAAAAAAAAAAAAAAAAA");
+        yield return new WaitUntil(() => GameManager.Instance.playerManager.noteSystem.PlayerSingCorrectPattern(chantEnigme));
+        Debug.LogWarning("BBBBBBBBBBBBBBBB");
+        RuntimeManager.PlayOneShot("event:/Win");
     }
 }
