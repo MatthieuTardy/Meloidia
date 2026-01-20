@@ -151,6 +151,14 @@ public class PlayerController : MonoBehaviour
         HandleSprintVisuals();
     }
 
+    public void Bump()
+    {
+        body.AddForce(-transform.forward * jumpForce*4, ForceMode.Impulse);
+    }
+
+
+
+
     public event Action OnBuildMode = delegate { };
 
     void FixedUpdate()
@@ -181,6 +189,11 @@ public class PlayerController : MonoBehaviour
         }
 
         isSprinting = Input.GetButton("Fire3");
+
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            Bump();
+        }
     }
 
     private void HandleMovement()
