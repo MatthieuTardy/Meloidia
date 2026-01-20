@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8734544905515209922
+--- !u!114 &-8605956135326124023
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: wata
-  m_Shader: {fileID: -6465566751694194690, guid: dfa8bddf2a1be2649ab40e0f731acfd1,
+  m_Name: Fire
+  m_Shader: {fileID: -6465566751694194690, guid: c45b26ffb46d5e149805afa912f70f97,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -81,6 +81,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Texture2D:
+        m_Texture: {fileID: 2800000, guid: f198adb5da1c4bb47971f52c5ca39743, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -104,49 +108,33 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Depth_Fade_Distance: 0.182
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _Flow_Direction: 0.741
-    - _Flow_Noise_Scale: 67.93
-    - _Flow_Speed: 2
-    - _Foam_Amount: 2.1
-    - _Foam_Cutoff: 5
-    - _Foam_Speed: 0.03
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _Object_Color_Value: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Refraction_Speed: 0.089
-    - _Refraction_Strength: 0.003
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _USETERRAINCOLOR: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Deep_Color: {r: 0.31933072, g: 0.96092415, b: 0.9811321, a: 0.9490196}
+    - _Color: {r: 1012.0572, g: 974.8541, b: 0, a: 1}
+    - _Color_2: {r: 1, g: 0.18401584, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Flow_Color: {r: 0, g: 0, b: 0, a: 0}
-    - _Foam_Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Foam_Scale: {r: 0.11, g: 1.9, b: 0, a: 0}
-    - _Refraction_XY_Scale: {r: 3.53, g: 3.5, b: 0, a: 0}
-    - _Shadow_Color: {r: 0.6226415, g: 0.4944512, b: 0.26726595, a: 0}
-    - _Shallow_Color: {r: 1, g: 1, b: 1, a: 0.7803922}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Speed: {r: 0, g: -0.46, b: 0, a: 0}
   m_BuildTextureStacks: []
