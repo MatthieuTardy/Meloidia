@@ -7,8 +7,10 @@ public class InventoryManager : MonoBehaviour
     public IReadOnlyList<ItemSlot> Items => items.AsReadOnly();
     [SerializeField]private List<ItemSlot> items;
     public int InventorySize = 4;
-    public void Awake()
+    public void Start()
     {
+        dictionaryOfItem = new Dictionary<Sprite, GameObject>();
+        InitDictionnary();
         InitInventory();
     }
     public void InitInventory()
@@ -170,7 +172,15 @@ public class InventoryManager : MonoBehaviour
             MergeInventory();
         }
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            Debug.Log("DropItem");
+            DropItem(0);
+        }
+    }
 
     void DeleteItemIfZeroQuantity()
     {
@@ -183,7 +193,6 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
-
     public void MergeInventory()
     {
 
@@ -226,9 +235,39 @@ public class InventoryManager : MonoBehaviour
 
     }
 
+    [SerializeField] CustomDictionnary[] DictionaryOfItem;
+    Dictionary<Sprite,GameObject> dictionaryOfItem;
+
+    public void DropItem(int index)
+    {
+        Debug.Log("Item = " + Items[index]);
+        if(Items[index] != null)
+        {
+            GameObject obj = dictionaryOfItem.GetValueOrDefault(Items[index].CurrentItem.sprite);
+            Vector3 pos = GameManager.Instance.playerManager.transform.position + Vector3.forward;
+            Instantiate(obj,pos,Quaternion.identity);
+            UseItem(Items[index].CurrentItem.type, 1);
+        }
+    }
     #endregion
+
+    void InitDictionnary()
+    {
+        foreach(var value in DictionaryOfItem)
+        {
+            dictionaryOfItem.Add(value.key, value.value);
+        }
+    }
 }
 
+[Serializable]
+class CustomDictionnary
+{
+    [SerializeField] public Sprite key;
+    public Sprite Key => key;
+    [SerializeField] public GameObject value;
+    public GameObject Value => value;
+}
 
 
 #region Item Management
