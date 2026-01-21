@@ -22,6 +22,7 @@ public class WildCrocNote : MonoBehaviour
     [SerializeField] NavMeshAgent myNavAgent;
     Transform nextPoint;
     private Coroutine move;
+    private Coroutine attack;
 
     [Header("Effets de 'Juice' - Respiration")]
     public float amplitudeRespiration = 0.05f;
@@ -29,6 +30,8 @@ public class WildCrocNote : MonoBehaviour
 
     private Rigidbody rb;
     WildCrocNoteTriggerZone WCNTZ;
+
+    [SerializeField] GameObject player;
 
     #region Unity Default Function
     void Start()
@@ -42,24 +45,7 @@ public class WildCrocNote : MonoBehaviour
     }
     private void Update()
     {
-        if(WCNTZ.target != null)
-        {
-            if (!canAttackPlayer)
-            {
-                canAttackPlayer = true;
-            }
-            else
-            {
-                if (!isAttacking && WCNTZ.IsPlayerInDistance(this.transform, 2f))
-                {
-                    StartAttackPlayer(WCNTZ.target.transform);
-                }
-                else
-                {
-
-                }
-            }
-        }
+ 
     }
     #endregion
 
@@ -67,7 +53,7 @@ public class WildCrocNote : MonoBehaviour
     public IEnumerator RandomMove()
     {
         yield return new WaitForSeconds(Random.Range(1, 5));
-        if (!canAttackPlayer)
+        if (!WCNTZ.isTouchingPlayer)
         {
             Debug.Log("Can't attack player");
             myNavAgent.SetDestination(RandomNavmeshLocation(walkRadius));
@@ -76,6 +62,7 @@ public class WildCrocNote : MonoBehaviour
         else
         {
             Debug.Log("Can atk player");
+            StartAttackPlayer();
             yield return new WaitUntil(() => !canAttackPlayer);
             move = StartCoroutine(RandomMove());
         }
@@ -102,27 +89,42 @@ public class WildCrocNote : MonoBehaviour
 
     #endregion
     #region attack
-    public void StartAttackPlayer(Transform target)
+    public void StartAttackPlayer()
     {
+
+
+
+
         canAttackPlayer = true;
-        nextPoint = target;
-        StartCoroutine(AttackRoutine());
+        StopCoroutine(move);
+        attack = StartCoroutine(AttackRoutine());
     }
 
     IEnumerator AttackRoutine()
     {
-        yield return null;
         Debug.Log("Attack");
-        yield return new WaitForSeconds(Random.Range(1, 5));
-        EndAttack();
+        yield return new WaitForSeconds(Random.Range(1f, 4f));
+        myNavAgent.SetDestination(new Vector3(player.transform.position.x, this.transform.position.y, player.transform.position.z));
+        attack = StartCoroutine(AttackRoutine());
+
     }
 
     void EndAttack()
     {
         canAttackPlayer = false;
         nextPoint = null;
+        move = StartCoroutine(RandomMove());
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.layer == 8)
+        {
+            Vector3 posi = player.transform.position - transform.position;
+            Debug.Log("posi" + posi);
+            GameManager.Instance.playerManager.Bump(player.transform.position - transform.position);
+        }
+    }
     #endregion
     /*
     void StartRageState(Transform other)

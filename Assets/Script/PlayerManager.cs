@@ -31,10 +31,23 @@ public class PlayerManager : MonoBehaviour
     public GameObject Marteau;
 
     public NoteSystem noteSystem;
+
+    private Rigidbody body;
+    public bool ragdoll = false;
     void Start()
     {
+        body = GetComponent<Rigidbody>();
         essenceMagique = 0; // On commence à 0
     }
+
+    public void Bump(Vector3 dir)
+    {
+        StartCoroutine(SetSingingStateRagdoll(0.5f));
+        body.AddForce(new Vector3(dir.x, 0.2f, dir.z)*3, ForceMode.Impulse);
+        
+    }
+
+
     #region Use Get and Reload
     public void ReloadWater()
     {
@@ -75,5 +88,12 @@ public class PlayerManager : MonoBehaviour
         calme = true;
         yield return new WaitForSeconds(duration);
         calme = false;
+    }
+    public IEnumerator SetSingingStateRagdoll(float duration)
+    {
+        ragdoll = true;
+        ///NOAHHHHHHHH ICI C'EST LA ICI ICI LA LA 
+        yield return new WaitForSeconds(duration);
+        ragdoll = false;
     }
 }

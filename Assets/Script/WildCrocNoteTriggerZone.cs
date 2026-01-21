@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class WildCrocNoteTriggerZone : MonoBehaviour
 {
+    public bool isTouchingPlayer;
     public GameObject target;
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == 8)
         {
+            isTouchingPlayer = true;
             target = other.gameObject;
         }
     }
@@ -22,19 +24,21 @@ public class WildCrocNoteTriggerZone : MonoBehaviour
     {
         if (other.gameObject.layer == 8)
         {
+            isTouchingPlayer = false;
             target = null;
         }
     }
-
+    
     public bool IsPlayerInDistance(Transform origin,float distance)
     {
-        if(Vector3.Distance(origin.position,target.transform.position) <= distance)
+        if(target != null)
         {
-            return true;
+            if (Vector3.Distance(origin.position, target.transform.position) <= distance)
+            {
+                return true;
+            }
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
+    
 }

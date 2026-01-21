@@ -133,6 +133,34 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-5028878679629850055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Tuto Song
+  m_EditorClassIdentifier: 
+  Path: event:/Tuto Song
+  Guid:
+    Data1: 1887407340
+    Data2: 1187652818
+    Data3: 407469231
+    Data4: -1335549177
+  Banks:
+  - {fileID: -5023280176564322763}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 8800342396972468411}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 91914
 --- !u!114 &-5023280176564322763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,10 +176,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639042711092205343
+  lastModified: 639045085219738443
   FileSizes:
   - Name: Desktop
-    Value: 8660640
+    Value: 12500896
   Exists: 1
 --- !u!114 &-3944613120094199949
 MonoBehaviour:
@@ -195,7 +223,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Jingle.bank
   Name: Jingle
   StudioPath: bank:/Jingle
-  lastModified: 639042711090199586
+  lastModified: 639045037402762258
   FileSizes:
   - Name: Desktop
     Value: 41696
@@ -285,13 +313,14 @@ MonoBehaviour:
   - {fileID: -835505204307562582}
   - {fileID: -7855276135602949334}
   - {fileID: -742697236197987449}
+  - {fileID: -5028878679629850055}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4158438079306407908}
   StringsBanks:
   - {fileID: 3856348917924897851}
   cacheVersion: 131849
-  cacheTime: 639042711092205343
+  cacheTime: 639045085219738443
   SerializableEventsDict:
   - key: event:/DO
     index: 0
@@ -317,6 +346,8 @@ MonoBehaviour:
     index: 10
   - key: event:/Win
     index: 11
+  - key: event:/Tuto Song
+    index: 12
 --- !u!114 &3856348917924897851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,10 +363,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639042711091563575
+  lastModified: 639045080884395604
   FileSizes:
   - Name: Desktop
-    Value: 1340
+    Value: 1380
   Exists: 1
 --- !u!114 &4158438079306407908
 MonoBehaviour:
@@ -352,7 +383,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639042711091553542
+  lastModified: 639045080884375592
   FileSizes:
   - Name: Desktop
     Value: 426176
@@ -492,3 +523,27 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4367
+--- !u!114 &8800342396972468411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Tuto Song/Piste1_Volume
+  m_EditorClassIdentifier: 
+  Name: Piste1_Volume
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3295436225
+    data2: 1745184471
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
