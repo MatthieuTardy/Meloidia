@@ -2,13 +2,13 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{f8ba965f-e2f4-4337-bf6e-d5c144df1d3e}">
 		<property name="name">
-			<value>Nested Event</value>
+			<value>Croc-note_step</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
 		</property>
 		<relationship name="folder">
-			<destination>{97f8fd1e-d759-44cc-b7f6-0a2b3731abc0}</destination>
+			<destination>{92d30c5e-8dc0-4374-b950-8d7bb8c130df}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{ce7fd9db-d7d9-4b5f-a2f7-9c3d48320c24}</destination>
@@ -34,6 +34,9 @@
 		<relationship name="parameters">
 			<destination>{5145a91e-083e-4546-8148-26e2684bea5d}</destination>
 		</relationship>
+		<relationship name="banks">
+			<destination>{1625d833-8e92-4edf-8af9-5ae79e567320}</destination>
+		</relationship>
 	</object>
 	<object class="EventMixer" id="{ce7fd9db-d7d9-4b5f-a2f7-9c3d48320c24}">
 		<relationship name="masterBus">
@@ -51,6 +54,9 @@
 		</relationship>
 		<relationship name="panner">
 			<destination>{8ffa4ae1-34bf-42dc-a6ec-632683f798b2}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{e9d88dbf-061b-4936-9eba-02f158facbc7}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{56c2e591-a756-4631-82c3-1b370098d99d}" />
