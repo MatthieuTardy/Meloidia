@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3532946773376282923}
   - component: {fileID: 3419521449303195082}
   - component: {fileID: 748631148095515038}
-  - component: {fileID: 1863591731122095570}
+  - component: {fileID: -8626590335117959998}
   m_Layer: 0
   m_Name: "Racine bloquant l'acc\xE8s "
   m_TagString: Untagged
@@ -84,8 +84,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1863591731122095570
-BoxCollider:
+--- !u!64 &-8626590335117959998
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -102,6 +102,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.082329474, y: 0.06835861, z: 0.03827665}
-  m_Center: {x: -0.0107086105, y: 0.008324947, z: 0.000567174}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 665666657194036353, guid: c5f67ac31d96c1148982ee56ed4710e4, type: 3}
