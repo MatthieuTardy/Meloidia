@@ -258,7 +258,26 @@ public class InventoryManager : MonoBehaviour
             dictionaryOfItem.Add(value.key, value.value);
         }
     }
+
+    public int GetRandomValableIndex()
+    {
+        int ran = UnityEngine.Random.Range(0, Items.Count);
+        
+        for(int i = ran; i >= 0; i--)
+        {
+            if(items[i] != null)
+            {
+                return i;
+            }
+
+        }
+        return -1;
+
+        
+        
+    }
 }
+
 
 [Serializable]
 class CustomDictionnary
@@ -289,21 +308,18 @@ public class Item : MonoBehaviour
 
 public enum TypeOfRessources
 {
-    ressourceA = 1,
+    Copeaux = 1,
     ressourceB = 2,
     ressourceC = 3,
     ressourceD = 4,
     ressourceE = 5,
-    seedA = 6,
+    Graine_Carotte = 6,
     seedB = 7,
     seedC = 8,
     seedD = 9,
     seedE = 10,
     Cabais,
 }
-#endregion
-
-
 
 public class ItemSlot
 {
@@ -338,4 +354,5 @@ public class ItemSlot
         GameManager.Instance.inventoryManager.MergeInventory();
     }
 }
+#endregion
 
