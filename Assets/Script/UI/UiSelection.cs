@@ -7,6 +7,7 @@ public class UiSelection : MonoBehaviour
     public Button[] buttons;
     public float radius = 200f;
     public Vector2 centerOffset = Vector2.zero;
+    [SerializeField] NoteSystem noteSystem;
 
     // Référence au root de la roue (par défaut le GameObject contenant ce script)
     // Si tu veux que la roue soit un enfant séparé, assigne-le ici dans l'inspecteur.
@@ -47,7 +48,12 @@ public class UiSelection : MonoBehaviour
 
         if (Mathf.Abs(sx) > activationThreshold || Mathf.Abs(sy) > activationThreshold ||inputPC)
         {
+            noteSystem.ToggleTrackOne(false);
             isPlayingInput = true;
+        }
+        else
+        {
+            noteSystem.ToggleTrackOne(true);
         }
 
         // Quand on passe de true -> false, on veut s'assurer de réinitialiser les notes du canvas
@@ -58,6 +64,7 @@ public class UiSelection : MonoBehaviour
 
             if (!isPlayingInput)
             {
+
                 // Le joueur a arrêté de "jouer" : reset des highlights et de la sélection des notes
                 ResetAllNotesOnCanvas();
             }

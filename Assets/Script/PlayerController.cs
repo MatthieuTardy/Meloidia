@@ -151,10 +151,7 @@ public class PlayerController : MonoBehaviour
         HandleSprintVisuals();
     }
 
-    public void Bump()
-    {
-        body.AddForce(-transform.forward * jumpForce*4, ForceMode.Impulse);
-    }
+
 
 
 
@@ -190,27 +187,27 @@ public class PlayerController : MonoBehaviour
 
         isSprinting = Input.GetButton("Fire3");
 
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            Bump();
-        }
+
     }
 
     private void HandleMovement()
     {
         float currentSpeed = isSprinting && isGrounded ? sprintSpeed : speed;
+        if (!GameManager.Instance.playerManager.ragdoll)
+        {
+            if (inputDirection.magnitude >= 0.1f)
+            {
+                Vector3 targetVelocity = inputDirection * currentSpeed;
+                body.velocity = new Vector3(targetVelocity.x, body.velocity.y, targetVelocity.z);
+            }
+            else if (isGrounded)
+            {
+                Vector3 horizontalVelocity = new Vector3(body.velocity.x, 0, body.velocity.z);
+                Vector3 smoothedHorizontal = Vector3.SmoothDamp(horizontalVelocity, Vector3.zero, ref stoppingVelocity, decelerationSmoothness);
+                body.velocity = new Vector3(smoothedHorizontal.x, body.velocity.y, smoothedHorizontal.z);
+            }
+        }
 
-        if (inputDirection.magnitude >= 0.1f)
-        {
-            Vector3 targetVelocity = inputDirection * currentSpeed;
-            body.velocity = new Vector3(targetVelocity.x, body.velocity.y, targetVelocity.z);
-        }
-        else if (isGrounded)
-        {
-            Vector3 horizontalVelocity = new Vector3(body.velocity.x, 0, body.velocity.z);
-            Vector3 smoothedHorizontal = Vector3.SmoothDamp(horizontalVelocity, Vector3.zero, ref stoppingVelocity, decelerationSmoothness);
-            body.velocity = new Vector3(smoothedHorizontal.x, body.velocity.y, smoothedHorizontal.z);
-        }
     }
 
     private void HandleSprintVisuals()

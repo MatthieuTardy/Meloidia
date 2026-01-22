@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using FMODUnity;
+using UnityEngine.Events;
 
 public class EnigmeSystem : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class EnigmeSystem : MonoBehaviour
     private NoteSystem noteSystem;
     Coroutine waitRoutine;
     [SerializeField] List<musicalNotes> chantEnigme = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Ré, musicalNotes.Mi };
+
+    [SerializeField] UnityEvent onEnigmeResolve;
     void Start()
     {
 
@@ -49,9 +52,8 @@ public class EnigmeSystem : MonoBehaviour
     }
     IEnumerator Chant()
     {
-        Debug.LogWarning("AAAAAAAAAAAAAAAAAA");
         yield return new WaitUntil(() => GameManager.Instance.playerManager.noteSystem.PlayerSingCorrectPattern(chantEnigme));
-        Debug.LogWarning("BBBBBBBBBBBBBBBB");
         RuntimeManager.PlayOneShot("event:/Win");
+        onEnigmeResolve.Invoke();
     }
 }
