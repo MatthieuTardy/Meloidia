@@ -92,7 +92,11 @@ public class PlayerManager : MonoBehaviour
     public IEnumerator SetSingingStateRagdoll(float duration)
     {
         ragdoll = true;
-        ///NOAHHHHHHHH ICI C'EST LA ICI ICI LA LA 
+        int ran = GameManager.Instance.inventoryManager.GetRandomValableIndex();
+        if(ran >= 0)
+        {
+            GameManager.Instance.inventoryManager.DropItem(ran);
+        }
         yield return new WaitForSeconds(duration);
         ragdoll = false;
     }
