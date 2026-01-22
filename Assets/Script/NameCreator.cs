@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class NameCreator : MonoBehaviour
 {
-    
 
     public static string NewName()
     {
