@@ -5,7 +5,7 @@
 			<value>Robot_Planter</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{d648b876-a3a0-4f67-a526-4b03e9be018e}</destination>
@@ -119,6 +119,7 @@
 	<object class="MixerBusEffectChain" id="{5d5a3525-5f04-45e8-8a73-1edcb635f4bb}">
 		<relationship name="effects">
 			<destination>{b5e45ce5-38dd-43fb-af15-24786becb93a}</destination>
+			<destination>{e7c03403-f382-40f3-a6e3-1675c3f2aee7}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{2fbfa06c-4e84-4100-af96-f83c58569979}" />
@@ -138,6 +139,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{54a52e1a-6108-4120-bcf3-9b0383800543}" />
 	<object class="MixerBusFader" id="{b5e45ce5-38dd-43fb-af15-24786becb93a}" />
+	<object class="SpatialiserEffect" id="{e7c03403-f382-40f3-a6e3-1675c3f2aee7}" />
 	<object class="AutomationPoint" id="{0fdd18be-1e73-4b7b-90a0-e00a7db182b3}">
 		<property name="position">
 			<value>0.39999999999999947</value>

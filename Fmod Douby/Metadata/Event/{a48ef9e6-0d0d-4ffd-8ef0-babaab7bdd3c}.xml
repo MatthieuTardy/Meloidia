@@ -5,7 +5,7 @@
 			<value>Robot_Creuser</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{d648b876-a3a0-4f67-a526-4b03e9be018e}</destination>
@@ -119,6 +119,7 @@
 	<object class="MixerBusEffectChain" id="{a62775c5-ec4d-4115-9ece-db1d67db3e20}">
 		<relationship name="effects">
 			<destination>{8830d9b8-a861-4cf8-b9d2-b4f59d2b0403}</destination>
+			<destination>{a6c91dd4-544a-4ecd-9f1b-2f4fd78893a8}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{9867ccd2-c9ec-41b4-b384-35035edf8ae6}" />
@@ -138,6 +139,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{78b17e4f-b657-477f-9a9d-8d8be6b130c4}" />
 	<object class="MixerBusFader" id="{8830d9b8-a861-4cf8-b9d2-b4f59d2b0403}" />
+	<object class="SpatialiserEffect" id="{a6c91dd4-544a-4ecd-9f1b-2f4fd78893a8}" />
 	<object class="AutomationPoint" id="{9e63c411-bf24-4fec-a7d0-2a3c0ffb3836}">
 		<property name="position">
 			<value>0.38000000000000012</value>
