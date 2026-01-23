@@ -28,8 +28,7 @@ public class EnigmeSystem : MonoBehaviour
     {
         if (other.tag == "Chant")
         {
-
-            if (waitRoutine == null)
+            if(waitRoutine == null)
             {
                 waitRoutine = StartCoroutine(Chant());
                 Debug.LogWarning("start chant");
@@ -45,7 +44,6 @@ public class EnigmeSystem : MonoBehaviour
             if (waitRoutine != null)
             {
                 StopCoroutine(waitRoutine);
-                waitRoutine = null;
                 Debug.LogWarning("stop chant");
             }
 

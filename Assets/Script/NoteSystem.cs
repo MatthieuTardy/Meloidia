@@ -62,7 +62,7 @@ public class NoteSystem : MonoBehaviour
         playedTime += Time.deltaTime;
         PlayMusic();
 
-        if (playedTime >= 30 && playedPartition.Count != 0)
+        if (playedTime >= 3 && playedPartition.Count != 0)
         {
             if (!playedPartition.SequenceEqual(chantDuDiab) && !playedPartition.SequenceEqual(chantDuBonheur) && !playedPartition.SequenceEqual(chantDuBirthday))
             {

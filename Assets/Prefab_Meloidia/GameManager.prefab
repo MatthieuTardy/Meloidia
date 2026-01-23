@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4058899932002421732}
   - component: {fileID: 4256202504286813882}
   - component: {fileID: 51762288006389215}
+  - component: {fileID: 7371911840812693983}
   - component: {fileID: 7243667164175145602}
-  - component: {fileID: 4508700115024849009}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -76,7 +76,7 @@ MonoBehaviour:
   radius: 200
   centerOffset: {x: 0, y: 0}
   noteSystem: {fileID: 0}
-  wheelRoot: {fileID: 8374995803473813011}
+  wheelRoot: {fileID: 0}
   activationThreshold: 0.5
 --- !u!114 &51762288006389215
 MonoBehaviour:
@@ -98,20 +98,7 @@ MonoBehaviour:
   arrosoirUiEauPleine: {fileID: 0}
   arrosoirUiEauVide: {fileID: 0}
   essenceText: {fileID: 0}
---- !u!114 &7243667164175145602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8374995803473813011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1e13440c81785e4e847e1cc62377cf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InventorySize: 4
---- !u!114 &4508700115024849009
+--- !u!114 &7371911840812693983
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,3 +117,16 @@ MonoBehaviour:
   delayAfterImage: 2
   textWaitTime: 3
   textFadeDuration: 1.5
+--- !u!114 &7243667164175145602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8374995803473813011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1e13440c81785e4e847e1cc62377cf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InventorySize: 4
