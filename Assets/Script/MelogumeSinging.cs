@@ -70,6 +70,7 @@ public class MelogumeSingingManager : MonoBehaviour
         // 2. Créer les particules si tout est configuré
         if (noteParticlePrefab != null && particleMaterial != null)
         {
+
             // Détermine la position et la rotation
             Vector3 spawnPosition = particleSpawnPoint != null ? particleSpawnPoint.position : transform.position;
             // Les particules sont orientées dans la même direction que le GameObject
@@ -106,6 +107,7 @@ public class MelogumeSingingManager : MonoBehaviour
         }
 
         // --- Séquence musicale avec particules ---
+        legumeManager.animator.SetBool("sing", true);
 
         PlayNoteWithParticles(DO, doMaterial);
         yield return new WaitForSeconds(1);
@@ -123,6 +125,7 @@ public class MelogumeSingingManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         StopChant();
 
+        legumeManager.animator.SetBool("sing", false);
         // Rétablir la vitesse de déplacement
         if (_isGameManagerReady)
         {
@@ -152,10 +155,10 @@ public class MelogumeSingingManager : MonoBehaviour
         {
             legumeManager.vitesse = 0;
         }
-        
-        
+
+
         // --- Séquence musicale avec particules ---
-
+        legumeManager.animator.SetBool("sing", true);
         PlayNoteWithParticles(DO, doMaterial);
         yield return new WaitForSeconds(0.1f);
         StopChant();
@@ -183,7 +186,7 @@ public class MelogumeSingingManager : MonoBehaviour
         PlayNoteWithParticles(DO, doMaterial);
         yield return new WaitForSeconds(0.3f);
         StopChant();
-
+        legumeManager.animator.SetBool("sing", false);
 
 
         // Rétablir la vitesse de déplacement
