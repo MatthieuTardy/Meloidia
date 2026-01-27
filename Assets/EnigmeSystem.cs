@@ -28,11 +28,10 @@ public class EnigmeSystem : MonoBehaviour
     {
         if (other.tag == "Chant")
         {
-            if(waitRoutine == null)
-            {
+
                 waitRoutine = StartCoroutine(Chant());
                 Debug.LogWarning("start chant");
-            }
+            
                 
 
         }

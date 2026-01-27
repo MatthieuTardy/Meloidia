@@ -173,7 +173,7 @@ public class PlayerController : MonoBehaviour
     {
         float currentSpeed = isSprinting ? sprintSpeed : speed;
 
-        if (!GameManager.Instance.playerManager.ragdoll)
+        if (!GameManager.Instance.playerManager.ragdoll && isGrounded)
         {
             if (inputDirection.magnitude >= 0.1f)
             {
