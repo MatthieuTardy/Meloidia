@@ -6,186 +6,150 @@ using UnityEngine.AI;
 public class WildCrocNote : MonoBehaviour
 {
     [Header("Bonheur")]
-    MelogumeSingingManager melogumesSingingManager;
-    private GameObject baseLegume;
+    MelogumeSingingManager melogumesSingingManager; 
 
-    [Header("Gestion de la col�re")]
-    [SerializeField] musicalNotes[] CalmMelody;
-    bool isAttacking = false;
+    [Header("Gestion de la colère")]
     bool canAttackPlayer = false;
 
-    [Header("Param�tres de D�placement")]
-    private Vector3 finalPos;
+    [Header("Paramètres de Déplacement")]
     [SerializeField] float walkRadius = 5f;
-    [SerializeField] float intervalleAttente = 5f;
     [SerializeField] float originSpeed = 5f;
     private float vitesse;
-    [SerializeField] float vitesseRotation = 10f;
     [SerializeField] NavMeshAgent myNavAgent;
-    Transform nextPoint;
-    private Coroutine move;
-    private Coroutine attack;
-
-    [Header("Effets de 'Juice' - Respiration")]
-    public float amplitudeRespiration = 0.05f;
-    public float vitesseRespiration = 2f;
-
-    private Rigidbody rb;
-    WildCrocNoteTriggerZone WCNTZ;
+    private Coroutine currentRoutine; 
 
     [SerializeField] GameObject player;
 
+    [Header("Paramètres de Combat")]
+    [Tooltip("La puissance avec laquelle le joueur est repoussé.")]
+    [SerializeField] float knockbackForce = 10f; // <--- NOUVELLE VARIABLE ICI
+
     [Header("Animation")]
     public Animator animator;
+    WildCrocNoteTriggerZone WCNTZ;
+    private Rigidbody rb;
 
-
-    #region Unity Default Function
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
-        rb.useGravity = true;
-        vitesse = originSpeed;
+        rb.freezeRotation = true; 
         WCNTZ = GetComponentInChildren<WildCrocNoteTriggerZone>();
-        move = StartCoroutine(RandomMove());
-
+        vitesse = originSpeed;
+        
+        currentRoutine = StartCoroutine(RandomMoveLogic());
     }
-    private void Update()
-    {
- 
-    }
-    #endregion
 
-    #region movement
-    public IEnumerator RandomMove()
+    // --- LOGIQUE DE MOUVEMENT ALEATOIRE ---
+    public IEnumerator RandomMoveLogic()
     {
-        yield return new WaitForSeconds(Random.Range(1, 5));
-        if (!WCNTZ.isTouchingPlayer)
+        while (true)
         {
-            yield return new WaitForSeconds(Random.Range(1, 5));
-            animator.SetBool("walk", true);
-            finalPos = RandomNavmeshLocation(walkRadius);
-            myNavAgent.SetDestination(finalPos);
-            yield return new WaitUntil(() => transform.position.x == finalPos.x && transform.position.z == finalPos.z);
+            if (WCNTZ.isTouchingPlayer)
+            {
+                SwitchToAttack();
+                yield break; 
+            }
+
             animator.SetBool("walk", false);
-            move = StartCoroutine(RandomMove());
-        }
-        else
-        {
-            Debug.Log("Can atk player");
-            StartAttackPlayer();
-            yield return new WaitUntil(() => !canAttackPlayer);
-            move = StartCoroutine(RandomMove());
+            yield return new WaitForSeconds(Random.Range(1, 4));
+
+            if (WCNTZ.isTouchingPlayer) { SwitchToAttack(); yield break; }
+
+            Vector3 target = RandomNavmeshLocation(walkRadius);
+            myNavAgent.SetDestination(target);
+            animator.SetBool("walk", true);
+
+            while (myNavAgent.remainingDistance > myNavAgent.stoppingDistance)
+            {
+                if (WCNTZ.isTouchingPlayer) { SwitchToAttack(); yield break; }
+                yield return null; 
+            }
         }
     }
+
+    // --- LOGIQUE D'ATTAQUE ---
+    public void SwitchToAttack()
+    {
+        if(currentRoutine != null) StopCoroutine(currentRoutine);
+        canAttackPlayer = true;
+        currentRoutine = StartCoroutine(AttackRoutine());
+    }
+
+    IEnumerator AttackRoutine()
+    {
+        vitesse = originSpeed * 2;
+        myNavAgent.speed = vitesse;
+        
+        float attackDistance = 2.0f; 
+
+        while (canAttackPlayer)
+        {
+            animator.SetBool("attack", false);
+            animator.SetBool("walk", true);
+            myNavAgent.isStopped = false; 
+
+            while (Vector3.Distance(transform.position, player.transform.position) > attackDistance)
+            {
+                myNavAgent.SetDestination(player.transform.position);
+                yield return null; 
+            }
+
+            Debug.Log("Attaque lancée !");
+            
+            animator.SetBool("attack", true);
+            animator.SetBool("walk", false); 
+
+            float slideTimer = 0.2f;
+            while(slideTimer > 0)
+            {
+                myNavAgent.SetDestination(player.transform.position);
+                slideTimer -= Time.deltaTime;
+                yield return null;
+            }
+
+            myNavAgent.ResetPath(); 
+            myNavAgent.velocity = Vector3.zero; 
+
+            yield return new WaitForSeconds(0.8f);
+
+            animator.SetBool("attack", false);
+
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        currentRoutine = StartCoroutine(RandomMoveLogic());
+    }
+
+    // --- OUTILS ---
     public Vector3 RandomNavmeshLocation(float radius)
     {
         Vector3 randomDirection = Random.insideUnitSphere * radius;
         randomDirection += transform.position;
         NavMeshHit hit;
-        Vector3 finalPosition = Vector3.zero;
         if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
         {
-            finalPosition = hit.position;
+            return hit.position;
         }
-        return finalPosition;
+        return transform.position;
     }
 
-    IEnumerator MoveToTarget()
-    {
-        myNavAgent.SetDestination(nextPoint.position);
-        yield return new WaitUntil(() => Vector3.Distance(this.transform.position, nextPoint.position) <= 1f);
-        StartCoroutine(MoveToTarget());
-    }
-
-    #endregion
-    #region attack
-    public void StartAttackPlayer()
-    {
-
-
-
-        vitesse = originSpeed * 2;
-        canAttackPlayer = true;
-        StopCoroutine(move);
-        attack = StartCoroutine(AttackRoutine());
-    }
-
-    IEnumerator AttackRoutine()
-    {
-        Debug.Log("Attack");
-        animator.SetBool("attack", true);
-        yield return new WaitForSeconds(Random.Range(1f, 4f));
-        myNavAgent.SetDestination(new Vector3(player.transform.position.x, this.transform.position.y, player.transform.position.z));
-        finalPos = new Vector3(player.transform.position.x, this.transform.position.y, player.transform.position.z);
-        yield return new WaitUntil(() => transform.position.x == finalPos.x && transform.position.z == finalPos.z);
-        animator.SetBool("attack", false);
-        attack = StartCoroutine(AttackRoutine());
-
-    }
-
-    void EndAttack()
-    {
-        canAttackPlayer = false;
-        nextPoint = null;
-        move = StartCoroutine(RandomMove());
-    }
-
+    // Garder ton bump physique
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.layer == 8)
+        if (collision.gameObject.layer == 8) // Layer Player
         {
-            Vector3 posi = player.transform.position - transform.position;
-            Debug.Log("posi" + posi);
-            GameManager.Instance.playerManager.Bump(player.transform.position - transform.position);
+            if(canAttackPlayer) 
+            {
+                // Calcul de la direction : Du monstre vers le joueur
+                Vector3 direction = (player.transform.position - transform.position).normalized;
+                
+                // On multiplie la direction par la force
+                // IMPORTANT : Il faut que ta méthode Bump dans PlayerManager accepte ce Vector3 plus grand
+                // Si ton PlayerManager normalise le vecteur, ça ne changera rien. 
+                // Dans ce cas, il faut modifier PlayerManager pour prendre un float force en paramètre.
+                
+                GameManager.Instance.playerManager.Bump(direction * knockbackForce); 
+            }
         }
     }
-    #endregion
-    /*
-    void StartRageState(Transform other)
-    {
-        StopCoroutine(move);
-        transform.LookAt(other);
-
-        StartCoroutine(RageState());
-    }
-
-    public IEnumerator RageState()
-    {
-
-        isStartRageTimer = 1;
-        melogumesSingingManager.StopHappyness();
-        StartCoroutine(EndOfRageDelay(deathTimer, chanceToDie));
-        melogumesSingingManager.StartRage();
-        colere = true;
-        Debug.Log("Col�re !");
-        yield return new WaitUntil(() => colere == false);
-        melogumesSingingManager.StopRage();
-        melogumesSingingManager.StartHappyness();
-        move = StartCoroutine(RandomMove());
-        Debug.Log("Calme !");
-        calmeTimer = 0;
-        //remettre la marche
-    }
-
-    IEnumerator EndOfRageDelay(float EndOfRageTimer, int deathChance)
-    {
-        yield return new WaitForSeconds(EndOfRageTimer);
-        int jetDeConstitution = Random.Range(0, 100);
-        if (jetDeConstitution < deathChance && colere == true)
-        {
-            Destroy(gameObject);
-        }
-        else if (jetDeConstitution >= deathChance && colere == true)
-        {
-            colere = false;
-        }
-        else
-        {
-            colere = false;
-        }
-
-    }
-
-    */
 }
