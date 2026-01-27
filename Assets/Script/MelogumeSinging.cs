@@ -5,24 +5,24 @@ using UnityEngine;
 
 public class MelogumeSingingManager : MonoBehaviour
 {
-    [Header("Événements FMOD")]
-    [Tooltip("Assignez ici l'émetteur FMOD pour la note DO.")]
+    [Header("ï¿½vï¿½nements FMOD")]
+    [Tooltip("Assignez ici l'ï¿½metteur FMOD pour la note DO.")]
     public FMODUnity.StudioEventEmitter DO;
-    [Tooltip("Assignez ici l'émetteur FMOD pour la note RE.")]
+    [Tooltip("Assignez ici l'ï¿½metteur FMOD pour la note RE.")]
     public FMODUnity.StudioEventEmitter RE;
-    [Tooltip("Assignez ici l'émetteur FMOD pour la note MI.")]
+    [Tooltip("Assignez ici l'ï¿½metteur FMOD pour la note MI.")]
     public FMODUnity.StudioEventEmitter MI;
 
     [Header("Effets de Particules")]
-    [Tooltip("Le prefab du système de particules à instancier pour chaque note.")]
+    [Tooltip("Le prefab du systï¿½me de particules ï¿½ instancier pour chaque note.")]
     public GameObject noteParticlePrefab;
-    [Tooltip("Le point d'apparition des particules. Si non défini, la position de cet objet sera utilisée.")]
+    [Tooltip("Le point d'apparition des particules. Si non dï¿½fini, la position de cet objet sera utilisï¿½e.")]
     public Transform particleSpawnPoint;
-    [Tooltip("Le matériau pour les particules de la note DO.")]
+    [Tooltip("Le matï¿½riau pour les particules de la note DO.")]
     public Material doMaterial;
-    [Tooltip("Le matériau pour les particules de la note RE.")]
+    [Tooltip("Le matï¿½riau pour les particules de la note RE.")]
     public Material reMaterial;
-    [Tooltip("Le matériau pour les particules de la note MI.")]
+    [Tooltip("Le matï¿½riau pour les particules de la note MI.")]
     public Material miMaterial;
 
     public Coroutine joyeux;
@@ -37,7 +37,7 @@ public class MelogumeSingingManager : MonoBehaviour
 
         if (DO == null || RE == null || MI == null)
         {
-            Debug.LogError("Attention : Les émetteurs FMOD (DO, RE, MI) ne sont pas assignés dans l'Inspecteur du GameObject " + gameObject.name + ". La chanson ne démarrera pas.");
+            Debug.LogError("Attention : Les ï¿½metteurs FMOD (DO, RE, MI) ne sont pas assignï¿½s dans l'Inspecteur du GameObject " + gameObject.name + ". La chanson ne dï¿½marrera pas.");
             return;
         }
 
@@ -49,7 +49,7 @@ public class MelogumeSingingManager : MonoBehaviour
         joyeux = StartCoroutine(SongOfHealing());
     }
 
-    // Arrête tous les sons joués par ce script
+    // Arrï¿½te tous les sons jouï¿½s par ce script
     void StopChant()
     {
         if (DO != null) DO.Stop();
@@ -58,22 +58,22 @@ public class MelogumeSingingManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Joue une note et déclenche l'effet de particules associé.
+    /// Joue une note et dï¿½clenche l'effet de particules associï¿½.
     /// </summary>
-    /// <param name="noteEmitter">L'émetteur FMOD de la note à jouer.</param>
-    /// <param name="particleMaterial">Le matériau à appliquer aux particules.</param>
+    /// <param name="noteEmitter">L'ï¿½metteur FMOD de la note ï¿½ jouer.</param>
+    /// <param name="particleMaterial">Le matï¿½riau ï¿½ appliquer aux particules.</param>
     void PlayNoteWithParticles(FMODUnity.StudioEventEmitter noteEmitter, Material particleMaterial)
     {
         // 1. Jouer le son
         noteEmitter.Play();
 
-        // 2. Créer les particules si tout est configuré
+        // 2. Crï¿½er les particules si tout est configurï¿½
         if (noteParticlePrefab != null && particleMaterial != null)
         {
 
-            // Détermine la position et la rotation
+            // Dï¿½termine la position et la rotation
             Vector3 spawnPosition = particleSpawnPoint != null ? particleSpawnPoint.position : transform.position;
-            // Les particules sont orientées dans la même direction que le GameObject
+            // Les particules sont orientï¿½es dans la mï¿½me direction que le GameObject
             Quaternion spawnRotation = transform.rotation;
 
             GameObject particleInstance = Instantiate(noteParticlePrefab, spawnPosition, spawnRotation);
@@ -81,32 +81,32 @@ public class MelogumeSingingManager : MonoBehaviour
 
             if (ps != null)
             {
-                // Applique le bon matériau
+                // Applique le bon matï¿½riau
                 var renderer = ps.GetComponent<ParticleSystemRenderer>();
                 if (renderer != null)
                 {
                     renderer.material = particleMaterial;
                 }
-                // Détruit l'objet après la fin de l'effet
+                // Dï¿½truit l'objet aprï¿½s la fin de l'effet
                 Destroy(particleInstance, ps.main.duration + ps.main.startLifetime.constantMax);
             }
             else
             {
-                Destroy(particleInstance, 5f); // Sécurité
+                Destroy(particleInstance, 5f); // Sï¿½curitï¿½
             }
         }
     }
 
     public IEnumerator SongOfHealing()
     {
-        // Gérer la vitesse uniquement si la référence GameManager est prête
+        // Gï¿½rer la vitesse uniquement si la rï¿½fï¿½rence GameManager est prï¿½te
         if (_isGameManagerReady)
         {
             legumeManager.vitesse = 0;
 
         }
 
-        // --- Séquence musicale avec particules ---
+        // --- Sï¿½quence musicale avec particules ---
         legumeManager.animator.SetBool("sing", true);
 
         PlayNoteWithParticles(DO, doMaterial);
@@ -126,38 +126,41 @@ public class MelogumeSingingManager : MonoBehaviour
         StopChant();
 
         legumeManager.animator.SetBool("sing", false);
-        // Rétablir la vitesse de déplacement
+        // Rï¿½tablir la vitesse de dï¿½placement
+        Debug.Log("stop chant");
         if (_isGameManagerReady)
         {
             legumeManager.vitesse = 5;
         }
 
-        // Attente aléatoire avant de répéter la chanson
+        // Attente alï¿½atoire avant de rï¿½pï¿½ter la chanson
         yield return new WaitForSeconds(Random.Range(3f, 10.0f));
 
-        // Répéter la chanson
+        // Rï¿½pï¿½ter la chanson
         joyeux = StartCoroutine(SongOfHealing());
         
     }
     public void StopHappyness()
     {
         StopCoroutine(joyeux);
+        legumeManager.animator.SetBool("sing", false);
     }
 
     public void StartHappyness()
     {
         joyeux = StartCoroutine(SongOfHealing());
+        legumeManager.animator.SetBool("sing", true);
     }
     public IEnumerator SongOfRage()
     {
-        // Gérer la vitesse uniquement si la référence GameManager est prête
+        // Gï¿½rer la vitesse uniquement si la rï¿½fï¿½rence GameManager est prï¿½te
         if (_isGameManagerReady)
         {
             legumeManager.vitesse = 0;
         }
 
 
-        // --- Séquence musicale avec particules ---
+        // --- Sï¿½quence musicale avec particules ---
         legumeManager.animator.SetBool("sing", true);
         PlayNoteWithParticles(DO, doMaterial);
         yield return new WaitForSeconds(0.1f);
@@ -189,16 +192,16 @@ public class MelogumeSingingManager : MonoBehaviour
         legumeManager.animator.SetBool("sing", false);
 
 
-        // Rétablir la vitesse de déplacement
+        // Rï¿½tablir la vitesse de dï¿½placement
         if (_isGameManagerReady)
         {
             legumeManager.vitesse = 5;
         }
 
-        // Attente aléatoire avant de répéter la chanson
+        // Attente alï¿½atoire avant de rï¿½pï¿½ter la chanson
         yield return new WaitForSeconds(Random.Range(3f, 10.0f));
 
-        // Répéter la chanson
+        // Rï¿½pï¿½ter la chanson
         rage = StartCoroutine(SongOfRage());
     }
 
