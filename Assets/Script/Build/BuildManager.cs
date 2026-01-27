@@ -43,8 +43,7 @@ public class BuildManager : MonoBehaviour
 
     public void ChangeSelectedBuild(int index)
     {
-        interraction.constructChosen = Construction[0];
-       // interraction.constructChosen = Construction[index]; // a mettre plus tard
+        interraction.constructChosen = Construction[index];
         interraction.PlayerIsBuildMode = true;
     }
 

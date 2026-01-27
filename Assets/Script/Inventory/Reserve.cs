@@ -106,6 +106,7 @@ public class Reserve : MonoBehaviour
     {
         if (StockingInReserve != null) 
         {
+            /*
             if (Input.GetKeyDown(ScrollPositive))
             {
                 SelectItem(1);
@@ -121,6 +122,33 @@ public class Reserve : MonoBehaviour
             else if(Input.GetKeyDown(Validation)) 
             {
                 ValidateSelection();
+            }
+            */
+
+            if(Input.GetButtonDown("Scroll"))
+            {
+                if(Input.GetAxisRaw("Scroll") > 0)
+                {
+                    SelectItem(1);
+                }
+                else if(Input.GetAxisRaw("Scroll") < 0)
+                {
+                    SelectItem(-1);
+                }
+            }
+
+            if (Input.GetButtonDown("Switch"))
+            {
+                SwitchInventory();
+            }
+            else if (Input.GetButtonDown("Jump"))
+            {
+                ValidateSelection();
+            }
+
+            if (Input.GetButtonDown("Cancel"))
+            {
+                CloseReserve();
             }
         }
     }

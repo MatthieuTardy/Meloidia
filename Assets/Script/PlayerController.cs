@@ -271,7 +271,7 @@ public class PlayerController : MonoBehaviour
         {
             SetTool(2, false, false, true, false);
         }
-        else if (Input.GetButtonDown("Outils 4"))
+        else if (Input.GetButtonDown("Outils 4") && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") <= -0.8 && GameManager.Instance.playerManager.havingTools == true)
         {
             if (GameManager.Instance.playerManager.outils != 3 && GameManager.Instance.playerManager.havingTools == true)
             {
