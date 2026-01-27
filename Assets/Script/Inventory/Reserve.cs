@@ -43,12 +43,14 @@ public class Reserve : MonoBehaviour
         StockingInReserve = true;
         SelectItem(0);
         ShowUI();
+        GameManager.Instance.playerManager.FreezePosition(true);
     }
 
     public void CloseReserve()
     {
         Debug.Log("Reserve is Close");
         StockingInReserve = null;
+        GameManager.Instance.playerManager.FreezePosition(false);
         HideUI();
     }
     
@@ -262,11 +264,11 @@ public class Reserve : MonoBehaviour
             {
                 if (GameManager.Instance.inventoryManager.Items[i] == null)
                 {
-                    //PlayerSlot[i].SetActive(false);
+                    PlayerSlot[i].SetActive(false);
                 }
                 else
                 {
-                    //PlayerSlot[i].SetActive(true);
+                    PlayerSlot[i].SetActive(true);
                     PlayerSlot[i].GetComponent<Image>().sprite = GameManager.Instance.inventoryManager.Items[i].CurrentItem.sprite;
                     PlayerSlot[i].GetComponentInChildren<TextMeshProUGUI>().text = GameManager.Instance.inventoryManager.Items[i].CurrentQuantity.ToString();
                 }
@@ -281,11 +283,11 @@ public class Reserve : MonoBehaviour
         {
             if (ItemsStocked[i] == null)
             {
-               // ReserveSlot[i].SetActive(false);
+               ReserveSlot[i].SetActive(false);
             }
             else
             {
-               // ReserveSlot[i].SetActive(true);
+                ReserveSlot[i].SetActive(true);
                 ReserveSlot[i].GetComponent<Image>().sprite = ItemsStocked[i].CurrentItem.sprite;
                 ReserveSlot[i].GetComponentInChildren<TextMeshProUGUI>().text = ItemsStocked[i].CurrentQuantity.ToString();
             }

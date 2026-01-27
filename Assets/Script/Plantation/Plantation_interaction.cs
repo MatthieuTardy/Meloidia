@@ -290,7 +290,9 @@ public class Plantation_interaction : MonoBehaviour
                     break;
 
             }
-        
+            UpdateSprite();
+
+
     }
 
     #region adding ressources => 1st Dirt - 2nd Seed - 3rd Water

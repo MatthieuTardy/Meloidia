@@ -97,6 +97,11 @@ public class PlayerManager : MonoBehaviour
     
     #endregion
 
+    public void FreezePosition(bool freeze)
+    {
+        body.isKinematic = freeze;
+    }
+
 #if UNITY_EDITOR
     [Button("test")] 
     public void Test()

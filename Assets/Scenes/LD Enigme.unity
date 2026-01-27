@@ -5612,76 +5612,6 @@ MonoBehaviour:
   visualsTransform: {fileID: 0}
   scaleFactor: 1.1
   scaleDuration: 0.1
---- !u!1 &267255884
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 267255885}
-  - component: {fileID: 267255887}
-  - component: {fileID: 267255886}
-  m_Layer: 8
-  m_Name: BuildZone
-  m_TagString: Untagged
-  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &267255885
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 267255884}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 5.87}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 758820490}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &267255886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 267255884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bae1c90b84cb92c4aaa84fd8e994f470, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerIsBuildMode: 0
-  Ratio: 3
-  floorPosition: 8.5
-  constructChosen: {fileID: 0}
-  constructionSpawn: {fileID: 267255885}
-  goodMat: {fileID: 2100000, guid: 97eb50e2d27fe8f4096ea70ce41edbcf, type: 2}
-  wrongMat: {fileID: 2100000, guid: 02718c60ad1f414479f699e432feae42, type: 2}
---- !u!114 &267255887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 267255884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40d030938e3d8e44ea498361d9eff472, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Wheel: {fileID: 3275987659603758323, guid: c320130337df1b84b82ed178df3cf286, type: 3}
-  interraction: {fileID: 267255886}
-  Construction:
-  - {fileID: 11400000, guid: 321888f0e933778498ea39e777d1fe1e, type: 2}
-  - {fileID: 11400000, guid: aceccd2060bf5a0458c64e60e68d3150, type: 2}
-  isBuilding: 0
 --- !u!1 &269340323
 GameObject:
   m_ObjectHideFlags: 0
@@ -27233,6 +27163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd272ba7a8682474ba410e5db57b6545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  followSpeed: 5
 --- !u!1 &1098990624
 GameObject:
   m_ObjectHideFlags: 0
@@ -45100,11 +45032,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 7096868728439228657, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 267255885}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 276ae67f58d63cb4ba195f4d2bb6e537, type: 3}
 --- !u!1 &1771657347
