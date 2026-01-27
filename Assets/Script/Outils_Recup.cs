@@ -6,6 +6,7 @@ public class Outils_Recup : MonoBehaviour
 {
     // Start is called before the first frame update
     private bool detected = false;
+    [SerializeField] private GameObject toolUi;
     void Start()
     {
         
@@ -15,7 +16,7 @@ public class Outils_Recup : MonoBehaviour
     void Update()
     {
         if (detected && Input.GetButtonDown("Fire1") && GameManager.Instance.playerManager.havingTools == false)
-        {
+        {   toolUi.SetActive(true);
             GameManager.Instance.playerManager.indexTuto += 1;
             GameManager.Instance.playerManager.tutoSelect = GameManager.Instance.playerManager.tuto[GameManager.Instance.playerManager.indexTuto];
             GameManager.Instance.playerManager.havingTools = true;
