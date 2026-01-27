@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using NaughtyAttributes;
 
 public class ToolUIManager : MonoBehaviour
 {
@@ -87,5 +88,37 @@ public class ToolUIManager : MonoBehaviour
         {
             if (arrosoirUiContainer != null) arrosoirUiContainer.SetActive(false);
         }
+        ChangeSpriteToMainTool();
     }
-}
+
+    #region ChangeUI
+    [InfoBox("0 Hand, 1 Shovel, 2 Water, 3 Hammer")]
+    [SerializeField] Sprite[] toolsSprite;
+    [SerializeField] Image[] Tool_UI;
+
+
+    public void ChangeSpriteToMainTool()
+    {
+        Sprite[] S = GetNewToolsArray();
+
+        for (int i = 0; i < S.Length; i++) 
+        {
+            Tool_UI[i].sprite = S[i];
+        }
+    }
+
+    Sprite[] GetNewToolsArray()
+    {
+            Sprite[] baseTools = toolsSprite;
+            Sprite[] newArray = new Sprite[baseTools.Length];
+
+            for (int i = 0; i < baseTools.Length; i++)
+            {
+                int newIndex = (i + GameManager.Instance.playerManager.outils) % baseTools.Length;
+                newArray[i] = baseTools[newIndex];
+            }
+
+            return newArray;
+        }
+    }
+    #endregion

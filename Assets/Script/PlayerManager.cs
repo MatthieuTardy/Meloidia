@@ -47,7 +47,6 @@ public class PlayerManager : MonoBehaviour
         
     }
 
-
     #region Use Get and Reload
     public void ReloadWater()
     {
@@ -78,11 +77,33 @@ public class PlayerManager : MonoBehaviour
     }
 
     #endregion
+
+    [InfoBox("0 Hand, 1 Shovel, 2 Water, 3 Hammer")]
+    [SerializeField] Sprite[] toolsSprite;
+
+    public void ChangeSpriteToMainTool()
+    {
+        Sprite[] S = GetNewToolsArray();  
+    }
+
+    Sprite[] GetNewToolsArray()
+    {
+        return new Sprite[toolsSprite.Length];
+    }
+
+    #region ChangeUI
+    
+
+    
+    #endregion
+
+#if UNITY_EDITOR
     [Button("test")] 
     public void Test()
     {
         StartCoroutine(SetSingingStateCalme(15));
     }
+#endif
     public IEnumerator SetSingingStateCalme(float duration)
     {
         calme = true;

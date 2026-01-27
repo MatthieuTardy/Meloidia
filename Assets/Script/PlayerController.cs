@@ -265,23 +265,19 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetButtonDown("Outils 2") && GameManager.Instance.playerManager.outils != 1 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") >= 0.8 && GameManager.Instance.playerManager.havingTools == true)
         {
-            SetTool(1, false, false, false, true);
+            SetTool(1, false, true, false, false);
         }
         else if (Input.GetButtonDown("Outils 3") && GameManager.Instance.playerManager.outils != 2 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") <= -0.8 && GameManager.Instance.playerManager.havingTools == true)
         {
-            SetTool(2, false, true, false, false);
+            SetTool(2, false, false, true, false);
         }
-        else if (Input.GetButtonDown("Outils 4") && GameManager.Instance.playerManager.outils != 3 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") <= -0.8 && GameManager.Instance.playerManager.havingTools == true)
+        else if (Input.GetButtonDown("Outils 4"))
         {
-            SetTool(3, false, false, true, false);
-        }
-        else if(Input.GetButtonDown("Build"))
-        {
-            if (GameManager.Instance.playerManager.outils != 5 && GameManager.Instance.playerManager.havingTools == true)
+            if (GameManager.Instance.playerManager.outils != 3 && GameManager.Instance.playerManager.havingTools == true)
             {
-                GameManager.Instance.playerManager.outils = 5;
+                GameManager.Instance.playerManager.outils = 3;
                 GameManager.Instance.playerManager.isBuildMode = true;
-                SetTool(-1, false, false, false, false);
+                SetTool(3, false, false, false, true);
             }
             if (!GameManager.Instance.buildManager.isBuilding)
             {
@@ -292,12 +288,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void SetTool(int outilIndex, bool gant, bool pelle, bool houe, bool arrosoir)
+    private void SetTool(int outilIndex, bool gant, bool pelle, bool arrosoir, bool marteau)
     {
         if(outilIndex >= 0) GameManager.Instance.playerManager.outils = outilIndex;
+        GameManager.Instance.playerManager.ChangeSpriteToMainTool();
         GameManager.Instance.playerManager.Gant.SetActive(gant);
         GameManager.Instance.playerManager.Pelle.SetActive(pelle);
-        GameManager.Instance.playerManager.Houe.SetActive(houe);
         GameManager.Instance.playerManager.Arrosoir.SetActive(arrosoir);
+        GameManager.Instance.playerManager.Houe.SetActive(marteau);
     }
 }
