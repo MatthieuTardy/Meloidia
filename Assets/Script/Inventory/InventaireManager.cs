@@ -6,7 +6,7 @@ public class InventoryManager : MonoBehaviour
 {
     public IReadOnlyList<ItemSlot> Items => items.AsReadOnly();
     [SerializeField]private List<ItemSlot> items;
-    public int InventorySize = 4;
+    public int InventorySize = 5;
     public void Start()
     {
         dictionaryOfItem = new Dictionary<Sprite, GameObject>();
