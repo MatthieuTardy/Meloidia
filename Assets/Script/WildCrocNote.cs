@@ -15,6 +15,7 @@ public class WildCrocNote : MonoBehaviour
     bool canAttackPlayer = false;
 
     [Header("Paramètres de Déplacement")]
+    private Vector3 finalPos;
     [SerializeField] float walkRadius = 5f;
     [SerializeField] float intervalleAttente = 5f;
     [SerializeField] float originSpeed = 5f;
@@ -33,6 +34,10 @@ public class WildCrocNote : MonoBehaviour
     WildCrocNoteTriggerZone WCNTZ;
 
     [SerializeField] GameObject player;
+
+    [Header("Animation")]
+    public Animator animator;
+
 
     #region Unity Default Function
     void Start()
@@ -57,8 +62,12 @@ public class WildCrocNote : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(1, 5));
         if (!WCNTZ.isTouchingPlayer)
         {
-            Debug.Log("Can't attack player");
-            myNavAgent.SetDestination(RandomNavmeshLocation(walkRadius));
+            yield return new WaitForSeconds(Random.Range(1, 5));
+            animator.SetBool("walk", true);
+            finalPos = RandomNavmeshLocation(walkRadius);
+            myNavAgent.SetDestination(finalPos);
+            yield return new WaitUntil(() => transform.position.x == finalPos.x && transform.position.z == finalPos.z);
+            animator.SetBool("walk", false);
             move = StartCoroutine(RandomMove());
         }
         else
@@ -105,8 +114,12 @@ public class WildCrocNote : MonoBehaviour
     IEnumerator AttackRoutine()
     {
         Debug.Log("Attack");
+        animator.SetBool("attack", true);
         yield return new WaitForSeconds(Random.Range(1f, 4f));
         myNavAgent.SetDestination(new Vector3(player.transform.position.x, this.transform.position.y, player.transform.position.z));
+        finalPos = new Vector3(player.transform.position.x, this.transform.position.y, player.transform.position.z);
+        yield return new WaitUntil(() => transform.position.x == finalPos.x && transform.position.z == finalPos.z);
+        animator.SetBool("attack", false);
         attack = StartCoroutine(AttackRoutine());
 
     }

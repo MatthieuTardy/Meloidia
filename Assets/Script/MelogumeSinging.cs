@@ -107,6 +107,7 @@ public class MelogumeSingingManager : MonoBehaviour
         }
 
         // --- S�quence musicale avec particules ---
+        legumeManager.animator.SetBool("walk", false);
         legumeManager.animator.SetBool("sing", true);
 
         PlayNoteWithParticles(DO, doMaterial);
@@ -127,7 +128,7 @@ public class MelogumeSingingManager : MonoBehaviour
 
         legumeManager.animator.SetBool("sing", false);
         // R�tablir la vitesse de d�placement
-        Debug.Log("stop chant");
+
         if (_isGameManagerReady)
         {
             legumeManager.vitesse = 5;
@@ -149,7 +150,6 @@ public class MelogumeSingingManager : MonoBehaviour
     public void StartHappyness()
     {
         joyeux = StartCoroutine(SongOfHealing());
-        legumeManager.animator.SetBool("sing", true);
     }
     public IEnumerator SongOfRage()
     {
@@ -161,6 +161,7 @@ public class MelogumeSingingManager : MonoBehaviour
 
 
         // --- S�quence musicale avec particules ---
+        legumeManager.animator.SetBool("walk", false);
         legumeManager.animator.SetBool("sing", true);
         PlayNoteWithParticles(DO, doMaterial);
         yield return new WaitForSeconds(0.1f);
@@ -207,6 +208,7 @@ public class MelogumeSingingManager : MonoBehaviour
 
     public void StartRage()
     {
+        legumeManager.animator.SetBool("sing", false);
         rage = StartCoroutine(SongOfRage());
     }
     public void StopRage()
