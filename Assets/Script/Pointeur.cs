@@ -14,7 +14,7 @@ public class PointeurVersCible : MonoBehaviour
         {
             transform.LookAt(GameManager.Instance.playerManager.tutoSelect);
         }
-        if (GameManager.Instance.playerManager.indexTuto == 5)
+        if (GameManager.Instance.playerManager.indexTuto == 1)
         {
             fleche.SetActive(false);
         }

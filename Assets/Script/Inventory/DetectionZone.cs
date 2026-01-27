@@ -26,8 +26,8 @@ public class DetectionZone : MonoBehaviour
                 interractableObject.GetComponent<Reserve>().CloseReserve();
             }
 
-            interractableObject = null;
         }
+            interractableObject = null;
         
     }
 

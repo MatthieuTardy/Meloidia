@@ -17,7 +17,8 @@ public class WildCrocNote : MonoBehaviour
     [Header("Paramètres de Déplacement")]
     [SerializeField] float walkRadius = 5f;
     [SerializeField] float intervalleAttente = 5f;
-    public float vitesse = 5f;
+    [SerializeField] float originSpeed = 5f;
+    private float vitesse;
     [SerializeField] float vitesseRotation = 10f;
     [SerializeField] NavMeshAgent myNavAgent;
     Transform nextPoint;
@@ -39,6 +40,7 @@ public class WildCrocNote : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         rb.useGravity = true;
+        vitesse = originSpeed;
         WCNTZ = GetComponentInChildren<WildCrocNoteTriggerZone>();
         move = StartCoroutine(RandomMove());
 
@@ -94,7 +96,7 @@ public class WildCrocNote : MonoBehaviour
 
 
 
-
+        vitesse = originSpeed * 2;
         canAttackPlayer = true;
         StopCoroutine(move);
         attack = StartCoroutine(AttackRoutine());

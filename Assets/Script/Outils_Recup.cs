@@ -20,6 +20,7 @@ public class Outils_Recup : MonoBehaviour
             GameManager.Instance.playerManager.tutoSelect = GameManager.Instance.playerManager.tuto[GameManager.Instance.playerManager.indexTuto];
             GameManager.Instance.playerManager.havingTools = true;
             GameManager.Instance.playerManager.Gant.SetActive(true);
+            Debug.Log("Outils");
         }
     }
 
