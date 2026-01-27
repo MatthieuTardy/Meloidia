@@ -109,14 +109,15 @@ public class BuildInterraction : MonoBehaviour
                 halfExtents,
                 construct.transform.rotation
             );
-
+            Transform parentToIgnore = transform.parent;
             foreach (Collider hit in hits)
             {
                 // Ignore si le collider appartient au construct ou à ses enfants
-                if (hit.transform.IsChildOf(construct.transform))
+                if (hit.transform.IsChildOf(construct.transform) || hit.transform.IsChildOf(parentToIgnore))
                     continue;
 
                 // Sinon, c'est bloqué
+                Debug.Log(hit.gameObject.name);
                 return false;
             }
 

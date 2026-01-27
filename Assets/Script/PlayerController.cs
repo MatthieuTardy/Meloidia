@@ -281,7 +281,7 @@ public class PlayerController : MonoBehaviour
             }
             if (!GameManager.Instance.buildManager.isBuilding)
             {
-                SetTool(0, true, false, false, false);
+               // SetTool(0, true, false, false, false);
             }
             OnBuildMode.Invoke();
             Debug.Log("Build Mode Enable");
@@ -292,9 +292,9 @@ public class PlayerController : MonoBehaviour
     {
         if(outilIndex >= 0) GameManager.Instance.playerManager.outils = outilIndex;
         GameManager.Instance.playerManager.ChangeSpriteToMainTool();
-        GameManager.Instance.playerManager.Gant.SetActive(gant);
-        GameManager.Instance.playerManager.Pelle.SetActive(pelle);
-        GameManager.Instance.playerManager.Arrosoir.SetActive(arrosoir);
-        GameManager.Instance.playerManager.Houe.SetActive(marteau);
+       // GameManager.Instance.playerManager.Gant.SetActive(gant);
+        //GameManager.Instance.playerManager.Pelle.SetActive(pelle);
+       // GameManager.Instance.playerManager.Arrosoir.SetActive(arrosoir);
+       // GameManager.Instance.playerManager.Houe.SetActive(marteau);
     }
 }
