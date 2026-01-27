@@ -49,6 +49,7 @@ public class LegumeManager : MonoBehaviour
     private Etat etatActuel;
 
     [Header("Paramètres de Déplacement")]
+    private Vector3 finalPos;
     [SerializeField] float walkRadius = 5f;
     [SerializeField] float intervalleAttente = 5f;
     public float vitesse = 5f;
@@ -63,10 +64,17 @@ public class LegumeManager : MonoBehaviour
     private Rigidbody rb;
     public GameObject NameBoard;
 
+    [Header("Animation")]
+    public Animator animator;
+
+
+
+
 
     void Start()
     {
         GameManager.Instance.AddCrocNote(this);
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         rb.useGravity = true;
@@ -81,10 +89,14 @@ public class LegumeManager : MonoBehaviour
 
     public IEnumerator RandomMove()
     {
-        yield return new WaitForSeconds(Random.Range(1, 5));
-        myNavAgent.SetDestination(RandomNavmeshLocation(walkRadius));
-        move = StartCoroutine(RandomMove());
 
+        yield return new WaitForSeconds(Random.Range(1, 5));
+        animator.SetBool("walk", true);
+        finalPos = RandomNavmeshLocation(walkRadius);
+        myNavAgent.SetDestination(finalPos);
+        yield return new WaitUntil(() => transform.position.x == finalPos.x && transform.position.z == finalPos.z);
+        animator.SetBool("walk", false);
+        move = StartCoroutine(RandomMove());
     }
 
     public Vector3 RandomNavmeshLocation(float radius)
@@ -110,6 +122,8 @@ public class LegumeManager : MonoBehaviour
         {
             calmeTimer += Time.deltaTime;
         }
+
+
         NameBoard.transform.rotation = Quaternion.Euler(new Vector3(0,0,0));
     }
 

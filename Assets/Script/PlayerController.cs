@@ -4,157 +4,85 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Références")]
+    [Header("RÃ©fÃ©rences")]
     public Rigidbody body;
     public Transform playerVisuals;
     public Transform cameraTransform;
     public ParticleSystem sprintParticles;
+    
+    [Tooltip("Glisse ton composant Animator ici")]
+    public Animator animator; 
 
     [Header("Mouvement")]
     public float speed = 5f;
-    public float jumpForce = 7f;
     public LayerMask groundLayer;
-    [Tooltip("Contrôle la glissade à l'arrêt. 0 = arrêt net. 0.2 = légère glissade.")]
+    [Tooltip("ContrÃ´le la glissade Ã  l'arrÃªt. 0 = arrÃªt net. 0.2 = lÃ©gÃ¨re glissade.")]
     public float decelerationSmoothness = 0.15f;
+
+    [Header("Saut & Physique")]
+    public float jumpForce = 12f;
+    public float jumpCooldown = 0.25f;
+    public float jumpDelay = 0.05f;
+    public float fallMultiplier = 2.5f; 
+    
+    private float lastJumpTime;
 
     [Header("Sprint")]
     public float sprintSpeed = 10f;
     private bool isSprinting;
 
     [Header("Rotation")]
-    [Tooltip("Vitesse de rotation en degrés/sec")]
     public float rotationSpeed = 720f;
-    [Tooltip("Temps de lissage pour la rotation")]
     public float rotationSmoothTime = 0.1f;
 
-    [Header("Juice - Effets visuels")]
-    public bool enableJuice = true;
-    public float visualSmoothTime = 0.1f;
-
-    [Header("Juice - Idle (Respiration)")]
-    public float idleBreatheFrequency = 1f;
-    public float idleBreatheAmplitude = 0.05f;
-
-    [Header("Juice - Mouvement (Sautillement)")]
-    public float bobbingFrequency = 10f;
-    public float bobbingAmplitude = 0.1f;
-    // AJOUT: Paramètres d'oscillation pour le sprint
-    public float sprintBobbingFrequency = 15f;
-    public float sprintBobbingAmplitude = 0.15f;
-
-
-    [Header("Juice - Saut (Déformation)")]
-    public Vector3 jumpSquash = new Vector3(1.25f, 0.75f, 1.25f);
-    public Vector3 landSquash = new Vector3(1.5f, 0.5f, 1.5f);
-    public float squashReturnSpeed = 8f;
+    [Header("Idle SpÃ©cial (AFK)")]
+    public float minIdleTime = 5f; 
+    public float maxIdleTime = 10f;
+    private float idleTimer;
+    private float currentIdleThreshold;
 
     private Vector3 inputDirection;
     private Vector3 lastValidDirection;
     private Vector3 stoppingVelocity;
     private bool isGrounded;
-    private Vector3 initialVisualsScale;
-    private Vector3 targetVisualsPos;
-    private Vector3 targetVisualsScale;
-    private Vector3 visualsPosVelocity;
-    private Vector3 visualsScaleVelocity;
-    private bool isSquashing = false;
     private float currentRotationVelocity;
     private float targetRotation;
     private float currentRotation;
-
-
 
     void Start()
     {
         if (body == null) body = GetComponent<Rigidbody>();
         if (playerVisuals == null) playerVisuals = transform;
+        if (animator == null) animator = GetComponentInChildren<Animator>();
         if (cameraTransform == null && Camera.main != null) cameraTransform = Camera.main.transform;
 
-        initialVisualsScale = playerVisuals.localScale;
-        targetVisualsScale = initialVisualsScale;
-        targetVisualsPos = Vector3.zero;
+        if(playerVisuals != transform)
+        {
+            playerVisuals.localPosition = Vector3.zero;
+            playerVisuals.localRotation = Quaternion.identity;
+        }
+
         currentRotation = transform.eulerAngles.y;
         body.freezeRotation = true;
+
+        ResetIdleTimer();
     }
 
     void Update()
     {
         HandleInputs();
         CheckGrounded();
+        
+        HandleAnimations();
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded && Time.time >= lastJumpTime + jumpCooldown)
         {
             Jump();
         }
 
-        if (enableJuice)
-        {
-            CalculateJuiceTargets();
-        }
-
-        if (Input.GetButtonDown("Outils 1") && GameManager.Instance.playerManager.outils != 0 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") >= 0.8 && GameManager.Instance.playerManager.havingTools == true)
-        {
-            GameManager.Instance.playerManager.outils = 0;
-            GameManager.Instance.playerManager.Gant.SetActive(true);
-            GameManager.Instance.playerManager.Pelle.SetActive(false);
-            GameManager.Instance.playerManager.Houe.SetActive(false);
-            GameManager.Instance.playerManager.Arrosoir.SetActive(false);
-        }
-        else if (Input.GetButtonDown("Outils 2") && GameManager.Instance.playerManager.outils != 1 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") >= 0.8 && GameManager.Instance.playerManager.havingTools == true)
-        {
-            GameManager.Instance.playerManager.outils = 1;
-            GameManager.Instance.playerManager.Gant.SetActive(false);
-            GameManager.Instance.playerManager.Pelle.SetActive(false);
-            GameManager.Instance.playerManager.Houe.SetActive(false);
-            GameManager.Instance.playerManager.Arrosoir.SetActive(true);
-        }
-        else if (Input.GetButtonDown("Outils 3") && GameManager.Instance.playerManager.outils != 2 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") <= -0.8 && GameManager.Instance.playerManager.havingTools == true)
-        {
-            GameManager.Instance.playerManager.outils = 2;
-            GameManager.Instance.playerManager.Gant.SetActive(false);
-            GameManager.Instance.playerManager.Pelle.SetActive(true);
-            GameManager.Instance.playerManager.Houe.SetActive(false);
-            GameManager.Instance.playerManager.Arrosoir.SetActive(false);
-        }
-        else if (Input.GetButtonDown("Outils 4") && GameManager.Instance.playerManager.outils != 3 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") <= -0.8 && GameManager.Instance.playerManager.havingTools == true)
-        {
-            GameManager.Instance.playerManager.outils = 3;
-            GameManager.Instance.playerManager.Gant.SetActive(false);
-            GameManager.Instance.playerManager.Pelle.SetActive(false);
-            GameManager.Instance.playerManager.Houe.SetActive(true);
-            GameManager.Instance.playerManager.Arrosoir.SetActive(false);
-        }
-        else if(Input.GetButtonDown("Build"))
-        {
-            if (GameManager.Instance.playerManager.outils != 5 && GameManager.Instance.playerManager.havingTools == true)
-            {
-                GameManager.Instance.playerManager.outils = 5;
-                GameManager.Instance.playerManager.isBuildMode = true;
-                GameManager.Instance.playerManager.Gant.SetActive(false);
-                GameManager.Instance.playerManager.Pelle.SetActive(false);
-                GameManager.Instance.playerManager.Houe.SetActive(false);
-                GameManager.Instance.playerManager.Arrosoir.SetActive(false);
-            }
-            if (!GameManager.Instance.buildManager.isBuilding)
-            {
-                GameManager.Instance.playerManager.outils = 0;
-                GameManager.Instance.playerManager.Gant.SetActive(true);
-                GameManager.Instance.playerManager.Pelle.SetActive(false);
-                GameManager.Instance.playerManager.Houe.SetActive(false);
-                GameManager.Instance.playerManager.Arrosoir.SetActive(false);
-            }
-            OnBuildMode.Invoke();
-            Debug.Log("Build Mode Enable");
-        }
-        
-        ApplyJuiceSmoothly();
+        HandleToolsInput();
         HandleSprintVisuals();
     }
-
-
-
-
-
 
     public event Action OnBuildMode = delegate { };
 
@@ -162,6 +90,15 @@ public class PlayerController : MonoBehaviour
     {
         HandleMovement();
         HandleRotation();
+        ApplyBetterGravity();
+    }
+
+    private void ApplyBetterGravity()
+    {
+        if (body.velocity.y < 0)
+        {
+            body.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+        }
     }
 
     private void HandleInputs()
@@ -186,17 +123,61 @@ public class PlayerController : MonoBehaviour
         }
 
         isSprinting = Input.GetButton("Fire3");
+    }
 
+    private void HandleAnimations()
+    {
+        if (animator == null) return;
 
+        bool isMoving = inputDirection.magnitude >= 0.1f;
+
+        animator.SetBool("isgrounded", isGrounded);
+        animator.SetBool("iswalking", isMoving);
+        animator.SetBool("isidle", !isMoving);
+        
+        if (Time.time >= lastJumpTime + jumpCooldown) 
+        {
+            animator.SetBool("isjumping", !isGrounded);
+        }
+
+        float animSpeedMultiplier = 1f;
+        if (isSprinting && isMoving && isGrounded)
+        {
+            animSpeedMultiplier = sprintSpeed / speed;
+        }
+        animator.SetFloat("animSpeed", animSpeedMultiplier);
+
+        // Logique Idle SpÃ©cial
+        if (!isMoving && isGrounded)
+        {
+            idleTimer += Time.deltaTime;
+            if (idleTimer >= currentIdleThreshold)
+            {
+                animator.SetTrigger("specialIdle");
+                ResetIdleTimer();
+            }
+        }
+        else
+        {
+            idleTimer = 0f;
+        }
+    }
+
+    private void ResetIdleTimer()
+    {
+        idleTimer = 0f;
+        currentIdleThreshold = UnityEngine.Random.Range(minIdleTime, maxIdleTime);
     }
 
     private void HandleMovement()
     {
-        float currentSpeed = isSprinting && isGrounded ? sprintSpeed : speed;
+        float currentSpeed = isSprinting ? sprintSpeed : speed;
+
         if (!GameManager.Instance.playerManager.ragdoll)
         {
             if (inputDirection.magnitude >= 0.1f)
             {
+                // Retour au mouvement simple sans Raycast ni projection
                 Vector3 targetVelocity = inputDirection * currentSpeed;
                 body.velocity = new Vector3(targetVelocity.x, body.velocity.y, targetVelocity.z);
             }
@@ -207,7 +188,6 @@ public class PlayerController : MonoBehaviour
                 body.velocity = new Vector3(smoothedHorizontal.x, body.velocity.y, smoothedHorizontal.z);
             }
         }
-
     }
 
     private void HandleSprintVisuals()
@@ -216,17 +196,11 @@ public class PlayerController : MonoBehaviour
         {
             if (isSprinting && inputDirection.magnitude > 0.1f && isGrounded)
             {
-                if (!sprintParticles.isPlaying)
-                {
-                    sprintParticles.Play();
-                }
+                if (!sprintParticles.isPlaying) sprintParticles.Play();
             }
             else
             {
-                if (sprintParticles.isPlaying)
-                {
-                    sprintParticles.Stop();
-                }
+                if (sprintParticles.isPlaying) sprintParticles.Stop();
             }
         }
     }
@@ -248,92 +222,82 @@ public class PlayerController : MonoBehaviour
 
     private void CheckGrounded()
     {
-        bool wasGrounded = isGrounded;
         isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
-        if (!wasGrounded && isGrounded && enableJuice)
-        {
-            StartCoroutine(AnimateSquash(landSquash));
-        }
     }
 
     private void Jump()
     {
-        if (enableJuice)
+        lastJumpTime = Time.time;
+
+        if (animator != null)
         {
-            StartCoroutine(AnimateSquashAndJump(jumpSquash));
+            animator.SetTrigger("jump");
+            animator.SetBool("isjumping", true); 
+            
+            StopCoroutine("ResetJumpTriggerRoutine");
+            StartCoroutine("ResetJumpTriggerRoutine");
         }
-        else
-        {
-            body.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
+
+        StartCoroutine(DelayedJumpPhysics());
     }
 
-    private void CalculateJuiceTargets()
+    private IEnumerator DelayedJumpPhysics()
     {
-        if (isGrounded)
-        {
-            if (body.velocity.magnitude < 0.2f)
-            {
-                float breathe = Mathf.Sin(Time.time * idleBreatheFrequency) * idleBreatheAmplitude;
-                targetVisualsScale = new Vector3(initialVisualsScale.x, initialVisualsScale.y + breathe, initialVisualsScale.z);
-                targetVisualsPos = Vector3.zero;
-            }
-            else
-            {
-                // MODIFICATION: Choisir les bons paramètres d'oscillation si on sprinte ou non
-                float currentBobbingFrequency = (isSprinting && isGrounded) ? sprintBobbingFrequency : bobbingFrequency;
-                float currentBobbingAmplitude = (isSprinting && isGrounded) ? sprintBobbingAmplitude : bobbingAmplitude;
-
-                float bobbingOffset = Mathf.Sin(Time.time * currentBobbingFrequency) * currentBobbingAmplitude;
-                targetVisualsPos = new Vector3(0, bobbingOffset, 0);
-                targetVisualsScale = initialVisualsScale;
-            }
-        }
-        else
-        {
-            targetVisualsPos = Vector3.zero;
-            targetVisualsScale = initialVisualsScale;
-        }
-    }
-
-    private void ApplyJuiceSmoothly()
-    {
-        playerVisuals.localPosition = Vector3.SmoothDamp(playerVisuals.localPosition, targetVisualsPos, ref visualsPosVelocity, visualSmoothTime);
-        if (!isSquashing)
-        {
-            playerVisuals.localScale = Vector3.SmoothDamp(playerVisuals.localScale, targetVisualsScale, ref visualsScaleVelocity, visualSmoothTime);
-        }
-    }
-
-    private IEnumerator AnimateSquash(Vector3 targetScale)
-    {
-        isSquashing = true;
-        playerVisuals.localScale = targetScale;
-        yield return null;
-
-        while (Vector3.Distance(playerVisuals.localScale, initialVisualsScale) > 0.01f)
-        {
-            playerVisuals.localScale = Vector3.Lerp(playerVisuals.localScale, initialVisualsScale, squashReturnSpeed * Time.deltaTime);
-            yield return null;
-        }
-        playerVisuals.localScale = initialVisualsScale;
-        isSquashing = false;
-    }
-
-    private IEnumerator AnimateSquashAndJump(Vector3 targetScale)
-    {
-        isSquashing = true;
-        playerVisuals.localScale = targetScale;
-        yield return new WaitForSeconds(0.05f);
-
+        yield return new WaitForSeconds(jumpDelay);
+        body.velocity = new Vector3(body.velocity.x, 0, body.velocity.z);
         body.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
 
-        while (Vector3.Distance(playerVisuals.localScale, initialVisualsScale) > 0.01f)
+    private IEnumerator ResetJumpTriggerRoutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (animator != null)
         {
-            playerVisuals.localScale = Vector3.Lerp(playerVisuals.localScale, initialVisualsScale, squashReturnSpeed * Time.deltaTime);
-            yield return null;
+            animator.ResetTrigger("jump");
         }
-        playerVisuals.localScale = initialVisualsScale;
-        isSquashing = false;
+    }
+
+    private void HandleToolsInput()
+    {
+        if (Input.GetButtonDown("Outils 1") && GameManager.Instance.playerManager.outils != 0 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") >= 0.8 && GameManager.Instance.playerManager.havingTools == true)
+        {
+            SetTool(0, true, false, false, false);
+        }
+        else if (Input.GetButtonDown("Outils 2") && GameManager.Instance.playerManager.outils != 1 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") >= 0.8 && GameManager.Instance.playerManager.havingTools == true)
+        {
+            SetTool(1, false, false, false, true);
+        }
+        else if (Input.GetButtonDown("Outils 3") && GameManager.Instance.playerManager.outils != 2 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") <= -0.8 && GameManager.Instance.playerManager.havingTools == true)
+        {
+            SetTool(2, false, true, false, false);
+        }
+        else if (Input.GetButtonDown("Outils 4") && GameManager.Instance.playerManager.outils != 3 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") <= -0.8 && GameManager.Instance.playerManager.havingTools == true)
+        {
+            SetTool(3, false, false, true, false);
+        }
+        else if(Input.GetButtonDown("Build"))
+        {
+            if (GameManager.Instance.playerManager.outils != 5 && GameManager.Instance.playerManager.havingTools == true)
+            {
+                GameManager.Instance.playerManager.outils = 5;
+                GameManager.Instance.playerManager.isBuildMode = true;
+                SetTool(-1, false, false, false, false);
+            }
+            if (!GameManager.Instance.buildManager.isBuilding)
+            {
+                SetTool(0, true, false, false, false);
+            }
+            OnBuildMode.Invoke();
+            Debug.Log("Build Mode Enable");
+        }
+    }
+
+    private void SetTool(int outilIndex, bool gant, bool pelle, bool houe, bool arrosoir)
+    {
+        if(outilIndex >= 0) GameManager.Instance.playerManager.outils = outilIndex;
+        GameManager.Instance.playerManager.Gant.SetActive(gant);
+        GameManager.Instance.playerManager.Pelle.SetActive(pelle);
+        GameManager.Instance.playerManager.Houe.SetActive(houe);
+        GameManager.Instance.playerManager.Arrosoir.SetActive(arrosoir);
     }
 }

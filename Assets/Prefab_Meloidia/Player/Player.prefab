@@ -343,6 +343,193 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5754284639812752658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 586229092278337042}
+  - component: {fileID: 8640948917393224872}
+  - component: {fileID: 3033674266983490195}
+  - component: {fileID: 1624328220251476516}
+  - component: {fileID: 7094252404392124894}
+  - component: {fileID: 5631144824830925296}
+  m_Layer: 0
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &586229092278337042
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5754284639812752658}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.11069087, y: -0.8870111, z: 0.28129134, w: 0.34904748}
+  m_LocalPosition: {x: 5.5694523, y: 5.7628965, z: 5.9808216}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7096868728439228657}
+  m_LocalEulerAnglesHint: {x: 0, y: -13.99, z: 0}
+--- !u!20 &8640948917393224872
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5754284639812752658}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.1
+  far clip plane: 5000
+  field of view: 75
+  orthographic: 0
+  orthographic size: 10
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!81 &3033674266983490195
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5754284639812752658}
+  m_Enabled: 1
+--- !u!114 &1624328220251476516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5754284639812752658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+--- !u!114 &7094252404392124894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5754284639812752658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowDebugText: 0
+  m_ShowCameraFrustum: 1
+  m_IgnoreTimeScale: 0
+  m_WorldUpOverride: {fileID: 0}
+  m_UpdateMethod: 2
+  m_BlendUpdateMethod: 1
+  m_DefaultBlend:
+    m_Style: 1
+    m_Time: 2
+    m_CustomCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_CustomBlends: {fileID: 0}
+  m_CameraCutEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_CameraActivatedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &5631144824830925296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5754284639812752658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &5849583112022085087
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,7 +655,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6085170812785974976}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.9305447, z: -0, w: 0.3661784}
+  m_LocalRotation: {x: 0, y: 0.9305454, z: 0, w: 0.3661766}
   m_LocalPosition: {x: -17.59, y: 1.56, z: -17.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -478,6 +665,7 @@ Transform:
   - {fileID: 283181268626424924}
   - {fileID: 3441339653638683044}
   - {fileID: 8551342973851644804}
+  - {fileID: 586229092278337042}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 137.04, z: 0}
 --- !u!33 &4212668147784607244
@@ -542,6 +730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InventorySize: 4
+  DictionaryOfItem: []
 --- !u!136 &3314531893635569792
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -725,11 +914,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1260669548
-      Data2: 1154893480
-      Data3: 1331610507
-      Data4: -419372798
-    Path: event:/DO
+      Data1: 1247434245
+      Data2: 1313695403
+      Data3: 298510215
+      Data4: -511265525
+    Path: event:/SFX/Robot/Robot_Voice/Robot_Do
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -738,9 +927,9 @@ MonoBehaviour:
   Preload: 0
   NonRigidbodyVelocity: 0
   Params: []
-  OverrideAttenuation: 1
+  OverrideAttenuation: 0
   OverrideMinDistance: 1
-  OverrideMaxDistance: 50
+  OverrideMaxDistance: 20
 --- !u!114 &1288107809140459592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -756,11 +945,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -568615340
-      Data2: 1288887963
-      Data3: -125869401
-      Data4: 2086306431
-    Path: event:/RE
+      Data1: -1354115078
+      Data2: 1209929640
+      Data3: -994404419
+      Data4: -2120407878
+    Path: event:/SFX/Robot/Robot_Voice/Robot_Re
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -769,9 +958,9 @@ MonoBehaviour:
   Preload: 0
   NonRigidbodyVelocity: 0
   Params: []
-  OverrideAttenuation: 1
+  OverrideAttenuation: 0
   OverrideMinDistance: 1
-  OverrideMaxDistance: 50
+  OverrideMaxDistance: 20
 --- !u!114 &4259539459617483814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -787,11 +976,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -577138497
-      Data2: 1338497565
-      Data3: 349194897
-      Data4: -1258335613
-    Path: event:/MI
+      Data1: 1741131061
+      Data2: 1332017290
+      Data3: 679332790
+      Data4: 801298445
+    Path: event:/SFX/Robot/Robot_Voice/Robot_Mi
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -800,9 +989,9 @@ MonoBehaviour:
   Preload: 0
   NonRigidbodyVelocity: 0
   Params: []
-  OverrideAttenuation: 1
+  OverrideAttenuation: 0
   OverrideMinDistance: 1
-  OverrideMaxDistance: 50
+  OverrideMaxDistance: 20
 --- !u!114 &2200047053759140786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -818,11 +1007,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 352314010
-      Data2: 1256172865
-      Data3: -403930710
-      Data4: 728312434
-    Path: event:/FA
+      Data1: -1792812246
+      Data2: 1120931800
+      Data3: 1914303163
+      Data4: 1390250213
+    Path: event:/SFX/Robot/Robot_Voice/Robot_Fa
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -831,9 +1020,9 @@ MonoBehaviour:
   Preload: 0
   NonRigidbodyVelocity: 0
   Params: []
-  OverrideAttenuation: 1
+  OverrideAttenuation: 0
   OverrideMinDistance: 1
-  OverrideMaxDistance: 50
+  OverrideMaxDistance: 20
 --- !u!114 &4922790990335189922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -849,11 +1038,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -799580361
-      Data2: 1334636694
-      Data3: 881466041
-      Data4: -66375443
-    Path: event:/SOL
+      Data1: 279287578
+      Data2: 1224484772
+      Data3: -1717551472
+      Data4: -1390075827
+    Path: event:/SFX/Robot/Robot_Voice/Robot_Sol
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -862,9 +1051,9 @@ MonoBehaviour:
   Preload: 0
   NonRigidbodyVelocity: 0
   Params: []
-  OverrideAttenuation: 1
+  OverrideAttenuation: 0
   OverrideMinDistance: 1
-  OverrideMaxDistance: 50
+  OverrideMaxDistance: 20
 --- !u!114 &406048509049481522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -880,11 +1069,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1526544668
-      Data2: 1086668150
-      Data3: 503296168
-      Data4: 352620140
-    Path: event:/LA
+      Data1: 269529131
+      Data2: 1152489613
+      Data3: -449289822
+      Data4: -1997841894
+    Path: event:/SFX/Robot/Robot_Voice/Robot_La
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -893,9 +1082,9 @@ MonoBehaviour:
   Preload: 0
   NonRigidbodyVelocity: 0
   Params: []
-  OverrideAttenuation: 1
+  OverrideAttenuation: 0
   OverrideMinDistance: 1
-  OverrideMaxDistance: 50
+  OverrideMaxDistance: 20
 --- !u!114 &8738417432220091874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -911,11 +1100,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 132270451
-      Data2: 1078259222
-      Data3: -34434657
-      Data4: 633859951
-    Path: event:/SI
+      Data1: -1499783105
+      Data2: 1340363958
+      Data3: 629066633
+      Data4: 1922857158
+    Path: event:/SFX/Robot/Robot_Voice/Robot_Si
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -924,9 +1113,9 @@ MonoBehaviour:
   Preload: 0
   NonRigidbodyVelocity: 0
   Params: []
-  OverrideAttenuation: 1
+  OverrideAttenuation: 0
   OverrideMinDistance: 1
-  OverrideMaxDistance: 50
+  OverrideMaxDistance: 20
 --- !u!114 &5992974364254420992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -942,11 +1131,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -1039853874
-      Data2: 1078310672
-      Data3: -354637683
-      Data4: -1750269827
-    Path: event:/DO2
+      Data1: 1006769272
+      Data2: 1244844835
+      Data3: -1767446398
+      Data4: 1874203661
+    Path: event:/SFX/Robot/Robot_Voice/Robot_Do_2
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -955,9 +1144,9 @@ MonoBehaviour:
   Preload: 0
   NonRigidbodyVelocity: 0
   Params: []
-  OverrideAttenuation: 1
+  OverrideAttenuation: 0
   OverrideMinDistance: 1
-  OverrideMaxDistance: 50
+  OverrideMaxDistance: 20
 --- !u!114 &8087923654427863046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6324,6 +6513,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8364403507280066621}
   - component: {fileID: 7573399746499647684}
+  - component: {fileID: 7421651596981944733}
   m_Layer: 2
   m_Name: DetectionZone
   m_TagString: Detecteur
@@ -6367,6 +6557,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7421651596981944733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9065382313492850155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43294963503e6c54981354279b08500f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7876241072374870072
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6449,6 +6651,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cone
+      objectReference: {fileID: 0}
+    - target: {fileID: 7091330715619001998, guid: 0650d0cd877043a44b20651bbff60f78,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
