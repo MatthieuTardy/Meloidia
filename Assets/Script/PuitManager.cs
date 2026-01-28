@@ -7,14 +7,17 @@ public class PuitManager : MonoBehaviour
     private bool detected = false;
 
     [Header("Effet de Particules")]
-    public ParticleSystem waterFillParticles; // Le préfabriqué de particules à instancier
-    public Transform particleSpawnPoint;      // L'objet vide qui définit la position et la rotation du spawn
-    public float particleSystemExtraLifetime = 2.0f; // Temps supplémentaire avant de détruire les particules
+    public ParticleSystem waterFillParticles; // Le prfabriqu de particules  instancier
+    public Transform particleSpawnPoint;      // L'objet vide qui dfinit la position et la rotation du spawn
+    public float particleSystemExtraLifetime = 2.0f; // Temps supplmentaire avant de dtruire les particules
+    
+    // Reference au PlayerController
+    private PlayerController playerController;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        playerController = FindObjectOfType<PlayerController>();
     }
 
     // Update is called once per frame
@@ -29,17 +32,23 @@ public class PuitManager : MonoBehaviour
             }
             GameManager.Instance.playerManager.ReloadWater();
 
-            // Joue l'effet de particules si tout est assigné
+            // Joue l'effet de particules si tout est assign
             if (waterFillParticles != null && particleSpawnPoint != null)
             {
-                // Instancie le système de particules à la position et rotation du point de spawn
+                // Instancie le systme de particules  la position et rotation du point de spawn
                 ParticleSystem ps = Instantiate(waterFillParticles, particleSpawnPoint.position, particleSpawnPoint.rotation);
 
-                // Calcule la durée totale de l'effet
+                // Calcule la dure totale de l'effet
                 float totalDuration = ps.main.duration + ps.main.startLifetime.constantMax + particleSystemExtraLifetime;
 
-                // Détruit l'objet de particules après sa durée de vie complète
+                // Dtruit l'objet de particules aprs sa dure de vie complte
                 Destroy(ps.gameObject, totalDuration);
+            }
+            
+            // LANCE L'ANIMATION
+            if (playerController != null)
+            {
+                playerController.TriggerActionAnimation();
             }
         }
     }

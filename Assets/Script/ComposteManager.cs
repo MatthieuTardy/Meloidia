@@ -9,11 +9,14 @@ public class ComposteManager : MonoBehaviour
     public float particleSystemExtraLifetime = 2.0f; // Extra time in seconds before destroying the particle system
     public float particleYOffset = 1.0f; // Hauteur de spawn des particules
     public Vector3 particleRotation = new Vector3(90, 0, 0); // Rotation des particules
+    
+    // Reference au PlayerController
+    private PlayerController playerController;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        playerController = FindObjectOfType<PlayerController>();
     }
 
     // Update is called once per frame
@@ -32,15 +35,21 @@ public class ComposteManager : MonoBehaviour
             // Create and play the particle system if it's assigned
             if (dirtParticleSystem != null)
             {
-                // Définit la position et la rotation pour l'instanciation
+                // Dfinit la position et la rotation pour l'instanciation
                 Vector3 spawnPosition = transform.position + Vector3.up * particleYOffset;
                 Quaternion spawnRotation = Quaternion.Euler(particleRotation);
 
-                // Instancie le système de particules avec la position et la rotation spécifiées
+                // Instancie le systme de particules avec la position et la rotation spcifies
                 ParticleSystem ps = Instantiate(dirtParticleSystem, spawnPosition, spawnRotation);
 
-                // Détruit l'objet du système de particules après sa durée principale plus la durée de vie supplémentaire
+                // Dtruit l'objet du systme de particules aprs sa dure principale plus la dure de vie supplmentaire
                 Destroy(ps.gameObject, ps.main.duration + particleSystemExtraLifetime);
+            }
+            
+            // LANCE L'ANIMATION
+            if (playerController != null)
+            {
+                playerController.TriggerActionAnimation();
             }
         }
     }

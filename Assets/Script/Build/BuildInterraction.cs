@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +19,9 @@ public class BuildInterraction : MonoBehaviour
 
     [SerializeField] Material goodMat;
     [SerializeField] Material wrongMat;
+    
+    // --- REFERENCE AU PLAYER ---
+    private PlayerController playerController;
 
     private void Update()
     {
@@ -41,10 +43,13 @@ public class BuildInterraction : MonoBehaviour
             }
         }
     }
+    
     private void Start()
     {
-        
+        // On cherche le PlayerController dans la sc√®ne
+        playerController = FindObjectOfType<PlayerController>();
     }
+    
     #region Build Preview
     void PrevisualizeConstruct()
     {
@@ -95,9 +100,16 @@ public class BuildInterraction : MonoBehaviour
                 Build(constructChosen);
                 Debug.Log("Builded");
                 RemoveItemFromInventory();
+                
+                // --- DECLENCHEMENT ANIMATION ---
+                if (playerController != null)
+                {
+                    playerController.TriggerBuildAnimation();
+                }
             }
         }
     }
+    
     bool CanBuild()
     {
         if (construct != null)
@@ -112,11 +124,11 @@ public class BuildInterraction : MonoBehaviour
             Transform parentToIgnore = transform.parent;
             foreach (Collider hit in hits)
             {
-                // Ignore si le collider appartient au construct ou ‡ ses enfants
+                // Ignore si le collider appartient au construct ou  ses enfants
                 if (hit.transform.IsChildOf(construct.transform) || hit.transform.IsChildOf(parentToIgnore))
                     continue;
 
-                // Sinon, c'est bloquÈ
+                // Sinon, c'est bloqu
                 Debug.Log(hit.gameObject.name);
                 return false;
             }
@@ -158,7 +170,7 @@ public class BuildInterraction : MonoBehaviour
                 return false;
         }
 
-        //Toutes les ressources sont prÈsentes en quantitÈ suffisante
+        //Toutes les ressources sont prsentes en quantit suffisante
         return true;
         */
         bool HaveItem = false;
@@ -166,7 +178,7 @@ public class BuildInterraction : MonoBehaviour
         int quantity = 0;
         if (GameManager.Instance.inventoryManager != null && GameManager.Instance.inventoryManager.Items.Count > 0 && constructChosen != null)
         {
-            Debug.Log("pass the if");
+            // Debug.Log("pass the if");
             foreach (var ressources in constructChosen.RessourceNeeded)
             {
                 foreach (var item in GameManager.Instance.inventoryManager.Items)
@@ -175,10 +187,10 @@ public class BuildInterraction : MonoBehaviour
                     {
                         if (ressources.type == item.CurrentItem.type)
                         {
-                            Debug.Log("HaveItemInInventory");
+                            // Debug.Log("HaveItemInInventory");
                             if (item.CurrentQuantity >= ressources.amount)
                             {
-                                Debug.Log("HaveQuantityNeeded");
+                                // Debug.Log("HaveQuantityNeeded");
                                 return true;
                             }
                             else
@@ -198,7 +210,7 @@ public class BuildInterraction : MonoBehaviour
                 }
             }
         }
-        Debug.LogWarning("il a pas les items");
+        // Debug.LogWarning("il a pas les items");
         return HaveItem;
     }
 
@@ -250,47 +262,7 @@ public class BuildInterraction : MonoBehaviour
             }
         }
     }
-     /*
-    void RemoveItemsFromInventory(RessourceAmount RA) // search on more slot
-    {
-        int quantity = RA.amount;
-        if (GameManager.Instance.inventoryManager != null && GameManager.Instance.inventoryManager.Items.Count > 0 && constructChosen != null)
-        {
-            
-            foreach (var ressources in constructChosen.RessourceNeeded)
-            {
-                foreach (var item in GameManager.Instance.inventoryManager.Items)
-                {
-                    if (ressources.type == item.CurrentItem.type)
-                    {
-                        if (item.CurrentQuantity >= ressources.amount)
-                        {
-                            item.DecreaseQuantity(ressources.amount);
-                            return;
-                        }
-                    }
-                }
-            }
-
-            foreach (var item in GameManager.Instance.inventoryManager.Items)
-            {
-                if (item.CurrentItem.type == RA.type)
-                {
-                    if (item.CurrentQuantity < quantity)
-                    {
-                        Debug.Log("Removing 2");
-                        quantity -= item.CurrentQuantity;
-                        item.DecreaseQuantity(item.CurrentQuantity);
-                    }
-                    if (quantity <= 0)
-                    {
-                        return;
-                    }
-                }
-            }
-        }
-    }
-    */
+    
     void Build(ConstructionScriptable Build)
     {
         Vector3 buildPos = new Vector3(construct.transform.position.x, floorPosition, construct.transform.position.z);

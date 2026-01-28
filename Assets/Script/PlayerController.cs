@@ -259,15 +259,16 @@ public class PlayerController : MonoBehaviour
 
     private void HandleToolsInput()
     {
-        if (Input.GetButtonDown("Outils 1") && GameManager.Instance.playerManager.outils != 0 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") >= 0.8 && GameManager.Instance.playerManager.havingTools == true)
+        // (Conditions d'input inchangées)
+        if (Input.GetButtonDown("Outils 1") && GameManager.Instance.playerManager.outils != 0 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") >= 0.8 && GameManager.Instance.playerManager.outils != 0 && GameManager.Instance.playerManager.havingTools == true)
         {
             SetTool(0, true, false, false, false);
         }
-        else if (Input.GetButtonDown("Outils 2") && GameManager.Instance.playerManager.outils != 1 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") >= 0.8 && GameManager.Instance.playerManager.havingTools == true)
+        else if (Input.GetButtonDown("Outils 2") && GameManager.Instance.playerManager.outils != 1 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") >= 0.8 && GameManager.Instance.playerManager.outils != 1 && GameManager.Instance.playerManager.havingTools == true)
         {
             SetTool(1, false, true, false, false);
         }
-        else if (Input.GetButtonDown("Outils 3") && GameManager.Instance.playerManager.outils != 2 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") <= -0.8 && GameManager.Instance.playerManager.havingTools == true)
+        else if (Input.GetButtonDown("Outils 3") && GameManager.Instance.playerManager.outils != 2 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") <= -0.8 && GameManager.Instance.playerManager.outils != 2 && GameManager.Instance.playerManager.havingTools == true)
         {
             SetTool(2, false, false, true, false);
         }
@@ -292,9 +293,39 @@ public class PlayerController : MonoBehaviour
     {
         if(outilIndex >= 0) GameManager.Instance.playerManager.outils = outilIndex;
         GameManager.Instance.playerManager.ChangeSpriteToMainTool();
-       // GameManager.Instance.playerManager.Gant.SetActive(gant);
-        //GameManager.Instance.playerManager.Pelle.SetActive(pelle);
-       // GameManager.Instance.playerManager.Arrosoir.SetActive(arrosoir);
-       // GameManager.Instance.playerManager.Houe.SetActive(marteau);
+    }
+
+    // --- ANIMATION CONSTRUCTION ---
+    public void TriggerBuildAnimation()
+    {
+        if (animator != null)
+        {
+            StopCoroutine(BuildAnimRoutine());
+            StartCoroutine(BuildAnimRoutine());
+        }
+    }
+
+    private IEnumerator BuildAnimRoutine()
+    {
+        animator.SetBool("isbuilding", true);
+        yield return new WaitForSeconds(0.5f); 
+        animator.SetBool("isbuilding", false);
+    }
+    
+    // --- ANIMATION ACTION (EAU / TERRE) ---
+    public void TriggerActionAnimation()
+    {
+        if (animator != null)
+        {
+            StopCoroutine(ActionAnimRoutine());
+            StartCoroutine(ActionAnimRoutine());
+        }
+    }
+
+    private IEnumerator ActionAnimRoutine()
+    {
+        animator.SetBool("isaction", true);
+        yield return new WaitForSeconds(0.5f); 
+        animator.SetBool("isaction", false);
     }
 }
