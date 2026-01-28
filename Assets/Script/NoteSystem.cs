@@ -8,13 +8,23 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using static UnityEngine.Rendering.DebugUI;
+
 public enum musicalNotes
 {
     Do, Ré, Mi, Fa, Sol, La, Si, Do2, None
 }
+
+// Option pour choisir la direction des particules
+public enum ParticleDirectionType
+{
+    UseJoystick,  // Utilise les inputs manette
+    ObjectForward, // Tire tout droit devant l'objet
+    ObjectUp,      // Tire vers le haut de l'objet
+    ObjectBackward // Tire vers l'arrière de l'objet (NOUVEAU)
+}
+
 public class NoteSystem : MonoBehaviour
 {
-
     float playedTime;
     musicalNotes noteBefore;
     float singDelay;
@@ -28,10 +38,19 @@ public class NoteSystem : MonoBehaviour
     [Header("Effets de Particules")]
     [Tooltip("Le prefab du système de particules à instancier pour chaque note.")]
     public GameObject noteParticlePrefab;
+    
     [Tooltip("Les matériaux pour chaque note, dans le même ordre que musicalNotes.")]
     public Material[] noteParticleMaterials;
-    [Tooltip("Le point d'apparition pour les particules. Si non défini, la position de cet objet sera utilisée.")]
-    public Transform particleSpawnPoint;
+
+    [Header("Configuration du Spawn")]
+    [Tooltip("Premier point d'apparition (ex: Main Gauche).")]
+    public GameObject spawnPoint1; 
+
+    [Tooltip("Deuxième point d'apparition (ex: Main Droite).")]
+    public GameObject spawnPoint2;
+
+    [Tooltip("Comment les particules doivent-elles être orientées ?")]
+    public ParticleDirectionType particleDirection = ParticleDirectionType.UseJoystick;
 
     [Header("Événements FMOD")]
     public FMODUnity.StudioEventEmitter DO;
@@ -76,6 +95,7 @@ public class NoteSystem : MonoBehaviour
             playedPartition.Clear();
         }
     }
+    
     bool IsTrackOneToggle;
 
     public void ToggleTrackOne(bool active)
@@ -86,21 +106,8 @@ public class NoteSystem : MonoBehaviour
             {
                 if (music.IsPlaying())
                 {
-                    //float value = active ? 1f : 0f;
-                    //FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", value);
                     StartCoroutine(FadeSound(0.5f, active));
                     IsTrackOneToggle = true;
-                    /*
-
-                    if (result != FMOD.RESULT.OK)
-                    {
-                        Debug.LogError("FMOD n'a pas trouvé le paramètre : " + result);
-                    }
-                    else
-                    {
-                        Debug.Log("Paramètre envoyé avec succès !");
-                    }
-                    */
                 }
             }
         }
@@ -110,8 +117,6 @@ public class NoteSystem : MonoBehaviour
     {
         int step = 5;
         float volume = FadeIn ? 1f : 0.5f;
-
-
         float ratio = 1 / step;
         
         for (int i = 0; i < step; i++)
@@ -127,7 +132,6 @@ public class NoteSystem : MonoBehaviour
                 FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", volume); 
             }
             yield return new WaitForSeconds(time / 4);
-
         }
         if (!FadeIn)
         {
@@ -135,30 +139,10 @@ public class NoteSystem : MonoBehaviour
         }
 
         IsTrackOneToggle = false;
-        /*
-        if (!active)
-        { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.8f); }
-        else { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.2f); }
-        yield return new WaitForSeconds(time / 4);
-        if (!active)
-        { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.6f); }
-        else { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.4f); }
-        yield return new WaitForSeconds(time/4);
-        if (!active)
-        { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.4f); }
-        else { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.6f); }
-        yield return new WaitForSeconds(time/4);
-        if (!active)
-        { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.2f); }
-        else { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0.8f); }
-        yield return new WaitForSeconds(time/4);
-        if (!active)
-        { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0f); }
-        else { FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 1f); }*/
     }
+
     public void PlayNoteFromPC(int ForceNote)
     {
-        //ToggleTrackOne(true);
         isPlaying = false;
         singDelay = 0;
         StopChant();
@@ -198,7 +182,6 @@ public class NoteSystem : MonoBehaviour
         }
         else if(!Input.GetButton("SongPC"))
         {
-            //ToggleTrackOne(true);
             isPlaying = false;
             singDelay = 0;
             StopChant();
@@ -217,14 +200,14 @@ public class NoteSystem : MonoBehaviour
         StopChant();
         switch (index)
         {
-            case 0: Debug.Log("case 0"); DO.Play(); break;
-            case 1: Debug.Log("case 1"); RE.Play(); break;
-            case 2: Debug.Log("case 2"); MI.Play(); break;
-            case 3: Debug.Log("case 3"); FA.Play(); break;
-            case 4: Debug.Log("case 4"); SOL.Play(); break;
-            case 5: Debug.Log("case 5"); LA.Play(); break;
-            case 6: Debug.Log("case 6"); SI.Play(); break;
-            case 7: Debug.Log("case 7"); DO2.Play(); break;
+            case 0: DO.Play(); break;
+            case 1: RE.Play(); break;
+            case 2: MI.Play(); break;
+            case 3: FA.Play(); break;
+            case 4: SOL.Play(); break;
+            case 5: LA.Play(); break;
+            case 6: SI.Play(); break;
+            case 7: DO2.Play(); break;
         }
     }
 
@@ -245,6 +228,60 @@ public class NoteSystem : MonoBehaviour
         }
     }
 
+    // Fonction utilitaire pour instancier une particule
+    void SpawnParticleAt(GameObject spawnObj, int index)
+    {
+        if (spawnObj == null) return;
+
+        Vector3 spawnPosition = spawnObj.transform.position;
+        Quaternion spawnRotation = Quaternion.identity;
+
+        // Calcul de la rotation selon le mode choisi
+        switch (particleDirection)
+        {
+            case ParticleDirectionType.ObjectForward:
+                spawnRotation = spawnObj.transform.rotation; // Suit la rotation de l'objet
+                break;
+
+            case ParticleDirectionType.ObjectBackward:
+                // Rotation à 180 degrés autour de l'axe Y pour faire face à l'arrière
+                spawnRotation = spawnObj.transform.rotation * Quaternion.Euler(0, 180, 0);
+                break;
+            
+            case ParticleDirectionType.ObjectUp:
+                // Regarde vers le haut de l'objet (90 degrés sur l'axe X local par rapport à forward)
+                spawnRotation = spawnObj.transform.rotation * Quaternion.Euler(-90, 0, 0); 
+                break;
+
+            case ParticleDirectionType.UseJoystick:
+            default:
+                // Ancien comportement : Joystick
+                Vector3 direction = new Vector3(Input.GetAxis("SongX_Xbox"), 0f, Input.GetAxis("SongY_Xbox"));
+                if (direction.sqrMagnitude > 0.01f)
+                {
+                    spawnRotation = Quaternion.LookRotation(direction);
+                }
+                break;
+        }
+
+        GameObject particleInstance = Instantiate(noteParticlePrefab, spawnPosition, spawnRotation);
+
+        ParticleSystem ps = particleInstance.GetComponent<ParticleSystem>();
+        if (ps != null)
+        {
+            var renderer = ps.GetComponent<ParticleSystemRenderer>();
+            if (renderer != null)
+            {
+                renderer.material = noteParticleMaterials[index];
+            }
+            Destroy(particleInstance, ps.main.duration + ps.main.startLifetime.constantMax);
+        }
+        else
+        {
+            Destroy(particleInstance, 5f);
+        }
+    }
+
     void PlayNote(int index)
     {
         if (GetNoteFromIndex(index) != noteBefore || playedTime > 3)
@@ -258,45 +295,32 @@ public class NoteSystem : MonoBehaviour
             {
                 StartChant(index);
             }
-            Debug.Log("singDelay" + singDelay);
+            
             if (singDelay != 0.00f)
             {
-                Debug.Log("AAA");
                 isPlaying = false;
                 playedPartition.Add(GetNoteFromIndex(index));
                 noteBefore = GetNoteFromIndex(index);
 
                 if (noteParticlePrefab != null && noteParticleMaterials != null && index < noteParticleMaterials.Length && noteParticleMaterials[index] != null)
                 {
-                    Vector3 spawnPosition = particleSpawnPoint != null ? particleSpawnPoint.position : transform.position;
-
-
-                    Vector3 direction = new Vector3(Input.GetAxis("SongX_Xbox"), 0f, Input.GetAxis("SongY_Xbox"));
-
-
-                    Quaternion spawnRotation = Quaternion.identity;
-                    if (direction.sqrMagnitude > 0.01f)
+                    // --- MODIFICATION ICI ---
+                    // On spawn aux deux endroits si possible
+                    if (spawnPoint1 != null)
                     {
-
-                        spawnRotation = Quaternion.LookRotation(direction);
-                    }
-
-                    GameObject particleInstance = Instantiate(noteParticlePrefab, spawnPosition, spawnRotation);
-
-                    ParticleSystem ps = particleInstance.GetComponent<ParticleSystem>();
-                    if (ps != null)
-                    {
-                        var renderer = ps.GetComponent<ParticleSystemRenderer>();
-                        if (renderer != null)
-                        {
-                            renderer.material = noteParticleMaterials[index];
-                        }
-                        Destroy(particleInstance, ps.main.duration + ps.main.startLifetime.constantMax);
+                        SpawnParticleAt(spawnPoint1, index);
                     }
                     else
                     {
-                        Destroy(particleInstance, 5f);
+                         // Fallback si rien n'est assigné : spawn sur le joueur lui-même
+                         SpawnParticleAt(this.gameObject, index);
                     }
+
+                    if (spawnPoint2 != null)
+                    {
+                        SpawnParticleAt(spawnPoint2, index);
+                    }
+                    // ------------------------
                 }
 
                 if (playedPartition.TakeLast(3).SequenceEqual(chantDuDiab)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du diabète"); StartCoroutine(GameManager.Instance.playerManager.SetSingingStateCalme(15)); }
@@ -321,14 +345,11 @@ public class NoteSystem : MonoBehaviour
     {
         if (playedPartition.TakeLast(Pattern.Count).SequenceEqual(Pattern))
         {
-            Debug.LogWarning("Sing Correct Pattern");
             return true;
-            
         }
         else
         {
             return false;
         }
-
     }
 }
