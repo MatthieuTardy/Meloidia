@@ -45296,6 +45296,11 @@ PrefabInstance:
       propertyPath: noteUIElements.Array.data[7]
       value: 
       objectReference: {fileID: 12045672}
+    - target: {fileID: 406048509049481522, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: EventStopTrigger
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 586229092278337042, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -45350,6 +45355,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288107809140459592, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: EventStopTrigger
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2200047053759140786, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: EventStopTrigger
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3218788551027408808, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: EventStopTrigger
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3314531893635569792, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
         type: 3}
@@ -45422,6 +45442,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5351719513439474315, guid: 71e842dd103fe4d4bb9347430353dc8f,
         type: 3}
+    - target: {fileID: 4259539459617483814, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: EventStopTrigger
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4726381978178046764, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: EventStopTrigger
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4922790990335189922, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: EventStopTrigger
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5992974364254420992, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: EventStopTrigger
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6085170812785974976, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
         type: 3}
       propertyPath: m_Name
@@ -45517,6 +45557,11 @@ PrefabInstance:
       propertyPath: tuto.Array.data[1]
       value: 
       objectReference: {fileID: 187958787953374035}
+    - target: {fileID: 8087923654427863046, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: EventStopTrigger
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8640948917393224872, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
         type: 3}
       propertyPath: m_ClearFlags
@@ -45546,6 +45591,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_CullingMask.m_Bits
       value: 12279
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738417432220091874, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: EventStopTrigger
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -50472,6 +50522,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2576406769119391636, guid: 685b742f7329d644797544e1c271e1b8,
+        type: 3}
+      propertyPath: EventStopTrigger
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2576406769119391636, guid: 685b742f7329d644797544e1c271e1b8,
         type: 3}
       propertyPath: EventReference.Path
@@ -66197,6 +66252,7 @@ GameObject:
   - component: {fileID: 1684790974709844414}
   - component: {fileID: 3226653560604732123}
   - component: {fileID: 1360820506192273269}
+  - component: {fileID: 8460836959132973379}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -69550,6 +69606,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8460836959132973379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6361743045528414487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7edb70a7daf17c34bb6c1e776b88b0a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReloadKey: 291
 --- !u!23 &8461139635839674670
 MeshRenderer:
   m_ObjectHideFlags: 0
