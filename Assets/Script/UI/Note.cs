@@ -3,9 +3,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
 
-public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler
 {
-    public string itemName;
+    public int ID;
     public Sprite itemIcon;
 
     [Tooltip("La couleur de la note lorsqu'elle est survolée ou sélectionnée.")]
@@ -21,10 +21,7 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     [Tooltip("La durée de l'animation de grossissement.")]
     public float scaleDuration = 0.1f;
 
-    private const string ItemNameTextObjectName = "Name";
-    private const string ItemPreviewImageObjectName = "Selected";
-
-    private static Text itemText;
+    
     private static Image itemImage;
     private static Note selectedItem;
 
@@ -60,40 +57,13 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         }
     }
 
-    void Start()
-    {
-        if (itemText == null)
-        {
-            GameObject textObject = GameObject.Find(ItemNameTextObjectName);
-            if (textObject != null) itemText = textObject.GetComponent<Text>();
-            else Debug.LogWarning("Objet UI 'Name' non trouvé.");
-        }
-
-        if (itemImage == null)
-        {
-            GameObject imageObject = GameObject.Find(ItemPreviewImageObjectName);
-            if (imageObject != null) itemImage = imageObject.GetComponent<Image>();
-            else Debug.LogWarning("Objet UI 'Selected' non trouvé.");
-        }
-    }
-
     public void OnPointerEnter(PointerEventData eventData)
     {
-        UpdateDisplay(itemName, itemIcon, true);
         Highlight();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (selectedItem != null)
-        {
-            UpdateDisplay(selectedItem.itemName, selectedItem.itemIcon, true);
-        }
-        else
-        {
-            ClearDisplay();
-        }
-
         if (selectedItem != this)
         {
             StopHighlightImmediate();
@@ -104,7 +74,6 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     {
         // Joue l'animation de "juice" à chaque clic
         StartCoroutine(ScaleJuiceCoroutine());
-
         if (selectedItem == this)
         {
             DeselectAll();
@@ -112,6 +81,7 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         else
         {
             SelectItem();
+            
         }
     }
 
@@ -123,7 +93,6 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         }
 
         selectedItem = this;
-        UpdateDisplay(itemName, itemIcon, true);
         Highlight();
     }
 
@@ -134,23 +103,6 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             selectedItem.StopHighlightImmediate();
             selectedItem = null;
         }
-
-        ClearDisplay();
-    }
-
-    private static void UpdateDisplay(string name, Sprite icon, bool isEnabled)
-    {
-        if (itemText != null) itemText.text = name;
-        if (itemImage != null)
-        {
-            itemImage.sprite = icon;
-            itemImage.enabled = isEnabled;
-        }
-    }
-
-    private static void ClearDisplay()
-    {
-        UpdateDisplay("", null, false);
     }
 
     public void Highlight()
@@ -201,5 +153,10 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             yield return null;
         }
         visualsTransform.localScale = originalScale;
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        GameManager.Instance.playerManager.noteSystem.PlayNoteFromPC(ID);
     }
 }

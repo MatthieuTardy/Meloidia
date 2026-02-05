@@ -27,9 +27,17 @@ public class NoteSystem : MonoBehaviour
 {
     float playedTime;
     musicalNotes noteBefore;
+    public musicalNotes noteHolded;
+    [SerializeField] float HoldDelay;
+    [SerializeField] float ClearDelay = 2f;
+
+
+
     float singDelay;
     bool isPlaying;
     public StudioEventEmitter music;
+
+
 
     [Header("Éléments d'UI")]
     [Tooltip("Glissez ici les boutons de notes de l'UI, dans le même ordre que musicalNotes.")]
@@ -70,7 +78,6 @@ public class NoteSystem : MonoBehaviour
     public List<musicalNotes> chantDuBirthday = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Do, musicalNotes.Ré, musicalNotes.Do, musicalNotes.Fa, musicalNotes.Mi };
     public List<musicalNotes> playedPartition;
 
-
     private void Start()
     {
         ToggleTrackOne(true);
@@ -81,19 +88,25 @@ public class NoteSystem : MonoBehaviour
         playedTime += Time.deltaTime;
         PlayMusic();
 
-        if (playedTime >= 3 && playedPartition.Count != 0)
+
+        if (playedTime >= HoldDelay && Input.GetButton("Fire1"))
         {
-            if (!playedPartition.SequenceEqual(chantDuDiab) && !playedPartition.SequenceEqual(chantDuBonheur) && !playedPartition.SequenceEqual(chantDuBirthday))
-            {
-                No.Play();
-            }
-            playedPartition.Clear();
+            addHoldedNote();
         }
+
+        // Si le temps sans note jouer depasse x => vide la list de partition
+        if (playedTime >= ClearDelay && playedPartition.Count != 0)
+        {
+            playedPartition.Clear();
+            clearHoldedNote();
+        }
+        /* sert a rien ?
         else if (playedPartition.Count > 0 && (playedPartition.SequenceEqual(chantDuDiab) || playedPartition.SequenceEqual(chantDuBonheur) || playedPartition.SequenceEqual(chantDuBirthday)))
         {
             noteBefore = playedPartition.LastOrDefault();
             playedPartition.Clear();
         }
+        */
     }
     
     bool IsTrackOneToggle;
@@ -162,9 +175,9 @@ public class NoteSystem : MonoBehaviour
             int noteIndex = 0;
 
             if (inputY > 0.5f && Mathf.Abs(inputX) < 0.5f) { noteIndex = 4; }
+            else if (inputX > 0.3f && inputY < -0.3f) { noteIndex = 1; }
             else if (inputX > 0.3f && inputY > 0.3f) { noteIndex = 3; }
             else if (inputX > 0.5f && Mathf.Abs(inputY) < 0.5f) { noteIndex = 2; }
-            else if (inputX > 0.3f && inputY < -0.3f) { noteIndex = 1; }
             else if (inputY < -0.5f && Mathf.Abs(inputX) < 0.5f) { noteIndex = 0; }
             else if (inputX < -0.3f && inputY < -0.3f) { noteIndex = 7; }
             else if (inputX < -0.5f && Mathf.Abs(inputY) < 0.5f) { noteIndex = 6; }
@@ -352,4 +365,28 @@ public class NoteSystem : MonoBehaviour
             return false;
         }
     }
+
+
+
+    void clearHoldedNote()
+    {
+        noteHolded = musicalNotes.None;
+    }
+
+    void addHoldedNote()
+    {
+        noteHolded = playedPartition.Last();
+    }
+
+
+    public bool PlayerHoldLastNote(musicalNotes note)
+    {
+        if(noteHolded == note)
+        {
+            return true;
+        }
+        return false;
+            
+    }
+
 }
