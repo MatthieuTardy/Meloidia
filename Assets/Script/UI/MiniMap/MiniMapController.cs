@@ -14,11 +14,16 @@ public class MiniMapController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-            if (Input.GetKey("m"))
-            {
-                largeMap.SetActive(true);
-            }
-            else
-                largeMap.SetActive(false);
+        ActiveMap();
+
+
+    }
+
+    void ActiveMap()
+    {
+        if (Input.GetButtonDown("Carte"))
+        {
+            largeMap.SetActive(!largeMap.activeSelf);
+        }
     }
 }
