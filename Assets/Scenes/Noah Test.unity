@@ -6182,7 +6182,7 @@ Transform:
   m_GameObject: {fileID: 274339693}
   serializedVersion: 2
   m_LocalRotation: {x: 0.35282165, y: 0, z: 0, w: 0.9356906}
-  m_LocalPosition: {x: -1023.76996, y: 17.872637, z: -308.36334}
+  m_LocalPosition: {x: -535, y: 17.872637, z: -413.99335}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -45564,7 +45564,7 @@ PrefabInstance:
     - target: {fileID: 7096868728439228657, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1023.6
+      value: -534.83
       objectReference: {fileID: 0}
     - target: {fileID: 7096868728439228657, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
         type: 3}
@@ -45574,7 +45574,7 @@ PrefabInstance:
     - target: {fileID: 7096868728439228657, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -301.1
+      value: -406.73
       objectReference: {fileID: 0}
     - target: {fileID: 7096868728439228657, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
         type: 3}
@@ -61162,6 +61162,7 @@ GameObject:
   - component: {fileID: 3474316977807765678}
   - component: {fileID: 3474316977807765680}
   - component: {fileID: 3474316977807765679}
+  - component: {fileID: 3474316977807765681}
   m_Layer: 11
   m_Name: Arbre phase 1
   m_TagString: Untagged
@@ -62078,6 +62079,7 @@ MonoBehaviour:
         m_CallState: 2
   DialoguePrefab: {fileID: 1259579793145952347, guid: bd7210c7d4e79ff44a4dd994742fc761,
     type: 3}
+  need: {fileID: 0}
   textSpeed: 0.04
 --- !u!65 &3474316977807765680
 BoxCollider:
@@ -62100,6 +62102,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.017325616, y: 0.017994247, z: 0.0120460475}
   m_Center: {x: -0.002478504, y: 0.0009350824, z: -0.014012835}
+--- !u!114 &3474316977807765681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3114165002701410683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 701b41402eafafd4bb3eef220b516555, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Needs:
+  - WantCN: 0
+    WantRessources: 0
+    typeOfCN: 
+    typeOfRessources: 
 --- !u!1001 &3557084535983116150
 PrefabInstance:
   m_ObjectHideFlags: 0
