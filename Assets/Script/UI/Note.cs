@@ -32,6 +32,7 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     void Awake()
     {
+        
         graphic = GetComponent<Graphic>();
         if (graphic != null)
         {
@@ -55,11 +56,16 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             visualsTransform = transform;
             originalScale = visualsTransform.localScale;
         }
+        
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         Highlight();
+        if (Input.GetButton("ValidateNote"))
+        {
+            GameManager.Instance.playerManager.noteSystem.PlayNoteFromPC(ID);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -159,4 +165,5 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     {
         GameManager.Instance.playerManager.noteSystem.PlayNoteFromPC(ID);
     }
+    
 }

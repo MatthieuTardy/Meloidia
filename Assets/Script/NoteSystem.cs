@@ -27,6 +27,7 @@ public class NoteSystem : MonoBehaviour
 {
     float playedTime;
     musicalNotes noteBefore;
+    musicalNotes noteCurrent;
     public musicalNotes noteHolded;
     [SerializeField] float HoldDelay;
     [SerializeField] float ClearDelay = 2f;
@@ -88,17 +89,33 @@ public class NoteSystem : MonoBehaviour
         playedTime += Time.deltaTime;
         PlayMusic();
 
-
-        if (playedTime >= HoldDelay && Input.GetButton("Fire1"))
+        Debug.Log("PlayedTime : " + singDelay);
+        if ((playedTime >= HoldDelay || singDelay >= HoldDelay)&& Input.GetButton("ValidateNote"))
         {
             addHoldedNote();
+        }
+        else if (Input.GetButtonUp("ValidateNote"))
+        {
+            StopChant();
         }
 
         // Si le temps sans note jouer depasse x => vide la list de partition
         if (playedTime >= ClearDelay && playedPartition.Count != 0)
         {
             playedPartition.Clear();
+            noteCurrent = musicalNotes.None;
             clearHoldedNote();
+        }
+
+        if (noteHolded != musicalNotes.None)
+        {
+
+            if (noteCurrent != noteHolded)
+            {
+                clearHoldedNote();
+                playedTime = 0;
+                singDelay = 0;
+            }
         }
         /* sert a rien ?
         else if (playedPartition.Count > 0 && (playedPartition.SequenceEqual(chantDuDiab) || playedPartition.SequenceEqual(chantDuBonheur) || playedPartition.SequenceEqual(chantDuBirthday)))
@@ -171,7 +188,15 @@ public class NoteSystem : MonoBehaviour
         if (Mathf.Abs(inputX) > 0.5f || Mathf.Abs(inputY) > 0.5f)
         {
             ToggleTrackOne(false);
-            singDelay += Time.deltaTime;
+            if (Input.GetButton("ValidateNote"))
+            {
+                singDelay += Time.deltaTime;
+            }
+            else
+            {
+                singDelay = 0;
+                clearHoldedNote();
+            }
             int noteIndex = 0;
 
             if (inputY > 0.5f && Mathf.Abs(inputX) < 0.5f) { noteIndex = 4; }
@@ -183,13 +208,26 @@ public class NoteSystem : MonoBehaviour
             else if (inputX < -0.5f && Mathf.Abs(inputY) < 0.5f) { noteIndex = 6; }
             else if (inputX < -0.3f && inputY > 0.3f) { noteIndex = 5; }
 
-            PlayNote(noteIndex);
+
+            noteUIElements[noteIndex].Highlight();
+            if (Input.GetButton("ValidateNote"))
+            {
+                PlayNote(noteIndex);
+            }
         }
         else if(ForceNote != null)
         {
             Debug.Log("ForceNote");
             ToggleTrackOne(false);
-            singDelay += Time.deltaTime;
+            if (Input.GetButton("ValidateNote"))
+            {
+                singDelay += Time.deltaTime;
+            }
+            else
+            {
+                singDelay = 0;
+                clearHoldedNote();
+            }
             int noteIndex = ForceNote.Value;
             PlayNote(noteIndex);
         }
@@ -312,6 +350,7 @@ public class NoteSystem : MonoBehaviour
             if (singDelay != 0.00f)
             {
                 isPlaying = false;
+                noteCurrent = GetNoteFromIndex(index);
                 playedPartition.Add(GetNoteFromIndex(index));
                 noteBefore = GetNoteFromIndex(index);
 
@@ -375,7 +414,10 @@ public class NoteSystem : MonoBehaviour
 
     void addHoldedNote()
     {
-        noteHolded = playedPartition.Last();
+        if (playedPartition.Count > 0)
+        {
+            noteHolded = playedPartition.Last();
+        }
     }
 
 
