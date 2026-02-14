@@ -28,7 +28,10 @@ public class DialogueSystem : MonoBehaviour
     
     public void Interract()
     {
-        need.CheckNeed();
+        if(need != null)
+        {
+            need.CheckNeed();
+        }
         if (!isActive)
         {
             Debug.Log("Interact");

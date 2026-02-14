@@ -88,7 +88,7 @@ public class ToolUIManager : MonoBehaviour
         {
             if (arrosoirUiContainer != null) arrosoirUiContainer.SetActive(false);
         }
-        ChangeSpriteToMainTool();
+        //ChangeSpriteToMainTool();
     }
 
     #region ChangeUI
@@ -99,11 +99,15 @@ public class ToolUIManager : MonoBehaviour
 
     public void ChangeSpriteToMainTool()
     {
-        Sprite[] S = GetNewToolsArray();
-
-        for (int i = 0; i < S.Length; i++) 
+        if (Tool_UI != null)
         {
-            Tool_UI[i].sprite = S[i];
+
+            Sprite[] S = GetNewToolsArray();
+
+            for (int i = 0; i < S.Length; i++)
+            {
+                Tool_UI[i].sprite = S[i];
+            }
         }
     }
 
