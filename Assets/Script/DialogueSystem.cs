@@ -13,7 +13,7 @@ public class DialogueSystem : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] GameObject DialoguePrefab;
-    [SerializeField] TreeNeed need;
+    //[SerializeField] TreeNeed need;
     
     [SerializeField] float textSpeed = 0.04f; 
 
@@ -28,9 +28,9 @@ public class DialogueSystem : MonoBehaviour
     
     public void Interract()
     {
-        if(need != null)
+       // if(need != null)
         {
-            need.CheckNeed();
+           // need.CheckNeed();
         }
         if (!isActive)
         {

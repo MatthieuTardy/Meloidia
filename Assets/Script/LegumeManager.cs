@@ -5,18 +5,18 @@ using UnityEngine.AI;
 using UnityEngine.UIElements;
 using TMPro;
 
-
+public enum CrocNoteType
+{
+    un = 1,
+    deux = 2,
+    trois = 3,
+    quatre = 4,
+    cinq = 5
+}
 [RequireComponent(typeof(Rigidbody))]
 public class LegumeManager : MonoBehaviour
 {
-    public enum type
-    {
-        un = 1,
-        deux = 2,
-        trois = 3,
-        quatre = 4,
-        cinq = 5
-    }
+    
     [Header("Haine par type en %")]
     public int Specisme1 = 5;
     public int Specisme2 = 50;
@@ -31,7 +31,7 @@ public class LegumeManager : MonoBehaviour
     private GameObject baseLegume;
 
 
-    public type legumeType;
+    public CrocNoteType legumeType;
     private string legumeName;
 
 
@@ -143,35 +143,35 @@ public class LegumeManager : MonoBehaviour
             {
                 switch (other.gameObject.GetComponent<LegumeManager>().legumeType)
                 {
-                    case type.un:
+                    case CrocNoteType.un:
                         Debug.Log(jetDeHaine);
                         if (jetDeHaine < Specisme1)
                         {
                             StartRageState(other.transform);
                         }
                         break;
-                    case type.deux:
+                    case CrocNoteType.deux:
                         Debug.Log(jetDeHaine);
                         if (jetDeHaine < Specisme2)
                         {
                             StartRageState(other.transform);
                         }
                         break;
-                    case type.trois:
+                    case CrocNoteType.trois:
                         Debug.Log(jetDeHaine);
                         if (jetDeHaine < Specisme3)
                         {
                             StartRageState(other.transform);
                         }
                         break;
-                    case type.quatre:
+                    case CrocNoteType.quatre:
                         Debug.Log(jetDeHaine);
                         if (jetDeHaine < Specisme4)
                         {
                             StartRageState(other.transform);
                         }
                         break;
-                    case type.cinq:
+                    case CrocNoteType.cinq:
                         Debug.Log(jetDeHaine);
                         if (jetDeHaine < Specisme5)
                         {

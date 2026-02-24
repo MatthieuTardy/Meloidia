@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/*
 public class TreeNeed : MonoBehaviour
 {
     [SerializeField] NeedCondition[] Needs;
@@ -101,4 +102,35 @@ class NeedCondition
 
     public LegumeManager.type[] typeOfCN;
     public TypeOfRessources[] typeOfRessources;
+}
+*/
+
+public class Need : MonoBehaviour
+{
+    [SerializeField] PlayerProximity proxy;
+    [SerializeField] Condition condition;
+
+    [SerializeField] UnityEvent Event;
+    
+    private void Start()
+    {
+        StartCoroutine(WaitToCheck());
+    }
+
+    IEnumerator WaitToCheck()
+    {
+        yield return new WaitUntil(() => proxy.Proximity == true);
+
+        Debug.Log("wait pass " + this.gameObject.name);
+        if (condition.CheckCondition())
+        {
+            Event.Invoke();
+        }
+        else
+        {
+            StartCoroutine(WaitToCheck());
+        }
+    }
+
+
 }
