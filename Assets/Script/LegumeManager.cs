@@ -26,7 +26,8 @@ public class LegumeManager : MonoBehaviour
 
     [Header("Bonheur")]
     [Range(0, 100)] [SerializeField] int bonheur = 50;
-
+    [InfoBox("A partir de combien de bonheur ce CN est considerer comme triste ou heureux")]
+    [Range(0, 100)] [SerializeField] int SadPercent, HappyPercent;
     public MelogumeSingingManager melogumesSingingManager;
     private GameObject baseLegume;
 
@@ -86,6 +87,43 @@ public class LegumeManager : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        calmeTimer += Time.deltaTime;
+        if (colere == true && isStartRageTimer >= -0.5f)
+        {
+            isStartRageTimer -= Time.deltaTime;
+        }
+        if (calmeTimer <= finCalme)
+        {
+            calmeTimer += Time.deltaTime;
+        }
+
+        if (!colere)
+        {
+
+            if (bonheur <= SadPercent)
+            {
+                melogumesSingingManager.StartSadness();
+            }
+            else if (bonheur >= HappyPercent)
+            {
+                melogumesSingingManager.StartHappyness();
+            }
+            else
+            {
+                melogumesSingingManager.StartNormal();
+            }
+        }
+        else
+        { 
+                melogumesSingingManager.StartRage();
+        }
+
+        NameBoard.transform.rotation = Quaternion.Euler(new Vector3(0,0,0));
+    }
+
+
     public IEnumerator RandomMove()
     {
 
@@ -110,29 +148,12 @@ public class LegumeManager : MonoBehaviour
         }
         return finalPosition;
     }
-    private void Update()
-    {
-        calmeTimer += Time.deltaTime;
-        if (colere == true && isStartRageTimer >= -0.5f)
-        {
-            isStartRageTimer -= Time.deltaTime;
-        }
-        if (calmeTimer <= finCalme)
-        {
-            calmeTimer += Time.deltaTime;
-        }
-
-
-        NameBoard.transform.rotation = Quaternion.Euler(new Vector3(0,0,0));
-    }
 
     private void Rename()
     {
         this.gameObject.name = NameCreator.NewName();
         NameBoard.GetComponent<TextMeshPro>().text = this.gameObject.name;
     }
- 
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -207,7 +228,6 @@ public class LegumeManager : MonoBehaviour
     }
     public IEnumerator RageState()
     {
-
         isStartRageTimer = 1;
         melogumesSingingManager.StopHappyness();
         StartCoroutine(EndOfRageDelay(deathTimer, chanceToDie));
