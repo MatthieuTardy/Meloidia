@@ -361,7 +361,7 @@ public class Plantation_interaction : MonoBehaviour
             
         }
         Debug.Log("Amount " + WaterPercent / 100);
-        WaterMaterial.SetFloat("Amount", (WaterPercent/100));
+        WaterMaterial.SetFloat("_Amount", (WaterPercent/100));
         StartCoroutine(NeedWater());   
     }
 
