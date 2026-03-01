@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEngine.UI.Image;
 
 public class Plantation_interaction : MonoBehaviour
@@ -257,6 +258,7 @@ public class Plantation_interaction : MonoBehaviour
     int currentPhases = 0;
     [SerializeField][Range(0, 100)] int ChanceOfNeedPerPhases;
 
+    [SerializeField] Material WaterMaterial;
     [SerializeField] float WaterPercent;
 
     [SerializeField] List<musicalNotes> SingPatern;
@@ -266,6 +268,8 @@ public class Plantation_interaction : MonoBehaviour
     [SerializeField] GameObject seedPrefab;
     GameObject currentSeed;
 
+
+    
 
     [Header("Particle Systems")]
     public ParticleSystem plantingParticles;
@@ -356,6 +360,8 @@ public class Plantation_interaction : MonoBehaviour
             WaterPercent--;
             
         }
+        Debug.Log("Amount " + WaterPercent / 100);
+        WaterMaterial.SetFloat("Amount", (WaterPercent/100));
         StartCoroutine(NeedWater());   
     }
 
