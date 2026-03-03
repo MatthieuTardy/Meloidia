@@ -30,7 +30,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3001
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -97,6 +97,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _Amount_vague: 0.183
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -124,22 +125,43 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
-    - _QueueOffset: 0
+    - _QueueOffset: 1
     - _ReceiveShadows: 1
     - _Refraction_Speed: 0.089
     - _Refraction_Strength: 0.0033
+    - _Scale_bas_refrafation: 2.25
+    - _Scale_bubules: 13.52
+    - _Scale_bubules_fond: 4.84
+    - _Scale_haut_refrafation: 1.02
+    - _Scale_refraction: 4.83
+    - _Scale_stripes: 4.3
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _Speed_bubules: 1
+    - _Speed_bubules_fond: 1
+    - _Speed_refraction: 1.29
+    - _Speed_stripes: 1.21
+    - _Speed_vague: 1.59
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _USETERRAINCOLOR: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - _scale_bas_refrafation: 3.15
+    - _scale_haut_refrafation: 1.52
+    - _scale_refraction: 6
+    - _scale_stripes: 4.3
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Couleur_bubule: {r: 1, g: 1, b: 1, a: 0}
+    - _Couleur_bubules: {r: 1, g: 1, b: 1, a: 0}
+    - _Couleur_bubules_fond: {r: 0.10196077, g: 0.19215685, b: 0.462745, a: 0}
+    - _Couleur_refraction: {r: 0.29411766, g: 0.5921568, b: 0.737255, a: 0}
+    - _Couleur_stripes: {r: 0, g: 0.34501347, b: 0.4528302, a: 0}
+    - _Couleur_vague: {r: 1, g: 1, b: 1, a: 1}
     - _Deep_Color: {r: 0.31933072, g: 0.96092415, b: 0.9811321, a: 0.9490196}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Flow_Color: {r: 0, g: 0, b: 0, a: 0}
@@ -149,4 +171,5 @@ Material:
     - _Shadow_Color: {r: 0.6226415, g: 0.4944512, b: 0.26726595, a: 0}
     - _Shallow_Color: {r: 1, g: 1, b: 1, a: 0.7803922}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _couleur_refraction: {r: 0.29411766, g: 0.5921568, b: 0.737255, a: 0}
   m_BuildTextureStacks: []
