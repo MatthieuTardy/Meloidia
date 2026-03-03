@@ -5,18 +5,18 @@ using UnityEngine.AI;
 using UnityEngine.UIElements;
 using TMPro;
 
-
+public enum CrocNoteType
+{
+    un = 1,
+    deux = 2,
+    trois = 3,
+    quatre = 4,
+    cinq = 5
+}
 [RequireComponent(typeof(Rigidbody))]
 public class LegumeManager : MonoBehaviour
 {
-    public enum type
-    {
-        un = 1,
-        deux = 2,
-        trois = 3,
-        quatre = 4,
-        cinq = 5
-    }
+    
     [Header("Haine par type en %")]
     public int Specisme1 = 5;
     public int Specisme2 = 50;
@@ -26,12 +26,13 @@ public class LegumeManager : MonoBehaviour
 
     [Header("Bonheur")]
     [Range(0, 100)] [SerializeField] int bonheur = 50;
-
+    [InfoBox("A partir de combien de bonheur ce CN est considerer comme triste ou heureux")]
+    [Range(0, 100)] [SerializeField] int SadPercent, HappyPercent;
     public MelogumeSingingManager melogumesSingingManager;
     private GameObject baseLegume;
 
 
-    public type legumeType;
+    public CrocNoteType legumeType;
     private string legumeName;
 
 
@@ -86,6 +87,43 @@ public class LegumeManager : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        calmeTimer += Time.deltaTime;
+        if (colere == true && isStartRageTimer >= -0.5f)
+        {
+            isStartRageTimer -= Time.deltaTime;
+        }
+        if (calmeTimer <= finCalme)
+        {
+            calmeTimer += Time.deltaTime;
+        }
+
+        if (!colere)
+        {
+
+            if (bonheur <= SadPercent)
+            {
+                melogumesSingingManager.StartSadness();
+            }
+            else if (bonheur >= HappyPercent)
+            {
+                melogumesSingingManager.StartHappyness();
+            }
+            else
+            {
+                melogumesSingingManager.StartNormal();
+            }
+        }
+        else
+        { 
+                melogumesSingingManager.StartRage();
+        }
+
+        NameBoard.transform.rotation = Quaternion.Euler(new Vector3(0,0,0));
+    }
+
+
     public IEnumerator RandomMove()
     {
 
@@ -110,29 +148,12 @@ public class LegumeManager : MonoBehaviour
         }
         return finalPosition;
     }
-    private void Update()
-    {
-        calmeTimer += Time.deltaTime;
-        if (colere == true && isStartRageTimer >= -0.5f)
-        {
-            isStartRageTimer -= Time.deltaTime;
-        }
-        if (calmeTimer <= finCalme)
-        {
-            calmeTimer += Time.deltaTime;
-        }
-
-
-        NameBoard.transform.rotation = Quaternion.Euler(new Vector3(0,0,0));
-    }
 
     private void Rename()
     {
         this.gameObject.name = NameCreator.NewName();
         NameBoard.GetComponent<TextMeshPro>().text = this.gameObject.name;
     }
- 
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -143,35 +164,35 @@ public class LegumeManager : MonoBehaviour
             {
                 switch (other.gameObject.GetComponent<LegumeManager>().legumeType)
                 {
-                    case type.un:
+                    case CrocNoteType.un:
                         Debug.Log(jetDeHaine);
                         if (jetDeHaine < Specisme1)
                         {
                             StartRageState(other.transform);
                         }
                         break;
-                    case type.deux:
+                    case CrocNoteType.deux:
                         Debug.Log(jetDeHaine);
                         if (jetDeHaine < Specisme2)
                         {
                             StartRageState(other.transform);
                         }
                         break;
-                    case type.trois:
+                    case CrocNoteType.trois:
                         Debug.Log(jetDeHaine);
                         if (jetDeHaine < Specisme3)
                         {
                             StartRageState(other.transform);
                         }
                         break;
-                    case type.quatre:
+                    case CrocNoteType.quatre:
                         Debug.Log(jetDeHaine);
                         if (jetDeHaine < Specisme4)
                         {
                             StartRageState(other.transform);
                         }
                         break;
-                    case type.cinq:
+                    case CrocNoteType.cinq:
                         Debug.Log(jetDeHaine);
                         if (jetDeHaine < Specisme5)
                         {
@@ -207,7 +228,6 @@ public class LegumeManager : MonoBehaviour
     }
     public IEnumerator RageState()
     {
-
         isStartRageTimer = 1;
         melogumesSingingManager.StopHappyness();
         StartCoroutine(EndOfRageDelay(deathTimer, chanceToDie));

@@ -1,7 +1,10 @@
+using FMODUnity;
 using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEngine.UI.Image;
 
 public class Plantation_interaction : MonoBehaviour
@@ -255,12 +258,18 @@ public class Plantation_interaction : MonoBehaviour
     int currentPhases = 0;
     [SerializeField][Range(0, 100)] int ChanceOfNeedPerPhases;
 
+    [SerializeField] Material WaterMaterial;
+    [SerializeField] float WaterPercent;
+
     [SerializeField] List<musicalNotes> SingPatern;
+    [SerializeField] List<musicalNotes> WaterPatern;
     [SerializeField] Parcelle parcelle;
 
     [SerializeField] GameObject seedPrefab;
     GameObject currentSeed;
 
+
+    
 
     [Header("Particle Systems")]
     public ParticleSystem plantingParticles;
@@ -273,32 +282,118 @@ public class Plantation_interaction : MonoBehaviour
     public void Interract(int outil)
     {
         Debug.Log("Outils in hand : " + outil);
+
+        /* switch (outil)
+        {
+            case 0: // main
+                break;
+            case 1: // arrosoir
+                AddWater();
+                break;
+            case 2: // pelle
+                break;
+            default: // 
+                Debug.LogError("Unknow tool");
+                break;
+
+        }
+       */
+        Debug.Log("IsDirty " + isDirty);
+        Debug.Log("IsSeeded " + isSeeded);
+        if (!isDirty)
+        {
+            AddDirt();
+        }
+        if (!isSeeded)
+        {
+            AddSeed();
+            StartGrow();
+            StartCoroutine(NeedWater());
+        }
+        UpdateSprite();
         
-            switch (outil)
-            {
-                case 0: // main
-                    AddSeed();
-                    break;
-                case 1: // arrosoir
-                    AddWater();
-                    break;
-                case 2: // pelle
-                    AddDirt();
-                    break;
-                default: // 
-                    Debug.LogError("Unknow tool");
-                    break;
-
-            }
-            UpdateSprite();
-
 
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Chant")
+        {
+
+            waitRoutine = StartCoroutine(WaterChant());
+            Debug.LogWarning("start chant");
+
+
+
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Chant")
+        {
+            if (waitRoutine != null)
+            {
+                StopCoroutine(waitRoutine);
+                Debug.LogWarning("stop chant");
+            }
+
+
+        }
+    }
+
+    IEnumerator NeedWater()
+    {
+        if(WaterPercent < 25)
+        {
+            isGrowing = false;
+            isWatered = false;
+            UpdateSprite();
+        }
+        else
+        {
+            isGrowing = true;
+            isWatered = true;
+            UpdateSprite();
+        }
+        yield return new WaitForSeconds(.6f);
+        if(WaterPercent > 0)
+        {
+            WaterPercent--;
+            
+        }
+        Debug.Log("Amount " + WaterPercent / 100);
+        WaterMaterial.SetFloat("_Amount", (WaterPercent/100));
+        StartCoroutine(NeedWater());   
+    }
+
+    IEnumerator WaterChant()
+    {
+        yield return new WaitUntil(() => GameManager.Instance.playerManager.noteSystem.PlayerSingCorrectPattern(WaterPatern));
+        yield return new WaitUntil(() => GameManager.Instance.playerManager.noteSystem.PlayerHoldLastNote(WaterPatern.Last()));
+
+        while (GameManager.Instance.playerManager.noteSystem.PlayerHoldLastNote(WaterPatern.Last()))
+        {
+            yield return new WaitForSeconds(0.1f);
+            if(WaterPercent > 100)
+            {
+                WaterPercent = 100;
+                yield break;
+            }
+            else
+            {
+                Debug.Log("WaterPercent = " + WaterPercent);
+                WaterPercent += 2;
+            }
+        }
+        waitRoutine = StartCoroutine(WaterChant());
+        
+    }
+
+    Coroutine waitRoutine;
 
     #region adding ressources => 1st Dirt - 2nd Seed - 3rd Water
     void AddDirt()
     {
-        if (!isDirty && GameManager.Instance.playerManager.GetDirt() > 0)
+        if (!isDirty)
         {
             GameManager.Instance.playerManager.UseDirt();
             Debug.Log("Add Dirt " + isDirty);
@@ -382,14 +477,22 @@ public class Plantation_interaction : MonoBehaviour
     #region Grow
     void StartGrow()
     {
-        
-        isGrowing = true;
         CurrentTime = 0;
         GrowRoutine=StartCoroutine(GrowPlant());
     }
 
+    IEnumerator StopGrowing()
+    {
+        yield return new WaitUntil(() => !isGrowing);
+        StopCoroutine(GrowRoutine);
+        yield return new WaitUntil(() => isGrowing);
+        GrowRoutine = StartCoroutine(GrowPlant());
+    }
+
     IEnumerator GrowPlant()
     {
+        yield return new WaitUntil(() => isGrowing);
+        StartCoroutine(StopGrowing());
         float time = GrowTime/NumberOfPhases;
         yield return new WaitForSecondsRealtime(time);
         EndOfPhases(time);
@@ -443,7 +546,7 @@ public class Plantation_interaction : MonoBehaviour
                     NeedToDirt();
                     break;
                 case 1:
-                    NeedToWater();
+                    //NeedToWater();
                     break;
                 case 2:
                     NeedToSing();
@@ -537,6 +640,7 @@ public class Plantation_interaction : MonoBehaviour
         isDirty = false;
         isSeeded = false;
         isWatered = false;
+        WaterPercent = 0;
         isSunged = true;
         currentPhases = 0;
         CurrentTime = 0;

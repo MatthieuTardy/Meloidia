@@ -5,39 +5,35 @@ using UnityEngine;
 
 public class MelogumeSingingManager : MonoBehaviour
 {
-    [Header("�v�nements FMOD")]
-    [Tooltip("Assignez ici l'�metteur FMOD pour la note DO.")]
-    public FMODUnity.StudioEventEmitter DO;
-    [Tooltip("Assignez ici l'�metteur FMOD pour la note RE.")]
-    public FMODUnity.StudioEventEmitter RE;
-    [Tooltip("Assignez ici l'�metteur FMOD pour la note MI.")]
-    public FMODUnity.StudioEventEmitter MI;
+    [Header("SingPattern")]
+    [SerializeField] musicalNotes[] DefaultPattern;
+    [SerializeField] float DefaultSpeed;
+    [SerializeField] musicalNotes[] HappyPattern;
+    [SerializeField] float HappySpeed;
+    [SerializeField] musicalNotes[] AngryPattern;
+    [SerializeField] float AngrySpeed;
+    [SerializeField] musicalNotes[] SadPattern;
+    [SerializeField] float SadSpeed;
+    musicalNotes[] currentSingPattern;
 
     [Header("Effets de Particules")]
-    [Tooltip("Le prefab du syst�me de particules � instancier pour chaque note.")]
     public GameObject noteParticlePrefab;
-    [Tooltip("Le point d'apparition des particules. Si non d�fini, la position de cet objet sera utilis�e.")]
     public Transform particleSpawnPoint;
-    [Tooltip("Le mat�riau pour les particules de la note DO.")]
-    public Material doMaterial;
-    [Tooltip("Le mat�riau pour les particules de la note RE.")]
-    public Material reMaterial;
-    [Tooltip("Le mat�riau pour les particules de la note MI.")]
-    public Material miMaterial;
-
-    public Coroutine joyeux;
-    public Coroutine rage;
-
+    public float noteSpeed;
+    [SerializeField] CustomNoteDictionary[] CustomDictionary;
+    public Coroutine SingRoutine;
     private bool _isGameManagerReady = false;
     [SerializeField] LegumeManager legumeManager;
+
+
 
     void Start()
     {
         legumeManager = GetComponent<LegumeManager>();
 
-        if (DO == null || RE == null || MI == null)
+        if (CustomDictionary.Length != 8)
         {
-            Debug.LogError("Attention : Les �metteurs FMOD (DO, RE, MI) ne sont pas assign�s dans l'Inspecteur du GameObject " + gameObject.name + ". La chanson ne d�marrera pas.");
+            Debug.LogError("Attention : Des notes manques dans le CustomDictionary ne sont pas assign�s dans l'Inspecteur du GameObject " + gameObject.name + ". La chanson ne d�marrera pas.");
             return;
         }
 
@@ -45,16 +41,21 @@ public class MelogumeSingingManager : MonoBehaviour
         {
             _isGameManagerReady = true;
         }
-
-        joyeux = StartCoroutine(SongOfHealing());
+        currentSingPattern = DefaultPattern;
+        noteSpeed = 1f;
+        SingRoutine = StartCoroutine(SingPattern(currentSingPattern));
     }
 
     // Arr�te tous les sons jou�s par ce script
     void StopChant()
     {
-        if (DO != null) DO.Stop();
-        if (RE != null) RE.Stop();
-        if (MI != null) MI.Stop();
+        foreach(var note in CustomDictionary)
+        {
+            if (note.Emitter)
+            {
+                note.Emitter.Stop();
+            }
+        }
     }
 
     /// <summary>
@@ -97,7 +98,7 @@ public class MelogumeSingingManager : MonoBehaviour
         }
     }
 
-    public IEnumerator SongOfHealing()
+    public IEnumerator SingPattern(musicalNotes[] pattern)
     {
         // G�rer la vitesse uniquement si la r�f�rence GameManager est pr�te
         if (_isGameManagerReady)
@@ -110,22 +111,18 @@ public class MelogumeSingingManager : MonoBehaviour
         legumeManager.animator.SetBool("walk", false);
         legumeManager.animator.SetBool("sing", true);
 
-        PlayNoteWithParticles(DO, doMaterial);
-        yield return new WaitForSeconds(1);
-        StopChant();
-
-        PlayNoteWithParticles(RE, reMaterial);
-        yield return new WaitForSeconds(1);
-        StopChant();
-
-        PlayNoteWithParticles(DO, doMaterial);
-        yield return new WaitForSeconds(1);
-        StopChant();
-
-        PlayNoteWithParticles(MI, miMaterial);
-        yield return new WaitForSeconds(1);
-        StopChant();
-
+        foreach(var note in pattern)
+        {
+            foreach(var dic in CustomDictionary)
+            {
+                if(dic.ID == note)
+                {
+                    PlayNoteWithParticles(dic.Emitter, dic.Mat);
+                    yield return new WaitForSeconds(noteSpeed);
+                    dic.Emitter.Stop();
+                }
+            }
+        }
         legumeManager.animator.SetBool("sing", false);
         // R�tablir la vitesse de d�placement
 
@@ -138,19 +135,30 @@ public class MelogumeSingingManager : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(3f, 10.0f));
 
         // R�p�ter la chanson
-        joyeux = StartCoroutine(SongOfHealing());
-        
+        SingRoutine = StartCoroutine(SingPattern(currentSingPattern));
     }
     public void StopHappyness()
     {
-        StopCoroutine(joyeux);
         legumeManager.animator.SetBool("sing", false);
     }
 
     public void StartHappyness()
     {
-        joyeux = StartCoroutine(SongOfHealing());
+        noteSpeed = HappySpeed;
+        currentSingPattern = HappyPattern;
     }
+
+    public void StartSadness()
+    {
+        noteSpeed = SadSpeed;
+        currentSingPattern = SadPattern;
+    }
+    public void StartNormal()
+    {
+        noteSpeed = 1f;
+        currentSingPattern = DefaultPattern;
+    }
+    /*
     public IEnumerator SongOfRage()
     {
         // G�rer la vitesse uniquement si la r�f�rence GameManager est pr�te
@@ -205,14 +213,25 @@ public class MelogumeSingingManager : MonoBehaviour
         // R�p�ter la chanson
         rage = StartCoroutine(SongOfRage());
     }
-
+    */
     public void StartRage()
     {
         legumeManager.animator.SetBool("sing", false);
-        rage = StartCoroutine(SongOfRage());
+        noteSpeed = 0.1f;
+        currentSingPattern = AngryPattern;
     }
     public void StopRage()
     {
-        StopCoroutine(rage);
+        //StopCoroutine(rage);
     }
+
+
+}
+
+[System.Serializable]
+class CustomNoteDictionary
+{
+    public musicalNotes ID;
+    public FMODUnity.StudioEventEmitter Emitter;
+    public Material Mat;
 }
