@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
@@ -13,16 +13,33 @@ public class CrocNoteCondition : Condition
     {
         if (!haveType)
         {
-            if(proximity.CrocNoteInProximity.Count >= WantedCount)
+            if (proximity.CrocNoteInProximity.Count >= WantedCount)
             {
                 return true;
             }
         }
         else
         {
-            if(proximity.CrocNoteInProximity.Count > 0)
+            if (proximity.CrocNoteInProximity.Count > 0)
             {
                 CrocNoteAmount[] temp = CurrentCrocAmount();
+                foreach (var amount in amounts)
+                {
+                    foreach (var prox in temp)
+                    {
+                        if (amount.type == prox.type)
+                        {
+                            if(prox.amount >= amount.amount)
+                            {
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                return true;
             }
         }
             return false;
@@ -30,13 +47,26 @@ public class CrocNoteCondition : Condition
 
     CrocNoteAmount[] CurrentCrocAmount()
     {
-        CrocNoteAmount[] temp = new CrocNoteAmount[amounts.Length];
-        foreach(var A in proximity.CrocNoteInProximity)
+        CrocNoteAmount[] temps = new CrocNoteAmount[Enum.GetValues(typeof(CrocNoteType)).Length];
+        foreach (int enumValue in Enum.GetValues(typeof(CrocNoteType))) 
         {
-
+            Debug.Log("enum value " + enumValue);
+            Debug.Log("temp" + temps.Length);
+            temps[enumValue - 1] = new CrocNoteAmount
+            {
+                amount = 0,
+                type = (CrocNoteType)enumValue
+            };
+            Debug.Log("temp [enumvalue]" + temps[enumValue - 1].type);
         }
-        return null;
+
+        foreach (LegumeManager prox in proximity.CrocNoteInProximity)
+        {
+            temps[(int)prox.legumeType - 1].amount++;
+        }
+        return temps;
     }
+    
 
 
 
