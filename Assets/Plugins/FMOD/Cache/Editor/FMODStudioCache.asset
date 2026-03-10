@@ -148,7 +148,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639066196302185333
+  lastModified: 639087339728080595
   FileSizes:
   - Name: Desktop
     Value: 997312
@@ -171,7 +171,8 @@ MonoBehaviour:
     Data2: 1127736052
     Data3: -1042977089
     Data4: 1042145092
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -180,34 +181,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &-5028878679629850055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Tuto Song
-  m_EditorClassIdentifier: 
-  Path: event:/Tuto Song
-  Guid:
-    Data1: 1887407340
-    Data2: 1187652818
-    Data3: 407469231
-    Data4: -1335549177
-  Banks:
-  - {fileID: -5023280176564322763}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters:
-  - {fileID: 8800342396972468411}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 91914
 --- !u!114 &-5023280176564322763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,10 +196,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639079881572046583
+  lastModified: 639087426069200249
   FileSizes:
   - Name: Desktop
-    Value: 12500896
+    Value: 16744352
   Exists: 1
 --- !u!114 &-4105683861135671090
 MonoBehaviour:
@@ -246,7 +219,8 @@ MonoBehaviour:
     Data2: 1306786235
     Data3: -200567651
     Data4: -1089877177
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -299,7 +273,8 @@ MonoBehaviour:
     Data2: 1171247989
     Data3: 1550166179
     Data4: 956725001
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -325,7 +300,8 @@ MonoBehaviour:
     Data2: 1164060323
     Data3: 1390987180
     Data4: -975474266
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -351,14 +327,15 @@ MonoBehaviour:
     Data2: 1332017290
     Data3: 679332790
     Data4: 801298445
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 0
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 11774
+  Length: 11800
 --- !u!114 &-2484111289675711100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,14 +354,15 @@ MonoBehaviour:
     Data2: 1120931800
     Data3: 1914303163
     Data4: 1390250213
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 0
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 16673
+  Length: 16700
 --- !u!114 &-1940169317393226276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,7 +381,8 @@ MonoBehaviour:
     Data2: 1259039741
     Data3: -982172490
     Data4: -1693442643
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -430,7 +409,8 @@ MonoBehaviour:
     Data2: 1225435090
     Data3: 1852141736
     Data4: -1136677508
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -453,7 +433,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Jingle.bank
   Name: Jingle
   StudioPath: bank:/Jingle
-  lastModified: 639049934776228468
+  lastModified: 639087339654276956
   FileSizes:
   - Name: Desktop
     Value: 41696
@@ -544,7 +524,6 @@ MonoBehaviour:
   - {fileID: -835505204307562582}
   - {fileID: -7855276135602949334}
   - {fileID: -742697236197987449}
-  - {fileID: -5028878679629850055}
   - {fileID: 2766045550506272503}
   - {fileID: -1049362062780102606}
   - {fileID: -3026411872957841225}
@@ -563,13 +542,14 @@ MonoBehaviour:
   - {fileID: 1864250942169849627}
   - {fileID: 6188534315577437882}
   - {fileID: -4105683861135671090}
+  - {fileID: 5210480648196243069}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4158438079306407908}
   StringsBanks:
   - {fileID: 3856348917924897851}
   cacheVersion: 131849
-  cacheTime: 639079881572046583
+  cacheTime: 639087426069200249
   SerializableEventsDict:
   - key: event:/DO
     index: 0
@@ -595,43 +575,43 @@ MonoBehaviour:
     index: 10
   - key: event:/Win
     index: 11
-  - key: event:/Tuto Song
-    index: 12
   - key: event:/SFX/Robot/Robot_Voice/Robot_Do
-    index: 13
+    index: 12
   - key: event:/SFX/Robot/Robot_Action/Robot_Planter
-    index: 14
+    index: 13
   - key: event:/SFX/Croc-note/Carotte/Aie
-    index: 15
+    index: 14
   - key: event:/SFX/Robot/Robot_Voice/Robot_Sol
-    index: 16
+    index: 15
   - key: event:/SFX/Robot/Robot_Voice/Robot_Fa
-    index: 17
+    index: 16
   - key: event:/SFX/Robot/Robot_Voice/Robot_La
-    index: 18
+    index: 17
   - key: event:/SFX/Robot/Robot_Action/Pickup
-    index: 19
+    index: 18
   - key: event:/SFX/Robot/Robot_Voice/Robot_Mi
-    index: 20
+    index: 19
   - key: event:/SFX/Robot/Robot_Voice/Robot_Si
-    index: 21
+    index: 20
   - key: event:/SFX/UI/UI_Validation
-    index: 22
+    index: 21
   - key: event:/SFX/Croc-note/Carotte/Croc-note_step
-    index: 23
+    index: 22
   - key: event:/SFX/Robot/Robot_Voice/Robot_Do_2
-    index: 24
+    index: 23
   - key: event:/SFX/Build/Deplacement
-    index: 25
+    index: 24
   - key: event:/SFX/Build/Refus
-    index: 26
+    index: 25
   - key: event:/SFX/Robot/Robot_Action/Robot_Creuser
-    index: 27
+    index: 26
   - key: event:/SFX/UI/UI_Selection
-    index: 28
+    index: 27
   - key: event:/SFX/Robot/Robot_Voice/Robot_Re
-    index: 29
+    index: 28
   - key: event:/SFX/Build/Validation
+    index: 29
+  - key: event:/Musics/Tuto
     index: 30
 --- !u!114 &20948607390266791
 MonoBehaviour:
@@ -651,14 +631,15 @@ MonoBehaviour:
     Data2: 1224484772
     Data3: -1717551472
     Data4: -1390075827
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 0
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 14206
+  Length: 14232
 --- !u!114 &1864250942169849627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -677,7 +658,8 @@ MonoBehaviour:
     Data2: 1244815016
     Data3: 672818592
     Data4: 160519956
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -703,7 +685,8 @@ MonoBehaviour:
     Data2: 1341984013
     Data3: -1162153842
     Data4: 1021148075
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -729,14 +712,15 @@ MonoBehaviour:
     Data2: 1313695403
     Data3: 298510215
     Data4: -511265525
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 0
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 12169
+  Length: 12195
 --- !u!114 &3227991153811414471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -780,14 +764,15 @@ MonoBehaviour:
     Data2: 1340363958
     Data3: 629066633
     Data4: 1922857158
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 0
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 14845
+  Length: 14872
 --- !u!114 &3856348917924897851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -803,10 +788,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639066196301125692
+  lastModified: 639087357628230537
   FileSizes:
   - Name: Desktop
-    Value: 1380
+    Value: 2426
   Exists: 1
 --- !u!114 &4158438079306407908
 MonoBehaviour:
@@ -823,7 +808,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638974560499803294
+  lastModified: 639087357628205318
   FileSizes:
   - Name: Desktop
     Value: 426176
@@ -907,6 +892,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4457
+--- !u!114 &5210480648196243069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Musics/Tuto
+  m_EditorClassIdentifier: 
+  Path: event:/Musics/Tuto
+  Guid:
+    Data1: -2016321191
+    Data2: 1143395037
+    Data3: -594979165
+    Data4: 828310570
+  Banks:
+  - {fileID: -5023280176564322763}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 7330842108631355842}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 250723
 --- !u!114 &5675176644930605580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -925,7 +938,8 @@ MonoBehaviour:
     Data2: 1227694179
     Data3: 884358038
     Data4: -468590637
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -951,14 +965,15 @@ MonoBehaviour:
     Data2: 1244844835
     Data3: -1767446398
     Data4: 1874203661
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 0
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 11927
+  Length: 11952
 --- !u!114 &6188534315577437882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -977,14 +992,15 @@ MonoBehaviour:
     Data2: 1209929640
     Data3: -994404419
     Data4: -2120407878
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 16584
+  Length: 16619
 --- !u!114 &6709109357601264449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,6 +1028,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4409
+--- !u!114 &7330842108631355842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Tuto/Melodie1
+  m_EditorClassIdentifier: 
+  Name: Melodie1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2174529035
+    data2: 2748854950
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &7529117078406398326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1030,7 +1070,8 @@ MonoBehaviour:
     Data2: 1131064551
     Data3: 1198792375
     Data4: 1280307872
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1056,14 +1097,15 @@ MonoBehaviour:
     Data2: 1152489613
     Data3: -449289822
     Data4: -1997841894
-  Banks: []
+  Banks:
+  - {fileID: -6568517935021651378}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 14452
+  Length: 14486
 --- !u!114 &7662684490723809364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1118,27 +1160,3 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4367
---- !u!114 &8800342396972468411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Tuto Song/Piste1_Volume
-  m_EditorClassIdentifier: 
-  Name: Piste1_Volume
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 3295436225
-    data2: 1745184471
-  Type: 0
-  IsGlobal: 0
-  Labels: []
-  Exists: 1

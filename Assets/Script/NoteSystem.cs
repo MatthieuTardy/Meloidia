@@ -79,6 +79,8 @@ public class NoteSystem : MonoBehaviour
     public List<musicalNotes> chantDuBirthday = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Do, musicalNotes.Ré, musicalNotes.Do, musicalNotes.Fa, musicalNotes.Mi };
     public List<musicalNotes> playedPartition;
 
+    private bool isNoteWheelOpen;
+
     private void Start()
     {
         ToggleTrackOne(true);
@@ -87,45 +89,44 @@ public class NoteSystem : MonoBehaviour
     void Update()
     {
        
-            playedTime += Time.deltaTime;
-            PlayMusic();
+        playedTime += Time.deltaTime;
+        PlayMusic();
 
-            //Debug.Log("PlayedTime : " + singDelay);
-            if ((playedTime >= HoldDelay || singDelay >= HoldDelay) && Input.GetButton("ValidateNote"))
-            {
-                addHoldedNote();
-            }
-            else if (Input.GetButtonUp("ValidateNote"))
-            {
-                StopChant();
-            }
+        //Debug.Log("PlayedTime : " + singDelay);
+        if (Input.GetKeyDown(KeyCode.R))
+        {
 
-            // Si le temps sans note jouer depasse x => vide la list de partition
-            if (playedTime >= ClearDelay && playedPartition.Count != 0)
+            if (isNoteWheelOpen)
             {
-                playedPartition.Clear();
-                noteCurrent = musicalNotes.None;
+                ToggleTrackOne(true);
+                isNoteWheelOpen = false;
+            }
+            else if (!isNoteWheelOpen) 
+            {
+                ToggleTrackOne(false);
+                isNoteWheelOpen = true;
+            }
+        }
+
+
+        // Si le temps sans note jouer depasse x => vide la list de partition
+        if (playedTime >= ClearDelay && playedPartition.Count != 0)
+        {
+            playedPartition.Clear();
+            noteCurrent = musicalNotes.None;
+            clearHoldedNote();
+        }
+
+        if (noteHolded != musicalNotes.None)
+        {
+
+            if (noteCurrent != noteHolded)
+            {
                 clearHoldedNote();
+                playedTime = 0;
+                singDelay = 0;
             }
-
-            if (noteHolded != musicalNotes.None)
-            {
-
-                if (noteCurrent != noteHolded)
-                {
-                    clearHoldedNote();
-                    playedTime = 0;
-                    singDelay = 0;
-                }
-            }
-            /* sert a rien ?
-            else if (playedPartition.Count > 0 && (playedPartition.SequenceEqual(chantDuDiab) || playedPartition.SequenceEqual(chantDuBonheur) || playedPartition.SequenceEqual(chantDuBirthday)))
-            {
-                noteBefore = playedPartition.LastOrDefault();
-                playedPartition.Clear();
-            }
-            */
-        
+        }      
     }
     
     bool IsTrackOneToggle;
@@ -134,8 +135,7 @@ public class NoteSystem : MonoBehaviour
 
     public void ToggleTrackOne(bool active)
     {
-        if (!IsTrackOneToggle)
-        {
+
             if (music != null)
             {
                 if (music.IsPlaying())
@@ -144,35 +144,33 @@ public class NoteSystem : MonoBehaviour
                     IsTrackOneToggle = true;
                 }
             }
-        }
+       
     }
 
     IEnumerator FadeSound(float time, bool FadeIn)
     {
-        int step = 5;
-        float volume = FadeIn ? 1f : 0.5f;
-        float ratio = 1 / step;
-        
+        float step = 5;
+        float volume = FadeIn ? 0f:1f;
+        Debug.LogWarning("music misc"+ volume);
+
         for (int i = 0; i < step; i++)
         {
             if (!FadeIn)
             {
-                volume -= ratio;
-                FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", volume);
+                volume -= 0.2f;
+                FMOD.RESULT result = music.EventInstance.setParameterByName("Melodie1", volume);
+
             }
-            else 
+            else
             {
-                volume += ratio;
-                FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", volume); 
+                volume += 0.2f;
+                FMOD.RESULT result = music.EventInstance.setParameterByName("Melodie1", volume);
             }
+            Debug.Log("Volume :" + volume);
             yield return new WaitForSeconds(time / 4);
         }
-        if (!FadeIn)
-        {
-            FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0);
-        }
-
         IsTrackOneToggle = false;
+
     }
 
     public void PlayNoteFromPC(int ForceNote)
@@ -191,7 +189,7 @@ public class NoteSystem : MonoBehaviour
 
         if (Mathf.Abs(inputX) > 0.5f || Mathf.Abs(inputY) > 0.5f)
         {
-            ToggleTrackOne(false);
+
             if (Input.GetButton("ValidateNote"))
             {
                 singDelay += Time.deltaTime;
@@ -222,7 +220,7 @@ public class NoteSystem : MonoBehaviour
         else if(ForceNote != null)
         {
             Debug.Log("ForceNote");
-            ToggleTrackOne(false);
+
             if (Input.GetButton("ValidateNote"))
             {
                 singDelay += Time.deltaTime;
