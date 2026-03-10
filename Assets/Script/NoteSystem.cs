@@ -80,8 +80,6 @@ public class NoteSystem : MonoBehaviour
     public List<musicalNotes> playedPartition;
 
     private bool isNoteWheelOpen;
-    [Range(0f, 1f)]
-    public float globalVolume;
     private void Start()
     {
         ToggleTrackOne(true);
@@ -90,7 +88,6 @@ public class NoteSystem : MonoBehaviour
 
     void Update()
     {
-        FMOD.RESULT result = music.EventInstance.setParameterByName("MusicGlobalVolume", globalVolume);
         playedTime += Time.deltaTime;
         PlayMusic();
 
