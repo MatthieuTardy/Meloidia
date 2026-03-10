@@ -91,6 +91,74 @@ public class InventoryManager : MonoBehaviour
         if (succesToPickUp) { newItem.OnPickUp(); }
         return succesToPickUp;
     }
+    void BrowseInventory()
+    {
+        if (Input.GetButtonDown("Scroll"))
+        {
+            int Scroll = (int)Input.GetAxisRaw("Scroll");
+            if (Scroll != 0)
+            {
+                Debug.ClearDeveloperConsole();
+                Debug.Log(" Scroll = " + Scroll + "\n \n \n");
+                List<ItemSlot> NewItems = new List<ItemSlot>();
+                for (int i = 0; i < InventorySize; i++)
+                {
+                    NewItems.Add(null);
+                }
+                for (int i = 0; i < items.Count; i++)
+                {
+                    if(items[i] != null)
+                    {
+                        Debug.Log("Item " + i + " = " +items[i].CurrentItem.type);
+                    }
+                    else
+                    {
+                        Debug.Log("Item " + i + " = none");
+                    }
+
+                    int nextIndex = i + Scroll;
+                    if (nextIndex < 0)
+                    {
+                        nextIndex = InventorySize - 1;
+                    }
+                    else if (nextIndex >= InventorySize)
+                    {
+                        nextIndex = 0;
+                    }
+                    Debug.Log("next index = " + nextIndex);
+                    if(items[nextIndex] != null)
+                    {
+                        NewItems[i] = items[nextIndex];
+                    }
+                    if(NewItems[i] != null)
+                    {
+                        Debug.Log("NewItem after change " + i + " = " + NewItems[i].CurrentItem.type);
+                    }
+                    else
+                    {
+                        Debug.Log("NewItem after change " + i + " = none");
+                    }
+                        
+
+
+                    
+                }
+                for(int i = 0;i < NewItems.Count; i++)
+                {
+                    items[0] = NewItems[0];
+                }
+            }/*
+            if (items[0] != null)
+            {
+                Debug.Log("Item " + 0 + " = " + items[0].CurrentItem.type);
+            }
+            else
+            {
+                Debug.Log("Item " + 0 + " = none");
+            }*/
+            //Debug.Log("Item 0 " + items[0].CurrentItem.type);
+        }
+    }
 
     #region adding item
 
@@ -175,11 +243,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            Debug.Log("DropItem");
-            DropItem(0);
-        }
+        BrowseInventory();
     }
 
     void DeleteItemIfZeroQuantity()
