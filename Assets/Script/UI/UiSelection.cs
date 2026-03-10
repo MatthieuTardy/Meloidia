@@ -43,6 +43,7 @@ public class UiSelection : MonoBehaviour
     public void ManageToggleSing()
     {
         float value = Input.GetAxisRaw("ToggleSing");
+        value += Input.GetAxisRaw("SongPC");
         if (value > 0 && !triggerPressed)
         {
             triggerPressed = true;
