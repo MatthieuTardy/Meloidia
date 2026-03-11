@@ -43,14 +43,12 @@ public class AllCrocNoteCondition : Condition
         CrocNoteAmount[] temps = new CrocNoteAmount[Enum.GetValues(typeof(CrocNoteType)).Length];
         foreach (int enumValue in Enum.GetValues(typeof(CrocNoteType)))
         {
-            Debug.Log("enum value " + enumValue);
-            Debug.Log("temp" + temps.Length);
+
             temps[enumValue - 1] = new CrocNoteAmount
             {
                 amount = 0,
                 type = (CrocNoteType)enumValue
             };
-            Debug.Log("temp [enumvalue]" + temps[enumValue - 1].type);
         }
 
         foreach (LegumeManager prox in GameManager.Instance.legumeManagerList)
