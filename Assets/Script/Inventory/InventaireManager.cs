@@ -93,9 +93,9 @@ public class InventoryManager : MonoBehaviour
     }
     void BrowseInventory()
     {
-        if (Input.GetButtonDown("Scroll"))
+        if (Input.GetButtonDown("BrowseInventory"))
         {
-            int Scroll = (int)Input.GetAxisRaw("Scroll");
+            int Scroll = (int)Input.GetAxisRaw("BrowseInventory");
             if (Scroll != 0)
             {
                 Debug.ClearDeveloperConsole();
@@ -138,14 +138,10 @@ public class InventoryManager : MonoBehaviour
                     {
                         Debug.Log("NewItem after change " + i + " = none");
                     }
-                        
-
-
-                    
                 }
                 for(int i = 0;i < NewItems.Count; i++)
                 {
-                    items[0] = NewItems[0];
+                    items[i] = NewItems[i];
                 }
             }/*
             if (items[0] != null)
