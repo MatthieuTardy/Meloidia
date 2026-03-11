@@ -66,30 +66,42 @@ public class InventoryManager : MonoBehaviour
     public bool TryToPickUp(Item newItem)
     {
         bool succesToPickUp = false;
-        int amount = newItem.amount;
+        int MaxAmount = newItem.amount;
+        Debug.Log("MaxAmount = " + MaxAmount);
         //Debug.Log("try to pick up in inventory");
-
-        (bool canStack, int index) = CanStackItem(newItem);
-        //check si il existe une occurance de l'item && si on peut l'add
-        if (canStack)   
+        for (int i = 1; i <= MaxAmount; i++)
         {
-            //Debug.Log("Can Stack");
-            // si on peut l'ajouter on l'ajoute
-            AddItemToExistingSlot(newItem,amount,index);
-            succesToPickUp = true;
-        }
-        else
-        {
-            //Debug.Log("CANNOT Stack");
-            if (HaveSlotAvailable())
+            newItem.amount = 1;
+        Debug.Log("newItem amount = " + newItem.amount);
+            (bool canStack, int index) = CanStackItem(newItem);
+            //check si il existe une occurance de l'item && si on peut l'add
+            if (canStack)
             {
-                //Debug.Log("HaveSlotAvailable");
-                AddItemToNewSlot(newItem,amount);
+                //Debug.Log("Can Stack");
+                // si on peut l'ajouter on l'ajoute
+                AddItemToExistingSlot(newItem, 1, index);
                 succesToPickUp = true;
             }
+            else
+            {
+                //Debug.Log("CANNOT Stack");
+                if (HaveSlotAvailable())
+                {
+                    //Debug.Log("HaveSlotAvailable");
+                    AddItemToNewSlot(newItem, 1);
+                    succesToPickUp = true;
+                }
+            }
+            if (succesToPickUp) {
+                newItem.OnPickUp(); 
+            }
         }
-        if (succesToPickUp) { newItem.OnPickUp(); }
         return succesToPickUp;
+    }
+    private void Update()
+    {
+        BrowseInventory();
+        ManageDrop();
     }
     void BrowseInventory()
     {
@@ -153,6 +165,15 @@ public class InventoryManager : MonoBehaviour
                 Debug.Log("Item " + 0 + " = none");
             }*/
             //Debug.Log("Item 0 " + items[0].CurrentItem.type);
+        }
+    }
+
+    void ManageDrop()
+    {
+        if (Input.GetButtonDown("Drop"))
+        {
+            Debug.Log("Drop item " + items[0].CurrentItem);
+            DropItem(0);
         }
     }
 
@@ -237,10 +258,6 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        BrowseInventory();
-    }
 
     void DeleteItemIfZeroQuantity()
     {
@@ -300,11 +317,14 @@ public class InventoryManager : MonoBehaviour
 
     public void DropItem(int index)
     {
-        Debug.Log("Item = " + Items[index]);
+        Debug.Log("Item = " + Items[index].CurrentItem.type);
         if(Items[index] != null)
         {
             GameObject obj = dictionaryOfItem.GetValueOrDefault(Items[index].CurrentItem.sprite);
-            Vector3 pos = GameManager.Instance.playerManager.transform.position + Vector3.forward;
+            Items[index].CurrentItem.amount = 1;
+            Debug.LogWarning("items drop quantity: " + Items[index].CurrentQuantity);
+            Debug.LogWarning("items drop amount : " + Items[index].CurrentItem.amount);
+            Vector3 pos = GameManager.Instance.playerManager.transform.position + (Vector3.forward*2);
             Instantiate(obj,pos,Quaternion.identity);
             UseItem(Items[index].CurrentItem.type, 1);
         }
@@ -332,9 +352,6 @@ public class InventoryManager : MonoBehaviour
 
         }
         return -1;
-
-        
-        
     }
 }
 
