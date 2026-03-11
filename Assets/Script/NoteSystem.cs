@@ -102,22 +102,25 @@ public class NoteSystem : MonoBehaviour
     void Update()
     {
         playedTime += Time.deltaTime;
-        PlayMusic();
+        if(isNoteWheelOpen)
+            PlayMusic();
 
         //Debug.Log("PlayedTime : " + singDelay);
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R)|| Input.GetButtonDown("ToggleSing"))
         {
-
+            Debug.Log("Open");
             if (isNoteWheelOpen)
             {
                 ToggleTrackOne(true);
                 isNoteWheelOpen = false;
+
 
             }
             else if (!isNoteWheelOpen)
             {
                 ToggleTrackOne(false);
                 isNoteWheelOpen = true;
+                isGratteNote = false;
             }
         }
         if (Input.GetKeyDown(KeyCode.Q) && !isOnLeftNote ||
@@ -195,7 +198,6 @@ public class NoteSystem : MonoBehaviour
             {
                 volume -= 0.2f;
                 FMOD.RESULT result = music.EventInstance.setParameterByName("Melodie1", volume);
-
             }
             else
             {
@@ -248,10 +250,12 @@ public class NoteSystem : MonoBehaviour
 
             if (!isOnLeftNote)
             {
+                noteUIElements[noteIndex].Highlight();
                 noteIndex += 8;
             }
+            else 
+                noteUIElements[noteIndex].Highlight();
 
-            noteUIElements[noteIndex].Highlight();
             if (isPlayedNote)
             {
                 StopChant();
@@ -286,9 +290,7 @@ public class NoteSystem : MonoBehaviour
         }
         else if(!Input.GetButton("SongPC"))
         {
-            isPlaying = false;
             singDelay = 0;
-            isGratteNote = false;
             noteBefore = musicalNotes.None;
         }
     }
@@ -339,7 +341,16 @@ public class NoteSystem : MonoBehaviour
             case 5: return musicalNotes.La;
             case 6: return musicalNotes.Si;
             case 7: return musicalNotes.Do2;
-            
+
+            case 8: return musicalNotes.Do;
+            case 9: return musicalNotes.Ré;
+            case 10: return musicalNotes.Mi;
+            case 11: return musicalNotes.Fa;
+            case 12: return musicalNotes.Sol;
+            case 13: return musicalNotes.La;
+            case 14: return musicalNotes.Si;
+            case 15: return musicalNotes.Do2;
+
             default: return musicalNotes.None;
         }
     }
