@@ -71,6 +71,15 @@ public class NoteSystem : MonoBehaviour
     public FMODUnity.StudioEventEmitter SI;
     public FMODUnity.StudioEventEmitter DO2;
 
+    public FMODUnity.StudioEventEmitter DOR;
+    public FMODUnity.StudioEventEmitter RER;
+    public FMODUnity.StudioEventEmitter MIR;
+    public FMODUnity.StudioEventEmitter FAR;
+    public FMODUnity.StudioEventEmitter SOLR;
+    public FMODUnity.StudioEventEmitter LAR;
+    public FMODUnity.StudioEventEmitter SIR;
+    public FMODUnity.StudioEventEmitter DO2R;
+
     public FMODUnity.StudioEventEmitter Victoire;
     public FMODUnity.StudioEventEmitter No;
     
@@ -85,7 +94,11 @@ public class NoteSystem : MonoBehaviour
         ToggleTrackOne(true);
 
     }
+    private bool isGratteNote = false;
+    private bool isOnLeftNote;
+    private bool isPlayedNote;
 
+    int noteIndex = 0;
     void Update()
     {
         playedTime += Time.deltaTime;
@@ -99,13 +112,37 @@ public class NoteSystem : MonoBehaviour
             {
                 ToggleTrackOne(true);
                 isNoteWheelOpen = false;
+
             }
-            else if (!isNoteWheelOpen) 
+            else if (!isNoteWheelOpen)
             {
                 ToggleTrackOne(false);
                 isNoteWheelOpen = true;
             }
         }
+        if (Input.GetKeyDown(KeyCode.Q) && !isOnLeftNote ||
+            Input.GetKeyDown(KeyCode.Q) && !isGratteNote ||
+            Input.GetAxis("Horizontal") == -1 && !isOnLeftNote ||
+            Input.GetAxis("Horizontal") == -1 && !isGratteNote)
+        {
+            isOnLeftNote = true;
+            isGratteNote = true;
+            isPlayedNote = true;
+            Debug.Log("Played");
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) && isOnLeftNote ||
+            Input.GetKeyDown(KeyCode.E) && !isGratteNote ||
+            Input.GetAxis("Horizontal") == 1 && isOnLeftNote ||
+            Input.GetAxis("Horizontal") == 1 && !isGratteNote)
+        {
+            isOnLeftNote = false;
+            isGratteNote = true;
+            isPlayedNote = true;
+            Debug.Log("Played");
+        }
+
+        
 
 
         // Si le temps sans note jouer depasse x => vide la list de partition
@@ -198,7 +235,7 @@ public class NoteSystem : MonoBehaviour
                 singDelay = 0;
                 clearHoldedNote();
             }
-            int noteIndex = 0;
+
 
             if (inputY > 0.5f && Mathf.Abs(inputX) < 0.5f) { noteIndex = 4; }
             else if (inputX > 0.3f && inputY < -0.3f) { noteIndex = 1; }
@@ -209,11 +246,17 @@ public class NoteSystem : MonoBehaviour
             else if (inputX < -0.5f && Mathf.Abs(inputY) < 0.5f) { noteIndex = 6; }
             else if (inputX < -0.3f && inputY > 0.3f) { noteIndex = 5; }
 
+            if (!isOnLeftNote)
+            {
+                noteIndex += 8;
+            }
 
             noteUIElements[noteIndex].Highlight();
-            if (Input.GetButton("ValidateNote"))
+            if (isPlayedNote)
             {
+                StopChant();
                 PlayNote(noteIndex);
+                isPlayedNote = false;
             }
         }
         else if(ForceNote != null)
@@ -230,13 +273,22 @@ public class NoteSystem : MonoBehaviour
                 clearHoldedNote();
             }
             int noteIndex = ForceNote.Value;
-            PlayNote(noteIndex);
+            if (!isOnLeftNote)
+            {
+                noteIndex += 8;
+            }
+            if (isPlayedNote)
+            {
+                StopChant();
+                PlayNote(noteIndex);
+                isPlayedNote = false;
+            }
         }
         else if(!Input.GetButton("SongPC"))
         {
             isPlaying = false;
             singDelay = 0;
-            StopChant();
+            isGratteNote = false;
             noteBefore = musicalNotes.None;
         }
     }
@@ -245,6 +297,9 @@ public class NoteSystem : MonoBehaviour
     {
         DO.Stop(); RE.Stop(); MI.Stop(); FA.Stop();
         SOL.Stop(); LA.Stop(); SI.Stop(); DO2.Stop();
+
+        DOR.Stop(); RER.Stop(); MIR.Stop(); FAR.Stop();
+        SOLR.Stop(); LAR.Stop(); SIR.Stop(); DO2R.Stop();
     }
 
     void StartChant(int index)
@@ -260,6 +315,15 @@ public class NoteSystem : MonoBehaviour
             case 5: LA.Play(); break;
             case 6: SI.Play(); break;
             case 7: DO2.Play(); break;
+            case 8: DOR.Play(); break;
+            case 9: RER.Play(); break;
+            case 10: MIR.Play(); break;
+            case 11: FAR.Play(); break;
+            case 12: SOLR.Play(); break;
+            case 13: LAR.Play(); break;
+            case 14: SIR.Play(); break;
+            case 15: DO2R.Play(); break;
+
         }
     }
 
