@@ -34,4 +34,9 @@ public class GameManager : MonoBehaviour
     {
         legumeManagerList.Remove(legumeManager);
     }
+
+    public void Quitter()
+    {
+        Application.Quit();
+    }
 }

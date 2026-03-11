@@ -23,7 +23,7 @@ public class SoundManager : MonoBehaviour
         Master = FMODUnity.RuntimeManager.GetBus("bus:/Master");
         Music = FMODUnity.RuntimeManager.GetBus("bus:/Master/Music");
         SFX = FMODUnity.RuntimeManager.GetBus("bus:/Master/SFX");
-        testSFX = FMODUnity.RuntimeManager.CreateInstance("event:/SFX/Croc-note/LAtest");
+        testSFX = FMODUnity.RuntimeManager.CreateInstance("event:/SFX/UI/UI_Selection");
     }
 
     // Update is called once per frame
@@ -46,6 +46,16 @@ public class SoundManager : MonoBehaviour
     public void SFXVolumeLevel(float Volumelevel)
     {
         SFXMix = Volumelevel;
+
+        FMOD.Studio.PLAYBACK_STATE PbState;
+        testSFX.getPlaybackState(out PbState);
+        if (PbState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+        {
+            testSFX.start();
+        }
+    }
+    public void SFXPlay()
+    {
 
         FMOD.Studio.PLAYBACK_STATE PbState;
         testSFX.getPlaybackState(out PbState);
