@@ -46,15 +46,15 @@ public class UiSelection : MonoBehaviour
         value += Input.GetAxisRaw("SongPC");
         if (value > 0 && !triggerPressed)
         {
-            triggerPressed = true;
+            //triggerPressed = true;
             IsToggleSing = !IsToggleSing;
             wheelRoot.SetActive(IsToggleSing);
         }
 
-        if (value < 0.1f)
+        /*if (value < 0.1f)
         {
             triggerPressed = false;
-        }
+        }*/
     }
 
 

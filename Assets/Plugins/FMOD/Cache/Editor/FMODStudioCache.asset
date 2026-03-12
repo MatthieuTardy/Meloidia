@@ -70,10 +70,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639087641683219593
+  lastModified: 639089312227629664
   FileSizes:
   - Name: Desktop
-    Value: 997312
+    Value: 1024000
   Exists: 1
 --- !u!114 &-6470459296844779898
 MonoBehaviour:
@@ -153,6 +153,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4394
+--- !u!114 &-5351091756215472503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Ukulele Acc1R/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-5315099673818729698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,11 +220,39 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639087641683159310
+  lastModified: 639087573982468433
   FileSizes:
   - Name: Desktop
     Value: 16744352
   Exists: 1
+--- !u!114 &-4115571738753193133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele Acc1R
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele Acc1R
+  Guid:
+    Data1: -351598167
+    Data2: 1179660005
+    Data3: -685940291
+    Data4: 783342216
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -5351091756215472503}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1646
 --- !u!114 &-4105683861135671090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,7 +513,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Jingle.bank
   Name: Jingle
   StudioPath: bank:/Jingle
-  lastModified: 639087641682319519
+  lastModified: 639087518728848807
   FileSizes:
   - Name: Desktop
     Value: 41696
@@ -544,13 +596,15 @@ MonoBehaviour:
   - {fileID: -531648718196413841}
   - {fileID: -7661787892663067627}
   - {fileID: 8603825121051317948}
+  - {fileID: 9022261484635638305}
+  - {fileID: -4115571738753193133}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4158438079306407908}
   StringsBanks:
   - {fileID: 3856348917924897851}
   cacheVersion: 131849
-  cacheTime: 639088567695880016
+  cacheTime: 639089312227629664
   SerializableEventsDict:
   - key: event:/SFX/Robot/Robot_Voice/Robot_Do
     index: 0
@@ -616,6 +670,10 @@ MonoBehaviour:
     index: 30
   - key: event:/SFX/Croc-note/LAtest
     index: 31
+  - key: event:/SFX/Ukulele Acc1
+    index: 32
+  - key: event:/SFX/Ukulele Acc1R
+    index: 33
 --- !u!114 &20948607390266791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -670,6 +728,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 45
+--- !u!114 &2421307429976844236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Ukulele Acc1/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &2497087274629392020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -845,10 +927,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639088567695880016
+  lastModified: 639089312224834644
   FileSizes:
   - Name: Desktop
-    Value: 2648
+    Value: 2746
   Exists: 1
 --- !u!114 &4158438079306407908
 MonoBehaviour:
@@ -865,7 +947,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639088567695880016
+  lastModified: 639089312224812782
   FileSizes:
   - Name: Desktop
     Value: 427712
@@ -1163,6 +1245,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4431
+--- !u!114 &9022261484635638305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele Acc1
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele Acc1
+  Guid:
+    Data1: -1604119693
+    Data2: 1082614870
+    Data3: -222394203
+    Data4: 1492359652
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 2421307429976844236}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 645
 --- !u!114 &9195320476129200803
 MonoBehaviour:
   m_ObjectHideFlags: 0

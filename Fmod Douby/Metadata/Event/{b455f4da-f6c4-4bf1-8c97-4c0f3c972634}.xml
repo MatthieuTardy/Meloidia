@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{b455f4da-f6c4-4bf1-8c97-4c0f3c972634}">
 		<property name="name">
-			<value>ukulele</value>
+			<value>ukulele AccAll</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
@@ -166,9 +166,6 @@
 			<destination>{11be736b-8b11-4d4f-ab8d-7aa93d3f8f09}</destination>
 			<destination>{1d594332-99e8-4937-99c4-1cefa120a016}</destination>
 		</relationship>
-		<relationship name="markers">
-			<destination>{628bf1a8-fdfe-40ee-82c2-9087cf44e54d}</destination>
-		</relationship>
 	</object>
 	<object class="ParameterProxy" id="{23d6785d-9e9b-42aa-9efc-dd56cf37ccfb}">
 		<relationship name="preset">
@@ -272,9 +269,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{5e977d44-9930-4269-b281-e1ddaa71a968}">
-		<property name="volume">
-			<value>-80</value>
-		</property>
 		<property name="name">
 			<value>Audio 3</value>
 		</property>
@@ -305,9 +299,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{c952e1d2-ec2c-4c74-92e5-6a4d2b7ba27f}">
-		<property name="volume">
-			<value>-80</value>
-		</property>
 		<property name="name">
 			<value>Audio 4</value>
 		</property>
@@ -338,9 +329,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{53aeb196-04ab-43cf-8d75-7d3913bc3b2e}">
-		<property name="volume">
-			<value>-80</value>
-		</property>
 		<property name="name">
 			<value>Audio 5</value>
 		</property>
@@ -371,9 +359,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{0b52beea-79ab-493d-ae23-2da6f8115fa0}">
-		<property name="volume">
-			<value>-80</value>
-		</property>
 		<property name="name">
 			<value>Audio 6</value>
 		</property>
@@ -397,16 +382,13 @@
 	</object>
 	<object class="SingleSound" id="{61f735db-5f25-4d96-b0f6-dc6b79b50a2d}">
 		<property name="length">
-			<value>3.3959183673469386</value>
+			<value>2.9779591836734696</value>
 		</property>
 		<relationship name="audioFile">
 			<destination>{a8ae2440-d2fd-4109-95e8-1d248c244591}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{a0754573-cd90-4eb7-9210-61f8c9dad065}">
-		<property name="volume">
-			<value>-80</value>
-		</property>
 		<property name="name">
 			<value>Audio 7</value>
 		</property>
@@ -454,9 +436,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{92ea4547-6467-41b2-9ad5-303deba4e25a}">
-		<property name="volume">
-			<value>-80</value>
-		</property>
 		<property name="name">
 			<value>Audio 8</value>
 		</property>
@@ -471,20 +450,6 @@
 		</relationship>
 		<relationship name="output">
 			<destination>{c6ac547b-7462-4521-ba1b-08b618d12115}</destination>
-		</relationship>
-	</object>
-	<object class="LoopRegion" id="{628bf1a8-fdfe-40ee-82c2-9087cf44e54d}">
-		<property name="position">
-			<value>0.037715517241379309</value>
-		</property>
-		<property name="length">
-			<value>1.2622844827586195</value>
-		</property>
-		<relationship name="timeline">
-			<destination>{15032d8d-8a26-4d33-a0bb-724d3a16e020}</destination>
-		</relationship>
-		<relationship name="markerTrack">
-			<destination>{e450634c-c050-4bba-b5ea-ff6186315e53}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusEffectChain" id="{7429969b-437c-47d8-8631-ea5457c9d6b1}">
@@ -620,7 +585,7 @@
 			<value>0</value>
 		</property>
 		<property name="value">
-			<value>-80</value>
+			<value>0</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{e62a7274-e0a8-4c63-9c3e-4ae35192c67c}">
@@ -628,7 +593,7 @@
 			<value>1</value>
 		</property>
 		<property name="value">
-			<value>0</value>
+			<value>10</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{86652e1b-ce58-476c-bbe4-5248c6fd9778}">

@@ -104,9 +104,9 @@ public class NoteSystem : MonoBehaviour
         playedTime += Time.deltaTime;
         if(isNoteWheelOpen)
             PlayMusic();
-
+        Debug.Log("isPlayingMusic : "+ isPlayedNote);
         //Debug.Log("PlayedTime : " + singDelay);
-        if (Input.GetKeyDown(KeyCode.R)|| Input.GetButtonDown("ToggleSing"))
+        if (Input.GetAxisRaw("ToggleSing") == 1)
         {
             Debug.Log("Open");
             if (isNoteWheelOpen)
@@ -170,7 +170,7 @@ public class NoteSystem : MonoBehaviour
     
     bool IsTrackOneToggle;
 
-   
+    #region toggleTrack
 
     public void ToggleTrackOne(bool active)
     {
@@ -211,6 +211,8 @@ public class NoteSystem : MonoBehaviour
 
     }
 
+    #endregion
+
     public void PlayNoteFromPC(int ForceNote)
     {
         isPlaying = false;
@@ -237,7 +239,6 @@ public class NoteSystem : MonoBehaviour
                 singDelay = 0;
                 clearHoldedNote();
             }
-
 
             if (inputY > 0.5f && Mathf.Abs(inputX) < 0.5f) { noteIndex = 4; }
             else if (inputX > 0.3f && inputY < -0.3f) { noteIndex = 1; }
@@ -288,11 +289,15 @@ public class NoteSystem : MonoBehaviour
                 isPlayedNote = false;
             }
         }
-        else if(!Input.GetButton("SongPC"))
+        else
+        {
+            noteIndex = -1;
+        }
+        /*else if(!Input.GetButton("SongPC"))
         {
             singDelay = 0;
             noteBefore = musicalNotes.None;
-        }
+        }*/
     }
 
     void StopChant()
