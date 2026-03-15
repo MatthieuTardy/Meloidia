@@ -7,11 +7,13 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
 
+    public Transform Camera;
+
     public int outils;
     public bool havingTools = false;
 
     public bool isBuildMode = false;
-
+    
     public bool calme;
     int terre;
     [SerializeField] int terreMax = 1;

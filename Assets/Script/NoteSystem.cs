@@ -86,47 +86,51 @@ public class NoteSystem : MonoBehaviour
 
     void Update()
     {
-        playedTime += Time.deltaTime;
-        PlayMusic();
+       
+            playedTime += Time.deltaTime;
+            PlayMusic();
 
-        Debug.Log("PlayedTime : " + singDelay);
-        if ((playedTime >= HoldDelay || singDelay >= HoldDelay)&& Input.GetButton("ValidateNote"))
-        {
-            addHoldedNote();
-        }
-        else if (Input.GetButtonUp("ValidateNote"))
-        {
-            StopChant();
-        }
-
-        // Si le temps sans note jouer depasse x => vide la list de partition
-        if (playedTime >= ClearDelay && playedPartition.Count != 0)
-        {
-            playedPartition.Clear();
-            noteCurrent = musicalNotes.None;
-            clearHoldedNote();
-        }
-
-        if (noteHolded != musicalNotes.None)
-        {
-
-            if (noteCurrent != noteHolded)
+            //Debug.Log("PlayedTime : " + singDelay);
+            if ((playedTime >= HoldDelay || singDelay >= HoldDelay) && Input.GetButton("ValidateNote"))
             {
-                clearHoldedNote();
-                playedTime = 0;
-                singDelay = 0;
+                addHoldedNote();
             }
-        }
-        /* sert a rien ?
-        else if (playedPartition.Count > 0 && (playedPartition.SequenceEqual(chantDuDiab) || playedPartition.SequenceEqual(chantDuBonheur) || playedPartition.SequenceEqual(chantDuBirthday)))
-        {
-            noteBefore = playedPartition.LastOrDefault();
-            playedPartition.Clear();
-        }
-        */
+            else if (Input.GetButtonUp("ValidateNote"))
+            {
+                StopChant();
+            }
+
+            // Si le temps sans note jouer depasse x => vide la list de partition
+            if (playedTime >= ClearDelay && playedPartition.Count != 0)
+            {
+                playedPartition.Clear();
+                noteCurrent = musicalNotes.None;
+                clearHoldedNote();
+            }
+
+            if (noteHolded != musicalNotes.None)
+            {
+
+                if (noteCurrent != noteHolded)
+                {
+                    clearHoldedNote();
+                    playedTime = 0;
+                    singDelay = 0;
+                }
+            }
+            /* sert a rien ?
+            else if (playedPartition.Count > 0 && (playedPartition.SequenceEqual(chantDuDiab) || playedPartition.SequenceEqual(chantDuBonheur) || playedPartition.SequenceEqual(chantDuBirthday)))
+            {
+                noteBefore = playedPartition.LastOrDefault();
+                playedPartition.Clear();
+            }
+            */
+        
     }
     
     bool IsTrackOneToggle;
+
+   
 
     public void ToggleTrackOne(bool active)
     {

@@ -5,15 +5,20 @@ using UnityEngine;
 public class DetectionZone : MonoBehaviour
 {
     GameObject interractableObject;
+    public List<Item> collectableObjects;
 
+    private void Start()
+    {
+        collectableObjects = new List<Item>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == 9) //collectable
         {
             //Debug.Log("PickUp " + other.gameObject.name);
-            GameManager.Instance.inventoryManager.TryToPickUp(other.GetComponent<Item>());
-
+            //GameManager.Instance.inventoryManager.TryToPickUp(other.GetComponent<Item>());
+            collectableObjects.Add(other.GetComponent<Item>());
         }
     }
 
@@ -24,10 +29,19 @@ public class DetectionZone : MonoBehaviour
             if (interractableObject.GetComponent<Reserve>())
             {
                 interractableObject.GetComponent<Reserve>().CloseReserve();
+
             }
+            interractableObject = null;
 
         }
+        else if(other.gameObject.layer == 11)
+        {
             interractableObject = null;
+        }
+        else if(other.gameObject.layer == 9)
+        {
+            collectableObjects.Remove(other.GetComponent<Item>());
+        }
         
     }
 
@@ -45,7 +59,7 @@ public class DetectionZone : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1")) 
+        if (Input.GetButtonDown("Interract")) 
         {
             if (interractableObject != null)
             {
@@ -70,6 +84,18 @@ public class DetectionZone : MonoBehaviour
                 else if (interractableObject.GetComponent<DialogueSystem>())
                 {
                     interractableObject.GetComponent <DialogueSystem>().Interract();
+                }
+            }
+        }
+
+        if (Input.GetButtonDown("Interract"))
+        {
+            if(collectableObjects.Count > 0)
+            {
+                bool success = GameManager.Instance.inventoryManager.TryToPickUp(collectableObjects[0]);
+                if (success)
+                {
+                    collectableObjects.RemoveAt(0);
                 }
             }
         }

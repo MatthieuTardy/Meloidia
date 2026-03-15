@@ -19,19 +19,21 @@ public class GameManager : MonoBehaviour
     public InventoryManager inventoryManager;
     private void Start()
     {
+        //legumeManagerList = new List<LegumeManager>();
         playerManager = FindObjectOfType<PlayerManager>();
-        legumeManagerList = new List<LegumeManager>();
         buildManager = FindAnyObjectByType<BuildManager>();
         inventoryManager = FindAnyObjectByType<InventoryManager>();
     }
 
     public void AddCrocNote(LegumeManager legumeManager)
     {
+        Debug.Log("CrocNoteAdded " + legumeManager.name);
         legumeManagerList.Add(legumeManager);
     }
 
     public void RemoveCrocNote(LegumeManager legumeManager)
     {
+        Debug.Log("CrocNoteRemoved " + legumeManager.name);
         legumeManagerList.Remove(legumeManager);
     }
 }

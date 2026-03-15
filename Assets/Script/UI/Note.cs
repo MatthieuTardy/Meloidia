@@ -52,7 +52,7 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         else
         {
             // Fallback si on ne trouve pas d'enfant : on anime l'objet lui-même
-            Debug.LogWarning("Aucun 'visualsTransform' assigné ou enfant 'Visuals' trouvé. L'animation de scale pourrait ne pas fonctionner avec un Layout Group.", this);
+            //Debug.LogWarning("Aucun 'visualsTransform' assigné ou enfant 'Visuals' trouvé. L'animation de scale pourrait ne pas fonctionner avec un Layout Group.", this);
             visualsTransform = transform;
             originalScale = visualsTransform.localScale;
         }
@@ -113,9 +113,12 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void Highlight()
     {
-        if (highlightCoroutine != null) StopCoroutine(highlightCoroutine);
-        if (graphic != null) graphic.color = originalColor;
-        highlightCoroutine = StartCoroutine(HighlightCoroutine());
+        if (this.isActiveAndEnabled)
+        {
+            if (highlightCoroutine != null) StopCoroutine(highlightCoroutine);
+            if (graphic != null) graphic.color = originalColor;
+            highlightCoroutine = StartCoroutine(HighlightCoroutine());
+        }
     }
 
     private IEnumerator HighlightCoroutine()

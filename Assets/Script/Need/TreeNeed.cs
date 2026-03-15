@@ -121,7 +121,7 @@ public class Need : MonoBehaviour
     {
         yield return new WaitUntil(() => proxy.Proximity == true);
 
-        Debug.Log("wait pass " + this.gameObject.name);
+        //Debug.Log("wait pass " + this.gameObject.name);
         if (condition.CheckCondition())
         {
             Event.Invoke();

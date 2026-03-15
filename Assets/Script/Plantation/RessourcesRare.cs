@@ -37,11 +37,15 @@ public class RessourcesRare : MonoBehaviour
         if(currentStack > 0 && GameManager.Instance.inventoryManager.HaveSlotAvailable())
         { 
             StopAllCoroutines();
-            GameManager.Instance.inventoryManager.TryToPickUp(newRessources());
-            for (int i = 0; i <= currentStack; i++)
+            for (int i = 1; i <= currentStack; i++)
             {
-                currentStack--;
-                ActivateRessources(currentStack, false);
+                bool success = GameManager.Instance.inventoryManager.TryToPickUp(newRessources());
+                if (success)
+                {
+                    Debug.Log("success to pick " + newRessources().type  +" " +i) ;
+                    currentStack--;
+                    ActivateRessources(currentStack, false);
+                }
             }
             StartSpawnRoutine();
         }
@@ -53,10 +57,9 @@ public class RessourcesRare : MonoBehaviour
     {
         Ressources r = new Ressources();
         r.type = typeOfRessources;
-        r.amount = currentStack;
+        r.amount = 1;
         r.MaxStack = MaxStack;
         r.sprite = ItemSprite;
-        Debug.Log(r);
         return r;
     }
     void ActivateRessources(int index, bool actif)

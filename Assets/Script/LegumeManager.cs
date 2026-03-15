@@ -74,12 +74,12 @@ public class LegumeManager : MonoBehaviour
 
     void Start()
     {
-        GameManager.Instance.AddCrocNote(this);
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         rb.useGravity = true;
         baseLegume = FindObjectOfType<PlayerManager>().gameObject;
         Rename();
+        GameManager.Instance.AddCrocNote(this);
 
         etatActuel = Etat.Attente;
         move = StartCoroutine(RandomMove());
@@ -120,7 +120,8 @@ public class LegumeManager : MonoBehaviour
                 melogumesSingingManager.StartRage();
         }
 
-        NameBoard.transform.rotation = Quaternion.Euler(new Vector3(0,0,0));
+        NameBoard.transform.LookAt(GameManager.Instance.playerManager.Camera); 
+            //= Quaternion.Euler(new Vector3(0,0,0));
     }
 
 

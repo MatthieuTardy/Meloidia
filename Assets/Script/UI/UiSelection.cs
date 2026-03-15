@@ -28,11 +28,35 @@ public class UiSelection : MonoBehaviour
 
     void Update()
     {
-        UpdateWheelVisibility();
+        ManageToggleSing();
+        if (IsToggleSing)
+        {
+
+            UpdateWheelVisibility();
+        }
+
     }
 
-   
-   
+    bool IsToggleSing = false;
+    bool triggerPressed;
+
+    public void ManageToggleSing()
+    {
+        float value = Input.GetAxisRaw("ToggleSing");
+        value += Input.GetAxisRaw("SongPC");
+        if (value > 0 && !triggerPressed)
+        {
+            triggerPressed = true;
+            IsToggleSing = !IsToggleSing;
+            wheelRoot.SetActive(IsToggleSing);
+        }
+
+        if (value < 0.1f)
+        {
+            triggerPressed = false;
+        }
+    }
+
 
     // Affiche la roue uniquement quand le joueur "joue" les notes (même conditions d'axes que dans NoteSystem)
     private void UpdateWheelVisibility()
@@ -60,7 +84,7 @@ public class UiSelection : MonoBehaviour
         bool wasActive = wheelRoot.activeSelf;
         if (wasActive != isPlayingInput)
         {
-            wheelRoot.SetActive(isPlayingInput);
+            
 
             if (!isPlayingInput)
             {

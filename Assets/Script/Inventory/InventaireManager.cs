@@ -66,30 +66,115 @@ public class InventoryManager : MonoBehaviour
     public bool TryToPickUp(Item newItem)
     {
         bool succesToPickUp = false;
-        int amount = newItem.amount;
+        int MaxAmount = newItem.amount;
+        Debug.Log("MaxAmount = " + MaxAmount);
         //Debug.Log("try to pick up in inventory");
-
-        (bool canStack, int index) = CanStackItem(newItem);
-        //check si il existe une occurance de l'item && si on peut l'add
-        if (canStack)   
+        for (int i = 1; i <= MaxAmount; i++)
         {
-            //Debug.Log("Can Stack");
-            // si on peut l'ajouter on l'ajoute
-            AddItemToExistingSlot(newItem,amount,index);
-            succesToPickUp = true;
-        }
-        else
-        {
-            //Debug.Log("CANNOT Stack");
-            if (HaveSlotAvailable())
+            newItem.amount = 1;
+        Debug.Log("newItem amount = " + newItem.amount);
+            (bool canStack, int index) = CanStackItem(newItem);
+            //check si il existe une occurance de l'item && si on peut l'add
+            if (canStack)
             {
-                //Debug.Log("HaveSlotAvailable");
-                AddItemToNewSlot(newItem,amount);
+                //Debug.Log("Can Stack");
+                // si on peut l'ajouter on l'ajoute
+                AddItemToExistingSlot(newItem, 1, index);
                 succesToPickUp = true;
             }
+            else
+            {
+                //Debug.Log("CANNOT Stack");
+                if (HaveSlotAvailable())
+                {
+                    //Debug.Log("HaveSlotAvailable");
+                    AddItemToNewSlot(newItem, 1);
+                    succesToPickUp = true;
+                }
+            }
+            if (succesToPickUp) {
+                newItem.OnPickUp(); 
+            }
         }
-        if (succesToPickUp) { newItem.OnPickUp(); }
         return succesToPickUp;
+    }
+    private void Update()
+    {
+        BrowseInventory();
+        ManageDrop();
+    }
+    void BrowseInventory()
+    {
+        if (Input.GetButtonDown("BrowseInventory"))
+        {
+            int Scroll = (int)Input.GetAxisRaw("BrowseInventory");
+            if (Scroll != 0)
+            {
+                Debug.ClearDeveloperConsole();
+                Debug.Log(" Scroll = " + Scroll + "\n \n \n");
+                List<ItemSlot> NewItems = new List<ItemSlot>();
+                for (int i = 0; i < InventorySize; i++)
+                {
+                    NewItems.Add(null);
+                }
+                for (int i = 0; i < items.Count; i++)
+                {
+                    if(items[i] != null)
+                    {
+                        Debug.Log("Item " + i + " = " +items[i].CurrentItem.type);
+                    }
+                    else
+                    {
+                        Debug.Log("Item " + i + " = none");
+                    }
+
+                    int nextIndex = i + Scroll;
+                    if (nextIndex < 0)
+                    {
+                        nextIndex = InventorySize - 1;
+                    }
+                    else if (nextIndex >= InventorySize)
+                    {
+                        nextIndex = 0;
+                    }
+                    Debug.Log("next index = " + nextIndex);
+                    if(items[nextIndex] != null)
+                    {
+                        NewItems[i] = items[nextIndex];
+                    }
+                    if(NewItems[i] != null)
+                    {
+                        Debug.Log("NewItem after change " + i + " = " + NewItems[i].CurrentItem.type);
+                    }
+                    else
+                    {
+                        Debug.Log("NewItem after change " + i + " = none");
+                    }
+                }
+                for(int i = 0;i < NewItems.Count; i++)
+                {
+                    items[i] = NewItems[i];
+                }
+            }/*
+            if (items[0] != null)
+            {
+                Debug.Log("Item " + 0 + " = " + items[0].CurrentItem.type);
+            }
+            else
+            {
+                Debug.Log("Item " + 0 + " = none");
+            }*/
+            //Debug.Log("Item 0 " + items[0].CurrentItem.type);
+        }
+    }
+
+    void ManageDrop()
+    {
+        if (Input.GetButtonDown("Drop"))
+        {
+            Debug.Log("Drop item " + items[0].CurrentItem);
+            DropItem(0);
+        }
     }
 
     #region adding item
@@ -173,14 +258,6 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            Debug.Log("DropItem");
-            DropItem(0);
-        }
-    }
 
     void DeleteItemIfZeroQuantity()
     {
@@ -240,11 +317,14 @@ public class InventoryManager : MonoBehaviour
 
     public void DropItem(int index)
     {
-        Debug.Log("Item = " + Items[index]);
+        Debug.Log("Item = " + Items[index].CurrentItem.type);
         if(Items[index] != null)
         {
             GameObject obj = dictionaryOfItem.GetValueOrDefault(Items[index].CurrentItem.sprite);
-            Vector3 pos = GameManager.Instance.playerManager.transform.position + Vector3.forward;
+            Items[index].CurrentItem.amount = 1;
+            Debug.LogWarning("items drop quantity: " + Items[index].CurrentQuantity);
+            Debug.LogWarning("items drop amount : " + Items[index].CurrentItem.amount);
+            Vector3 pos = GameManager.Instance.playerManager.transform.position + (Vector3.forward*2);
             Instantiate(obj,pos,Quaternion.identity);
             UseItem(Items[index].CurrentItem.type, 1);
         }
@@ -272,9 +352,6 @@ public class InventoryManager : MonoBehaviour
 
         }
         return -1;
-
-        
-        
     }
 }
 

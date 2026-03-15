@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class CrocNoteProximity : MonoBehaviour
 {
-    public List<GameObject> CrocNoteInProximity;
+    public List<LegumeManager> CrocNoteInProximity;
 
     private void Awake()
     {
-        CrocNoteInProximity = new List<GameObject>();
+        CrocNoteInProximity = new List<LegumeManager>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 7)
         {
-            CrocNoteInProximity.Add(other.gameObject);
+            CrocNoteInProximity.Add(other.gameObject.GetComponent<LegumeManager>());
         }
     }
 
@@ -23,7 +23,7 @@ public class CrocNoteProximity : MonoBehaviour
     {
         if (other.gameObject.layer == 7)
         {
-            CrocNoteInProximity.Remove(other.gameObject);
+            CrocNoteInProximity.Remove(other.gameObject.GetComponent<LegumeManager>());
         }
     }
 }
