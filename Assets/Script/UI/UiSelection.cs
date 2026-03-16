@@ -44,12 +44,18 @@ public class UiSelection : MonoBehaviour
     {
         float value = Input.GetAxisRaw("ToggleSing");
         value += Input.GetAxisRaw("SongPC");
-        if (value > 0 && !triggerPressed)
+        if (value > 0)
         {
-            //triggerPressed = true;
+            triggerPressed = true;
             IsToggleSing = !IsToggleSing;
-            wheelRoot.SetActive(IsToggleSing);
+            wheelRoot.SetActive(true);
         }
+        else
+        {
+            wheelRoot.SetActive(false);
+            triggerPressed = false;
+        }
+
 
         /*if (value < 0.1f)
         {
@@ -72,7 +78,7 @@ public class UiSelection : MonoBehaviour
 
         if (Mathf.Abs(sx) > activationThreshold || Mathf.Abs(sy) > activationThreshold ||inputPC)
         {
-          //  noteSystem.ToggleTrackOne(false);
+            //noteSystem.ToggleTrackOne(false);
             isPlayingInput = true;
         }
         else

@@ -108,20 +108,16 @@ public class NoteSystem : MonoBehaviour
         //Debug.Log("PlayedTime : " + singDelay);
         if (Input.GetAxisRaw("ToggleSing") == 1)
         {
-            Debug.Log("Open");
-            if (isNoteWheelOpen)
-            {
+
                 ToggleTrackOne(true);
                 isNoteWheelOpen = false;
+        }
 
-
-            }
-            else if (!isNoteWheelOpen)
-            {
-                ToggleTrackOne(false);
-                isNoteWheelOpen = true;
-                isGratteNote = false;
-            }
+        else
+        {
+            ToggleTrackOne(false);
+            isNoteWheelOpen = true;
+            isGratteNote = false;
         }
         if (Input.GetKeyDown(KeyCode.Q) && !isOnLeftNote ||
             Input.GetKeyDown(KeyCode.Q) && !isGratteNote ||
