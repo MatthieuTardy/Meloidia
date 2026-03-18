@@ -10080,6 +10080,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a88fd3e883cb754ea536def754b50b8, type: 3}
+--- !u!1 &452776840 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7056592901522231570, guid: 7bc30b533e574014e8e2f578637e6f87,
+    type: 3}
+  m_PrefabInstance: {fileID: 1877658307}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &456814473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10215,6 +10221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPoint: {fileID: 549494666}
   duration: 1
+  ProgressEnigmeSystem: {fileID: 0}
 --- !u!1 &458721900
 GameObject:
   m_ObjectHideFlags: 0
@@ -27828,6 +27835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPoint: {fileID: 463339149}
   duration: 0.5
+  ProgressEnigmeSystem: {fileID: 0}
 --- !u!1001 &1070433568
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38829,6 +38837,62 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1877658307}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1522910227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 452776840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65e21c65163ca8d478c8b55a147098fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chantEnigme: 020000000600000002000000
+  onEnigmeResolve:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 608869248}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8898847619846113984}
+        m_TargetAssemblyTypeName: FinishEnigme, Assembly-CSharp
+        m_MethodName: StartMoving
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onEnigmeStep:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8898847619846113984}
+        m_TargetAssemblyTypeName: FinishEnigme, Assembly-CSharp
+        m_MethodName: ProgressMoving
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  ratio: 0
 --- !u!1001 &1523348184
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48469,7 +48533,7 @@ PrefabInstance:
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
         type: 3}
       propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
         type: 3}
@@ -48514,7 +48578,7 @@ PrefabInstance:
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
         type: 3}
       propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: StartMoving
+      value: MoveToStep
       objectReference: {fileID: 0}
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
         type: 3}
@@ -48545,6 +48609,11 @@ PrefabInstance:
         type: 3}
       propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
+        type: 3}
+      propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_FloatArgument
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
         type: 3}
@@ -48636,10 +48705,15 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7056592901522231570, guid: 7bc30b533e574014e8e2f578637e6f87,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1522910227}
   m_SourcePrefab: {fileID: 100100000, guid: 7bc30b533e574014e8e2f578637e6f87, type: 3}
 --- !u!1 &1878375191
 GameObject:
@@ -70147,6 +70221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPoint: {fileID: 1290637812}
   duration: 0.3
+  ProgressEnigmeSystem: {fileID: 1522910227}
 --- !u!1001 &8906505665784333106
 PrefabInstance:
   m_ObjectHideFlags: 0

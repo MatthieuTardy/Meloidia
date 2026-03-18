@@ -4,17 +4,47 @@ using System.Collections;
 public class FinishEnigme : MonoBehaviour
 {
     [Header("Configurations")]
-    public Transform targetPoint; // Le point B
-    public float duration = 2.0f; // Temps du trajet en secondes
+    public Transform targetPoint;
+    public float duration = 0.5f; 
 
-    // Cette fonction est celle que tu appelleras dans ton Unity Event
+    private Vector3 startPosition;
+    private Quaternion startRotation;
+    private Coroutine currentMoveCoroutine;
+    [SerializeField] ProgressEnigmeSystem ProgressEnigmeSystem;
+
+    void Awake()
+    {
+        // On mémorise la position d'origine au lancement
+        startPosition = transform.position;
+        startRotation = transform.rotation;
+    }
     public void StartMoving()
     {
         if (targetPoint != null)
         {
-            StopAllCoroutines(); // Évite les conflits si on clique plusieurs fois
+            StopAllCoroutines(); 
             StartCoroutine(LerpObject(transform.position, targetPoint.position, transform.rotation, targetPoint.rotation));
         }
+    }
+
+    public void ProgressMoving()
+    {
+        if (targetPoint != null)
+        {
+            StopAllCoroutines();
+            MoveToStep(ProgressEnigmeSystem.ratio);
+        }
+    }
+
+    public void MoveToStep(float ratio)
+    {
+        if (targetPoint == null) return;
+
+        Vector3 nextPos = Vector3.Lerp(startPosition, targetPoint.position, ratio);
+        Quaternion nextRot = Quaternion.Slerp(startRotation, targetPoint.rotation, ratio);
+
+        if (currentMoveCoroutine != null) StopCoroutine(currentMoveCoroutine);
+        currentMoveCoroutine = StartCoroutine(LerpObject(transform.position, nextPos, transform.rotation, nextRot));
     }
 
     private IEnumerator LerpObject(Vector3 startPos, Vector3 endPos, Quaternion startRot, Quaternion endRot)
@@ -23,15 +53,15 @@ public class FinishEnigme : MonoBehaviour
 
         while (timeElapsed < duration)
         {
-            // Calcul du ratio de progression (entre 0 et 1)
+
             float t = timeElapsed / duration;
 
-            // Interpolation de la position et de la rotation
+
             transform.position = Vector3.Lerp(startPos, endPos, t);
             transform.rotation = Quaternion.Slerp(startRot, endRot, t);
 
             timeElapsed += Time.deltaTime;
-            yield return null; // Attend la frame suivante
+            yield return null; 
         }
 
         // On s'assure d'être exactement à destination à la fin
