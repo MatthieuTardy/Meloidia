@@ -437,4 +437,11 @@ public class NoteSystem : MonoBehaviour
             
     }
 
+    //Ajout théo
+    public bool HasJustPlayed(musicalNotes note)
+    {
+
+        return noteCurrent == note && Input.GetButton("ValidateNote");
+    }
+
 }
