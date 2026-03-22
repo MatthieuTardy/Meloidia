@@ -8,7 +8,6 @@ public class CameraManager : MonoBehaviour
     [SerializeField] CinemachineFreeLook freeLook;
     [SerializeField] string MouseY, MouseX;
     [SerializeField] string JoystickY, JoystickX;
-
     private void Start()
     {
         Cursor.visible = false;
@@ -55,15 +54,10 @@ public class CameraManager : MonoBehaviour
     void LockCam( bool enable)
     {
         freeLook.enabled = enable;
-        Cursor.visible = enable;
-        if (enable)
-        {
-            Cursor.lockState = CursorLockMode.Confined;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Confined;
-        }
+        //Debug.Log("enable = " + enable);
+            Cursor.visible = !enable; 
+        Cursor.lockState = CursorLockMode.Confined;
+          //  Cursor.lockState = CursorLockMode.Confined;
     }
 
     //LA FONCTION SE LANCE QUAND LE JOUEUR N'EST PAS EN CHANT
