@@ -49,7 +49,6 @@ public class UiSelection : MonoBehaviour
             triggerPressed = true;
             IsToggleSing = !IsToggleSing;
             wheelRoot.SetActive(IsToggleSing);
-            ResetAllNotesOnCanvas();
         }
 
         if (value < 0.1f)
