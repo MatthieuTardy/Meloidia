@@ -25,13 +25,20 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     private static Image itemImage;
     private static Note selectedItem;
 
-    [SerializeField] Image image; 
+    private Graphic graphic;
     private Color originalColor;
     private Coroutine highlightCoroutine;
     private Vector3 originalScale;
 
     void Awake()
     {
+        
+        graphic = GetComponent<Graphic>();
+        if (graphic != null)
+        {
+            originalColor = graphic.color;
+        }
+
         // Si visualsTransform n'est pas assigné, on cherche un enfant nommé "Visuals"
         if (visualsTransform == null)
         {
@@ -88,7 +95,6 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     {
         if (selectedItem != null && selectedItem != this)
         {
-
             selectedItem.StopHighlightImmediate();
         }
 
@@ -100,7 +106,6 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     {
         if (selectedItem != null)
         {
-
             selectedItem.StopHighlightImmediate();
             selectedItem = null;
         }
@@ -111,27 +116,24 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         if (this.isActiveAndEnabled)
         {
             if (highlightCoroutine != null) StopCoroutine(highlightCoroutine);
-            image.color = originalColor;
+            if (graphic != null) graphic.color = originalColor;
             highlightCoroutine = StartCoroutine(HighlightCoroutine());
         }
     }
 
     private IEnumerator HighlightCoroutine()
     {
-        if (image == null)
-        {
-            yield break;
-        }
-        image.color = highlightColor;
+        if (graphic == null) yield break;
+        graphic.color = highlightColor;
         yield return new WaitForSeconds(0.2f);
-        image.color = originalColor;
+        graphic.color = originalColor;
         highlightCoroutine = null;
     }
 
     public void StopHighlightImmediate()
     {
         if (highlightCoroutine != null) StopCoroutine(highlightCoroutine);
-        if (image != null) image.color = originalColor;
+        if (graphic != null) graphic.color = originalColor;
     }
 
     private IEnumerator ScaleJuiceCoroutine()

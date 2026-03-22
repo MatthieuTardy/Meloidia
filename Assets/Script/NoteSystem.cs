@@ -221,7 +221,7 @@ public class NoteSystem : MonoBehaviour
         }
         else if(ForceNote != null)
         {
-            //Debug.Log("ForceNote");
+            Debug.Log("ForceNote");
             ToggleTrackOne(false);
             if (Input.GetButton("ValidateNote"))
             {
@@ -235,7 +235,6 @@ public class NoteSystem : MonoBehaviour
             int noteIndex = ForceNote.Value;
             PlayNote(noteIndex);
         }
-        /*
         else if(!Input.GetButton("SongPC"))
         {
             isPlaying = false;
@@ -243,7 +242,6 @@ public class NoteSystem : MonoBehaviour
             StopChant();
             noteBefore = musicalNotes.None;
         }
-        */
     }
 
     void StopChant()

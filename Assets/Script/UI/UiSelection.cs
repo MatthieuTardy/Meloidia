@@ -31,7 +31,7 @@ public class UiSelection : MonoBehaviour
         ManageToggleSing();
         if (IsToggleSing)
         {
-            
+
             UpdateWheelVisibility();
         }
 
@@ -69,10 +69,9 @@ public class UiSelection : MonoBehaviour
         float sx = Input.GetAxis("SongX_Xbox");
         float sy = Input.GetAxis("SongY_Xbox");
 
-        //bool inputPC = Input.GetButton("SongPC");
-           // Cursor.visible = inputPC;
-        //if (Mathf.Abs(sx) > activationThreshold || Mathf.Abs(sy) > activationThreshold ||inputPC)
-        if (Mathf.Abs(sx) > activationThreshold || Mathf.Abs(sy) > activationThreshold)
+        bool inputPC = Input.GetButton("SongPC");
+
+        if (Mathf.Abs(sx) > activationThreshold || Mathf.Abs(sy) > activationThreshold ||inputPC)
         {
             noteSystem.ToggleTrackOne(false);
             isPlayingInput = true;
@@ -84,17 +83,17 @@ public class UiSelection : MonoBehaviour
 
         // Quand on passe de true -> false, on veut s'assurer de réinitialiser les notes du canvas
         bool wasActive = wheelRoot.activeSelf;
-        
+        if (wasActive != isPlayingInput)
+        {
+            
 
-
-            if (!IsToggleSing)
+            if (!isPlayingInput)
             {
 
                 // Le joueur a arrêté de "jouer" : reset des highlights et de la sélection des notes
-                //Debug.Log("ResetAllNote on canva");
                 ResetAllNotesOnCanvas();
             }
-        
+        }
     }
 
     // Trouve toutes les Notes dans le canvas (ou sous le wheelRoot) et remet leur couleur d'origine.
