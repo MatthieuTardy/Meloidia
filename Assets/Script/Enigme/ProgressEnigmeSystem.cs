@@ -1,0 +1,89 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using FMODUnity;
+using UnityEngine.Events;
+using System.Linq;
+
+
+public class ProgressEnigmeSystem : MonoBehaviour
+{
+    [SerializeField] List<musicalNotes> chantEnigme = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Ré, musicalNotes.Mi };
+    [SerializeField] UnityEvent onEnigmeResolve;
+    [SerializeField] UnityEvent onEnigmeStep;
+
+    public float ratio;
+    private Coroutine waitRoutine;
+    private int currentStep = 0;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Chant") && waitRoutine == null)
+        {
+            waitRoutine = StartCoroutine(ChantLogic());
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Chant") && waitRoutine != null)
+        {
+            StopCoroutine(waitRoutine);
+            waitRoutine = null;
+            currentStep = 0; 
+        }
+    }
+
+    IEnumerator ChantLogic()
+    {
+        int totalNotes = chantEnigme.Count;
+        currentStep = 0;
+
+            musicalNotes lastNote = musicalNotes.None;
+        while (currentStep < totalNotes)
+        {
+            if (GameManager.Instance.playerManager.noteSystem.playedPartition.Count > 0)
+            {
+                musicalNotes noteAttendue = chantEnigme[currentStep];
+
+                yield return new WaitUntil(() => GameManager.Instance.playerManager.noteSystem.playedPartition.Last() != lastNote);
+                lastNote = GameManager.Instance.playerManager.noteSystem.playedPartition.Last();
+                Debug.Log(lastNote);
+                if (GameManager.Instance.playerManager.noteSystem.HasJustPlayed(noteAttendue))
+                {
+                    currentStep++;
+                    ratio = (float)currentStep / totalNotes;
+                    onEnigmeStep.Invoke();
+                    Debug.Log($"Note {noteAttendue} OK ! Progression : {currentStep}/{totalNotes}");
+                }
+                else
+                {
+                    currentStep = 0;
+                    ratio = (float)currentStep / totalNotes;
+                    onEnigmeStep.Invoke();
+                    Debug.Log($"Note {noteAttendue} OK ! Progression : {currentStep}/{totalNotes}");
+                }
+
+
+
+                if (currentStep >= totalNotes)
+                {
+                    break;
+                }
+
+
+                yield return new WaitUntil(() =>
+                    !GameManager.Instance.playerManager.noteSystem.HasJustPlayed(noteAttendue)
+                );
+            }
+
+                yield return new WaitForSeconds(0.1f);
+        }
+
+        Debug.Log("Enigme Résolue !");
+        RuntimeManager.PlayOneShot("event:/Win");
+        onEnigmeResolve.Invoke();
+
+        waitRoutine = null;
+    }
+}
