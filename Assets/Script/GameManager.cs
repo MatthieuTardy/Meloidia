@@ -36,4 +36,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("CrocNoteRemoved " + legumeManager.name);
         legumeManagerList.Remove(legumeManager);
     }
+
+    public void Quitter()
+    {
+        Application.Quit();
+    }
 }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8135672586861583363
+--- !u!114 &-8517037107019708059
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/LA
+  m_Name: event:/SFX/Croc-note/SOL
   m_EditorClassIdentifier: 
-  Path: event:/LA
+  Path: event:/SFX/Croc-note/SOL
   Guid:
-    Data1: 1526544668
-    Data2: 1086668150
-    Data3: 503296168
-    Data4: 352620140
+    Data1: -799580361
+    Data2: 1334636694
+    Data3: 881466041
+    Data4: -66375443
   Banks:
   - {fileID: 4158438079306407908}
   IsStream: 0
@@ -26,8 +26,8 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 4431
---- !u!114 &-8079636380184805977
+  Length: 4425
+--- !u!114 &-7661787892663067627
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -37,36 +37,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SI
+  m_Name: event:/Musics/Desert Song
   m_EditorClassIdentifier: 
-  Path: event:/SI
-  Guid:
-    Data1: 132270451
-    Data2: 1078259222
-    Data3: -34434657
-    Data4: 633859951
-  Banks:
-  - {fileID: 4158438079306407908}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 4445
---- !u!114 &-7855276135602949334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Desert Song
-  m_EditorClassIdentifier: 
-  Path: event:/Desert Song
+  Path: event:/Musics/Desert Song
   Guid:
     Data1: -1518943452
     Data2: 1226672767
@@ -78,11 +51,11 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: -7382135744081477550}
+  - {fileID: -6470459296844779898}
   MinDistance: 1
   MaxDistance: 20
   Length: 148906
---- !u!114 &-7667873751745437306
+--- !u!114 &-6568517935021651378
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,25 +64,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/MI
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/SFX.bank
   m_EditorClassIdentifier: 
-  Path: event:/MI
-  Guid:
-    Data1: -577138497
-    Data2: 1338497565
-    Data3: 349194897
-    Data4: -1258335613
-  Banks:
-  - {fileID: 4158438079306407908}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 4394
---- !u!114 &-7382135744081477550
+  Path: Fmod Douby/Build/Desktop/SFX.bank
+  Name: SFX
+  StudioPath: bank:/SFX
+  lastModified: 639091913047169648
+  FileSizes:
+  - Name: Desktop
+    Value: 1024000
+  Exists: 1
+--- !u!114 &-6470459296844779898
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,7 +99,7 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
---- !u!114 &-6568517935021651378
+--- !u!114 &-6460194079424091287
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,16 +108,74 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/SFX.bank
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Musics/Victoire
   m_EditorClassIdentifier: 
-  Path: Fmod Douby/Build/Desktop/SFX.bank
-  Name: SFX
-  StudioPath: bank:/SFX
-  lastModified: 639098150834064290
-  FileSizes:
-  - Name: Desktop
-    Value: 997344
+  Path: event:/Musics/Victoire
+  Guid:
+    Data1: -157865692
+    Data2: 1335693608
+    Data3: 2071112348
+    Data4: 1055777526
+  Banks:
+  - {fileID: 4158438079306407908}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 350
+--- !u!114 &-6219697537884813008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Croc-note/MI
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Croc-note/MI
+  Guid:
+    Data1: -577138497
+    Data2: 1338497565
+    Data3: 349194897
+    Data4: -1258335613
+  Banks:
+  - {fileID: 4158438079306407908}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4394
+--- !u!114 &-5351091756215472503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Ukulele Acc1R/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
   Exists: 1
 --- !u!114 &-5315099673818729698
 MonoBehaviour:
@@ -181,34 +205,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &-5028878679629850055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Tuto Song
-  m_EditorClassIdentifier: 
-  Path: event:/Tuto Song
-  Guid:
-    Data1: 1887407340
-    Data2: 1187652818
-    Data3: 407469231
-    Data4: -1335549177
-  Banks:
-  - {fileID: -5023280176564322763}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters:
-  - {fileID: 8800342396972468411}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 91914
 --- !u!114 &-5023280176564322763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,11 +220,39 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639098150834014712
+  lastModified: 639087641683159310
   FileSizes:
   - Name: Desktop
-    Value: 12500896
+    Value: 16744352
   Exists: 1
+--- !u!114 &-4115571738753193133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele Acc1R
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele Acc1R
+  Guid:
+    Data1: -351598167
+    Data2: 1179660005
+    Data3: -685940291
+    Data4: 783342216
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -5351091756215472503}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1646
 --- !u!114 &-4105683861135671090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +280,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 140
---- !u!114 &-3944613120094199949
+--- !u!114 &-3699654274389275468
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -266,23 +290,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/RE
+  m_Name: event:/SFX/Croc-note/Non
   m_EditorClassIdentifier: 
-  Path: event:/RE
+  Path: event:/SFX/Croc-note/Non
   Guid:
-    Data1: -568615340
-    Data2: 1288887963
-    Data3: -125869401
-    Data4: 2086306431
+    Data1: -137921521
+    Data2: 1087753097
+    Data3: 890451096
+    Data4: 2059992726
   Banks:
   - {fileID: 4158438079306407908}
   IsStream: 0
   Is3D: 1
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 4374
+  Length: 415
 --- !u!114 &-3026411872957841225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,6 +443,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-1394365089214246920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Musics/Win
+  m_EditorClassIdentifier: 
+  Path: event:/Musics/Win
+  Guid:
+    Data1: 172143741
+    Data2: 1247351468
+    Data3: 1639272097
+    Data4: 255178707
+  Banks:
+  - {fileID: -896964730823188008}
+  - {fileID: -5023280176564322763}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1500
 --- !u!114 &-1049362062780102606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,12 +513,12 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Jingle.bank
   Name: Jingle
   StudioPath: bank:/Jingle
-  lastModified: 639050496365598795
+  lastModified: 639087641682319519
   FileSizes:
   - Name: Desktop
     Value: 41696
   Exists: 1
---- !u!114 &-835505204307562582
+--- !u!114 &-531648718196413841
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -476,51 +528,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Victoire
+  m_Name: event:/SFX/Croc-note/DO2
   m_EditorClassIdentifier: 
-  Path: event:/Victoire
+  Path: event:/SFX/Croc-note/DO2
   Guid:
-    Data1: -157865692
-    Data2: 1335693608
-    Data3: 2071112348
-    Data4: 1055777526
+    Data1: -1039853874
+    Data2: 1078310672
+    Data3: -354637683
+    Data4: -1750269827
   Banks:
   - {fileID: 4158438079306407908}
   IsStream: 0
   Is3D: 1
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 350
---- !u!114 &-742697236197987449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Win
-  m_EditorClassIdentifier: 
-  Path: event:/Win
-  Guid:
-    Data1: 172143741
-    Data2: 1247351468
-    Data3: 1639272097
-    Data4: 255178707
-  Banks:
-  - {fileID: -896964730823188008}
-  - {fileID: -5023280176564322763}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 1500
+  Length: 4457
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,19 +564,6 @@ MonoBehaviour:
   - {fileID: -896964730823188008}
   - {fileID: -6568517935021651378}
   EditorEvents:
-  - {fileID: 7696613799291141588}
-  - {fileID: -8135672586861583363}
-  - {fileID: 4842816002087058105}
-  - {fileID: -3944613120094199949}
-  - {fileID: -8079636380184805977}
-  - {fileID: 6709109357601264449}
-  - {fileID: -7667873751745437306}
-  - {fileID: 5133797850908652231}
-  - {fileID: 7662684490723809364}
-  - {fileID: -835505204307562582}
-  - {fileID: -7855276135602949334}
-  - {fileID: -742697236197987449}
-  - {fileID: -5028878679629850055}
   - {fileID: 2766045550506272503}
   - {fileID: -1049362062780102606}
   - {fileID: -3026411872957841225}
@@ -571,76 +582,98 @@ MonoBehaviour:
   - {fileID: 1864250942169849627}
   - {fileID: 6188534315577437882}
   - {fileID: -4105683861135671090}
+  - {fileID: 5210480648196243069}
+  - {fileID: -1394365089214246920}
+  - {fileID: -3699654274389275468}
+  - {fileID: 9195320476129200803}
+  - {fileID: -6460194079424091287}
+  - {fileID: -8517037107019708059}
+  - {fileID: 8501902077610588641}
+  - {fileID: 2753192682426527035}
+  - {fileID: 3757947328967057829}
+  - {fileID: 6024225402912256238}
+  - {fileID: -6219697537884813008}
+  - {fileID: -531648718196413841}
+  - {fileID: -7661787892663067627}
+  - {fileID: 8603825121051317948}
+  - {fileID: 9022261484635638305}
+  - {fileID: -4115571738753193133}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4158438079306407908}
   StringsBanks:
   - {fileID: 3856348917924897851}
   cacheVersion: 131849
-  cacheTime: 639098150834064290
+  cacheTime: 639091913047169648
   SerializableEventsDict:
-  - key: event:/DO
-    index: 0
-  - key: event:/LA
-    index: 1
-  - key: event:/SOL
-    index: 2
-  - key: event:/RE
-    index: 3
-  - key: event:/SI
-    index: 4
-  - key: event:/FA
-    index: 5
-  - key: event:/MI
-    index: 6
-  - key: event:/DO2
-    index: 7
-  - key: event:/Non
-    index: 8
-  - key: event:/Victoire
-    index: 9
-  - key: event:/Desert Song
-    index: 10
-  - key: event:/Win
-    index: 11
-  - key: event:/Tuto Song
-    index: 12
   - key: event:/SFX/Robot/Robot_Voice/Robot_Do
-    index: 13
+    index: 0
   - key: event:/SFX/Robot/Robot_Action/Robot_Planter
-    index: 14
+    index: 1
   - key: event:/SFX/Croc-note/Carotte/Aie
-    index: 15
+    index: 2
   - key: event:/SFX/Robot/Robot_Voice/Robot_Sol
-    index: 16
+    index: 3
   - key: event:/SFX/Robot/Robot_Voice/Robot_Fa
-    index: 17
+    index: 4
   - key: event:/SFX/Robot/Robot_Voice/Robot_La
-    index: 18
+    index: 5
   - key: event:/SFX/Robot/Robot_Action/Pickup
-    index: 19
+    index: 6
   - key: event:/SFX/Robot/Robot_Voice/Robot_Mi
-    index: 20
+    index: 7
   - key: event:/SFX/Robot/Robot_Voice/Robot_Si
-    index: 21
+    index: 8
   - key: event:/SFX/UI/UI_Validation
-    index: 22
+    index: 9
   - key: event:/SFX/Croc-note/Carotte/Croc-note_step
-    index: 23
+    index: 10
   - key: event:/SFX/Robot/Robot_Voice/Robot_Do_2
-    index: 24
+    index: 11
   - key: event:/SFX/Build/Deplacement
-    index: 25
+    index: 12
   - key: event:/SFX/Build/Refus
-    index: 26
+    index: 13
   - key: event:/SFX/Robot/Robot_Action/Robot_Creuser
-    index: 27
+    index: 14
   - key: event:/SFX/UI/UI_Selection
-    index: 28
+    index: 15
   - key: event:/SFX/Robot/Robot_Voice/Robot_Re
-    index: 29
+    index: 16
   - key: event:/SFX/Build/Validation
+    index: 17
+  - key: event:/Musics/Tuto
+    index: 18
+  - key: event:/Musics/Win
+    index: 19
+  - key: event:/SFX/Croc-note/Non
+    index: 20
+  - key: event:/SFX/Croc-note/LA
+    index: 21
+  - key: event:/Musics/Victoire
+    index: 22
+  - key: event:/SFX/Croc-note/SOL
+    index: 23
+  - key: event:/SFX/Croc-note/RE
+    index: 24
+  - key: event:/SFX/Croc-note/DO
+    index: 25
+  - key: event:/SFX/Croc-note/SI
+    index: 26
+  - key: event:/SFX/Croc-note/FA
+    index: 27
+  - key: event:/SFX/Croc-note/MI
+    index: 28
+  - key: event:/SFX/Croc-note/DO2
+    index: 29
+  - key: event:/Musics/Desert Song
     index: 30
+  - key: event:/SFX/Croc-note/LAtest
+    index: 31
+  - key: event:/SFX/Ukulele Acc1
+    index: 32
+  - key: event:/SFX/Ukulele Acc1R
+    index: 33
 --- !u!114 &20948607390266791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -695,6 +728,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 45
+--- !u!114 &2421307429976844236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Ukulele Acc1/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &2497087274629392020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -722,6 +779,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 792
+--- !u!114 &2753192682426527035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Croc-note/DO
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Croc-note/DO
+  Guid:
+    Data1: 1260669548
+    Data2: 1154893480
+    Data3: 1331610507
+    Data4: -419372798
+  Banks:
+  - {fileID: 4158438079306407908}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4367
 --- !u!114 &2766045550506272503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,6 +885,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 14872
+--- !u!114 &3757947328967057829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Croc-note/SI
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Croc-note/SI
+  Guid:
+    Data1: 132270451
+    Data2: 1078259222
+    Data3: -34434657
+    Data4: 633859951
+  Banks:
+  - {fileID: 4158438079306407908}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4445
 --- !u!114 &3856348917924897851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -816,10 +927,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639098150833673000
+  lastModified: 639091913047102454
   FileSizes:
   - Name: Desktop
-    Value: 2374
+    Value: 2746
   Exists: 1
 --- !u!114 &4158438079306407908
 MonoBehaviour:
@@ -836,10 +947,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639037897813756812
+  lastModified: 639088567695880016
   FileSizes:
   - Name: Desktop
-    Value: 426176
+    Value: 427712
   Exists: 1
 --- !u!114 &4260668709228847747
 MonoBehaviour:
@@ -866,7 +977,7 @@ MonoBehaviour:
   Labels:
   - Pickup
   Exists: 1
---- !u!114 &4842816002087058105
+--- !u!114 &5210480648196243069
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -876,50 +987,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SOL
+  m_Name: event:/Musics/Tuto
   m_EditorClassIdentifier: 
-  Path: event:/SOL
+  Path: event:/Musics/Tuto
   Guid:
-    Data1: -799580361
-    Data2: 1334636694
-    Data3: 881466041
-    Data4: -66375443
+    Data1: -2016321191
+    Data2: 1143395037
+    Data3: -594979165
+    Data4: 828310570
   Banks:
-  - {fileID: 4158438079306407908}
-  IsStream: 0
-  Is3D: 1
+  - {fileID: -5023280176564322763}
+  IsStream: 1
+  Is3D: 0
   IsOneShot: 0
-  Parameters: []
+  Parameters:
+  - {fileID: 7330842108631355842}
   MinDistance: 1
   MaxDistance: 20
-  Length: 4425
---- !u!114 &5133797850908652231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/DO2
-  m_EditorClassIdentifier: 
-  Path: event:/DO2
-  Guid:
-    Data1: -1039853874
-    Data2: 1078310672
-    Data3: -354637683
-    Data4: -1750269827
-  Banks:
-  - {fileID: 4158438079306407908}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 4457
+  Length: 250723
 --- !u!114 &5675176644930605580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -947,6 +1032,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 240
+--- !u!114 &6024225402912256238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Croc-note/FA
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Croc-note/FA
+  Guid:
+    Data1: 352314010
+    Data2: 1256172865
+    Data3: -403930710
+    Data4: 728312434
+  Banks:
+  - {fileID: 4158438079306407908}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4409
 --- !u!114 &6124433385118238379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1001,7 +1113,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 16619
---- !u!114 &6709109357601264449
+--- !u!114 &7330842108631355842
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1010,24 +1122,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/FA
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Tuto/Melodie1
   m_EditorClassIdentifier: 
-  Path: event:/FA
-  Guid:
-    Data1: 352314010
-    Data2: 1256172865
-    Data3: -403930710
-    Data4: 728312434
-  Banks:
-  - {fileID: 4158438079306407908}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 4409
+  Name: Melodie1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2174529035
+    data2: 2748854950
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &7529117078406398326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1082,7 +1191,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 14486
---- !u!114 &7662684490723809364
+--- !u!114 &8501902077610588641
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1092,41 +1201,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Non
+  m_Name: event:/SFX/Croc-note/RE
   m_EditorClassIdentifier: 
-  Path: event:/Non
+  Path: event:/SFX/Croc-note/RE
   Guid:
-    Data1: -137921521
-    Data2: 1087753097
-    Data3: 890451096
-    Data4: 2059992726
-  Banks:
-  - {fileID: 4158438079306407908}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 415
---- !u!114 &7696613799291141588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/DO
-  m_EditorClassIdentifier: 
-  Path: event:/DO
-  Guid:
-    Data1: 1260669548
-    Data2: 1154893480
-    Data3: 1331610507
-    Data4: -419372798
+    Data1: -568615340
+    Data2: 1288887963
+    Data3: -125869401
+    Data4: 2086306431
   Banks:
   - {fileID: 4158438079306407908}
   IsStream: 0
@@ -1135,8 +1217,8 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 4367
---- !u!114 &8800342396972468411
+  Length: 4374
+--- !u!114 &8603825121051317948
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1145,18 +1227,76 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Tuto Song/Piste1_Volume
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Croc-note/LAtest
   m_EditorClassIdentifier: 
-  Name: Piste1_Volume
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 3295436225
-    data2: 1745184471
-  Type: 0
-  IsGlobal: 0
-  Labels: []
-  Exists: 1
+  Path: event:/SFX/Croc-note/LAtest
+  Guid:
+    Data1: 828741935
+    Data2: 1111000215
+    Data3: -2044337261
+    Data4: -515113904
+  Banks:
+  - {fileID: 4158438079306407908}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4431
+--- !u!114 &9022261484635638305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele Acc1
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele Acc1
+  Guid:
+    Data1: -1604119693
+    Data2: 1082614870
+    Data3: -222394203
+    Data4: 1492359652
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 2421307429976844236}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 645
+--- !u!114 &9195320476129200803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Croc-note/LA
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Croc-note/LA
+  Guid:
+    Data1: 1526544668
+    Data2: 1086668150
+    Data3: 503296168
+    Data4: 352620140
+  Banks:
+  - {fileID: 4158438079306407908}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4431
