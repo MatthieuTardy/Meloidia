@@ -25,7 +25,15 @@ public class MelogumeSingingManager : MonoBehaviour
     private bool _isGameManagerReady = false;
     [SerializeField] LegumeManager legumeManager;
 
+    [Header("Follow Pattern")]
+    [SerializeField] musicalNotes[] FollowPattern;
+    [SerializeField] float FollowSpeed;
 
+    public void StartFollow()
+    {
+        noteSpeed = FollowSpeed;
+        currentSingPattern = FollowPattern;
+    }
 
     void Start()
     {
@@ -58,23 +66,19 @@ public class MelogumeSingingManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Joue une note et d�clenche l'effet de particules associ�.
-    /// </summary>
-    /// <param name="noteEmitter">L'�metteur FMOD de la note � jouer.</param>
-    /// <param name="particleMaterial">Le mat�riau � appliquer aux particules.</param>
+
+    /// <param name="noteEmitter"
+    /// <param name="particleMaterial"
     void PlayNoteWithParticles(FMODUnity.StudioEventEmitter noteEmitter, Material particleMaterial)
     {
-        // 1. Jouer le son
+
         noteEmitter.Play();
 
-        // 2. Cr�er les particules si tout est configur�
         if (noteParticlePrefab != null && particleMaterial != null)
         {
 
-            // D�termine la position et la rotation
             Vector3 spawnPosition = particleSpawnPoint != null ? particleSpawnPoint.position : transform.position;
-            // Les particules sont orient�es dans la m�me direction que le GameObject
+
             Quaternion spawnRotation = transform.rotation;
 
             GameObject particleInstance = Instantiate(noteParticlePrefab, spawnPosition, spawnRotation);
@@ -82,25 +86,25 @@ public class MelogumeSingingManager : MonoBehaviour
 
             if (ps != null)
             {
-                // Applique le bon mat�riau
+
                 var renderer = ps.GetComponent<ParticleSystemRenderer>();
                 if (renderer != null)
                 {
                     renderer.material = particleMaterial;
                 }
-                // D�truit l'objet apr�s la fin de l'effet
+ 
                 Destroy(particleInstance, ps.main.duration + ps.main.startLifetime.constantMax);
             }
             else
             {
-                Destroy(particleInstance, 5f); // S�curit�
+                Destroy(particleInstance, 5f); 
             }
         }
     }
 
     public IEnumerator SingPattern(musicalNotes[] pattern)
     {
-        // G�rer la vitesse uniquement si la r�f�rence GameManager est pr�te
+
         if (_isGameManagerReady)
         {
             legumeManager.vitesse = 0;

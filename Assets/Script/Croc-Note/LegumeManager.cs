@@ -68,7 +68,9 @@ public class LegumeManager : MonoBehaviour
     [Header("Animation")]
     public Animator animator;
 
-
+    [Header("Gestion du Follow")]
+    public bool isFollowing = false;
+    private Transform playerTransform;
 
 
 
@@ -119,9 +121,17 @@ public class LegumeManager : MonoBehaviour
         { 
                 melogumesSingingManager.StartRage();
         }
+        if (isFollowing && !colere)
+        {
 
+            myNavAgent.SetDestination(GameManager.Instance.playerManager.transform.position);
+            animator.SetBool("walk", myNavAgent.velocity.magnitude > 0.1f);
+            if (myNavAgent.remainingDistance <= myNavAgent.stoppingDistance)
+            {
+                animator.SetBool("walk", false);
+            }
+        }
         NameBoard.transform.LookAt(GameManager.Instance.playerManager.Camera); 
-            //= Quaternion.Euler(new Vector3(0,0,0));
     }
 
 
@@ -222,9 +232,33 @@ public class LegumeManager : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (GameManager.Instance.playerManager.calme == true && other.tag == "Chant")
+        if (other.CompareTag("Chant"))
         {
-            colere = false;
+            NoteSystem ns = GameManager.Instance.playerManager.noteSystem;
+            if (ns.PlayerSingCorrectPattern(ns.chantDuFollow))
+            {
+                if (!isFollowing)
+                {
+                    Debug.Log(gameObject.name + " commence à vous suivre !");
+                    if (move != null) StopCoroutine(move);
+                    isFollowing = true;
+                    colere = false;
+                    melogumesSingingManager.StartHappyness();
+                }
+            }
+            else if (ns.PlayerSingCorrectPattern(ns.chantDuUnfollow))
+            {
+                if (isFollowing)
+                {
+                    Debug.Log(gameObject.name + " arrête de vous suivre.");
+                    isFollowing = false;
+                    move = StartCoroutine(RandomMove());
+                }
+            }
+            if (GameManager.Instance.playerManager.calme)
+            {
+                colere = false;
+            }
         }
     }
     public IEnumerator RageState()

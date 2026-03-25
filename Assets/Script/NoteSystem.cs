@@ -77,6 +77,8 @@ public class NoteSystem : MonoBehaviour
     public List<musicalNotes> chantDuDiab = new List<musicalNotes> { musicalNotes.Do ,musicalNotes.Ré, musicalNotes.Mi  };
     public List<musicalNotes> chantDuBonheur = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Ré, musicalNotes.Do, musicalNotes.Ré };
     public List<musicalNotes> chantDuBirthday = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Do, musicalNotes.Ré, musicalNotes.Do, musicalNotes.Fa, musicalNotes.Mi };
+    public List<musicalNotes> chantDuFollow = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Mi, musicalNotes.Sol };
+    public List<musicalNotes> chantDuUnfollow = new List<musicalNotes> { musicalNotes.Sol, musicalNotes.Mi, musicalNotes.Do };
     public List<musicalNotes> playedPartition;
 
     private void Start()
@@ -384,6 +386,16 @@ public class NoteSystem : MonoBehaviour
                 if (playedPartition.TakeLast(3).SequenceEqual(chantDuDiab)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du diabète"); StartCoroutine(GameManager.Instance.playerManager.SetSingingStateCalme(15)); }
                 else if (playedPartition.TakeLast(4).SequenceEqual(chantDuBonheur)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du Bonheur");}
                 else if (playedPartition.SequenceEqual(chantDuBirthday)) { Debug.LogWarning("Chant de l'anniversaire"); }
+                else if (playedPartition.TakeLast(chantDuFollow.Count).SequenceEqual(chantDuFollow))
+                {
+                    StartCoroutine(VictoryPlay());
+                    Debug.Log("Chant du Follow détecté");
+                }
+                else if (playedPartition.TakeLast(chantDuUnfollow.Count).SequenceEqual(chantDuUnfollow))
+                {
+                    StartCoroutine(VictoryPlay());
+                    Debug.Log("Chant du Unfollow détecté");
+                }
             }
             else
             {
