@@ -104,19 +104,20 @@ public class PlayerManager : MonoBehaviour
         body.isKinematic = freeze;
     }
 
-#if UNITY_EDITOR
+    #region UNITY_EDITOR
     [Button("test")] 
     public void Test()
     {
         StartCoroutine(SetSingingStateCalme(15));
     }
-#endif
+    #endregion
     public IEnumerator SetSingingStateCalme(float duration)
     {
         calme = true;
         yield return new WaitForSeconds(duration);
         calme = false;
     }
+
     public IEnumerator SetSingingStateRagdoll(float duration)
     {
         ragdoll = true;
