@@ -257,37 +257,39 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void HandleToolsInput()
-    {
-        // (Conditions d'input inchangées)
-        if (Input.GetButtonDown("Outils 1") && GameManager.Instance.playerManager.outils != 0 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") >= 0.8 && GameManager.Instance.playerManager.outils != 0 && GameManager.Instance.playerManager.havingTools == true)
+    /*
+        private void HandleToolsInput()
         {
-            SetTool(0, true, false, false, false);
-        }
-        else if (Input.GetButtonDown("Outils 2") && GameManager.Instance.playerManager.outils != 1 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") >= 0.8 && GameManager.Instance.playerManager.outils != 1 && GameManager.Instance.playerManager.havingTools == true)
-        {
-            SetTool(1, false, true, false, false);
-        }
-        else if (Input.GetButtonDown("Outils 3") && GameManager.Instance.playerManager.outils != 2 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") <= -0.8 && GameManager.Instance.playerManager.outils != 2 && GameManager.Instance.playerManager.havingTools == true)
-        {
-            SetTool(2, false, false, true, false);
-        }
-        else if (Input.GetButtonDown("Outils 4") && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") <= -0.8 && GameManager.Instance.playerManager.havingTools == true && !GameManager.Instance.playerManager.isBuildMode)
-        {
-            if (GameManager.Instance.playerManager.outils != 3 && GameManager.Instance.playerManager.havingTools == true)
+            // (Conditions d'input inchangées)
+            if (Input.GetButtonDown("Outils 1") && GameManager.Instance.playerManager.outils != 0 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") >= 0.8 && GameManager.Instance.playerManager.outils != 0 && GameManager.Instance.playerManager.havingTools == true)
             {
-                GameManager.Instance.playerManager.outils = 3;
-                GameManager.Instance.playerManager.isBuildMode = true;
-                SetTool(3, false, false, false, true);
+                SetTool(0, true, false, false, false);
             }
-            if (!GameManager.Instance.buildManager.isBuilding)
+            else if (Input.GetButtonDown("Outils 2") && GameManager.Instance.playerManager.outils != 1 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") >= 0.8 && GameManager.Instance.playerManager.outils != 1 && GameManager.Instance.playerManager.havingTools == true)
             {
-               // SetTool(0, true, false, false, false);
+                SetTool(1, false, true, false, false);
             }
-            OnBuildMode.Invoke();
-            Debug.Log("Build Mode Enable");
+            else if (Input.GetButtonDown("Outils 3") && GameManager.Instance.playerManager.outils != 2 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") <= -0.8 && GameManager.Instance.playerManager.outils != 2 && GameManager.Instance.playerManager.havingTools == true)
+            {
+                SetTool(2, false, false, true, false);
+            }
+            else if (Input.GetButtonDown("Outils 4") && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") <= -0.8 && GameManager.Instance.playerManager.havingTools == true && !GameManager.Instance.playerManager.isBuildMode)
+            {
+                if (GameManager.Instance.playerManager.outils != 3 && GameManager.Instance.playerManager.havingTools == true)
+                {
+                    GameManager.Instance.playerManager.outils = 3;
+                    GameManager.Instance.playerManager.isBuildMode = true;
+                    SetTool(3, false, false, false, true);
+                }
+                if (!GameManager.Instance.buildManager.isBuilding)
+                {
+                   // SetTool(0, true, false, false, false);
+                }
+                OnBuildMode.Invoke();
+                Debug.Log("Build Mode Enable");
+            }
         }
-    }
+    */
 
     private void SetTool(int outilIndex, bool gant, bool pelle, bool arrosoir, bool marteau)
     {
