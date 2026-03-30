@@ -122,6 +122,59 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &4081318
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4081320}
+  - component: {fileID: 4081319}
+  m_Layer: 0
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &4081319
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4081318}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 16.329899, y: 16.680069, z: 1}
+  m_Center: {x: -0.22706985, y: 4.946144, z: 3.8935657e-10}
+--- !u!4 &4081320
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4081318}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3967193955600086274}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &57182244
 GameObject:
   m_ObjectHideFlags: 0
@@ -9003,6 +9056,26 @@ PrefabInstance:
       propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 2516272105803806748, guid: 1287f3adba2cc934aa4b62f677ba4f71,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0.09284957
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516272105803806748, guid: 1287f3adba2cc934aa4b62f677ba4f71,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.0008125495
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516272105803806748, guid: 1287f3adba2cc934aa4b62f677ba4f71,
+        type: 3}
+      propertyPath: m_Center.y
+      value: -0.00015735063
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516272105803806748, guid: 1287f3adba2cc934aa4b62f677ba4f71,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.0027575276
+      objectReference: {fileID: 0}
     - target: {fileID: 5763108261957519403, guid: 1287f3adba2cc934aa4b62f677ba4f71,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9058,15 +9131,34 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6214432967251354097, guid: 1287f3adba2cc934aa4b62f677ba4f71,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8328624368834023754, guid: 1287f3adba2cc934aa4b62f677ba4f71,
+        type: 3}
+      propertyPath: ProgressEnigmeSystem
+      value: 
+      objectReference: {fileID: 3967193955600086275}
     - target: {fileID: 8735102536863617434, guid: 1287f3adba2cc934aa4b62f677ba4f71,
         type: 3}
       propertyPath: m_Name
       value: Enigme Barriere auto
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1971611857280691309, guid: 1287f3adba2cc934aa4b62f677ba4f71, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4843112321355997474, guid: 1287f3adba2cc934aa4b62f677ba4f71,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4081320}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6066149958666305839, guid: 1287f3adba2cc934aa4b62f677ba4f71,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3967193955600086275}
   m_SourcePrefab: {fileID: 100100000, guid: 1287f3adba2cc934aa4b62f677ba4f71, type: 3}
 --- !u!4 &3967193955600086271 stripped
 Transform:
@@ -9074,6 +9166,86 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3967193955600086270}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3967193955600086272 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6066149958666305839, guid: 1287f3adba2cc934aa4b62f677ba4f71,
+    type: 3}
+  m_PrefabInstance: {fileID: 3967193955600086270}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3967193955600086273 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8328624368834023754, guid: 1287f3adba2cc934aa4b62f677ba4f71,
+    type: 3}
+  m_PrefabInstance: {fileID: 3967193955600086270}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28b0bcd4daccc4048a844ef1f56b33f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &3967193955600086274 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4843112321355997474, guid: 1287f3adba2cc934aa4b62f677ba4f71,
+    type: 3}
+  m_PrefabInstance: {fileID: 3967193955600086270}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3967193955600086275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3967193955600086272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ce8f912a4526c849a36f9e7f782785d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chantEnigme: 060000000100000007000000
+  onEnigmeResolve:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3967193955600086273}
+        m_TargetAssemblyTypeName: FinishEnigme, Assembly-CSharp
+        m_MethodName: MoveToStep
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 3
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4081318}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onEnigmeStep:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3967193955600086273}
+        m_TargetAssemblyTypeName: FinishEnigme, Assembly-CSharp
+        m_MethodName: ProgressMoving
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  ratio: 0
 --- !u!1 &4513073894499369718
 GameObject:
   m_ObjectHideFlags: 0

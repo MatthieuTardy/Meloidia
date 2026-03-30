@@ -30,7 +30,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
         {
             StopCoroutine(waitRoutine);
             waitRoutine = null;
-            currentStep = 0; 
+            currentStep = 0;
         }
     }
 
@@ -39,7 +39,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
         int totalNotes = chantEnigme.Count;
         currentStep = 0;
 
-            musicalNotes lastNote = musicalNotes.None;
+        musicalNotes lastNote = musicalNotes.None;
         while (currentStep < totalNotes)
         {
             if (GameManager.Instance.playerManager.noteSystem.playedPartition.Count > 0)
@@ -77,7 +77,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
                 );
             }
 
-                yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.1f);
         }
 
         Debug.Log("Enigme Résolue !");
