@@ -39,13 +39,13 @@ public class SoundManager : MonoBehaviour
     {
         MasterMix = Volumelevel;
     }
-    public void MusicVolumeLevel(float Volumelevel)
+    public void MusicVolumeLevel(float MusicVolumelevel)
     {
-        MusicMix = Volumelevel;
+        MusicMix = MusicVolumelevel;
     }
-    public void SFXVolumeLevel(float Volumelevel)
+    public void SFXVolumeLevel(float SFXVolumelevel)
     {
-        SFXMix = Volumelevel;
+        SFXMix = SFXVolumelevel;
 
         FMOD.Studio.PLAYBACK_STATE PbState;
         testSFX.getPlaybackState(out PbState);
