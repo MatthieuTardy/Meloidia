@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7fd990839a6d1af418c6f541ad1dbf52, type: 2}
+  - {fileID: 2100000, guid: c20f40d0b599ee749a5a5e681c71b30c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -584,7 +584,7 @@ PrefabInstance:
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
         type: 3}
       propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
         type: 3}
@@ -594,6 +594,11 @@ PrefabInstance:
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
         type: 3}
       propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
+        type: 3}
+      propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
@@ -608,12 +613,22 @@ PrefabInstance:
       objectReference: {fileID: 4852936209358526097}
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
         type: 3}
+      propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 6712026224702779614}
+    - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
+        type: 3}
       propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
         type: 3}
       propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
+        type: 3}
+      propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
@@ -628,12 +643,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
         type: 3}
+      propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
+        type: 3}
       propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
         type: 3}
       propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
+        type: 3}
+      propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
@@ -654,6 +679,11 @@ PrefabInstance:
     - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
         type: 3}
       propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4159803472354256914, guid: 7bc30b533e574014e8e2f578637e6f87,
+        type: 3}
+      propertyPath: onEnigmeResolve.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7056592901522231570, guid: 7bc30b533e574014e8e2f578637e6f87,
@@ -1131,6 +1161,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -208.306
       objectReference: {fileID: 0}
+    - target: {fileID: 6859145769565197306, guid: 2cd4f7a75f1510d49aa9312bd9e86589,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 33b95c612c4d96149bda76bf4fd2f122, type: 2}
     - target: {fileID: 7204542410827228628, guid: 2cd4f7a75f1510d49aa9312bd9e86589,
         type: 3}
       propertyPath: m_Name
