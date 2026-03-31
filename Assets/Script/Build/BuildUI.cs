@@ -4,37 +4,11 @@ using UnityEngine;
 
 public class BuildUI : MonoBehaviour
 {
-    public Transform wheelCenter; // Objet au centre de la roue
-    public int segmentCount = 8;
+    [SerializeField] Build_Selection build_Selection;
+
     void Update()
     {
-       // SelectConstructMouse();
         SelectConstructXbox();
-
-        // ICI : appeler ta logique de construction en fonction de l’index
-        // Build(index);
-
-    }
-
-    private void SelectConstructMouse()
-    {
-        Debug.Log("BuildUI");
-        Vector2 mousePos = Input.mousePosition;
-        Vector2 centerScreenPos = Camera.main.WorldToScreenPoint(wheelCenter.position);
-
-        // Direction souris -> centre
-        Vector2 dir = mousePos - centerScreenPos;
-
-        // Calcul de l'angle en degrés (0° au dessus + rotation horaire)
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        angle = (angle + 360f + 90f) % 360f; // +90 pour mettre 0° vers le haut
-
-        // Trouver le segment
-        float segmentAngle = 360f / segmentCount;
-        int index = Mathf.FloorToInt(angle / segmentAngle);
-
-        // Affichage pour debug
-        Debug.Log("Segment sélectionné : " + index);
     }
     private void SelectConstructXbox()
     {
@@ -55,14 +29,7 @@ public class BuildUI : MonoBehaviour
             else if (inputX < -0.5f && Mathf.Abs(inputY) < 0.5f) { buildIndex = 6; }
             else if (inputX < -0.3f && inputY > 0.3f) { buildIndex = 5; }
 
-            SelectConstruct(buildIndex);
+            build_Selection.ConstructChoosen(buildIndex);
         }
-    }
-
-
-    public void SelectConstruct(int index)
-    {
-        GameManager.Instance.buildManager.ChangeSelectedBuild(index);
-        Destroy(this.gameObject);
     }
 } 

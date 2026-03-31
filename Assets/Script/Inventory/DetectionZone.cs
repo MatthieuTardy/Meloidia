@@ -61,6 +61,7 @@ public class DetectionZone : MonoBehaviour
     {
         if (Input.GetButtonDown("Interract")) 
         {
+            Debug.Log(interractableObject.name);
             if (interractableObject != null)
             {
                 if (interractableObject.GetComponent<Reserve>())
@@ -71,11 +72,6 @@ public class DetectionZone : MonoBehaviour
                     }
                 }
 
-                else if (interractableObject.GetComponent<Plantation_interaction>())
-                {
-                    interractableObject.GetComponent<Plantation_interaction>().Interract(GameManager.Instance.playerManager.outils);
-                }
-
                 else if (interractableObject.GetComponent<RessourcesRare>())
                 {
                     interractableObject.GetComponent<RessourcesRare>().Interract();
@@ -84,6 +80,11 @@ public class DetectionZone : MonoBehaviour
                 else if (interractableObject.GetComponent<DialogueSystem>())
                 {
                     interractableObject.GetComponent <DialogueSystem>().Interract();
+                }
+
+                else if (interractableObject.GetComponent<Build_Selection>())
+                {
+                    interractableObject.GetComponent<Build_Selection>().Interract();
                 }
             }
         }

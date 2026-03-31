@@ -11,10 +11,6 @@ public class BuildManager : MonoBehaviour
     [SerializeField] ConstructionScriptable[] Construction;
 
     public bool isBuilding = false;
-    private void Start()
-    {
-        FindAnyObjectByType<PlayerController>().OnBuildMode += WhenBuildModeStarts;
-    }
 
     void WhenBuildModeStarts()
     {

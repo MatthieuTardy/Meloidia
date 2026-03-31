@@ -391,11 +391,13 @@ public enum TypeOfRessources
     ressourceD = 4,
     ressourceE = 5,
     Graine_Carotte = 6,
-    seedB = 7,
-    seedC = 8,
-    seedD = 9,
-    seedE = 10,
-    Cabais,
+    Graine_Navet = 7,
+    Graine_Poivron = 8,
+    Graine_Chou = 9,
+    Graine_Brocoli = 10,
+    Cabais = 11,
+    Crystal = 12,
+
 }
 
 public class ItemSlot
