@@ -52,7 +52,7 @@ public class EnigmeSystem : MonoBehaviour
     IEnumerator Chant()
     {
         yield return new WaitUntil(() => GameManager.Instance.playerManager.noteSystem.PlayerSingCorrectPattern(chantEnigme));
-        RuntimeManager.PlayOneShot("event:/Win");
+        RuntimeManager.PlayOneShot("event:/Musics/Win");
         onEnigmeResolve.Invoke();
     }
 }
