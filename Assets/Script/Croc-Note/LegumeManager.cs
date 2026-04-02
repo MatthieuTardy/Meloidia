@@ -282,4 +282,17 @@ public class LegumeManager : MonoBehaviour
         }
 
     }
+
+    [SerializeField] GameObject DeadCN;
+    private void OnDestroy()
+    {
+        GameObject c = Instantiate(DeadCN,this.transform.position,this.transform.rotation);
+        c.GetComponentInChildren<DeadCrocNote>().Init(gameObject.name);
+    }
+
+    [Button("Destroy")]
+    void destroyDebug()
+    {
+        Destroy(gameObject);
+    }
 }
