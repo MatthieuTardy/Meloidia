@@ -8,7 +8,10 @@ public class Build_Selection : MonoBehaviour
     [SerializeField] ConstructionScriptable[] construction;
     [SerializeField] Transform BuildSpawn;
 
+    [SerializeField] Transform ItemDropSpawn;
+
     bool BuildAlreadySelected = false;
+    ConstructionScriptable selectedConstruction;
     GameObject clone;
 
     public void Interract()
@@ -20,12 +23,15 @@ public class Build_Selection : MonoBehaviour
     {
         if (Input.GetButtonDown("Cancel"))
         {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            BuildWheel.SetActive(false);
+            HideWheel();
         }
     }
-
+    void HideWheel()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        BuildWheel.SetActive(false);
+    }
     void ShowWheel()
     {
         Cursor.visible = true;
@@ -43,6 +49,7 @@ public class Build_Selection : MonoBehaviour
             {
                 clone = Instantiate(construction[index].MeshPrefab, BuildSpawn.position, BuildSpawn.rotation, BuildSpawn);
                 BuildAlreadySelected = true;
+                selectedConstruction = construction[index];
                 RemoveItemFromInventory(construction[index]);
             }
         }
@@ -50,16 +57,27 @@ public class Build_Selection : MonoBehaviour
         {
             if (index == 4)
             {
-                DeleteCurrentBuild();
+                DeleteCurrentBuild(selectedConstruction);
+                selectedConstruction = null;
             }
         }
+        HideWheel();
     }
 
-    void DeleteCurrentBuild()
+
+
+    void DeleteCurrentBuild(ConstructionScriptable construction)
     {
         Debug.Log("deleting");
         BuildAlreadySelected = false;
         Destroy(clone);
+        foreach (var item in construction.RessourceNeeded)
+        {
+            for (int i = 0; i < item.amount; i++)
+            {
+                Instantiate(item.RessourcePrefab, ItemDropSpawn.position, ItemDropSpawn.rotation);
+            }
+        }
     }
 
     bool HaveItemInInventory(ConstructionScriptable construction)

@@ -21,6 +21,7 @@ public class RessourceAmount
 {
     public TypeOfRessources type;
     public int amount;
+    public GameObject RessourcePrefab;
 }
 
 

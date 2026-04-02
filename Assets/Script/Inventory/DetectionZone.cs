@@ -59,9 +59,9 @@ public class DetectionZone : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Interract")) 
+        if (Input.GetButtonDown("Interract"))
         {
-            Debug.Log(interractableObject.name);
+            // Debug.Log(interractableObject.name);
             if (interractableObject != null)
             {
                 if (interractableObject.GetComponent<Reserve>())
@@ -76,10 +76,10 @@ public class DetectionZone : MonoBehaviour
                 {
                     interractableObject.GetComponent<RessourcesRare>().Interract();
                 }
-            
+
                 else if (interractableObject.GetComponent<DialogueSystem>())
                 {
-                    interractableObject.GetComponent <DialogueSystem>().Interract();
+                    interractableObject.GetComponent<DialogueSystem>().Interract();
                 }
 
                 else if (interractableObject.GetComponent<Build_Selection>())
@@ -87,18 +87,18 @@ public class DetectionZone : MonoBehaviour
                     interractableObject.GetComponent<Build_Selection>().Interract();
                 }
             }
-        }
 
-        if (Input.GetButtonDown("Interract"))
-        {
-            if(collectableObjects.Count > 0)
-            {
-                bool success = GameManager.Instance.inventoryManager.TryToPickUp(collectableObjects[0]);
-                if (success)
+            //if (Input.GetButtonDown("Interract"))
+            
+                if (collectableObjects.Count > 0)
                 {
-                    collectableObjects.RemoveAt(0);
+                    bool success = GameManager.Instance.inventoryManager.TryToPickUp(collectableObjects[0]);
+                    if (success)
+                    {
+                        collectableObjects.RemoveAt(0);
+                    }
                 }
-            }
+            
         }
     }
 }
