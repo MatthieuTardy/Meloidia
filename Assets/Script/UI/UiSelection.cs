@@ -74,12 +74,12 @@ public class UiSelection : MonoBehaviour
         //if (Mathf.Abs(sx) > activationThreshold || Mathf.Abs(sy) > activationThreshold ||inputPC)
         if (Mathf.Abs(sx) > activationThreshold || Mathf.Abs(sy) > activationThreshold)
         {
-            noteSystem.ToggleTrackOne(false);
+            //noteSystem.ToggleTrackOne(false);
             isPlayingInput = true;
         }
         else
         {
-            noteSystem.ToggleTrackOne(true);
+            //noteSystem.ToggleTrackOne(true);
         }
 
         // Quand on passe de true -> false, on veut s'assurer de réinitialiser les notes du canvas

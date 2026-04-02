@@ -79,8 +79,10 @@ public class NoteSystem : MonoBehaviour
     public List<musicalNotes> chantDuBirthday = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Do, musicalNotes.Ré, musicalNotes.Do, musicalNotes.Fa, musicalNotes.Mi };
     public List<musicalNotes> playedPartition;
 
+    bool toggleTrackBool;
     private void Start()
     {
+        toggleTrackBool = true;
         ToggleTrackOne(true);
     }
 
@@ -118,14 +120,22 @@ public class NoteSystem : MonoBehaviour
                     singDelay = 0;
                 }
             }
-            /* sert a rien ?
-            else if (playedPartition.Count > 0 && (playedPartition.SequenceEqual(chantDuDiab) || playedPartition.SequenceEqual(chantDuBonheur) || playedPartition.SequenceEqual(chantDuBirthday)))
-            {
-                noteBefore = playedPartition.LastOrDefault();
-                playedPartition.Clear();
-            }
-            */
-        
+        /* sert a rien ?
+        else if (playedPartition.Count > 0 && (playedPartition.SequenceEqual(chantDuDiab) || playedPartition.SequenceEqual(chantDuBonheur) || playedPartition.SequenceEqual(chantDuBirthday)))
+        {
+            noteBefore = playedPartition.LastOrDefault();
+            playedPartition.Clear();
+        }
+        */
+
+        if (Input.GetButtonDown("SongPC"))
+        {
+            // On inverse la valeur (true devient false, false devient true)
+            toggleTrackBool = !toggleTrackBool;
+
+            // On appelle ta fonction avec la nouvelle valeur
+            ToggleTrackOne(toggleTrackBool);
+        }
     }
     
     bool IsTrackOneToggle;
@@ -158,18 +168,18 @@ public class NoteSystem : MonoBehaviour
             if (!FadeIn)
             {
                 volume -= ratio;
-                FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", volume);
+                FMOD.RESULT result = music.EventInstance.setParameterByName("Melodie1", volume);
             }
             else 
             {
                 volume += ratio;
-                FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", volume); 
+                FMOD.RESULT result = music.EventInstance.setParameterByName("Melodie1", volume); 
             }
             yield return new WaitForSeconds(time / 4);
         }
         if (!FadeIn)
         {
-            FMOD.RESULT result = music.EventInstance.setParameterByName("Piste1_Volume", 0);
+            FMOD.RESULT result = music.EventInstance.setParameterByName("Melodie1", 0);
         }
 
         IsTrackOneToggle = false;
@@ -191,7 +201,7 @@ public class NoteSystem : MonoBehaviour
 
         if (Mathf.Abs(inputX) > 0.5f || Mathf.Abs(inputY) > 0.5f)
         {
-            ToggleTrackOne(false);
+            
             if (Input.GetButton("ValidateNote"))
             {
                 singDelay += Time.deltaTime;
@@ -222,7 +232,7 @@ public class NoteSystem : MonoBehaviour
         else if(ForceNote != null)
         {
             //Debug.Log("ForceNote");
-            ToggleTrackOne(false);
+            
             if (Input.GetButton("ValidateNote"))
             {
                 singDelay += Time.deltaTime;
