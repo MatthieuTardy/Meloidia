@@ -59,8 +59,9 @@ public class DetectionZone : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Interract")) 
+        if (Input.GetButtonDown("Interract"))
         {
+            // Debug.Log(interractableObject.name);
             if (interractableObject != null)
             {
                 if (interractableObject.GetComponent<Reserve>())
@@ -71,33 +72,33 @@ public class DetectionZone : MonoBehaviour
                     }
                 }
 
-                else if (interractableObject.GetComponent<Plantation_interaction>())
-                {
-                    interractableObject.GetComponent<Plantation_interaction>().Interract(GameManager.Instance.playerManager.outils);
-                }
-
                 else if (interractableObject.GetComponent<RessourcesRare>())
                 {
                     interractableObject.GetComponent<RessourcesRare>().Interract();
                 }
-            
+
                 else if (interractableObject.GetComponent<DialogueSystem>())
                 {
-                    interractableObject.GetComponent <DialogueSystem>().Interract();
+                    interractableObject.GetComponent<DialogueSystem>().Interract();
                 }
-            }
-        }
 
-        if (Input.GetButtonDown("Interract"))
-        {
-            if(collectableObjects.Count > 0)
-            {
-                bool success = GameManager.Instance.inventoryManager.TryToPickUp(collectableObjects[0]);
-                if (success)
+                else if (interractableObject.GetComponent<Build_Selection>())
                 {
-                    collectableObjects.RemoveAt(0);
+                    interractableObject.GetComponent<Build_Selection>().Interract();
                 }
             }
+
+            //if (Input.GetButtonDown("Interract"))
+            
+                if (collectableObjects.Count > 0)
+                {
+                    bool success = GameManager.Instance.inventoryManager.TryToPickUp(collectableObjects[0]);
+                    if (success)
+                    {
+                        collectableObjects.RemoveAt(0);
+                    }
+                }
+            
         }
     }
 }

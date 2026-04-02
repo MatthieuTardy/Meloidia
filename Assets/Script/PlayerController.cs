@@ -70,26 +70,33 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        HandleInputs();
-        CheckGrounded();
-        
-        HandleAnimations();
-
-        if (Input.GetButtonDown("Jump") && isGrounded && Time.time >= lastJumpTime + jumpCooldown)
+        //if (GameManager.Instance.playerManager.Lock)
         {
-            Jump();
-        }
+            HandleInputs();
+            CheckGrounded();
 
-        //HandleToolsInput();
-        HandleSprintVisuals();
+            HandleAnimations();
+
+            if (Input.GetButtonDown("Jump") && isGrounded && Time.time >= lastJumpTime + jumpCooldown)
+            {
+                Jump();
+            }
+
+            //HandleToolsInput();
+            HandleSprintVisuals();
+        }
     }
 
-    public event Action OnBuildMode = delegate { };
+
 
     void FixedUpdate()
     {
+
         HandleMovement();
-        HandleRotation();
+        if (GameManager.Instance.playerManager.Lock)
+        {
+            HandleRotation();
+        }
         ApplyBetterGravity();
     }
 
@@ -173,7 +180,7 @@ public class PlayerController : MonoBehaviour
     {
         float currentSpeed = isSprinting ? sprintSpeed : speed;
 
-        if (!GameManager.Instance.playerManager.ragdoll && isGrounded)
+        if (!GameManager.Instance.playerManager.ragdoll)
         {
             if (inputDirection.magnitude >= 0.1f)
             {
@@ -181,7 +188,7 @@ public class PlayerController : MonoBehaviour
                 Vector3 targetVelocity = inputDirection * currentSpeed;
                 body.velocity = new Vector3(targetVelocity.x, body.velocity.y, targetVelocity.z);
             }
-            else if (isGrounded)
+            else 
             {
                 Vector3 horizontalVelocity = new Vector3(body.velocity.x, 0, body.velocity.z);
                 Vector3 smoothedHorizontal = Vector3.SmoothDamp(horizontalVelocity, Vector3.zero, ref stoppingVelocity, decelerationSmoothness);
@@ -189,6 +196,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
 
     private void HandleSprintVisuals()
     {

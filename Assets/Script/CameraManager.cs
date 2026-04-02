@@ -54,6 +54,7 @@ public class CameraManager : MonoBehaviour
     void LockCam( bool enable)
     {
         freeLook.enabled = enable;
+        GameManager.Instance.playerManager.LockControl(enable);
         //Debug.Log("enable = " + enable);
             Cursor.visible = !enable; 
         Cursor.lockState = CursorLockMode.Confined;
