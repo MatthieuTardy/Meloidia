@@ -70,27 +70,34 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        HandleInputs();
-        CheckGrounded();
-        
-        HandleAnimations();
-
-        if (Input.GetButtonDown("Jump") && isGrounded && Time.time >= lastJumpTime + jumpCooldown)
+        //if (GameManager.Instance.playerManager.Lock)
         {
-            Jump();
-        }
+            HandleInputs();
+            CheckGrounded();
 
-        //HandleToolsInput();
-        HandleSprintVisuals();
+            HandleAnimations();
+
+            if (Input.GetButtonDown("Jump") && isGrounded && Time.time >= lastJumpTime + jumpCooldown)
+            {
+                Jump();
+            }
+
+            //HandleToolsInput();
+            HandleSprintVisuals();
+        }
     }
 
     public event Action OnBuildMode = delegate { };
 
     void FixedUpdate()
     {
-        HandleMovement();
-        HandleRotation();
-        ApplyBetterGravity();
+
+            HandleMovement();
+        if (GameManager.Instance.playerManager.Lock)
+        {
+            HandleRotation();
+        }
+            ApplyBetterGravity();
     }
 
     private void ApplyBetterGravity()

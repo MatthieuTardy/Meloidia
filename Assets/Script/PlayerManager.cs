@@ -36,6 +36,7 @@ public class PlayerManager : MonoBehaviour
 
     private Rigidbody body;
     public bool ragdoll = false;
+    public bool Lock = true;
     void Start()
     {
         body = GetComponent<Rigidbody>();
@@ -127,5 +128,10 @@ public class PlayerManager : MonoBehaviour
         }
         yield return new WaitForSeconds(duration);
         ragdoll = false;
+    }
+
+    public void LockControl(bool state)
+    {
+        Lock = state;
     }
 }
