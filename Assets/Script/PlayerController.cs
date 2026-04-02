@@ -87,17 +87,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public event Action OnBuildMode = delegate { };
+
 
     void FixedUpdate()
     {
 
-            HandleMovement();
+        HandleMovement();
         if (GameManager.Instance.playerManager.Lock)
         {
             HandleRotation();
         }
-            ApplyBetterGravity();
+        ApplyBetterGravity();
     }
 
     private void ApplyBetterGravity()
@@ -180,7 +180,7 @@ public class PlayerController : MonoBehaviour
     {
         float currentSpeed = isSprinting ? sprintSpeed : speed;
 
-        if (!GameManager.Instance.playerManager.ragdoll && isGrounded)
+        if (!GameManager.Instance.playerManager.ragdoll)
         {
             if (inputDirection.magnitude >= 0.1f)
             {
@@ -188,7 +188,7 @@ public class PlayerController : MonoBehaviour
                 Vector3 targetVelocity = inputDirection * currentSpeed;
                 body.velocity = new Vector3(targetVelocity.x, body.velocity.y, targetVelocity.z);
             }
-            else if (isGrounded)
+            else 
             {
                 Vector3 horizontalVelocity = new Vector3(body.velocity.x, 0, body.velocity.z);
                 Vector3 smoothedHorizontal = Vector3.SmoothDamp(horizontalVelocity, Vector3.zero, ref stoppingVelocity, decelerationSmoothness);
@@ -196,6 +196,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
 
     private void HandleSprintVisuals()
     {

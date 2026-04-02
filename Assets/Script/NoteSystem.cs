@@ -99,7 +99,7 @@ public class NoteSystem : MonoBehaviour
             }
             else if (Input.GetButtonUp("ValidateNote"))
             {
-                StopChant();
+                //StopChant();
             }
 
             // Si le temps sans note jouer depasse x => vide la list de partition
@@ -189,7 +189,7 @@ public class NoteSystem : MonoBehaviour
     {
         isPlaying = false;
         singDelay = 0;
-        StopChant();
+        //StopChant();
         noteBefore = musicalNotes.None;
         PlayMusic(ForceNote);
     }
