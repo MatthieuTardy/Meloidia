@@ -81,7 +81,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
         }
 
         Debug.Log("Enigme Résolue !");
-        RuntimeManager.PlayOneShot("event:/Win");
+        RuntimeManager.PlayOneShot("event:/Musics/Win");
         onEnigmeResolve.Invoke();
 
         waitRoutine = null;

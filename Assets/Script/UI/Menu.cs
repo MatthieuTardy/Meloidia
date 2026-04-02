@@ -1,17 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
 
 public class Menu : MonoBehaviour
 {
-    [SerializeField] GameObject MenuCanva;
-    bool Open;
+    [SerializeField] UnityEvent menuSystem;
+    [SerializeField] UnityEvent menuClose;
+    bool Open = false;
     void Update()
     {
-        if (Input.GetButtonDown("Cancel"))
+        if (Input.GetButtonDown("Cancel") && !Open)
         {
                 Open = !Open;
-                MenuCanva.SetActive(Open);
+                menuSystem.Invoke();
+        }
+        else if (Input.GetButtonDown("Cancel") && Open)
+        {
+            Open = !Open;
+            menuClose.Invoke();
         }
     }
 }
