@@ -86,6 +86,11 @@ public class DetectionZone : MonoBehaviour
                 {
                     interractableObject.GetComponent<Build_Selection>().Interract();
                 }
+                else if (interractableObject.GetComponent<OnlyInterraction>())
+                {
+                    Debug.Log("Interract");
+                    interractableObject.GetComponent <OnlyInterraction>().Interract();
+                }
             }
 
             //if (Input.GetButtonDown("Interract"))
