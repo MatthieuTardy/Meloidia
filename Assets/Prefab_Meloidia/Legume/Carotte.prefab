@@ -983,6 +983,8 @@ MonoBehaviour:
   Specisme4: 50
   Specisme5: 50
   bonheur: 50
+  SadPercent: 0
+  HappyPercent: 0
   melogumesSingingManager: {fileID: 4955155072589143327}
   legumeType: 1
   deathTimer: 15
@@ -999,6 +1001,7 @@ MonoBehaviour:
   vitesseRespiration: 2
   NameBoard: {fileID: 2661518048302086128}
   animator: {fileID: 5546968447064501828}
+  DeadCN: {fileID: 0}
 --- !u!114 &4955155072589143327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1011,15 +1014,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6d29ecb4fecaee419b1e6ed258cf419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DO: {fileID: 6024722720021230136}
-  RE: {fileID: 6362571068175176926}
-  MI: {fileID: 3100197965172866101}
+  DefaultPattern: 
+  DefaultSpeed: 0
+  HappyPattern: 
+  HappySpeed: 0
+  AngryPattern: 
+  AngrySpeed: 0
+  SadPattern: 
+  SadSpeed: 0
   noteParticlePrefab: {fileID: 7207747035653287744, guid: d256ed55c50dfab4caa9fe50f22ab646,
     type: 3}
   particleSpawnPoint: {fileID: 0}
-  doMaterial: {fileID: 2100000, guid: e08374ede48d73e478c7086ec301837b, type: 2}
-  reMaterial: {fileID: 2100000, guid: 278e40f94d432f0488be09e7ab8415f9, type: 2}
-  miMaterial: {fileID: 2100000, guid: 46cfea4fd9fac544b8a29173f070546d, type: 2}
+  noteSpeed: 0
+  CustomDictionary: []
   legumeManager: {fileID: 3783696505960282223}
 --- !u!114 &6024722720021230136
 MonoBehaviour:
@@ -1040,7 +1047,7 @@ MonoBehaviour:
       Data2: 1154893480
       Data3: 1331610507
       Data4: -419372798
-    Path: event:/DO
+    Path: event:/SFX/Croc-note/DO
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -1071,7 +1078,7 @@ MonoBehaviour:
       Data2: 1288887963
       Data3: -125869401
       Data4: 2086306431
-    Path: event:/RE
+    Path: event:/SFX/Croc-note/RE
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -1102,7 +1109,7 @@ MonoBehaviour:
       Data2: 1338497565
       Data3: 349194897
       Data4: -1258335613
-    Path: event:/MI
+    Path: event:/SFX/Croc-note/MI
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0

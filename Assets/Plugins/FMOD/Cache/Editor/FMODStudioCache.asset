@@ -54,6 +54,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1149
+--- !u!114 &-7851538782824365886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc3R
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc3R
+  Guid:
+    Data1: -1046031600
+    Data2: 1255635786
+    Data3: 494097025
+    Data4: 1544630557
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -6556196790305927886}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1525
 --- !u!114 &-7661787892663067627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,10 +152,34 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639107204627171183
+  lastModified: 639107451408272824
   FileSizes:
   - Name: Desktop
-    Value: 2294400
+    Value: 2533984
+  Exists: 1
+--- !u!114 &-6556196790305927886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ukulele Acc3R/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
   Exists: 1
 --- !u!114 &-6470459296844779898
 MonoBehaviour:
@@ -149,6 +201,30 @@ MonoBehaviour:
   ID:
     data1: 3295436225
     data2: 1745184471
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-6469085412124222757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ukulele Acc8R/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
   Type: 0
   IsGlobal: 0
   Labels: []
@@ -180,6 +256,54 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 350
+--- !u!114 &-6417224623248480420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ukulele AccAll/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-6349209530326863148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ukulele Acc6R/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-6219697537884813008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +331,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4394
+--- !u!114 &-5900328026640769850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ukulele Acc8/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-5517448993011091895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +382,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1545
---- !u!114 &-5351091756215472503
+--- !u!114 &-5377641716001702647
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -244,7 +392,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Ukulele Acc1R/Le Ukulele 1
+  m_Name: parameter:/ukulele Acc7R/Le Ukulele 1
   m_EditorClassIdentifier: 
   Name: Le Ukulele 1
   StudioPath: 
@@ -286,6 +434,78 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-5266105224732665258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ukulele Acc7/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-5203495343502410167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ukulele Acc6/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-5126720373269433033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ukulele Acc2R/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-5023280176564322763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,39 +521,11 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639107204627103653
+  lastModified: 639107451392007411
   FileSizes:
   - Name: Desktop
     Value: 16744576
   Exists: 1
---- !u!114 &-4115571738753193133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Ukulele Acc1R
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/Ukulele Acc1R
-  Guid:
-    Data1: -351598167
-    Data2: 1179660005
-    Data3: -685940291
-    Data4: 783342216
-  Banks:
-  - {fileID: -6568517935021651378}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters:
-  - {fileID: -5351091756215472503}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 1646
 --- !u!114 &-4105683861135671090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,6 +580,58 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 415
+--- !u!114 &-3636515409531387405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc4
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc4
+  Guid:
+    Data1: 112653852
+    Data2: 1120357793
+    Data3: 126956720
+    Data4: 742990924
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -3356099203861884129}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 620
+--- !u!114 &-3356099203861884129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ukulele Acc4/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-3026411872957841225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,6 +659,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 737
+--- !u!114 &-2861242746054516473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc4R
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc4R
+  Guid:
+    Data1: -83452885
+    Data2: 1191380613
+    Data3: 112120960
+    Data4: 1230378936
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 2130546941795401546}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1530
 --- !u!114 &-2822087365254581038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,6 +714,58 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 110
+--- !u!114 &-2676104152271278899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ukulele Acc5/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-2631028051897164365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc8
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc8
+  Guid:
+    Data1: 580614512
+    Data2: 1242058915
+    Data3: -1392884346
+    Data4: -649835478
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -5900328026640769850}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 670
 --- !u!114 &-2613216791604430557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -579,6 +903,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1500
+--- !u!114 &-1071320185856768661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ukulele Acc5R/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-1049362062780102606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -621,7 +969,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Jingle.bank
   Name: Jingle
   StudioPath: bank:/Jingle
-  lastModified: 639107204626531401
+  lastModified: 639107451387225606
   FileSizes:
   - Name: Desktop
     Value: 41696
@@ -653,6 +1001,62 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4457
+--- !u!114 &-355335783316002414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc3
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc3
+  Guid:
+    Data1: 934463403
+    Data2: 1318652755
+    Data3: 860563103
+    Data4: -505209831
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 2386242473946928120}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 650
+--- !u!114 &-140383302349344281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc7R
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc7R
+  Guid:
+    Data1: 1836760453
+    Data2: 1235412552
+    Data3: 834545320
+    Data4: 951814692
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -5377641716001702647}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1450
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -704,8 +1108,6 @@ MonoBehaviour:
   - {fileID: -531648718196413841}
   - {fileID: -7661787892663067627}
   - {fileID: 8603825121051317948}
-  - {fileID: 9022261484635638305}
-  - {fileID: -4115571738753193133}
   - {fileID: 5091216413187432017}
   - {fileID: -7593992122040227874}
   - {fileID: -5517448993011091895}
@@ -718,13 +1120,30 @@ MonoBehaviour:
   - {fileID: -8375321636345032478}
   - {fileID: 1289209647335256559}
   - {fileID: 90811139755987248}
+  - {fileID: 2824892809414048623}
+  - {fileID: -7851538782824365886}
+  - {fileID: -3636515409531387405}
+  - {fileID: -2861242746054516473}
+  - {fileID: 2875891121887549845}
+  - {fileID: 3058254773790076853}
+  - {fileID: 6547880420980426169}
+  - {fileID: -2631028051897164365}
+  - {fileID: 8038394260010103908}
+  - {fileID: 2081828520638653264}
+  - {fileID: 597992290355389951}
+  - {fileID: -140383302349344281}
+  - {fileID: 3641044813453998263}
+  - {fileID: -355335783316002414}
+  - {fileID: 324467062757445032}
+  - {fileID: 2215298877527412179}
+  - {fileID: 8088672349444274640}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4158438079306407908}
   StringsBanks:
   - {fileID: 3856348917924897851}
   cacheVersion: 131849
-  cacheTime: 639107204627171183
+  cacheTime: 639107451408272824
   SerializableEventsDict:
   - key: event:/SFX/Robot/Robot_Voice/Robot_Do
     index: 0
@@ -790,34 +1209,64 @@ MonoBehaviour:
     index: 30
   - key: event:/SFX/Croc-note/LAtest
     index: 31
-  - key: event:/SFX/Ukulele Acc1
-    index: 32
-  - key: event:/SFX/Ukulele Acc1R
-    index: 33
   - key: event:/SFX/Tuto/Vent
-    index: 34
+    index: 32
   - key: event:/SFX/Tuto/Mer
-    index: 35
+    index: 33
   - key: event:/SFX/Tuto/Camion_roue
-    index: 36
+    index: 34
   - key: event:/SFX/Tuto/Gate
-    index: 37
+    index: 35
   - key: event:/SFX/Tuto/Chainbreak3
-    index: 38
+    index: 36
   - key: event:/SFX/Tuto/Barriere
-    index: 39
+    index: 37
   - key: event:/SFX/Tuto/Palette
-    index: 40
+    index: 38
   - key: event:/SFX/Tuto/Barriere 3
-    index: 41
+    index: 39
   - key: event:/SFX/Tuto/Chainbreak1
-    index: 42
+    index: 40
   - key: event:/SFX/Tuto/Tricolore
-    index: 43
+    index: 41
   - key: event:/SFX/Tuto/Barriere 2
-    index: 44
+    index: 42
   - key: event:/SFX/Tuto/Chainbreak2
+    index: 43
+  - key: event:/SFX/Ukulele/ukulele Acc2
+    index: 44
+  - key: event:/SFX/Ukulele/ukulele Acc3R
     index: 45
+  - key: event:/SFX/Ukulele/ukulele Acc4
+    index: 46
+  - key: event:/SFX/Ukulele/ukulele Acc4R
+    index: 47
+  - key: event:/SFX/Ukulele/ukulele Acc5R
+    index: 48
+  - key: event:/SFX/Ukulele/ukulele Acc5
+    index: 49
+  - key: event:/SFX/Ukulele/ukulele Acc8R
+    index: 50
+  - key: event:/SFX/Ukulele/ukulele Acc8
+    index: 51
+  - key: event:/SFX/Ukulele/ukulele Acc1
+    index: 52
+  - key: event:/SFX/Ukulele/ukulele Acc6R
+    index: 53
+  - key: event:/SFX/Ukulele/ukulele Acc2R
+    index: 54
+  - key: event:/SFX/Ukulele/ukulele Acc7R
+    index: 55
+  - key: event:/SFX/Ukulele/ukulele Acc1R
+    index: 56
+  - key: event:/SFX/Ukulele/ukulele Acc3
+    index: 57
+  - key: event:/SFX/Ukulele/ukulele Acc6
+    index: 58
+  - key: event:/SFX/Ukulele/ukulele Acc7
+    index: 59
+  - key: event:/SFX/Ukulele/ukulele AccAll
+    index: 60
 --- !u!114 &20948607390266791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -872,6 +1321,62 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1152
+--- !u!114 &324467062757445032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc6
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc6
+  Guid:
+    Data1: 2028035246
+    Data2: 1200385109
+    Data3: -179139159
+    Data4: 1388033159
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -5203495343502410167}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 580
+--- !u!114 &597992290355389951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc2R
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc2R
+  Guid:
+    Data1: 844763263
+    Data2: 1225752160
+    Data3: -1615963738
+    Data4: 1760764036
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -5126720373269433033}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1300
 --- !u!114 &1289209647335256559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -926,7 +1431,35 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 45
---- !u!114 &2421307429976844236
+--- !u!114 &2081828520638653264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc6R
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc6R
+  Guid:
+    Data1: 1992639356
+    Data2: 1266576628
+    Data3: -1432211535
+    Data4: -1646483286
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -6349209530326863148}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1620
+--- !u!114 &2130546941795401546
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -936,7 +1469,59 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Ukulele Acc1/Le Ukulele 1
+  m_Name: parameter:/ukulele Acc4R/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &2215298877527412179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc7
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc7
+  Guid:
+    Data1: -1724945227
+    Data2: 1325024868
+    Data3: -1791774026
+    Data4: -576473295
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -5266105224732665258}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 545
+--- !u!114 &2386242473946928120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ukulele Acc3/Le Ukulele 1
   m_EditorClassIdentifier: 
   Name: Le Ukulele 1
   StudioPath: 
@@ -1031,6 +1616,90 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 12195
+--- !u!114 &2824892809414048623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc2
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc2
+  Guid:
+    Data1: -914764539
+    Data2: 1293911228
+    Data3: -48402816
+    Data4: 136745060
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 5879998348831148452}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 620
+--- !u!114 &2875891121887549845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc5R
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc5R
+  Guid:
+    Data1: 180334915
+    Data2: 1113916771
+    Data3: -180307783
+    Data4: 1048717213
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -1071320185856768661}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 570
+--- !u!114 &3058254773790076853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc5
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc5
+  Guid:
+    Data1: 1337279336
+    Data2: 1084332082
+    Data3: -1089348936
+    Data4: -844996525
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -2676104152271278899}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 570
 --- !u!114 &3109686267598912110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1110,6 +1779,58 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 14872
+--- !u!114 &3632452337476200313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ukulele Acc1/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &3641044813453998263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc1R
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc1R
+  Guid:
+    Data1: -351598167
+    Data2: 1179660005
+    Data3: -685940291
+    Data4: 783342216
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 5703712124698195050}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1600
 --- !u!114 &3750325072639409522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1179,10 +1900,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639107204626531401
+  lastModified: 639107451389500615
   FileSizes:
   - Name: Desktop
-    Value: 3242
+    Value: 3822
   Exists: 1
 --- !u!114 &4158438079306407908
 MonoBehaviour:
@@ -1199,7 +1920,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639107204626531401
+  lastModified: 639107451389465169
   FileSizes:
   - Name: Desktop
     Value: 427712
@@ -1365,6 +2086,54 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1656
+--- !u!114 &5703712124698195050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ukulele Acc1R/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &5879998348831148452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ukulele Acc2/Le Ukulele 1
+  m_EditorClassIdentifier: 
+  Name: Le Ukulele 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 501007676
+    data2: 2791763434
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &6024225402912256238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1446,6 +2215,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 16619
+--- !u!114 &6547880420980426169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc8R
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc8R
+  Guid:
+    Data1: 240640621
+    Data2: 1228897238
+    Data3: -291610729
+    Data4: 683328681
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -6469085412124222757}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1375
 --- !u!114 &7190787803018681151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1551,6 +2348,62 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 14486
+--- !u!114 &8038394260010103908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele Acc1
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele Acc1
+  Guid:
+    Data1: -1604119693
+    Data2: 1082614870
+    Data3: -222394203
+    Data4: 1492359652
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 3632452337476200313}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 645
+--- !u!114 &8088672349444274640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ukulele/ukulele AccAll
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ukulele/ukulele AccAll
+  Guid:
+    Data1: -1269435174
+    Data2: 1274148548
+    Data3: 256677772
+    Data4: 874944316
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -6417224623248480420}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3964
 --- !u!114 &8501902077610588641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1605,34 +2458,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4431
---- !u!114 &9022261484635638305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Ukulele Acc1
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/Ukulele Acc1
-  Guid:
-    Data1: -1604119693
-    Data2: 1082614870
-    Data3: -222394203
-    Data4: 1492359652
-  Banks:
-  - {fileID: -6568517935021651378}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters:
-  - {fileID: 2421307429976844236}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 645
 --- !u!114 &9195320476129200803
 MonoBehaviour:
   m_ObjectHideFlags: 0

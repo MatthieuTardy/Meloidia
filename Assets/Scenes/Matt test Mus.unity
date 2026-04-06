@@ -1076,7 +1076,7 @@ SpriteRenderer:
   m_Size: {x: 20.48, y: 20.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &39227600
@@ -2457,7 +2457,7 @@ SpriteRenderer:
   m_Size: {x: 20.48, y: 20.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &87699071
@@ -4771,7 +4771,7 @@ SpriteRenderer:
   m_Size: {x: 20.48, y: 20.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &203364190
@@ -9327,12 +9327,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 407012209}
   m_Mesh: {fileID: 1076172920531461293, guid: ba7433a5e95e0e14ea7b40ec60435adf, type: 3}
---- !u!1 &407268193 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1091964788629010102, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
-    type: 3}
-  m_PrefabInstance: {fileID: 1769320574}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &408797343
 GameObject:
   m_ObjectHideFlags: 0
@@ -11536,6 +11530,7 @@ MonoBehaviour:
   visualsTransform: {fileID: 0}
   scaleFactor: 1.1
   scaleDuration: 0.1
+  image: {fileID: 0}
 --- !u!114 &506088457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13413,6 +13408,7 @@ MonoBehaviour:
   visualsTransform: {fileID: 0}
   scaleFactor: 1.1
   scaleDuration: 0.1
+  image: {fileID: 0}
 --- !u!114 &538737292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18397,6 +18393,7 @@ MonoBehaviour:
   visualsTransform: {fileID: 0}
   scaleFactor: 1.1
   scaleDuration: 0.1
+  image: {fileID: 0}
 --- !u!114 &710217107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21815,7 +21812,7 @@ PrefabInstance:
     - target: {fileID: 2576406769119391636, guid: 685b742f7329d644797544e1c271e1b8,
         type: 3}
       propertyPath: EventReference.Path
-      value: event:/Desert Song
+      value: event:/Musics/Desert Song
       objectReference: {fileID: 0}
     - target: {fileID: 2576406769119391636, guid: 685b742f7329d644797544e1c271e1b8,
         type: 3}
@@ -24029,6 +24026,7 @@ MonoBehaviour:
   visualsTransform: {fileID: 0}
   scaleFactor: 1.1
   scaleDuration: 0.1
+  image: {fileID: 0}
 --- !u!114 &914572789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29298,7 +29296,7 @@ SpriteRenderer:
   m_Size: {x: 20.48, y: 20.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1119614659
@@ -38111,6 +38109,7 @@ MonoBehaviour:
   visualsTransform: {fileID: 0}
   scaleFactor: 1.1
   scaleDuration: 0.1
+  image: {fileID: 0}
 --- !u!114 &1462973310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39738,7 +39737,7 @@ SpriteRenderer:
   m_Size: {x: 20.48, y: 20.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1533410420
@@ -42139,6 +42138,7 @@ MonoBehaviour:
   visualsTransform: {fileID: 0}
   scaleFactor: 1.1
   scaleDuration: 0.1
+  image: {fileID: 0}
 --- !u!114 &1658689392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46417,6 +46417,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.000005439081
       objectReference: {fileID: 0}
+    - target: {fileID: 1086803779095221801, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1086803779095221801, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1086803779095221801, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1086803779095221801, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1091964788629010102, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
         type: 3}
       propertyPath: m_IsActive
@@ -46447,6 +46467,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 3.187589
       objectReference: {fileID: 0}
+    - target: {fileID: 1257858892814428383, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1257858892814428383, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1257858892814428383, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1257858892814428383, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1288107809140459592, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
         type: 3}
       propertyPath: EventStopTrigger
@@ -46455,7 +46495,7 @@ PrefabInstance:
     - target: {fileID: 1288107809140459592, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
         type: 3}
       propertyPath: EventReference.Path
-      value: event:/SFX/Ukulele Acc1R
+      value: event:/SFX/Ukulele/ukulele Acc1R
       objectReference: {fileID: 0}
     - target: {fileID: 1288107809140459592, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
         type: 3}
@@ -47157,6 +47197,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 74.64317
+      objectReference: {fileID: 0}
+    - target: {fileID: 8953618807394324492, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8953618807394324492, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8953618807394324492, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8953618807394324492, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -49589,7 +49649,7 @@ SpriteRenderer:
   m_Size: {x: 20.48, y: 20.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1845210365
@@ -53847,7 +53907,7 @@ SpriteRenderer:
   m_Size: {x: 20.48, y: 20.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2032538403
@@ -54579,7 +54639,7 @@ SpriteRenderer:
   m_Size: {x: 20.48, y: 20.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2048997135
@@ -56192,6 +56252,7 @@ MonoBehaviour:
   visualsTransform: {fileID: 0}
   scaleFactor: 1.1
   scaleDuration: 0.1
+  image: {fileID: 0}
 --- !u!114 &2085218783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57005,6 +57066,7 @@ MonoBehaviour:
   visualsTransform: {fileID: 0}
   scaleFactor: 1.1
   scaleDuration: 0.1
+  image: {fileID: 0}
 --- !u!114 &2106275752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63589,7 +63651,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 407268193}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
