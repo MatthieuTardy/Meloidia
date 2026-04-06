@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
 
-public class DialogueSystem : MonoBehaviour
+public class DialogueSystem : Interractable
 {
     [Header("Data")]
     [SerializeField] Dialogue[] Dialogues;
@@ -25,8 +25,8 @@ public class DialogueSystem : MonoBehaviour
     GameObject currentDialogueObject;
     TextMeshProUGUI textComponent;
     Coroutine typingCoroutine;
-    
-    public void Interract()
+
+    public override void Interract()
     {
        // if(need != null)
         {

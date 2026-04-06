@@ -71,25 +71,33 @@ public class DetectionZone : MonoBehaviour
                         interractableObject.GetComponent<Reserve>().OpenReserve();
                     }
                 }
-
+                /*
                 else if (interractableObject.GetComponent<RessourcesRare>())
                 {
                     interractableObject.GetComponent<RessourcesRare>().Interract();
                 }
-
+                */
+                /*
                 else if (interractableObject.GetComponent<DialogueSystem>())
                 {
                     interractableObject.GetComponent<DialogueSystem>().Interract();
-                }
-
+                }*/
+                /*
                 else if (interractableObject.GetComponent<Build_Selection>())
                 {
                     interractableObject.GetComponent<Build_Selection>().Interract();
                 }
+                */
+                /*
                 else if (interractableObject.GetComponent<OnlyInterraction>())
                 {
                     Debug.Log("Interract");
                     interractableObject.GetComponent <OnlyInterraction>().Interract();
+                }
+                */
+                else if (interractableObject.GetComponent<Interractable>())
+                {
+                    interractableObject.GetComponent<Interractable>().Interract();
                 }
             }
 

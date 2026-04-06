@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RessourcesRare : MonoBehaviour
+public class RessourcesRare : Interractable
 {
     [InfoBox("SpawnDuration est le temps que pour 1 ressources")]
     [SerializeField] float SpawnDuration;
@@ -32,7 +32,7 @@ public class RessourcesRare : MonoBehaviour
         StartSpawnRoutine();
     }
 
-    public void Interract()
+    public override void Interract()
     {
         if(currentStack > 0 && GameManager.Instance.inventoryManager.HaveSlotAvailable())
         { 

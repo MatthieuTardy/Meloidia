@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Collider))]
-public class OnlyInterraction : MonoBehaviour
+public class OnlyInterraction : Interractable
 {
     [SerializeField] UnityEvent OnInterract;
     [SerializeField] bool RepeteEvent;
     bool activate = false;
-    public void Interract()
+    public override void Interract()
     {
         Debug.Log("test");
         if (RepeteEvent)
@@ -27,5 +26,4 @@ public class OnlyInterraction : MonoBehaviour
     {
         Debug.Log(" Interraction ");
     }
-
 }
