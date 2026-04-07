@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Build_Selection : MonoBehaviour
+public class Build_Selection : Interractable
 {
     [SerializeField] GameObject BuildWheel;
     [SerializeField] ConstructionScriptable[] construction;
@@ -14,7 +14,7 @@ public class Build_Selection : MonoBehaviour
     ConstructionScriptable selectedConstruction;
     GameObject clone;
 
-    public void Interract()
+    public override void Interract()
     {
         ShowWheel();
     }
