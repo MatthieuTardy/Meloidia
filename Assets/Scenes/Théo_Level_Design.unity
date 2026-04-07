@@ -11927,6 +11927,37 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
+--- !u!114 &1495078194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598578169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1367522613
+      Data2: 1322774513
+      Data3: -1635790175
+      Data4: 1153957194
+    Path: event:/SFX/Tuto/Mer
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1502691228 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: aeba278901a524e4da8a677ddbe9be4e,
@@ -17621,6 +17652,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1495078193}
+    - targetCorrespondingSourceObject: {fileID: 6309880733019234438, guid: fca89d9a5f7b8ec499112d2313a0ef8a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1495078194}
   m_SourcePrefab: {fileID: 100100000, guid: fca89d9a5f7b8ec499112d2313a0ef8a, type: 3}
 --- !u!4 &1662548520182426096 stripped
 Transform:
