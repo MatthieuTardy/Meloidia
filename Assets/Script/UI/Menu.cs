@@ -22,4 +22,41 @@ public class Menu : MonoBehaviour
             menuClose.Invoke();
         }
     }
+
+    float DefaultTimeScale;
+    private void Start()
+    {
+        DefaultTimeScale = Time.timeScale;    
+        Debug.Log(DefaultTimeScale);
+    }
+    public void StopTime()
+    {
+       // Debug.Log(Time.timeScale + "stop");
+        Time.timeScale = 0f;
+       // Debug.Log(Time.timeScale + "stop");
+    }
+
+    public void ResetTime()
+    {
+       // Debug.Log(Time.timeScale + "Reset");
+        Time.timeScale = DefaultTimeScale;
+       // Debug.Log(Time.timeScale + "Reset");
+    }
+
+    public void HideCursor()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void ShowCursor()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+
+    public void Quitter()
+    {
+        Application.Quit();
+    }
 }
