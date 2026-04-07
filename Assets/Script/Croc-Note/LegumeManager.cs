@@ -158,51 +158,57 @@ public class LegumeManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 7 && other.GetComponent<LegumeManager>().calmeTimer >= other.GetComponent<LegumeManager>().finCalme) 
+        if (other.gameObject.layer == 7 ) 
         {
-            jetDeHaine = Random.Range(0, 100);
-            if (other.gameObject.GetComponent<LegumeManager>().colere == false && colere == false)
+            if (other.GetComponent<LegumeManager>().calmeTimer >= other.GetComponent<LegumeManager>().finCalme)
             {
-                switch (other.gameObject.GetComponent<LegumeManager>().legumeType)
+                jetDeHaine = Random.Range(0, 100);
+                if (other.gameObject.GetComponent<LegumeManager>().colere == false && colere == false)
                 {
-                    case CrocNoteType.un:
-                        Debug.Log(jetDeHaine);
-                        if (jetDeHaine < Specisme1)
-                        {
-                            StartRageState(other.transform);
-                        }
-                        break;
-                    case CrocNoteType.deux:
-                        Debug.Log(jetDeHaine);
-                        if (jetDeHaine < Specisme2)
-                        {
-                            StartRageState(other.transform);
-                        }
-                        break;
-                    case CrocNoteType.trois:
-                        Debug.Log(jetDeHaine);
-                        if (jetDeHaine < Specisme3)
-                        {
-                            StartRageState(other.transform);
-                        }
-                        break;
-                    case CrocNoteType.quatre:
-                        Debug.Log(jetDeHaine);
-                        if (jetDeHaine < Specisme4)
-                        {
-                            StartRageState(other.transform);
-                        }
-                        break;
-                    case CrocNoteType.cinq:
-                        Debug.Log(jetDeHaine);
-                        if (jetDeHaine < Specisme5)
-                        {
-                            StartRageState(other.transform);
-                        }
-                        break;
+                    switch (other.gameObject.GetComponent<LegumeManager>().legumeType)
+                    {
+                        case CrocNoteType.un:
+                            Debug.Log(jetDeHaine);
+                            if (jetDeHaine < Specisme1)
+                            {
+                                StartRageState(other.transform);
+                            }
+                            break;
+                        case CrocNoteType.deux:
+                            Debug.Log(jetDeHaine);
+                            if (jetDeHaine < Specisme2)
+                            {
+                                StartRageState(other.transform);
+                            }
+                            break;
+                        case CrocNoteType.trois:
+                            Debug.Log(jetDeHaine);
+                            if (jetDeHaine < Specisme3)
+                            {
+                                StartRageState(other.transform);
+                            }
+                            break;
+                        case CrocNoteType.quatre:
+                            Debug.Log(jetDeHaine);
+                            if (jetDeHaine < Specisme4)
+                            {
+                                StartRageState(other.transform);
+                            }
+                            break;
+                        case CrocNoteType.cinq:
+                            Debug.Log(jetDeHaine);
+                            if (jetDeHaine < Specisme5)
+                            {
+                                StartRageState(other.transform);
+                            }
+                            break;
+                    }
 
+                    
                 }
             }
+
+            
 
             else if (other.gameObject.GetComponent<LegumeManager>().colere == true && other.gameObject.GetComponent<LegumeManager>().isStartRageTimer > 0f && colere == false)
             {
