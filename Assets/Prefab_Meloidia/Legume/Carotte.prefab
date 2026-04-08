@@ -446,8 +446,8 @@ RectTransform:
   m_GameObject: {fileID: 2661518048302086128}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: -0.019393563}
-  m_LocalScale: {x: 0.17, y: 0.17, z: 0.17}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: -0.17, y: 0.17, z: 0.17}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3711297924662004241}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -476,7 +476,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: -6052081637631744652, guid: aaad1c3f8b508a649af85fdcb99b6006, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -520,8 +520,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Sample text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: aaad1c3f8b508a649af85fdcb99b6006, type: 2}
+  m_sharedMaterial: {fileID: -6052081637631744652, guid: aaad1c3f8b508a649af85fdcb99b6006,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -910,6 +911,7 @@ GameObject:
   - component: {fileID: 3100197965172866101}
   - component: {fileID: 1465372352898977428}
   - component: {fileID: 381049125000471393}
+  - component: {fileID: 4897971502853944837}
   m_Layer: 7
   m_Name: Carotte
   m_TagString: Untagged
@@ -947,7 +949,7 @@ Rigidbody:
   m_GameObject: {fileID: 3794085633981771437}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 5
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -992,7 +994,7 @@ MonoBehaviour:
   finCalme: 30
   colere: 0
   isStartRageTimer: -1
-  walkRadius: 5
+  walkRadius: 8
   intervalleAttente: 5
   vitesse: 5
   vitesseRotation: 10
@@ -1001,7 +1003,7 @@ MonoBehaviour:
   vitesseRespiration: 2
   NameBoard: {fileID: 2661518048302086128}
   animator: {fileID: 5546968447064501828}
-  DeadCN: {fileID: 0}
+  DeadCN: {fileID: 6553217009851664219, guid: 007fd657a7aeba44992a12a456ef9f86, type: 3}
 --- !u!114 &4955155072589143327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1026,7 +1028,31 @@ MonoBehaviour:
     type: 3}
   particleSpawnPoint: {fileID: 0}
   noteSpeed: 0
-  CustomDictionary: []
+  CustomDictionary:
+  - ID: 0
+    Emitter: {fileID: 6024722720021230136}
+    Mat: {fileID: 2100000, guid: e08374ede48d73e478c7086ec301837b, type: 2}
+  - ID: 1
+    Emitter: {fileID: 6362571068175176926}
+    Mat: {fileID: 2100000, guid: 278e40f94d432f0488be09e7ab8415f9, type: 2}
+  - ID: 2
+    Emitter: {fileID: 3100197965172866101}
+    Mat: {fileID: 2100000, guid: 46cfea4fd9fac544b8a29173f070546d, type: 2}
+  - ID: 3
+    Emitter: {fileID: 6024722720021230136}
+    Mat: {fileID: 2100000, guid: eb91b6957e83b3b4da08dce87a40faf3, type: 2}
+  - ID: 4
+    Emitter: {fileID: 6024722720021230136}
+    Mat: {fileID: 2100000, guid: b78facef082e5d44bb01a05f40eb815c, type: 2}
+  - ID: 5
+    Emitter: {fileID: 6024722720021230136}
+    Mat: {fileID: 2100000, guid: 2ef3858852947d9469a058a08d7e6872, type: 2}
+  - ID: 6
+    Emitter: {fileID: 6024722720021230136}
+    Mat: {fileID: 2100000, guid: de2cb0beb2add714f84b97bd89432920, type: 2}
+  - ID: 7
+    Emitter: {fileID: 6024722720021230136}
+    Mat: {fileID: 2100000, guid: e875aa8922dde7845b9d8c2933bd93b7, type: 2}
   legumeManager: {fileID: 3783696505960282223}
 --- !u!114 &6024722720021230136
 MonoBehaviour:
@@ -1130,14 +1156,14 @@ NavMeshAgent:
   m_GameObject: {fileID: 3794085633981771437}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 2
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 1.08
@@ -1166,6 +1192,20 @@ CapsuleCollider:
   m_Height: 3.230679
   m_Direction: 1
   m_Center: {x: 0.008010864, y: 0.4912567, z: 0}
+--- !u!114 &4897971502853944837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3794085633981771437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6524a05f907b6494cbf22dced362404f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chantDuFollow: 000000000200000004000000
+  chantDuUnfollow: 040000000200000000000000
 --- !u!1 &4279631120036184512
 GameObject:
   m_ObjectHideFlags: 0

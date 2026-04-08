@@ -1,9 +1,10 @@
 using NaughtyAttributes;
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
-using TMPro;
 
 public enum CrocNoteType
 {
@@ -16,7 +17,7 @@ public enum CrocNoteType
 [RequireComponent(typeof(Rigidbody))]
 public class LegumeManager : MonoBehaviour
 {
-    
+    #region Data
     [Header("Haine par type en %")]
     public int Specisme1 = 5;
     public int Specisme2 = 50;
@@ -30,7 +31,7 @@ public class LegumeManager : MonoBehaviour
     [Range(0, 100)] [SerializeField] int SadPercent, HappyPercent;
     public MelogumeSingingManager melogumesSingingManager;
     private GameObject baseLegume;
-
+   
 
     public CrocNoteType legumeType;
     private string legumeName;
@@ -50,7 +51,9 @@ public class LegumeManager : MonoBehaviour
     private Etat etatActuel;
 
     [Header("Paramètres de Déplacement")]
+    bool CanMoveFreely = true;
     private Vector3 finalPos;
+    Transform CurrentTarget;
     [SerializeField] float walkRadius = 5f;
     [SerializeField] float intervalleAttente = 5f;
     public float vitesse = 5f;
@@ -69,8 +72,13 @@ public class LegumeManager : MonoBehaviour
     public Animator animator;
 
 
-
-
+    #endregion
+    private void Rename()
+    {
+        this.gameObject.name = NameCreator.NewName();
+        NameBoard.GetComponent<TextMeshPro>().text = this.gameObject.name;
+    }
+    #region Unity default function
 
     void Start()
     {
@@ -85,7 +93,6 @@ public class LegumeManager : MonoBehaviour
         move = StartCoroutine(RandomMove());
 
     }
-
 
     private void Update()
     {
@@ -119,46 +126,24 @@ public class LegumeManager : MonoBehaviour
         { 
                 melogumesSingingManager.StartRage();
         }
-
+        if (!CanMoveFreely && CurrentTarget != null)
+        {
+            myNavAgent.SetDestination(CurrentTarget.position);
+            if (Vector3.Distance(this.transform.position, CurrentTarget.position) <= 2.1f)
+            {
+                animator.SetBool("walk", false);
+            }
+            else
+            {
+                animator.SetBool("walk", true);
+            }
+        }
         NameBoard.transform.LookAt(GameManager.Instance.playerManager.Camera); 
             //= Quaternion.Euler(new Vector3(0,0,0));
     }
-
-
-    public IEnumerator RandomMove()
-    {
-
-        yield return new WaitForSeconds(Random.Range(1, 5));
-        animator.SetBool("walk", true);
-        finalPos = RandomNavmeshLocation(walkRadius);
-        myNavAgent.SetDestination(finalPos);
-        yield return new WaitUntil(() => transform.position.x == finalPos.x && transform.position.z == finalPos.z);
-        animator.SetBool("walk", false);
-        move = StartCoroutine(RandomMove());
-    }
-
-    public Vector3 RandomNavmeshLocation(float radius)
-    {
-        Vector3 randomDirection = Random.insideUnitSphere * radius;
-        randomDirection += transform.position;
-        NavMeshHit hit;
-        Vector3 finalPosition = Vector3.zero;
-        if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
-        {
-            finalPosition = hit.position;
-        }
-        return finalPosition;
-    }
-
-    private void Rename()
-    {
-        this.gameObject.name = NameCreator.NewName();
-        NameBoard.GetComponent<TextMeshPro>().text = this.gameObject.name;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 7 ) 
+        if (other.gameObject.layer == 7 ) //legume
         {
             if (other.GetComponent<LegumeManager>().calmeTimer >= other.GetComponent<LegumeManager>().finCalme)
             {
@@ -206,18 +191,68 @@ public class LegumeManager : MonoBehaviour
 
                     
                 }
-            }
-
-            
+            } //rencontre un autre croc-note - jet de haine
 
             else if (other.gameObject.GetComponent<LegumeManager>().colere == true && other.gameObject.GetComponent<LegumeManager>().isStartRageTimer > 0f && colere == false)
             {
                 StartRageState(other.transform);
 
-            }
+            } //rejoind la baston si possible
+        }
+
+    }
+    #endregion
+
+    #region Movement
+    public IEnumerator RandomMove()
+    {
+        Debug.Log("move routine " + CanMoveFreely);
+        if (CanMoveFreely)
+        {
+            yield return new WaitForSeconds(Random.Range(1, 5));
+            animator.SetBool("walk", true);
+            finalPos = RandomNavmeshLocation(walkRadius);
+            myNavAgent.SetDestination(finalPos);
+            yield return new WaitUntil(() => Vector3.Distance(this.transform.position,finalPos) <= 2.1f);
+            animator.SetBool("walk", false);
+            move = StartCoroutine(RandomMove());
         }
     }
 
+    public Vector3 RandomNavmeshLocation(float radius)
+    {
+        Vector3 randomDirection = Random.insideUnitSphere * radius;
+        randomDirection += transform.position;
+        NavMeshHit hit;
+        Vector3 finalPosition = Vector3.zero;
+        if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
+        {
+            finalPosition = hit.position;
+        }
+        return finalPosition;
+    }
+
+    public void StartFollowingLocation(Transform newLoc)
+    {
+        CanMoveFreely = false;
+        animator.SetBool("walk", true);
+        if (move != null)
+        {
+            StopCoroutine(move);
+        }
+        CurrentTarget = newLoc;
+
+    }
+    public void StopFollowingLocation()
+    {
+        CanMoveFreely = true;
+        CurrentTarget = null;
+        move = StartCoroutine(RandomMove());
+    }
+
+    #endregion
+
+    #region rage
     void StartRageState(Transform other)
     {
         StopCoroutine(move);
@@ -249,26 +284,6 @@ public class LegumeManager : MonoBehaviour
         calmeTimer = 0;
         //remettre la marche
     }
-
-    #region BonheurVariation
-    public void SetBonheur(int newBonheur)
-    {
-        bonheur = newBonheur;
-        if (bonheur < 0) { bonheur = 0; }
-        else if (bonheur > 100) { bonheur = 100; }
-    }
-    public int GetBonheur()
-    {
-        return bonheur;
-    }
-
-    public void Bonheur(int newBonheur)
-    {
-        bonheur = newBonheur;
-
-    }
-
-    #endregion BonheurVariation
     IEnumerator EndOfRageDelay(float EndOfRageTimer, int deathChance)
     {
         yield return new WaitForSeconds(EndOfRageTimer);
@@ -288,7 +303,29 @@ public class LegumeManager : MonoBehaviour
         }
 
     }
+    #endregion
+    #region BonheurVariation
+    public void SetBonheur(int newBonheur)
+    {
+        bonheur = newBonheur;
+        if (bonheur < 0) { bonheur = 0; }
+        else if (bonheur > 100) { bonheur = 100; }
+    }
+    public int GetBonheur()
+    {
+        return bonheur;
+    }
 
+    public void Bonheur(int newBonheur)
+    {
+        bonheur = newBonheur;
+
+    }
+
+    #endregion BonheurVariation
+
+
+    #region Die Management
     [SerializeField] GameObject DeadCN;
     private void OnDestroy()
     {
@@ -301,4 +338,5 @@ public class LegumeManager : MonoBehaviour
     {
         Destroy(gameObject);
     }
+    #endregion
 }
