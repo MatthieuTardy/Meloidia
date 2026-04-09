@@ -180,10 +180,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639113323079060428
+  lastModified: 639113428409131728
   FileSizes:
   - Name: Desktop
-    Value: 4042560
+    Value: 4279616
   Exists: 1
 --- !u!114 &-6556196790305927886
 MonoBehaviour:
@@ -1166,13 +1166,14 @@ MonoBehaviour:
   - {fileID: 2215298877527412179}
   - {fileID: 8088672349444274640}
   - {fileID: -8663009194074985413}
+  - {fileID: 4402162332526318465}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4158438079306407908}
   StringsBanks:
   - {fileID: 3856348917924897851}
   cacheVersion: 131849
-  cacheTime: 639113323079060428
+  cacheTime: 639113428409131728
   SerializableEventsDict:
   - key: event:/SFX/Robot/Robot_Voice/Robot_Do
     index: 0
@@ -1298,6 +1299,8 @@ MonoBehaviour:
     index: 60
   - key: "event:/Musics/Tuto Pollu\xE9"
     index: 61
+  - key: event:/SFX/Tuto/Bridge
+    index: 62
 --- !u!114 &20948607390266791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1931,10 +1934,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639113279591411467
+  lastModified: 639113421895442084
   FileSizes:
   - Name: Desktop
-    Value: 3872
+    Value: 3920
   Exists: 1
 --- !u!114 &4158438079306407908
 MonoBehaviour:
@@ -1951,7 +1954,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639113279591381528
+  lastModified: 639113421895406856
   FileSizes:
   - Name: Desktop
     Value: 427712
@@ -2008,6 +2011,33 @@ MonoBehaviour:
   Labels:
   - Pickup
   Exists: 1
+--- !u!114 &4402162332526318465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Tuto/Bridge
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Tuto/Bridge
+  Guid:
+    Data1: -1517822922
+    Data2: 1184645887
+    Data3: -327492976
+    Data4: 58292228
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 36190
 --- !u!114 &5091216413187432017
 MonoBehaviour:
   m_ObjectHideFlags: 0
