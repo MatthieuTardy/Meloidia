@@ -92,9 +92,9 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
 
-        HandleMovement();
         if (GameManager.Instance.playerManager.Lock)
         {
+            HandleMovement();
             HandleRotation();
         }
         ApplyBetterGravity();
