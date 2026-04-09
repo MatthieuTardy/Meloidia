@@ -16,11 +16,10 @@ public class SoundEvent : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
-        {
+
             FadeEvent.Invoke();
-            Debug.Log("Collider");
-        }
+
+
 
     }
     public void SwitchActiver(float time)
