@@ -13,6 +13,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
     [SerializeField] UnityEvent onEnigmeStep;
 
     public float ratio;
+    private bool isFinish;
     private Coroutine waitRoutine;
     private int currentStep = 0;
 
@@ -42,7 +43,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
         musicalNotes lastNote = musicalNotes.None;
         while (currentStep < totalNotes)
         {
-            if (GameManager.Instance.playerManager.noteSystem.playedPartition.Count > 0)
+            if (GameManager.Instance.playerManager.noteSystem.playedPartition.Count > 0 && !isFinish)
             {
                 musicalNotes noteAttendue = chantEnigme[currentStep];
 
@@ -54,14 +55,12 @@ public class ProgressEnigmeSystem : MonoBehaviour
                     currentStep++;
                     ratio = (float)currentStep / totalNotes;
                     onEnigmeStep.Invoke();
-                    Debug.Log($"Note {noteAttendue} OK ! Progression : {currentStep}/{totalNotes}");
                 }
                 else
                 {
                     currentStep = 0;
                     ratio = (float)currentStep / totalNotes;
                     onEnigmeStep.Invoke();
-                    Debug.Log($"Note {noteAttendue} OK ! Progression : {currentStep}/{totalNotes}");
                 }
 
 
@@ -79,8 +78,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
 
             yield return new WaitForSeconds(0.1f);
         }
-
-        Debug.Log("Enigme Résolue !");
+        isFinish = true;
         RuntimeManager.PlayOneShot("event:/Musics/Win");
         onEnigmeResolve.Invoke();
 
