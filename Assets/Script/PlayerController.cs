@@ -49,8 +49,19 @@ public class PlayerController : MonoBehaviour
     private float targetRotation;
     private float currentRotation;
 
+    // En haut de ton script
+    private CameraShake _cameraShake;
+
+
+    void OnSomething()
+    {
+        _cameraShake.Shake();
+
+    }
     void Start()
     {
+        _cameraShake = FindObjectOfType<CameraShake>();
+        OnSomething();
         if (body == null) body = GetComponent<Rigidbody>();
         if (playerVisuals == null) playerVisuals = transform;
         if (animator == null) animator = GetComponentInChildren<Animator>();
