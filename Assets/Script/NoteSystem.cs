@@ -137,7 +137,12 @@ public class NoteSystem : MonoBehaviour
             ToggleTrackOne(toggleTrackBool);
         }
     }
-    
+    public void ClearPartition()
+    {
+        playedPartition.Clear();
+        noteCurrent = musicalNotes.None;
+        clearHoldedNote();
+    }
     bool IsTrackOneToggle;
 
     public void ToggleTrackSpecial()

@@ -21,7 +21,12 @@ public class ProgressEnigmeSystem : MonoBehaviour
     {
         if (other.CompareTag("Chant") && waitRoutine == null)
         {
-            waitRoutine = StartCoroutine(ChantLogic());
+            if(!isFinish)
+            {
+                GameManager.Instance.playerManager.noteSystem.ClearPartition();
+                waitRoutine = StartCoroutine(ChantLogic());
+            }
+
         }
     }
 
@@ -29,9 +34,13 @@ public class ProgressEnigmeSystem : MonoBehaviour
     {
         if (other.CompareTag("Chant") && waitRoutine != null)
         {
-            StopCoroutine(waitRoutine);
-            waitRoutine = null;
-            currentStep = 0;
+            if (!isFinish)
+            {
+                StopCoroutine(waitRoutine);
+                waitRoutine = null;
+                currentStep = 0;
+            }
+
         }
     }
 
@@ -41,6 +50,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
         currentStep = 0;
 
         musicalNotes lastNote = musicalNotes.None;
+
         while (currentStep < totalNotes)
         {
             if (GameManager.Instance.playerManager.noteSystem.playedPartition.Count > 0 && !isFinish)
@@ -50,6 +60,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
                 yield return new WaitUntil(() => GameManager.Instance.playerManager.noteSystem.playedPartition.Last() != lastNote);
                 lastNote = GameManager.Instance.playerManager.noteSystem.playedPartition.Last();
                 Debug.Log(lastNote);
+                //if(GameManager.Instance.playerManager.noteSystem.playedPartition.)
                 if (GameManager.Instance.playerManager.noteSystem.HasJustPlayed(noteAttendue))
                 {
                     currentStep++;
@@ -71,9 +82,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
                 }
 
 
-                yield return new WaitUntil(() =>
-                    !GameManager.Instance.playerManager.noteSystem.HasJustPlayed(noteAttendue)
-                );
+               //yield return new WaitUntil(() => !GameManager.Instance.playerManager.noteSystem.HasJustPlayed(noteAttendue));
             }
 
             yield return new WaitForSeconds(0.1f);
