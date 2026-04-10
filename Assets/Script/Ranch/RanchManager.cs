@@ -10,7 +10,7 @@ public class RanchManager : MonoBehaviour
     // 
     public static RanchManager instance;
     
-    public RanchRessourcesGenerator generator;
+    public RanchRessourcesGenerator RanchGenerator;
     
     public List<LegumeManager> CrocNotesInRanch;
     private void Start()
@@ -42,7 +42,7 @@ public class RanchManager : MonoBehaviour
     void AddingCrocNote(LegumeManager CN)
     {
         CrocNotesInRanch.Add(CN);
-        generator.UpdateList(CN);
+        RanchGenerator.UpdateList(CN);
     }
 
     void DeleteCrocNote(LegumeManager CN)

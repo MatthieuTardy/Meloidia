@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RanchRessourcesGenerator : MonoBehaviour
 {
-    List<LegumeManager>[] CNbyType = new List<LegumeManager>[5]; //carotte, navet, poivron, chou, brocoli
-
+    public List<LegumeManager>[] CNbyType = new List<LegumeManager>[5]; //carotte, navet, poivron, chou, brocoli
+    List<Generator> generators = new List<Generator>();
     public void UpdateList(LegumeManager CN)
     {
         if (CN.legumeType == CrocNoteType.un)
