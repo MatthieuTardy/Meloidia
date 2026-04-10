@@ -16,8 +16,11 @@ public class SoundEvent : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
+        if (other.gameObject.layer == 8)
+        {
             FadeEvent.Invoke();
+        }
+
 
 
 

@@ -180,10 +180,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639114115431614576
+  lastModified: 639114230840440488
   FileSizes:
   - Name: Desktop
-    Value: 4279616
+    Value: 4339168
   Exists: 1
 --- !u!114 &-6556196790305927886
 MonoBehaviour:
@@ -409,7 +409,34 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1545
+  Length: 5560
+--- !u!114 &-5443528249310310476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Tuto/Contenere
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Tuto/Contenere
+  Guid:
+    Data1: -1283768252
+    Data2: 1087250137
+    Data3: 1883785124
+    Data4: 148126274
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1728
 --- !u!114 &-5377641716001702647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,7 +576,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639114115431296174
+  lastModified: 639114230840156961
   FileSizes:
   - Name: Desktop
     Value: 31215904
@@ -997,7 +1024,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Jingle.bank
   Name: Jingle
   StudioPath: bank:/Jingle
-  lastModified: 639114115430313327
+  lastModified: 639114230837906581
   FileSizes:
   - Name: Desktop
     Value: 41696
@@ -1167,13 +1194,14 @@ MonoBehaviour:
   - {fileID: 8088672349444274640}
   - {fileID: -8663009194074985413}
   - {fileID: 4402162332526318465}
+  - {fileID: -5443528249310310476}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4158438079306407908}
   StringsBanks:
   - {fileID: 3856348917924897851}
   cacheVersion: 131849
-  cacheTime: 639114115431614576
+  cacheTime: 639114230840440488
   SerializableEventsDict:
   - key: event:/SFX/Robot/Robot_Voice/Robot_Do
     index: 0
@@ -1301,6 +1329,8 @@ MonoBehaviour:
     index: 61
   - key: event:/SFX/Tuto/Bridge
     index: 62
+  - key: event:/SFX/Tuto/Contenere
+    index: 63
 --- !u!114 &20948607390266791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1934,10 +1964,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639114115430353436
+  lastModified: 639114230837906581
   FileSizes:
   - Name: Desktop
-    Value: 3920
+    Value: 3958
   Exists: 1
 --- !u!114 &4158438079306407908
 MonoBehaviour:
