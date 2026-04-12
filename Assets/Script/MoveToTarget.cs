@@ -5,67 +5,73 @@ public class MoveToTarget : MonoBehaviour
 {
     public Transform target;
     public float speed = 5f;
-    public float rotationSpeed = 200f;
-    public bool useSmoothLerp = false;
+    public ProgressEnigmeSystem enigmeSystem;
 
+    private Vector3 initialPos;
+    private Quaternion initialRot;
+    private Vector3 initialScale;
+    private bool hasInitPos = false;
+
+    private float previousRatio = 0f;
     private Coroutine moveCoroutine;
 
-    public void StartMoving()
+    void Start()
     {
-        if (target == null)
+        if (!hasInitPos)
         {
-            Debug.LogWarning("No target assigned!");
-            return;
+            initialPos = transform.position;
+            initialRot = transform.rotation;
+            initialScale = transform.localScale;
+            hasInitPos = true;
         }
+
+        if (enigmeSystem != null)
+        {
+            previousRatio = enigmeSystem.ratio;
+        }
+    }
+
+    void Update()
+    {
+        if (enigmeSystem == null || target == null) return;
+
+        if (enigmeSystem.ratio > previousRatio)
+        {
+            MoveToRatio(enigmeSystem.ratio);
+        }
+        else if (enigmeSystem.ratio == 0 && previousRatio > 0)
+        {
+            MoveToRatio(0f);
+        }
+
+        previousRatio = enigmeSystem.ratio;
+    }
+
+    public void MoveToRatio(float targetRatio)
+    {
+        Vector3 targetPos = Vector3.Lerp(initialPos, target.position, targetRatio);
+        Quaternion targetRot = Quaternion.Lerp(initialRot, target.rotation, targetRatio);
+        Vector3 targetScale = Vector3.Lerp(initialScale, target.localScale, targetRatio);
 
         if (moveCoroutine != null)
         {
             StopCoroutine(moveCoroutine);
         }
-
-        moveCoroutine = StartCoroutine(MoveRoutine());
+        moveCoroutine = StartCoroutine(MoveRoutine(targetPos, targetRot, targetScale));
     }
 
-    public void StartMovingTo(Transform newTarget)
+    private IEnumerator MoveRoutine(Vector3 tPos, Quaternion tRot, Vector3 tScale)
     {
-        target = newTarget;
-        StartMoving();
-    }
-
-    private IEnumerator MoveRoutine()
-    {
-        while (Vector3.Distance(transform.position, target.position) > 0.01f ||
-               Quaternion.Angle(transform.rotation, target.rotation) > 0.1f ||
-               Vector3.Distance(transform.localScale, target.localScale) > 0.01f)
+        while (Vector3.Distance(transform.position, tPos) > 0.001f)
         {
-            if (useSmoothLerp)
-            {
-                transform.position = Vector3.Lerp(transform.position, target.position, speed * Time.deltaTime);
-                transform.rotation = Quaternion.Slerp(transform.rotation, target.rotation, speed * Time.deltaTime);
-                transform.localScale = Vector3.Lerp(transform.localScale, target.localScale, speed * Time.deltaTime);
-            }
-            else
-            {
-                transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, target.rotation, rotationSpeed * Time.deltaTime);
-                transform.localScale = Vector3.MoveTowards(transform.localScale, target.localScale, speed * Time.deltaTime);
-            }
-
+            transform.position = Vector3.Lerp(transform.position, tPos, speed * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, tRot, speed * Time.deltaTime);
+            transform.localScale = Vector3.Lerp(transform.localScale, tScale, speed * Time.deltaTime);
             yield return null;
         }
 
-        transform.position = target.position;
-        transform.rotation = target.rotation;
-        transform.localScale = target.localScale;
-
-        moveCoroutine = null;
-
-        Debug.Log("Target transform fully matched!");
-    }
-
-    [ContextMenu("Test Move (Editor Only)")]
-    private void TestMove()
-    {
-        StartMoving();
+        transform.position = tPos;
+        transform.rotation = tRot;
+        transform.localScale = tScale;
     }
 }

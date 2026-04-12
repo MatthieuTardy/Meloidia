@@ -55,8 +55,14 @@ public class PlayerController : MonoBehaviour
 
     void OnSomething()
     {
-        _cameraShake.Shake();
-
+        if (_cameraShake != null)
+        {
+            _cameraShake.Shake();
+        }
+        else
+        {
+            Debug.LogWarning("Impossible de trouver le composant CameraShake dans la scène !");
+        }
     }
     void Start()
     {

@@ -5,7 +5,6 @@ using FMODUnity;
 using UnityEngine.Events;
 using System.Linq;
 
-
 public class ProgressEnigmeSystem : MonoBehaviour
 {
     [SerializeField] List<musicalNotes> chantEnigme = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Ré, musicalNotes.Mi };
@@ -21,12 +20,11 @@ public class ProgressEnigmeSystem : MonoBehaviour
     {
         if (other.CompareTag("Chant") && waitRoutine == null)
         {
-            if(!isFinish)
+            if (!isFinish)
             {
                 GameManager.Instance.playerManager.noteSystem.ClearPartition();
                 waitRoutine = StartCoroutine(ChantLogic());
             }
-
         }
     }
 
@@ -40,7 +38,6 @@ public class ProgressEnigmeSystem : MonoBehaviour
                 waitRoutine = null;
                 currentStep = 0;
             }
-
         }
     }
 
@@ -59,8 +56,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
 
                 yield return new WaitUntil(() => GameManager.Instance.playerManager.noteSystem.playedPartition.Last() != lastNote);
                 lastNote = GameManager.Instance.playerManager.noteSystem.playedPartition.Last();
-                Debug.Log(lastNote);
-                //if(GameManager.Instance.playerManager.noteSystem.playedPartition.)
+
                 if (GameManager.Instance.playerManager.noteSystem.HasJustPlayed(noteAttendue))
                 {
                     currentStep++;
@@ -74,17 +70,11 @@ public class ProgressEnigmeSystem : MonoBehaviour
                     onEnigmeStep.Invoke();
                 }
 
-
-
                 if (currentStep >= totalNotes)
                 {
                     break;
                 }
-
-
-               //yield return new WaitUntil(() => !GameManager.Instance.playerManager.noteSystem.HasJustPlayed(noteAttendue));
             }
-
             yield return new WaitForSeconds(0.1f);
         }
         isFinish = true;
