@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class AnimatedEnigmaProp : MonoBehaviour
 {
+    [Header("Link to Enigma (Optional)")]
     public ProgressEnigmeSystem enigmeSystem;
 
     [Header("Target State (Optional)")]
@@ -47,28 +48,29 @@ public class AnimatedEnigmaProp : MonoBehaviour
 
     void Update()
     {
-        if (enigmeSystem == null) return;
-
-        if (enigmeSystem.ratio > previousRatio)
+        if (enigmeSystem != null)
         {
-            if (enigmeSystem.ratio >= 0.99f)
+            if (enigmeSystem.ratio > previousRatio)
             {
-                isFullyResolved = true;
-                effectTimeLeft = 0f;
+                if (enigmeSystem.ratio >= 0.99f)
+                {
+                    isFullyResolved = true;
+                    effectTimeLeft = 0f;
+                }
+                else
+                {
+                    effectTimeLeft = effectDuration;
+                    currentBump = bumpPercentage;
+                }
             }
-            else
+            else if (enigmeSystem.ratio == 0 && previousRatio > 0)
             {
-                effectTimeLeft = effectDuration;
-                currentBump = bumpPercentage;
+                isFullyResolved = false;
+                currentBump = 0f;
             }
-        }
-        else if (enigmeSystem.ratio == 0 && previousRatio > 0)
-        {
-            isFullyResolved = false;
-            currentBump = 0f;
-        }
 
-        previousRatio = enigmeSystem.ratio;
+            previousRatio = enigmeSystem.ratio;
+        }
 
         Vector3 targetPos = startPos;
         Quaternion targetRot = startRot;
@@ -119,5 +121,16 @@ public class AnimatedEnigmaProp : MonoBehaviour
         transform.position = currentBasePos + posOffset;
         transform.rotation = currentBaseRot * rotOffset;
         transform.localScale = currentBaseScale;
+    }
+
+    // --- FONCTIONS POUR LE TOGGLE INTERACTION ---
+    public void OpenProp()
+    {
+        isFullyResolved = true;
+    }
+
+    public void CloseProp()
+    {
+        isFullyResolved = false;
     }
 }
