@@ -152,7 +152,20 @@ public class PlayerController : MonoBehaviour
             lastValidDirection = inputDirection;
             targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg;
         }
-
+if (Input.GetKeyDown(KeyCode.Alpha6) && Input.GetKey(KeyCode.Alpha7))
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("is67");
+        }
+    }
+    if (Input.GetKeyDown(KeyCode.Keypad6) && Input.GetKey(KeyCode.Keypad7))
+{
+    if (animator != null)
+    {
+        animator.SetTrigger("is67");
+    }
+}
         isSprinting = Input.GetButton("Fire3");
     }
 
