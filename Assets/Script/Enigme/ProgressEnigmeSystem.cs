@@ -11,6 +11,11 @@ public class ProgressEnigmeSystem : MonoBehaviour
     [SerializeField] UnityEvent onEnigmeResolve;
     [SerializeField] UnityEvent onEnigmeStep;
 
+    //#theo changement
+    [Header("Actions de fin")]
+    [SerializeField] UnityEvent onAllStepsFinished;
+    //#theo changement
+
     public float ratio;
     private bool isFinish;
     private Coroutine waitRoutine;
@@ -80,6 +85,13 @@ public class ProgressEnigmeSystem : MonoBehaviour
         isFinish = true;
         RuntimeManager.PlayOneShot("event:/Musics/Win");
         onEnigmeResolve.Invoke();
+
+        //#theo changement
+        if (onAllStepsFinished != null)
+        {
+            onAllStepsFinished.Invoke();
+        }
+        //#theo changement
 
         waitRoutine = null;
     }
