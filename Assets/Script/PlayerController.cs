@@ -113,7 +113,10 @@ public class PlayerController : MonoBehaviour
                 }
 
                 HandleAnimations();
-                HandleMovement();
+                if (!isGrounded)
+                {
+                    HandleMovement();
+                }
                 HandleRotation();
             }
             else
@@ -239,7 +242,7 @@ public class PlayerController : MonoBehaviour
         currentIdleThreshold = UnityEngine.Random.Range(minIdleTime, maxIdleTime);
     }
 
-    private void HandleMovement()
+    private void HandleMovement(Vector2? floor = null)
     {
         float currentSpeed = isSprinting ? sprintSpeed : speed;
 
@@ -260,6 +263,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        isGrounded = true;
+        if (Vector2.Dot(Vector2.up, collision.contacts[0].normal) > 0.8f)
+        {
+            HandleMovement();
+
+            
+        }
+            // On est bien sur un sol presque hori
+        /*        else
+        {
+            float currentSpeed = isSprinting ? sprintSpeed : speed;
+            Vector3 targetVelocity = inputDirection * currentSpeed;
+            body.velocity = new Vector3(-targetVelocity.x, body.velocity.y, body.velocity.z);
+        }
+        */
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        isGrounded = false;
+    }
     private void HandleSprintVisuals()
     {
         if (sprintParticles != null)
@@ -292,7 +317,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckGrounded()
     {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
+       // isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
     }
 
     private void Jump()
