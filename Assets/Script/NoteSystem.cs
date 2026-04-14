@@ -17,10 +17,10 @@ public enum musicalNotes
 // Option pour choisir la direction des particules
 public enum ParticleDirectionType
 {
-    UseJoystick,  // Utilise les inputs manette
-    ObjectForward, // Tire tout droit devant l'objet
-    ObjectUp,      // Tire vers le haut de l'objet
-    ObjectBackward // Tire vers l'arrière de l'objet (NOUVEAU)
+    UseJoystick, 
+    ObjectForward, 
+    ObjectUp,     
+    ObjectBackward 
 }
 
 public class NoteSystem : MonoBehaviour
@@ -102,7 +102,7 @@ public class NoteSystem : MonoBehaviour
                 //StopChant();
             }
 
-            // Si le temps sans note jouer depasse x => vide la list de partition
+      
             if (playedTime >= ClearDelay && playedPartition.Count != 0)
             {
                 playedPartition.Clear();
@@ -130,50 +130,60 @@ public class NoteSystem : MonoBehaviour
 
         if (Input.GetButtonDown("SongPC"))
         {
-            // On inverse la valeur (true devient false, false devient true)
+
             toggleTrackBool = !toggleTrackBool;
 
-            // On appelle ta fonction avec la nouvelle valeur
+    
             ToggleTrackOne(toggleTrackBool);
         }
     }
-    
+    public void ClearPartition()
+    {
+        playedPartition.Clear();
+        noteCurrent = musicalNotes.None;
+        clearHoldedNote();
+    }
     bool IsTrackOneToggle;
 
-   
+    public void ToggleTrackSpecial()
+    {
+        ToggleTrackOne(toggleTrackBool);
+    }
 
     public void ToggleTrackOne(bool active)
     {
-        if (!IsTrackOneToggle)
+
+        if (music != null)
         {
-            if (music != null)
+            if (music.IsPlaying())
             {
-                if (music.IsPlaying())
-                {
-                    StartCoroutine(FadeSound(0.5f, active));
-                    IsTrackOneToggle = true;
-                }
+                StartCoroutine(FadeSound(0.5f, active));
+                IsTrackOneToggle = true;
             }
         }
+        
     }
-
+    private float volumeT1;
     IEnumerator FadeSound(float time, bool FadeIn)
     {
         int step = 5;
-        float volume = FadeIn ? 1f : 0.5f;
+        //A voir (Test)
+        volumeT1 = FadeIn ? 1f : 0.5f;
+
+
         float ratio = 1 / step;
-        
+
         for (int i = 0; i < step; i++)
         {
             if (!FadeIn)
             {
-                volume -= ratio;
-                FMOD.RESULT result = music.EventInstance.setParameterByName("Melodie1", volume);
+                volumeT1 -= ratio;
+                FMOD.RESULT result = music.EventInstance.setParameterByName("Melodie1", volumeT1);
             }
             else 
             {
-                volume += ratio;
-                FMOD.RESULT result = music.EventInstance.setParameterByName("Melodie1", volume); 
+                volumeT1 += ratio;
+                FMOD.RESULT result = music.EventInstance.setParameterByName("Melodie1", volumeT1); 
             }
             yield return new WaitForSeconds(time / 4);
         }

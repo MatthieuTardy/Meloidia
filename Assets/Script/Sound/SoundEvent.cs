@@ -11,16 +11,16 @@ public class SoundEvent : MonoBehaviour
     public StudioEventEmitter SFXtoOut;
     public StudioEventEmitter SFXtoIn;
     public UnityEvent FadeEvent;
-    float volumeIn;
-    float volumeOut;
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if (other.gameObject.layer == 8)
         {
             FadeEvent.Invoke();
-            Debug.Log("Collider");
         }
+
+
+
 
     }
     public void SwitchActiver(float time)
@@ -57,16 +57,21 @@ public class SoundEvent : MonoBehaviour
         if (SFXtoOut.IsPlaying())
         {
 
-            volumeIn = 0f;
-            volumeOut = 1f;
+            float volumeIn = 0f;
+            float volumeOut = 1f;
             SFXtoIn.Play();
             for (int i = 0; i < step-1; i++)
             {
                 volumeIn += ratio;
                 volumeOut -= ratio;
+
                 FMOD.RESULT result = SFXtoIn.EventInstance.setVolume(volumeIn);
 
-                FMOD.RESULT result2 = SFXtoOut.EventInstance.setVolume(volumeOut);
+                if (volumeOut <= 0f)
+                {
+                    FMOD.RESULT result2 = SFXtoOut.EventInstance.setVolume(volumeOut);
+                }
+
 
                 yield return new WaitForSeconds(time / step);
 
@@ -82,12 +87,14 @@ public class SoundEvent : MonoBehaviour
 
         if (!SFXtoOut.IsPlaying())
         {
-            volumeOut = 1f;
+            float volumeOut = 1f;
             for (int i = 0; i < step-1; i++)
             {
                 volumeOut -= ratio;
-                FMOD.RESULT result2 = SFXtoOut.EventInstance.setVolume(volumeOut);
-
+                if (volumeOut <= 0f)
+                {
+                    FMOD.RESULT result2 = SFXtoOut.EventInstance.setVolume(volumeOut);
+                }
                 yield return new WaitForSeconds(time / step);
             }
             SFXtoOut.Stop();
@@ -101,10 +108,10 @@ public class SoundEvent : MonoBehaviour
 
         if (!SFXtoOut.IsPlaying())
         {
-            volumeIn = 0f;
+            float volumeIn = 0f;
             for (int i = 0; i < step - 1; i++)
             {
-                volumeOut -= ratio;
+                volumeIn += ratio;
                 FMOD.RESULT result = SFXtoIn.EventInstance.setVolume(volumeIn);
 
                 yield return new WaitForSeconds(time / step);

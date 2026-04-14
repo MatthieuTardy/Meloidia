@@ -2500,7 +2500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e062d401db2312c45bce4059b6a54b81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SFXtoOut: {fileID: 1260892440}
+  SFXtoOut: {fileID: 0}
   SFXtoIn: {fileID: 0}
   FadeEvent:
     m_PersistentCalls:
@@ -3980,7 +3980,7 @@ PrefabInstance:
         type: 3}
       propertyPath: music
       value: 
-      objectReference: {fileID: 1260892440}
+      objectReference: {fileID: 0}
     - target: {fileID: 383978317441658967, guid: 276ae67f58d63cb4ba195f4d2bb6e537,
         type: 3}
       propertyPath: HoldDelay
@@ -10503,18 +10503,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc563942fa57ff542876c6f4bc6923b3, type: 3}
---- !u!114 &1260892440 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4676382195747508494, guid: fca89d9a5f7b8ec499112d2313a0ef8a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1434021924888875647}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 598578169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1276515234
 GameObject:
   m_ObjectHideFlags: 0
@@ -12943,7 +12931,38 @@ MonoBehaviour:
     Path: event:/SFX/Tuto/Mer
   Event: 
   EventPlayTrigger: 1
-  EventStopTrigger: 0
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &1495078195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598578169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1517822922
+      Data2: 1184645887
+      Data3: -327492976
+      Data4: 58292228
+    Path: event:/SFX/Tuto/Bridge
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0
@@ -18825,6 +18844,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4676382195747508494, guid: fca89d9a5f7b8ec499112d2313a0ef8a,
+        type: 3}
+      propertyPath: EventPlayTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8723323818934378371, guid: fca89d9a5f7b8ec499112d2313a0ef8a,
         type: 3}
       propertyPath: playerManager
@@ -18885,7 +18909,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4676382195747508494, guid: fca89d9a5f7b8ec499112d2313a0ef8a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -18897,6 +18922,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1495078194}
+    - targetCorrespondingSourceObject: {fileID: 6309880733019234438, guid: fca89d9a5f7b8ec499112d2313a0ef8a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1495078195}
   m_SourcePrefab: {fileID: 100100000, guid: fca89d9a5f7b8ec499112d2313a0ef8a, type: 3}
 --- !u!4 &1662548520182426096 stripped
 Transform:
@@ -20829,6 +20858,22 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4418935866679424518, guid: d57928748c39fd540aa5146a7fb73d7b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 7971934735245028955, guid: d57928748c39fd540aa5146a7fb73d7b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 3671307598197079472, guid: d57928748c39fd540aa5146a7fb73d7b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 1803159656330974668, guid: d57928748c39fd540aa5146a7fb73d7b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 7161266467167155967, guid: d57928748c39fd540aa5146a7fb73d7b,
         type: 3}
       insertIndex: -1

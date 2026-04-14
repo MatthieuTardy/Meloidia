@@ -5,7 +5,6 @@ using FMODUnity;
 using UnityEngine.Events;
 using System.Linq;
 
-
 public class ProgressEnigmeSystem : MonoBehaviour
 {
     [SerializeField] List<musicalNotes> chantEnigme = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Ré, musicalNotes.Mi };
@@ -13,6 +12,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
     [SerializeField] UnityEvent onEnigmeStep;
 
     public float ratio;
+    private bool isFinish;
     private Coroutine waitRoutine;
     private int currentStep = 0;
 
@@ -20,7 +20,11 @@ public class ProgressEnigmeSystem : MonoBehaviour
     {
         if (other.CompareTag("Chant") && waitRoutine == null)
         {
-            waitRoutine = StartCoroutine(ChantLogic());
+            if (!isFinish)
+            {
+                GameManager.Instance.playerManager.noteSystem.ClearPartition();
+                waitRoutine = StartCoroutine(ChantLogic());
+            }
         }
     }
 
@@ -28,9 +32,12 @@ public class ProgressEnigmeSystem : MonoBehaviour
     {
         if (other.CompareTag("Chant") && waitRoutine != null)
         {
-            StopCoroutine(waitRoutine);
-            waitRoutine = null;
-            currentStep = 0;
+            if (!isFinish)
+            {
+                StopCoroutine(waitRoutine);
+                waitRoutine = null;
+                currentStep = 0;
+            }
         }
     }
 
@@ -40,47 +47,37 @@ public class ProgressEnigmeSystem : MonoBehaviour
         currentStep = 0;
 
         musicalNotes lastNote = musicalNotes.None;
+
         while (currentStep < totalNotes)
         {
-            if (GameManager.Instance.playerManager.noteSystem.playedPartition.Count > 0)
+            if (GameManager.Instance.playerManager.noteSystem.playedPartition.Count > 0 && !isFinish)
             {
                 musicalNotes noteAttendue = chantEnigme[currentStep];
 
                 yield return new WaitUntil(() => GameManager.Instance.playerManager.noteSystem.playedPartition.Last() != lastNote);
                 lastNote = GameManager.Instance.playerManager.noteSystem.playedPartition.Last();
-                Debug.Log(lastNote);
+
                 if (GameManager.Instance.playerManager.noteSystem.HasJustPlayed(noteAttendue))
                 {
                     currentStep++;
                     ratio = (float)currentStep / totalNotes;
                     onEnigmeStep.Invoke();
-                    Debug.Log($"Note {noteAttendue} OK ! Progression : {currentStep}/{totalNotes}");
                 }
                 else
                 {
                     currentStep = 0;
                     ratio = (float)currentStep / totalNotes;
                     onEnigmeStep.Invoke();
-                    Debug.Log($"Note {noteAttendue} OK ! Progression : {currentStep}/{totalNotes}");
                 }
-
-
 
                 if (currentStep >= totalNotes)
                 {
                     break;
                 }
-
-
-                yield return new WaitUntil(() =>
-                    !GameManager.Instance.playerManager.noteSystem.HasJustPlayed(noteAttendue)
-                );
             }
-
             yield return new WaitForSeconds(0.1f);
         }
-
-        Debug.Log("Enigme Résolue !");
+        isFinish = true;
         RuntimeManager.PlayOneShot("event:/Musics/Win");
         onEnigmeResolve.Invoke();
 

@@ -20,12 +20,16 @@ public class PlayerController : MonoBehaviour
     public float decelerationSmoothness = 0.15f;
 
     [Header("Saut & Physique")]
-    public float jumpForce = 12f;
-    public float jumpCooldown = 0.25f;
-    public float jumpDelay = 0.05f;
-    public float fallMultiplier = 2.5f; 
+    public float jumpForce = 25f;
+    public float jumpCooldown = 0.5f;
+    public float jumpDelay = 0.1f;
+    public float fallMultiplier = 3f;
+    public float jumpHoldTime = 0.3f;
+    public float maxJumpHoldForce = 35f;
     
     private float lastJumpTime;
+    private float jumpHoldTimer;
+    private bool isJumping;
 
     [Header("Sprint")]
     public float sprintSpeed = 10f;
@@ -49,8 +53,25 @@ public class PlayerController : MonoBehaviour
     private float targetRotation;
     private float currentRotation;
 
+    private CameraShake _cameraShake;
+
+
+    void OnSomething()
+    {
+        if (_cameraShake != null)
+        {
+            _cameraShake.Shake();
+        }
+        else
+        {
+            Debug.LogWarning("Impossible de trouver le composant CameraShake dans la scène !");
+        }
+    }
+
     void Start()
     {
+        _cameraShake = FindObjectOfType<CameraShake>();
+        OnSomething();
         if (body == null) body = GetComponent<Rigidbody>();
         if (playerVisuals == null) playerVisuals = transform;
         if (animator == null) animator = GetComponentInChildren<Animator>();
@@ -75,36 +96,42 @@ public class PlayerController : MonoBehaviour
             HandleInputs();
             CheckGrounded();
 
-
-        if (GameManager.Instance.playerManager.Lock)
-        {
-            if (Input.GetButtonDown("Jump") && isGrounded && Time.time >= lastJumpTime + jumpCooldown)
+            if (GameManager.Instance.playerManager.Lock)
             {
-                Jump();
+                if (Input.GetButtonDown("Jump") && isGrounded && Time.time >= lastJumpTime + jumpCooldown)
+                {
+                    Jump();
+                }
+                else if (Input.GetButton("Jump") && isJumping)
+                {
+                    jumpHoldTimer += Time.deltaTime;
+                }
+                else if (Input.GetButtonUp("Jump"))
+                {
+                    jumpHoldTimer = 0f;
+                    isJumping = false;
+                }
+
+                HandleAnimations();
+                HandleMovement();
+                HandleRotation();
             }
-            HandleAnimations();
-            HandleMovement();
-            HandleRotation();
-        }
-        else
-        {
-            animator.SetBool("isgrounded", true);
-            animator.SetBool("iswalking", false);
-            animator.SetBool("isidle", true);
-            animator.SetBool("isjumping", false);
-        }
+            else
+            {
+                animator.SetBool("isgrounded", true);
+                animator.SetBool("iswalking", false);
+                animator.SetBool("isidle", true);
+                animator.SetBool("isjumping", false);
+            }
 
             //HandleToolsInput();
             HandleSprintVisuals();
         }
     }
 
-
-
     void FixedUpdate()
     {
-
-            ApplyBetterGravity();
+        ApplyBetterGravity();
     }
 
     private void ApplyBetterGravity()
@@ -112,6 +139,10 @@ public class PlayerController : MonoBehaviour
         if (body.velocity.y < 0)
         {
             body.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+        }
+        else if (body.velocity.y > 0 && !Input.GetButton("Jump"))
+        {
+            body.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier * 0.5f) * Time.fixedDeltaTime;
         }
     }
 
@@ -134,6 +165,22 @@ public class PlayerController : MonoBehaviour
             inputDirection.Normalize();
             lastValidDirection = inputDirection;
             targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha6) && Input.GetKey(KeyCode.Alpha7))
+        {
+            if (animator != null)
+            {
+                animator.SetTrigger("is67");
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Keypad6) && Input.GetKey(KeyCode.Keypad7))
+        {
+            if (animator != null)
+            {
+                animator.SetTrigger("is67");
+            }
         }
 
         isSprinting = Input.GetButton("Fire3");
@@ -167,7 +214,16 @@ public class PlayerController : MonoBehaviour
             idleTimer += Time.deltaTime;
             if (idleTimer >= currentIdleThreshold)
             {
-                animator.SetTrigger("specialIdle");
+                // Choisir aléatoirement entre les 2 idles
+                int randomIdle = UnityEngine.Random.Range(0, 2);
+                if (randomIdle == 0)
+                {
+                    animator.SetTrigger("specialIdle");
+                }
+                else
+                {
+                    animator.SetTrigger("specialIdle2");
+                }
                 ResetIdleTimer();
             }
         }
@@ -203,7 +259,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
 
     private void HandleSprintVisuals()
     {
@@ -243,6 +298,8 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         lastJumpTime = Time.time;
+        isJumping = true;
+        jumpHoldTimer = 0f;
 
         if (animator != null)
         {
@@ -260,7 +317,24 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(jumpDelay);
         body.velocity = new Vector3(body.velocity.x, 0, body.velocity.z);
-        body.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        
+        float currentJumpForce = jumpForce;
+        
+        while (isJumping && jumpHoldTimer < jumpHoldTime)
+        {
+            yield return null;
+            if (jumpHoldTimer > 0)
+            {
+                currentJumpForce = Mathf.Lerp(jumpForce, maxJumpHoldForce, jumpHoldTimer / jumpHoldTime);
+            }
+        }
+        
+        body.AddForce(Vector3.up * currentJumpForce, ForceMode.Impulse);
+        
+        if (sprintParticles != null)
+        {
+            sprintParticles.Play();
+        }
     }
 
     private IEnumerator ResetJumpTriggerRoutine()

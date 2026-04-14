@@ -1,5 +1,33 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8663009194074985413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: "event:/Musics/Tuto Pollu\xE9"
+  m_EditorClassIdentifier: 
+  Path: "event:/Musics/Tuto Pollu\xE9"
+  Guid:
+    Data1: 938114607
+    Data2: 1128974134
+    Data3: 1897303460
+    Data4: -678953756
+  Banks:
+  - {fileID: -5023280176564322763}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 8923811368305276077}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 361348
 --- !u!114 &-8517037107019708059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,10 +180,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639111618139511643
+  lastModified: 639114305918753011
   FileSizes:
   - Name: Desktop
-    Value: 3141600
+    Value: 4339168
   Exists: 1
 --- !u!114 &-6556196790305927886
 MonoBehaviour:
@@ -381,7 +409,34 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1545
+  Length: 5560
+--- !u!114 &-5443528249310310476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Tuto/Contenere
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Tuto/Contenere
+  Guid:
+    Data1: -1283768252
+    Data2: 1087250137
+    Data3: 1883785124
+    Data4: 148126274
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1728
 --- !u!114 &-5377641716001702647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,10 +576,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639111520995296680
+  lastModified: 639114305918497462
   FileSizes:
   - Name: Desktop
-    Value: 16744576
+    Value: 31215904
   Exists: 1
 --- !u!114 &-4105683861135671090
 MonoBehaviour:
@@ -969,7 +1024,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Jingle.bank
   Name: Jingle
   StudioPath: bank:/Jingle
-  lastModified: 639111520994782376
+  lastModified: 639114305916455241
   FileSizes:
   - Name: Desktop
     Value: 41696
@@ -1137,13 +1192,16 @@ MonoBehaviour:
   - {fileID: 324467062757445032}
   - {fileID: 2215298877527412179}
   - {fileID: 8088672349444274640}
+  - {fileID: -8663009194074985413}
+  - {fileID: 4402162332526318465}
+  - {fileID: -5443528249310310476}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4158438079306407908}
   StringsBanks:
   - {fileID: 3856348917924897851}
   cacheVersion: 131849
-  cacheTime: 639111618139511643
+  cacheTime: 639114305918753011
   SerializableEventsDict:
   - key: event:/SFX/Robot/Robot_Voice/Robot_Do
     index: 0
@@ -1267,6 +1325,12 @@ MonoBehaviour:
     index: 59
   - key: event:/SFX/Ukulele/ukulele AccAll
     index: 60
+  - key: "event:/Musics/Tuto Pollu\xE9"
+    index: 61
+  - key: event:/SFX/Tuto/Bridge
+    index: 62
+  - key: event:/SFX/Tuto/Contenere
+    index: 63
 --- !u!114 &20948607390266791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1900,10 +1964,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639111520994845501
+  lastModified: 639114305916465341
   FileSizes:
   - Name: Desktop
-    Value: 3822
+    Value: 3958
   Exists: 1
 --- !u!114 &4158438079306407908
 MonoBehaviour:
@@ -1920,7 +1984,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639111520994835276
+  lastModified: 639112050712825108
   FileSizes:
   - Name: Desktop
     Value: 427712
@@ -1977,6 +2041,33 @@ MonoBehaviour:
   Labels:
   - Pickup
   Exists: 1
+--- !u!114 &4402162332526318465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Tuto/Bridge
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Tuto/Bridge
+  Guid:
+    Data1: -1517822922
+    Data2: 1184645887
+    Data3: -327492976
+    Data4: 58292228
+  Banks:
+  - {fileID: -6568517935021651378}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 36190
 --- !u!114 &5091216413187432017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2003,7 +2094,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 64496
+  Length: 46445
 --- !u!114 &5210480648196243069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2458,6 +2549,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4431
+--- !u!114 &8923811368305276077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: "parameter:/Tuto Pollu\xE9/Melodie1"
+  m_EditorClassIdentifier: 
+  Name: Melodie1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2174529035
+    data2: 2748854950
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &9195320476129200803
 MonoBehaviour:
   m_ObjectHideFlags: 0
