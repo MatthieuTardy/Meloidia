@@ -8,19 +8,49 @@ public class RanchManager : MonoBehaviour
     //on change leur surface de déplacement pour la zone du ranch
     // on les ajoutes dans une listes -> liste utilisé par les conditions
     // 
-
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public static RanchManager instance;
+    
+    public RanchRessourcesGenerator RanchGenerator;
+    
+    public List<LegumeManager> CrocNotesInRanch;
+    private void Start()
     {
-        if(collision.gameObject.layer == 7)//legume
+        if (instance != null) 
         {
-            ChangeNavMesh(collision.GetComponent<LegumeManager>());
+            Destroy(instance);
+        }
+        RanchManager.instance = this;
+        CrocNotesInRanch = new List<LegumeManager>();
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == 7)//legume
+        {
+            AddingCrocNote(other.GetComponent<LegumeManager>());
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == 7)//legume
+        {
+           DeleteCrocNote(other.GetComponent<LegumeManager>());
         }
     }
 
 
-    void ChangeNavMesh(LegumeManager CN)
+    void AddingCrocNote(LegumeManager CN)
     {
-        CN.myNavAgent.areaMask = 4;
+        CrocNotesInRanch.Add(CN);
+        RanchGenerator.UpdateList(CN);
     }
+
+    void DeleteCrocNote(LegumeManager CN)
+    {
+        CrocNotesInRanch.Remove(CN);
+    }
+
+    
+
+
 }
