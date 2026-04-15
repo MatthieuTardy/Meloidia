@@ -23,10 +23,14 @@ public class ProgressEnigmeSystem : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Chant") && waitRoutine == null)
+        if (other.gameObject.layer == 8)
         {
             if (!isFinish)
             {
+                if (waitRoutine != null)
+                {
+                    StopCoroutine(waitRoutine);
+                }
                 GameManager.Instance.playerManager.noteSystem.ClearPartition();
                 waitRoutine = StartCoroutine(ChantLogic());
             }
@@ -35,7 +39,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Chant") && waitRoutine != null)
+        if (other.gameObject.layer == 8 && waitRoutine != null)
         {
             if (!isFinish)
             {
