@@ -11,10 +11,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
     [SerializeField] UnityEvent onEnigmeResolve;
     [SerializeField] UnityEvent onEnigmeStep;
 
-    //#theo changement
-    [Header("Actions de fin")]
-    [SerializeField] UnityEvent onAllStepsFinished;
-    //#theo changement
+
 
     public float ratio;
     private bool isFinish;
@@ -63,7 +60,9 @@ public class ProgressEnigmeSystem : MonoBehaviour
             {
                 musicalNotes noteAttendue = chantEnigme[currentStep];
 
-                yield return new WaitUntil(() => GameManager.Instance.playerManager.noteSystem.playedPartition.Last() != lastNote);
+                yield return new WaitUntil(() => 
+                GameManager.Instance.playerManager.noteSystem.playedPartition.Count > 0 && 
+                GameManager.Instance.playerManager.noteSystem.playedPartition.Last() != lastNote);
                 lastNote = GameManager.Instance.playerManager.noteSystem.playedPartition.Last();
 
                 if (GameManager.Instance.playerManager.noteSystem.HasJustPlayed(noteAttendue))
@@ -90,12 +89,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
         RuntimeManager.PlayOneShot("event:/Musics/Win");
         onEnigmeResolve.Invoke();
 
-        //#theo changement
-        if (onAllStepsFinished != null)
-        {
-            onAllStepsFinished.Invoke();
-        }
-        //#theo changement
+
 
         waitRoutine = null;
     }
