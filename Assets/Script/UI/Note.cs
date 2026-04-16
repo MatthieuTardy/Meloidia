@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
 
-public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler
+public class Note : MonoBehaviour
 {
     public int ID;
     public Sprite itemIcon;
@@ -51,7 +51,7 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         }
         
     }
-
+    /*
     public void OnPointerEnter(PointerEventData eventData)
     {
         Highlight();
@@ -83,7 +83,7 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             
         }
     }
-
+    */
     private void SelectItem()
     {
         if (selectedItem != null && selectedItem != this)
@@ -113,6 +113,7 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             if (highlightCoroutine != null) StopCoroutine(highlightCoroutine);
             image.color = originalColor;
             highlightCoroutine = StartCoroutine(HighlightCoroutine());
+            StartCoroutine(ScaleJuiceCoroutine());
         }
     }
 
@@ -161,10 +162,10 @@ public class Note : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         }
         visualsTransform.localScale = originalScale;
     }
-
+    /*
     public void OnPointerDown(PointerEventData eventData)
     {
         GameManager.Instance.playerManager.noteSystem.PlayNoteFromPC(ID);
     }
-    
+    */
 }

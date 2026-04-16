@@ -84,58 +84,70 @@ public class NoteSystem : MonoBehaviour
     {
         toggleTrackBool = true;
         ToggleTrackOne(true);
+        WheelCenter = FindAnyObjectByType<UiSelection>().wheelRoot.transform;
     }
 
     void Update()
     {
-       
-            playedTime += Time.deltaTime;
-            PlayMusic();
 
-            //Debug.Log("PlayedTime : " + singDelay);
-            if ((playedTime >= HoldDelay || singDelay >= HoldDelay) && Input.GetButton("ValidateNote"))
-            {
-                addHoldedNote();
-            }
-            else if (Input.GetButtonUp("ValidateNote"))
-            {
-                //StopChant();
-            }
+        playedTime += Time.deltaTime;
 
-      
-            if (playedTime >= ClearDelay && playedPartition.Count != 0)
-            {
-                playedPartition.Clear();
-                noteCurrent = musicalNotes.None;
-                clearHoldedNote();
-            }
-
-            if (noteHolded != musicalNotes.None)
-            {
-
-                if (noteCurrent != noteHolded)
-                {
-                    clearHoldedNote();
-                    playedTime = 0;
-                    singDelay = 0;
-                }
-            }
-        /* sert a rien ?
-        else if (playedPartition.Count > 0 && (playedPartition.SequenceEqual(chantDuDiab) || playedPartition.SequenceEqual(chantDuBonheur) || playedPartition.SequenceEqual(chantDuBirthday)))
+        float value = Input.GetAxisRaw("ToggleSing");
+        value += Input.GetAxisRaw("SongPC");
+        if (value > 0 && !IsToggleSing)
         {
-            noteBefore = playedPartition.LastOrDefault();
-            playedPartition.Clear();
+            isSinging = !isSinging;
+            IsToggleSing = true;
         }
-        */
+
+        if (value < 0.1f)
+        {
+            IsToggleSing = false;
+        }
+
+
+        if (isSinging)
+        {
+            PlayMusic();
+        }
+
+        //Debug.Log("PlayedTime : " + singDelay);
+        if ((playedTime >= HoldDelay || singDelay >= HoldDelay) && Input.GetAxisRaw("ValidateNote") > 0)
+        {
+            addHoldedNote();
+        }
+        else if (Input.GetAxis("ValidateNote") < 0)
+        {
+            //StopChant();
+        }
+
+
+
+        if (playedTime >= ClearDelay && playedPartition.Count != 0)
+        {
+            playedPartition.Clear();
+            noteCurrent = musicalNotes.None;
+            clearHoldedNote();
+        }
+
+        if (noteHolded != musicalNotes.None)
+        {
+
+            if (noteCurrent != noteHolded)
+            {
+                clearHoldedNote();
+                playedTime = 0;
+                singDelay = 0;
+            }
+        }
 
         if (Input.GetButtonDown("SongPC"))
         {
-
             toggleTrackBool = !toggleTrackBool;
-
-    
             ToggleTrackOne(toggleTrackBool);
         }
+
+        
     }
     public void ClearPartition()
     {
@@ -164,6 +176,10 @@ public class NoteSystem : MonoBehaviour
         
     }
     private float volumeT1;
+    private bool isSinging;
+
+    public bool IsToggleSing;
+
     IEnumerator FadeSound(float time, bool FadeIn)
     {
         int step = 5;
@@ -206,39 +222,113 @@ public class NoteSystem : MonoBehaviour
 
     void PlayMusic(int? ForceNote = null)
     {
-        float inputX = Input.GetAxis("SongX_Xbox");
-        float inputY = Input.GetAxis("SongY_Xbox");
+        Vector2 Controller = new Vector2(Input.GetAxis("SongX_Xbox"), Input.GetAxis("SongY_Xbox"));
+        Vector2 mouseDir = GetMouseDirection();
 
-        if (Mathf.Abs(inputX) > 0.5f || Mathf.Abs(inputY) > 0.5f)
+        int noteIndex = 0;
+        if(Controller.x != 0 || Controller.y != 0) 
         {
-            
-            if (Input.GetButton("ValidateNote"))
+            if (Mathf.Abs(Controller.x) > 0.5f || Mathf.Abs(Controller.y) > 0.5f)
             {
-                singDelay += Time.deltaTime;
+
+                if (Input.GetAxisRaw("ValidateNote") > 0)
+                {
+                    singDelay += Time.deltaTime;
+                }
+                else
+                {
+                    singDelay = 0;
+                    clearHoldedNote();
+                }
+
+                if (Controller.y > 0.5f && Mathf.Abs(Controller.x) < 0.5f) { noteIndex = 4; }
+                else if (Controller.x > 0.3f && Controller.y < -0.3f) { noteIndex = 1; }
+                else if (Controller.x > 0.3f && Controller.y > 0.3f) { noteIndex = 3; }
+                else if (Controller.x > 0.5f && Mathf.Abs(Controller.y) < 0.5f) { noteIndex = 2; }
+                else if (Controller.y < -0.5f && Mathf.Abs(Controller.x) < 0.5f) { noteIndex = 0; }
+                else if (Controller.x < -0.3f && Controller.y < -0.3f) { noteIndex = 7; }
+                else if (Controller.x < -0.5f && Mathf.Abs(Controller.y) < 0.5f) { noteIndex = 6; }
+                else if (Controller.x < -0.3f && Controller.y > 0.3f) { noteIndex = 5; }
+
+                noteUIElements[noteIndex].Highlight();
+                if (Input.GetAxisRaw("ValidateNote") > 0)
+                {
+                    Debug.Log("Valide Note " + noteIndex);
+                    PlayNote(noteIndex);
+                }
+
             }
-            else
+        } // on est manette
+        else 
+        {
+            //Debug.Log("mouseDir " + mouseDir);
+            if (mouseDir != Vector2.zero)
             {
-                singDelay = 0;
-                clearHoldedNote();
+                if (Input.GetAxisRaw("ValidateNote") > 0)
+                {
+                    singDelay += Time.deltaTime;
+                }
+                else
+                {
+                    singDelay = 0;
+                    clearHoldedNote();
+                }
+                float angle = Mathf.Atan2(mouseDir.y, mouseDir.x) * Mathf.Rad2Deg;
+                if (angle < 90 + 22.5 && angle > 90 - 22.5)
+                {
+                    //Debug.Log("DO");
+                    noteIndex = 0;
+                }// haut DO
+                else if (angle < 45 + 22.5 && angle > 45 - 22.5)
+                {
+                   // Debug.Log("Ré");
+                    noteIndex = 1;
+                }// haut droite Ré
+                else if (angle < 0 + 22.5 && angle > 0 - 22.5)
+                {
+                    //Debug.Log("Mi");
+                    noteIndex = 2;
+                } // droite Mi
+                else if (angle < -45 + 22.5 && angle > -45 - 22.5)
+                {
+                   // Debug.Log("Fa");
+                    noteIndex = 3;
+                } // bas droite fa
+                else if (angle < -90 + 22.5 && angle > -90 - 22.5)
+                {
+                   // Debug.Log("Sol");
+                    noteIndex = 4;
+                } // bas Sol
+                else if (angle > -135 - 22.5 && angle < -135 + 22.5)
+                {
+                   // Debug.Log("La");
+                    noteIndex = 5;
+                } // bas gauche La
+                else if (angle > 180 - 22.5 || angle < -180 + 22.5)
+                {
+                   // Debug.Log("Si");
+                    noteIndex = 6;
+                }//gauche Si
+                else if (angle > 135 - 22.5 && angle < 135 + 22.5)
+                {
+                   // Debug.Log("Do2");
+                    noteIndex = 7;
+                } // haut gauche DO2
+
+                noteUIElements[noteIndex].Highlight();
+                if (Input.GetAxisRaw("ValidateNote") > 0)
+                {
+                    Debug.Log("Valide Note " + noteIndex);
+                    PlayNote(noteIndex);
+                }
             }
-            int noteIndex = 0;
 
-            if (inputY > 0.5f && Mathf.Abs(inputX) < 0.5f) { noteIndex = 4; }
-            else if (inputX > 0.3f && inputY < -0.3f) { noteIndex = 1; }
-            else if (inputX > 0.3f && inputY > 0.3f) { noteIndex = 3; }
-            else if (inputX > 0.5f && Mathf.Abs(inputY) < 0.5f) { noteIndex = 2; }
-            else if (inputY < -0.5f && Mathf.Abs(inputX) < 0.5f) { noteIndex = 0; }
-            else if (inputX < -0.3f && inputY < -0.3f) { noteIndex = 7; }
-            else if (inputX < -0.5f && Mathf.Abs(inputY) < 0.5f) { noteIndex = 6; }
-            else if (inputX < -0.3f && inputY > 0.3f) { noteIndex = 5; }
+        } // on est souris
 
+        
+        
+        /*
 
-            noteUIElements[noteIndex].Highlight();
-            if (Input.GetButton("ValidateNote"))
-            {
-                PlayNote(noteIndex);
-            }
-        }
         else if(ForceNote != null)
         {
             //Debug.Log("ForceNote");
@@ -255,6 +345,7 @@ public class NoteSystem : MonoBehaviour
             int noteIndex = ForceNote.Value;
             PlayNote(noteIndex);
         }
+        */
         /*
         else if(!Input.GetButton("SongPC"))
         {
@@ -264,6 +355,33 @@ public class NoteSystem : MonoBehaviour
             noteBefore = musicalNotes.None;
         }
         */
+    }
+    Transform WheelCenter;
+    Vector2 GetMouseDirection()
+    {
+        Vector2 screenCenter = WheelCenter.position;
+        //Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Vector2 mousePos = Input.mousePosition;
+
+        // Offset from center (positive X = right, positive Y = up)
+        Vector3 offsetFromCenter = mousePos - screenCenter;
+
+        
+        //Debug.Log("offsetFromCenter " + offsetFromCenter);
+        
+       // Vector2 mouseDir = screenCenter - mouseDirEnd;
+        
+        if(Vector2.Distance(mousePos,screenCenter) >= 100f)
+        {
+            return offsetFromCenter;
+        }
+
+        else
+        {
+            return Vector2.zero;
+        }
+
+
     }
 
     void StopChant()
@@ -461,7 +579,7 @@ public class NoteSystem : MonoBehaviour
     public bool HasJustPlayed(musicalNotes note)
     {
 
-        return noteCurrent == note && Input.GetButton("ValidateNote");
+        return noteCurrent == note && Input.GetAxisRaw("ValidateNote") > 0;
     }
 
 }
