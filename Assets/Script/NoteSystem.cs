@@ -88,55 +88,65 @@ public class NoteSystem : MonoBehaviour
 
     void Update()
     {
-       
-            playedTime += Time.deltaTime;
-            PlayMusic();
 
-            //Debug.Log("PlayedTime : " + singDelay);
-            if ((playedTime >= HoldDelay || singDelay >= HoldDelay) && Input.GetButton("ValidateNote"))
-            {
-                addHoldedNote();
-            }
-            else if (Input.GetButtonUp("ValidateNote"))
-            {
-                //StopChant();
-            }
-        
+        playedTime += Time.deltaTime;
 
-
-            if (playedTime >= ClearDelay && playedPartition.Count != 0)
-            {
-                playedPartition.Clear();
-                noteCurrent = musicalNotes.None;
-                clearHoldedNote();
-            }
-
-            if (noteHolded != musicalNotes.None)
-            {
-
-                if (noteCurrent != noteHolded)
-                {
-                    clearHoldedNote();
-                    playedTime = 0;
-                    singDelay = 0;
-                }
-            }
-        /* sert a rien ?
-        else if (playedPartition.Count > 0 && (playedPartition.SequenceEqual(chantDuDiab) || playedPartition.SequenceEqual(chantDuBonheur) || playedPartition.SequenceEqual(chantDuBirthday)))
+        float value = Input.GetAxisRaw("ToggleSing");
+        value += Input.GetAxisRaw("SongPC");
+        if (value > 0 && !IsToggleSing)
         {
-            noteBefore = playedPartition.LastOrDefault();
-            playedPartition.Clear();
+            isSinging = !isSinging;
+            IsToggleSing = true;
         }
-        */
+
+        if (value < 0.1f)
+        {
+            IsToggleSing = false;
+        }
+
+
+        if (isSinging)
+        {
+            PlayMusic();
+        }
+
+        //Debug.Log("PlayedTime : " + singDelay);
+        if ((playedTime >= HoldDelay || singDelay >= HoldDelay) && Input.GetButton("ValidateNote"))
+        {
+            addHoldedNote();
+        }
+        else if (Input.GetButtonUp("ValidateNote"))
+        {
+            //StopChant();
+        }
+
+
+
+        if (playedTime >= ClearDelay && playedPartition.Count != 0)
+        {
+            playedPartition.Clear();
+            noteCurrent = musicalNotes.None;
+            clearHoldedNote();
+        }
+
+        if (noteHolded != musicalNotes.None)
+        {
+
+            if (noteCurrent != noteHolded)
+            {
+                clearHoldedNote();
+                playedTime = 0;
+                singDelay = 0;
+            }
+        }
 
         if (Input.GetButtonDown("SongPC"))
         {
-
             toggleTrackBool = !toggleTrackBool;
-
-    
             ToggleTrackOne(toggleTrackBool);
         }
+
+        
     }
     public void ClearPartition()
     {
@@ -165,6 +175,10 @@ public class NoteSystem : MonoBehaviour
         
     }
     private float volumeT1;
+    private bool isSinging;
+
+    public bool IsToggleSing;
+
     IEnumerator FadeSound(float time, bool FadeIn)
     {
         int step = 5;
