@@ -9,15 +9,21 @@ public class PlayerController : MonoBehaviour
     public Transform playerVisuals;
     public Transform cameraTransform;
     public ParticleSystem sprintParticles;
-    
+
     [Tooltip("Glisse ton composant Animator ici")]
-    public Animator animator; 
+    public Animator animator;
 
     [Header("Mouvement")]
     public float speed = 5f;
     public LayerMask groundLayer;
     [Tooltip("Contrôle la glissade à l'arrêt. 0 = arrêt net. 0.2 = légère glissade.")]
     public float decelerationSmoothness = 0.15f;
+
+    // #esteban - Nouvelles variables pour gérer la tolérance sur les pentes
+    [Header("Tolérance Pentes (#esteban)")]
+    public float groundCheckDistance = 0.3f;
+    public float groundCheckRadius = 0.25f;
+    public float groundCheckOffset = 0.1f;
 
     [Header("Saut & Physique")]
     public float jumpForce = 25f;
@@ -26,7 +32,7 @@ public class PlayerController : MonoBehaviour
     public float fallMultiplier = 3f;
     public float jumpHoldTime = 0.3f;
     public float maxJumpHoldForce = 35f;
-    
+
     private float lastJumpTime;
     private float jumpHoldTimer;
     private bool isJumping;
@@ -40,7 +46,7 @@ public class PlayerController : MonoBehaviour
     public float rotationSmoothTime = 0.1f;
 
     [Header("Idle Spécial (AFK)")]
-    public float minIdleTime = 5f; 
+    public float minIdleTime = 5f;
     public float maxIdleTime = 10f;
     private float idleTimer;
     private float currentIdleThreshold;
@@ -77,7 +83,7 @@ public class PlayerController : MonoBehaviour
         if (animator == null) animator = GetComponentInChildren<Animator>();
         if (cameraTransform == null && Camera.main != null) cameraTransform = Camera.main.transform;
 
-        if(playerVisuals != transform)
+        if (playerVisuals != transform)
         {
             playerVisuals.localPosition = Vector3.zero;
             playerVisuals.localRotation = Quaternion.identity;
@@ -198,8 +204,8 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isgrounded", isGrounded);
         animator.SetBool("iswalking", isMoving);
         animator.SetBool("isidle", !isMoving);
-        
-        if (Time.time >= lastJumpTime + jumpCooldown) 
+
+        if (Time.time >= lastJumpTime + jumpCooldown)
         {
             animator.SetBool("isjumping", !isGrounded);
         }
@@ -254,7 +260,7 @@ public class PlayerController : MonoBehaviour
                 Vector3 targetVelocity = inputDirection * currentSpeed;
                 body.velocity = new Vector3(targetVelocity.x, body.velocity.y, targetVelocity.z);
             }
-            else 
+            else
             {
                 Vector3 horizontalVelocity = new Vector3(body.velocity.x, 0, body.velocity.z);
                 Vector3 smoothedHorizontal = Vector3.SmoothDamp(horizontalVelocity, Vector3.zero, ref stoppingVelocity, decelerationSmoothness);
@@ -265,15 +271,19 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        isGrounded = true;
-        if (Vector2.Dot(Vector2.up, collision.contacts[0].normal) > 0.8f)
+        // #esteban - On désactive isGrounded ici pour ne pas interférer avec le SphereCast
+        // isGrounded = true;
+
+        // #esteban - Remplacement de Vector2.Dot par Vector3.Dot pour un jeu 3D
+        // if (Vector2.Dot(Vector2.up, collision.contacts[0].normal) > 0.7f)
+        if (Vector3.Dot(Vector3.up, collision.contacts[0].normal) > 0.7f)
         {
             HandleMovement();
 
-            
+
         }
-            // On est bien sur un sol presque hori
-        /*        else
+        // On est bien sur un sol presque hori
+        /* else
         {
             float currentSpeed = isSprinting ? sprintSpeed : speed;
             Vector3 targetVelocity = inputDirection * currentSpeed;
@@ -283,7 +293,8 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionExit(Collision collision)
     {
-        isGrounded = false;
+        // #esteban - On désactive isGrounded = false ici aussi
+        // isGrounded = false;
     }
     private void HandleSprintVisuals()
     {
@@ -317,7 +328,12 @@ public class PlayerController : MonoBehaviour
 
     private void CheckGrounded()
     {
-       // isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
+        // isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
+
+        // #esteban - Ajout du SphereCast avec la tolérance
+        Vector3 origin = transform.position + (Vector3.up * groundCheckOffset);
+        isGrounded = Physics.SphereCast(origin, groundCheckRadius, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayer);
+        Debug.DrawLine(origin, origin + Vector3.down * groundCheckDistance, isGrounded ? Color.green : Color.red);
     }
 
     private void Jump()
@@ -329,8 +345,8 @@ public class PlayerController : MonoBehaviour
         if (animator != null)
         {
             animator.SetTrigger("jump");
-            animator.SetBool("isjumping", true); 
-            
+            animator.SetBool("isjumping", true);
+
             StopCoroutine("ResetJumpTriggerRoutine");
             StartCoroutine("ResetJumpTriggerRoutine");
         }
@@ -342,9 +358,9 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(jumpDelay);
         body.velocity = new Vector3(body.velocity.x, 0, body.velocity.z);
-        
+
         float currentJumpForce = jumpForce;
-        
+
         while (isJumping && jumpHoldTimer < jumpHoldTime)
         {
             yield return null;
@@ -353,9 +369,9 @@ public class PlayerController : MonoBehaviour
                 currentJumpForce = Mathf.Lerp(jumpForce, maxJumpHoldForce, jumpHoldTimer / jumpHoldTime);
             }
         }
-        
+
         body.AddForce(Vector3.up * currentJumpForce, ForceMode.Impulse);
-        
+
         if (sprintParticles != null)
         {
             sprintParticles.Play();
@@ -407,7 +423,7 @@ public class PlayerController : MonoBehaviour
 
     private void SetTool(int outilIndex, bool gant, bool pelle, bool arrosoir, bool marteau)
     {
-        if(outilIndex >= 0) GameManager.Instance.playerManager.outils = outilIndex;
+        if (outilIndex >= 0) GameManager.Instance.playerManager.outils = outilIndex;
         GameManager.Instance.playerManager.ChangeSpriteToMainTool();
     }
 
@@ -424,10 +440,10 @@ public class PlayerController : MonoBehaviour
     private IEnumerator BuildAnimRoutine()
     {
         animator.SetBool("isbuilding", true);
-        yield return new WaitForSeconds(0.5f); 
+        yield return new WaitForSeconds(0.5f);
         animator.SetBool("isbuilding", false);
     }
-    
+
     // --- ANIMATION ACTION (EAU / TERRE) ---
     public void TriggerActionAnimation()
     {
@@ -441,7 +457,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator ActionAnimRoutine()
     {
         animator.SetBool("isaction", true);
-        yield return new WaitForSeconds(0.5f); 
+        yield return new WaitForSeconds(0.5f);
         animator.SetBool("isaction", false);
     }
 }
