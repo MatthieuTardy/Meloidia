@@ -21,7 +21,7 @@ public class UiSelection : MonoBehaviour
         if (wheelRoot == null)
             wheelRoot = this.gameObject;
 
-       
+        Debug.Log(this.name);
         if (Application.isPlaying)
             UpdateWheelVisibility();
     }

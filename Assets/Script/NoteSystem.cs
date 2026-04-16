@@ -84,6 +84,7 @@ public class NoteSystem : MonoBehaviour
     {
         toggleTrackBool = true;
         ToggleTrackOne(true);
+        WheelCenter = FindAnyObjectByType<UiSelection>().wheelRoot.transform;
     }
 
     void Update()
@@ -111,11 +112,11 @@ public class NoteSystem : MonoBehaviour
         }
 
         //Debug.Log("PlayedTime : " + singDelay);
-        if ((playedTime >= HoldDelay || singDelay >= HoldDelay) && Input.GetButton("ValidateNote"))
+        if ((playedTime >= HoldDelay || singDelay >= HoldDelay) && Input.GetAxisRaw("ValidateNote") > 0)
         {
             addHoldedNote();
         }
-        else if (Input.GetButtonUp("ValidateNote"))
+        else if (Input.GetAxis("ValidateNote") < 0)
         {
             //StopChant();
         }
@@ -230,7 +231,7 @@ public class NoteSystem : MonoBehaviour
             if (Mathf.Abs(Controller.x) > 0.5f || Mathf.Abs(Controller.y) > 0.5f)
             {
 
-                if (Input.GetButton("ValidateNote"))
+                if (Input.GetAxisRaw("ValidateNote") > 0)
                 {
                     singDelay += Time.deltaTime;
                 }
@@ -250,7 +251,7 @@ public class NoteSystem : MonoBehaviour
                 else if (Controller.x < -0.3f && Controller.y > 0.3f) { noteIndex = 5; }
 
                 noteUIElements[noteIndex].Highlight();
-                if (Input.GetButton("ValidateNote"))
+                if (Input.GetAxisRaw("ValidateNote") > 0)
                 {
                     Debug.Log("Valide Note " + noteIndex);
                     PlayNote(noteIndex);
@@ -260,10 +261,10 @@ public class NoteSystem : MonoBehaviour
         } // on est manette
         else 
         {
-            Debug.Log("mouseDir " + mouseDir);
+            //Debug.Log("mouseDir " + mouseDir);
             if (mouseDir != Vector2.zero)
             {
-                if (Input.GetButton("ValidateNote"))
+                if (Input.GetAxisRaw("ValidateNote") > 0)
                 {
                     singDelay += Time.deltaTime;
                 }
@@ -275,47 +276,47 @@ public class NoteSystem : MonoBehaviour
                 float angle = Mathf.Atan2(mouseDir.y, mouseDir.x) * Mathf.Rad2Deg;
                 if (angle < 90 + 22.5 && angle > 90 - 22.5)
                 {
-                    Debug.Log("DO");
+                    //Debug.Log("DO");
                     noteIndex = 0;
                 }// haut DO
                 else if (angle < 45 + 22.5 && angle > 45 - 22.5)
                 {
-                    Debug.Log("Ré");
+                   // Debug.Log("Ré");
                     noteIndex = 1;
                 }// haut droite Ré
                 else if (angle < 0 + 22.5 && angle > 0 - 22.5)
                 {
-                    Debug.Log("Mi");
+                    //Debug.Log("Mi");
                     noteIndex = 2;
                 } // droite Mi
                 else if (angle < -45 + 22.5 && angle > -45 - 22.5)
                 {
-                    Debug.Log("Fa");
+                   // Debug.Log("Fa");
                     noteIndex = 3;
                 } // bas droite fa
                 else if (angle < -90 + 22.5 && angle > -90 - 22.5)
                 {
-                    Debug.Log("Sol");
+                   // Debug.Log("Sol");
                     noteIndex = 4;
                 } // bas Sol
                 else if (angle > -135 - 22.5 && angle < -135 + 22.5)
                 {
-                    Debug.Log("La");
+                   // Debug.Log("La");
                     noteIndex = 5;
                 } // bas gauche La
                 else if (angle > 180 - 22.5 || angle < -180 + 22.5)
                 {
-                    Debug.Log("Si");
+                   // Debug.Log("Si");
                     noteIndex = 6;
                 }//gauche Si
                 else if (angle > 135 - 22.5 && angle < 135 + 22.5)
                 {
-                    Debug.Log("Do2");
+                   // Debug.Log("Do2");
                     noteIndex = 7;
                 } // haut gauche DO2
 
                 noteUIElements[noteIndex].Highlight();
-                if (Input.GetButton("ValidateNote"))
+                if (Input.GetAxisRaw("ValidateNote") > 0)
                 {
                     Debug.Log("Valide Note " + noteIndex);
                     PlayNote(noteIndex);
@@ -355,10 +356,11 @@ public class NoteSystem : MonoBehaviour
         }
         */
     }
-
+    Transform WheelCenter;
     Vector2 GetMouseDirection()
     {
-        Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Vector2 screenCenter = WheelCenter.position;
+        //Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Vector2 mousePos = Input.mousePosition;
 
         // Offset from center (positive X = right, positive Y = up)
@@ -577,7 +579,7 @@ public class NoteSystem : MonoBehaviour
     public bool HasJustPlayed(musicalNotes note)
     {
 
-        return noteCurrent == note && Input.GetButton("ValidateNote");
+        return noteCurrent == note && Input.GetAxisRaw("ValidateNote") > 0;
     }
 
 }
