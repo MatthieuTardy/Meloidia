@@ -53,7 +53,7 @@ public class LegumeManager : MonoBehaviour
     [Header("Paramètres de Déplacement")]
     bool CanMoveFreely = true;
     private Vector3 finalPos;
-    Transform CurrentTarget;
+    public Transform CurrentTarget;
     [SerializeField] float walkRadius = 5f;
     [SerializeField] float intervalleAttente = 5f;
     public float vitesse = 5f;
