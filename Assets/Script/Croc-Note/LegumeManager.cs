@@ -105,26 +105,28 @@ public class LegumeManager : MonoBehaviour
         {
             calmeTimer += Time.deltaTime;
         }
-
-        if (!colere)
+        if (CurrentTarget == null)
         {
+            if (!colere)
+            {
 
-            if (bonheur <= SadPercent)
-            {
-                melogumesSingingManager.StartSadness();
-            }
-            else if (bonheur >= HappyPercent)
-            {
-                melogumesSingingManager.StartHappyness();
+                if (bonheur <= SadPercent)
+                {
+                    melogumesSingingManager.StartSadness();
+                }
+                else if (bonheur >= HappyPercent)
+                {
+                    melogumesSingingManager.StartHappyness();
+                }
+                else
+                {
+                    melogumesSingingManager.StartNormal();
+                }
             }
             else
             {
-                melogumesSingingManager.StartNormal();
-            }
-        }
-        else
-        { 
                 melogumesSingingManager.StartRage();
+            }
         }
         if (!CanMoveFreely && CurrentTarget != null)
         {

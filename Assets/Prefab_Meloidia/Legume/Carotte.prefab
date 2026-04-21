@@ -990,8 +990,8 @@ MonoBehaviour:
   Specisme4: 50
   Specisme5: 50
   bonheur: 50
-  SadPercent: 0
-  HappyPercent: 0
+  SadPercent: 10
+  HappyPercent: 80
   melogumesSingingManager: {fileID: 4955155072589143327}
   legumeType: 1
   deathTimer: 15
@@ -1022,18 +1022,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6d29ecb4fecaee419b1e6ed258cf419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultPattern: 
-  DefaultSpeed: 0
-  HappyPattern: 
-  HappySpeed: 0
-  AngryPattern: 
-  AngrySpeed: 0
-  SadPattern: 
-  SadSpeed: 0
+  DefaultPattern: 000000000200000004000000
+  DefaultSpeed: 1
+  HappyPattern: 00000000010000000000000002000000
+  HappySpeed: 1
+  AngryPattern: 0000000000000000000000000000000000000000
+  AngrySpeed: 5
+  SadPattern: 0300000004000000
+  SadSpeed: 0.5
   noteParticlePrefab: {fileID: 7207747035653287744, guid: d256ed55c50dfab4caa9fe50f22ab646,
     type: 3}
   particleSpawnPoint: {fileID: 0}
-  noteSpeed: 0
+  noteSpeed: 1
   CustomDictionary:
   - ID: 0
     Emitter: {fileID: 6024722720021230136}
