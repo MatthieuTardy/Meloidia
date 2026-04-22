@@ -53,7 +53,7 @@ public class LegumeManager : MonoBehaviour
     [Header("Paramètres de Déplacement")]
     bool CanMoveFreely = true;
     private Vector3 finalPos;
-    Transform CurrentTarget;
+    public Transform CurrentTarget;
     [SerializeField] float walkRadius = 5f;
     [SerializeField] float intervalleAttente = 5f;
     public float vitesse = 5f;
@@ -105,26 +105,28 @@ public class LegumeManager : MonoBehaviour
         {
             calmeTimer += Time.deltaTime;
         }
-
-        if (!colere)
+        if (CurrentTarget == null)
         {
+            if (!colere)
+            {
 
-            if (bonheur <= SadPercent)
-            {
-                melogumesSingingManager.StartSadness();
-            }
-            else if (bonheur >= HappyPercent)
-            {
-                melogumesSingingManager.StartHappyness();
+                if (bonheur <= SadPercent)
+                {
+                    melogumesSingingManager.StartSadness();
+                }
+                else if (bonheur >= HappyPercent)
+                {
+                    melogumesSingingManager.StartHappyness();
+                }
+                else
+                {
+                    melogumesSingingManager.StartNormal();
+                }
             }
             else
             {
-                melogumesSingingManager.StartNormal();
-            }
-        }
-        else
-        { 
                 melogumesSingingManager.StartRage();
+            }
         }
         if (!CanMoveFreely && CurrentTarget != null)
         {

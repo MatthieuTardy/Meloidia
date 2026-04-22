@@ -656,7 +656,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8551342973851644804}
   - component: {fileID: 8729524752734880968}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Zone Chant
   m_TagString: Chant
   m_Icon: {fileID: 0}
@@ -5977,6 +5977,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   decelerationSmoothness: 0.15
+  groundCheckDistance: 0.3
+  groundCheckRadius: 0.25
+  groundCheckOffset: 0.1
   jumpForce: 35
   jumpCooldown: 0
   jumpDelay: 0
@@ -6041,6 +6044,7 @@ MonoBehaviour:
   chantDuBonheur: 00000000010000000000000001000000
   chantDuBirthday: 000000000000000001000000000000000300000002000000
   playedPartition: 
+  IsToggleSing: 0
 --- !u!114 &7997268069230227911
 MonoBehaviour:
   m_ObjectHideFlags: 0

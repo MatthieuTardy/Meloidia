@@ -564,7 +564,49 @@ public class NoteSystem : MonoBehaviour
         }
     }
 
-
+    public int GetLastNoteIndex()
+    {
+        if (playedPartition.Count > 0)
+        {
+            if (playedPartition.Last() == musicalNotes.Do)
+            {
+                return 0;
+            }
+            if (playedPartition.Last() == musicalNotes.Ré)
+            {
+                return 1;
+            }
+            if (playedPartition.Last() == musicalNotes.Mi)
+            {
+                return 2;
+            }
+            if (playedPartition.Last() == musicalNotes.Fa)
+            {
+                return 3;
+            }
+            if (playedPartition.Last() == musicalNotes.Sol)
+            {
+                return 4;
+            }
+            if (playedPartition.Last() == musicalNotes.La)
+            {
+                return 5;
+            }
+            if (playedPartition.Last() == musicalNotes.Si)
+            {
+                return 6;
+            }
+            if (playedPartition.Last() == musicalNotes.Do2)
+            {
+                return 7;
+            }
+            if (playedPartition.Last() == musicalNotes.None)
+            {
+                return -1;
+            }
+        }
+        return -1;
+    }
     public bool PlayerHoldLastNote(musicalNotes note)
     {
         if(noteHolded == note)
