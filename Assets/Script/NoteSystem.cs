@@ -105,7 +105,10 @@ public class NoteSystem : MonoBehaviour
             IsToggleSing = false;
         }
 
-
+        if(Input.GetAxis("ValidateNote") == 0f)
+        {
+            noteBefore = musicalNotes.None;
+        }
         if (isSinging)
         {
             PlayMusic();
@@ -253,7 +256,7 @@ public class NoteSystem : MonoBehaviour
                 noteUIElements[noteIndex].Highlight();
                 if (Input.GetAxisRaw("ValidateNote") > 0)
                 {
-                    Debug.Log("Valide Note " + noteIndex);
+                   // Debug.Log("Valide Note " + noteIndex);
                     PlayNote(noteIndex);
                 }
 
@@ -318,7 +321,7 @@ public class NoteSystem : MonoBehaviour
                 noteUIElements[noteIndex].Highlight();
                 if (Input.GetAxisRaw("ValidateNote") > 0)
                 {
-                    Debug.Log("Valide Note " + noteIndex);
+                    //Debug.Log("Valide Note " + noteIndex);
                     PlayNote(noteIndex);
                 }
             }
@@ -476,9 +479,9 @@ public class NoteSystem : MonoBehaviour
             Destroy(particleInstance, 5f);
         }
     }
-
     void PlayNote(int index)
     {
+
         if (GetNoteFromIndex(index) != noteBefore || playedTime > 3)
         {
             if (noteUIElements != null && index >= 0 && index < noteUIElements.Length && noteUIElements[index] != null)
@@ -490,7 +493,7 @@ public class NoteSystem : MonoBehaviour
             {
                 StartChant(index);
             }
-            
+
             if (singDelay != 0.00f)
             {
                 isPlaying = false;
@@ -508,8 +511,8 @@ public class NoteSystem : MonoBehaviour
                     }
                     else
                     {
-                         // Fallback si rien n'est assigné : spawn sur le joueur lui-même
-                         SpawnParticleAt(this.gameObject, index);
+                        // Fallback si rien n'est assigné : spawn sur le joueur lui-même
+                        SpawnParticleAt(this.gameObject, index);
                     }
 
                     if (spawnPoint2 != null)
@@ -520,7 +523,7 @@ public class NoteSystem : MonoBehaviour
                 }
 
                 if (playedPartition.TakeLast(3).SequenceEqual(chantDuDiab)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du diabète"); StartCoroutine(GameManager.Instance.playerManager.SetSingingStateCalme(15)); }
-                else if (playedPartition.TakeLast(4).SequenceEqual(chantDuBonheur)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du Bonheur");}
+                else if (playedPartition.TakeLast(4).SequenceEqual(chantDuBonheur)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du Bonheur"); }
                 else if (playedPartition.SequenceEqual(chantDuBirthday)) { Debug.LogWarning("Chant de l'anniversaire"); }
             }
             else
@@ -528,6 +531,7 @@ public class NoteSystem : MonoBehaviour
                 isPlaying = true;
             }
         }
+
         playedTime = 0;
     }
 
