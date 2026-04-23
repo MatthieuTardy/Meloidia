@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Generator : MonoBehaviour
 {
-    [SerializeField] CrocNoteType type;
+    [SerializeField] CrocNoteType crocNoteType;
 
     [SerializeField] float MaxTime;
     [SerializeField] float MinTime;
@@ -17,7 +17,7 @@ public class Generator : MonoBehaviour
     IEnumerator LauchRoutine()
     {
         
-        switch (type)
+        switch (crocNoteType)
         {
             case CrocNoteType.un:
                 yield return new WaitUntil(() => RanchManager.instance.RanchGenerator.CNbyType[0].Count > 0);
@@ -45,8 +45,8 @@ public class Generator : MonoBehaviour
                 break;
         }
     }
-    GameObject PrefabRessouces;
-    Transform SpawnPoint;
+    [SerializeField] GameObject PrefabRessouces;
+    [SerializeField] Transform SpawnPoint;
     IEnumerator CreateCrocNote(float CNNb)
     {
         yield return null;
