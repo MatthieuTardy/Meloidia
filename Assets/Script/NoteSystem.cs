@@ -545,6 +545,7 @@ public class NoteSystem : MonoBehaviour
     {
         if (playedPartition.TakeLast(Pattern.Count).SequenceEqual(Pattern))
         {
+            ClearPartition();
             return true;
         }
         else
