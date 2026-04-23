@@ -65,6 +65,14 @@ public class CrocNoteCarrySequence : MonoBehaviour
                 objectToCarry.transform.localPosition = new Vector3(0f, carryHeightOffset + bounce, 0f);
             }
         }
+
+        if (legumeManager != null && !legumeManager.enabled && legumeManager.NameBoard != null)
+        {
+            if (GameManager.Instance != null && GameManager.Instance.playerManager != null)
+            {
+                legumeManager.NameBoard.transform.LookAt(GameManager.Instance.playerManager.Camera.transform);
+            }
+        }
     }
 
     public void StartSequence()
