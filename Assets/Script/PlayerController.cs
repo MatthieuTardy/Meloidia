@@ -59,11 +59,12 @@ public class PlayerController : MonoBehaviour
     private float targetRotation;
     private float currentRotation;
 
-    private CameraShake _cameraShake;
+    //private CameraShake _cameraShake;
 
 
     void OnSomething()
     {
+        /*
         if (_cameraShake != null)
         {
             _cameraShake.Shake();
@@ -71,12 +72,12 @@ public class PlayerController : MonoBehaviour
         else
         {
             Debug.LogWarning("Impossible de trouver le composant CameraShake dans la scène !");
-        }
+        }*/
     }
 
     void Start()
     {
-        _cameraShake = FindObjectOfType<CameraShake>();
+        //_cameraShake = FindObjectOfType<CameraShake>();
         OnSomething();
         if (body == null) body = GetComponent<Rigidbody>();
         if (playerVisuals == null) playerVisuals = transform;
@@ -94,7 +95,6 @@ public class PlayerController : MonoBehaviour
 
         ResetIdleTimer();
     }
-
     void Update()
     {
         //if (GameManager.Instance.playerManager.Lock)
@@ -121,9 +121,9 @@ public class PlayerController : MonoBehaviour
                 HandleAnimations();
                 if (!isGrounded)
                 {
-                    HandleMovement();
+                   // HandleMovement();
                 }
-                HandleRotation();
+                
             }
             else
             {
@@ -141,6 +141,15 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         ApplyBetterGravity();
+        if (GameManager.Instance.playerManager.Lock)
+        {
+            if (!isGrounded)
+            {
+                HandleMovement();
+            }
+            HandleRotation();
+        }
+
     }
 
     private void ApplyBetterGravity()
