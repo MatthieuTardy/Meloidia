@@ -6,6 +6,11 @@ public class RanchRessourcesGenerator : MonoBehaviour
 {
     public List<LegumeManager>[] CNbyType = new List<LegumeManager>[5]; //carotte, navet, poivron, chou, brocoli
     List<Generator> generators = new List<Generator>();
+
+    private void Start()
+    {
+        for (int i = 0; i < CNbyType.Length; i++) { CNbyType[i] = new List<LegumeManager>(); }
+    }
     public void UpdateList(LegumeManager CN)
     {
         if (CN.legumeType == CrocNoteType.un)

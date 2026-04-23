@@ -26,7 +26,7 @@ public class SingingOnCrocNote : MonoBehaviour
     void CheckNote()
     {
 
-            Debug.Log("Check note");
+            //Debug.Log("Check note");
             if (GameManager.Instance.playerManager.noteSystem.PlayerSingCorrectPattern(chantDuFollow) && !CanFollow)
             {
                 Lmanager.StartFollowingLocation(GameManager.Instance.playerManager.transform);

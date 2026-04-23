@@ -5,7 +5,6 @@ using UnityEngine;
 public class RanchManager : MonoBehaviour
 {
     // si des crocs Notes sont dans le ranch
-    //on change leur surface de déplacement pour la zone du ranch
     // on les ajoutes dans une listes -> liste utilisé par les conditions
     // 
     public static RanchManager instance;
