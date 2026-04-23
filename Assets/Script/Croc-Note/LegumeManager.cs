@@ -51,7 +51,7 @@ public class LegumeManager : MonoBehaviour
     private Etat etatActuel;
 
     [Header("Paramètres de Déplacement")]
-    bool CanMoveFreely = true;
+    public bool CanMoveFreely = true;
     private Vector3 finalPos;
     public Transform CurrentTarget;
     [SerializeField] float walkRadius = 5f;
@@ -331,8 +331,11 @@ public class LegumeManager : MonoBehaviour
     [SerializeField] GameObject DeadCN;
     private void OnDestroy()
     {
-        GameObject c = Instantiate(DeadCN,this.transform.position,this.transform.rotation);
-        c.GetComponentInChildren<DeadCrocNote>().Init(gameObject.name);
+        if (Application.isPlaying)
+        {
+            GameObject c = Instantiate(DeadCN, this.transform.position, this.transform.rotation);
+            c.GetComponentInChildren<DeadCrocNote>().Init(gameObject.name);
+        }
     }
 
     [Button("Destroy")]

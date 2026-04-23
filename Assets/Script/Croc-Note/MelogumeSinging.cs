@@ -112,7 +112,10 @@ public class MelogumeSingingManager : MonoBehaviour
             legumeManager.vitesse = 0;
 
         }
-
+        if(legumeManager.CurrentTarget != null)
+        {
+            yield return new WaitUntil(() => legumeManager.CurrentTarget == null);
+        }
         // --- S�quence musicale avec particules ---
         legumeManager.animator.SetBool("walk", false);
         legumeManager.animator.SetBool("sing", true);
