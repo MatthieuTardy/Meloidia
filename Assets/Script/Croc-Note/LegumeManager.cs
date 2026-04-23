@@ -208,7 +208,7 @@ public class LegumeManager : MonoBehaviour
     #region Movement
     public IEnumerator RandomMove()
     {
-        Debug.Log("move routine " + CanMoveFreely);
+        //Debug.Log("move routine " + CanMoveFreely);
         if (CanMoveFreely)
         {
             yield return new WaitForSeconds(Random.Range(1, 5));
@@ -292,7 +292,8 @@ public class LegumeManager : MonoBehaviour
         int jetDeConstitution = Random.Range(0, 100);
         if (jetDeConstitution < deathChance && colere == true)
         {
-            Destroy(gameObject);
+
+            Die();
         }
         else if (jetDeConstitution >= deathChance && colere == true)
         {
@@ -329,19 +330,20 @@ public class LegumeManager : MonoBehaviour
 
     #region Die Management
     [SerializeField] GameObject DeadCN;
-    private void OnDestroy()
+    private void Die()
     {
         if (Application.isPlaying)
         {
             GameObject c = Instantiate(DeadCN, this.transform.position, this.transform.rotation);
             c.GetComponentInChildren<DeadCrocNote>().Init(gameObject.name);
+            Destroy(gameObject);
         }
     }
 
-    [Button("Destroy")]
+    [Button("Die")]
     void destroyDebug()
     {
-        Destroy(gameObject);
+        Die();
     }
     #endregion
 }
