@@ -76,6 +76,8 @@ public class CrocNoteCarrySequence : MonoBehaviour
     {
         if (legumeManager != null)
         {
+
+/// Théo a modifier pour nom qui suit pas
             legumeManager.StopAllCoroutines();
             legumeManager.enabled = false;
         }
