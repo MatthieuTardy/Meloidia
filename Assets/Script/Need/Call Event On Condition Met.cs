@@ -15,7 +15,7 @@ public class CallEventOnConditionMet : MonoBehaviour
 
     IEnumerator WaitForCondition()
     {
-        yield return new WaitUntil(() => condition.ConditionMet == true);
+        yield return new WaitUntil(() => condition.CheckCondition() == true);
         events.Invoke();
     }
 
