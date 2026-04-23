@@ -11,6 +11,8 @@ public class ProgressEnigmeSystem : MonoBehaviour
     [SerializeField] UnityEvent onEnigmeResolve;
     [SerializeField] UnityEvent onEnigmeStep;
 
+
+
     public float ratio;
     private bool isFinish;
     private Coroutine waitRoutine;
@@ -18,10 +20,14 @@ public class ProgressEnigmeSystem : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Chant") && waitRoutine == null)
+        if (other.gameObject.layer == 8)
         {
             if (!isFinish)
             {
+                if (waitRoutine != null)
+                {
+                    StopCoroutine(waitRoutine);
+                }
                 GameManager.Instance.playerManager.noteSystem.ClearPartition();
                 waitRoutine = StartCoroutine(ChantLogic());
             }
@@ -30,7 +36,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Chant") && waitRoutine != null)
+        if (other.gameObject.layer == 8 && waitRoutine != null)
         {
             if (!isFinish)
             {
@@ -54,7 +60,9 @@ public class ProgressEnigmeSystem : MonoBehaviour
             {
                 musicalNotes noteAttendue = chantEnigme[currentStep];
 
-                yield return new WaitUntil(() => GameManager.Instance.playerManager.noteSystem.playedPartition.Last() != lastNote);
+                yield return new WaitUntil(() => 
+                GameManager.Instance.playerManager.noteSystem.playedPartition.Count > 0 && 
+                GameManager.Instance.playerManager.noteSystem.playedPartition.Last() != lastNote);
                 lastNote = GameManager.Instance.playerManager.noteSystem.playedPartition.Last();
 
                 if (GameManager.Instance.playerManager.noteSystem.HasJustPlayed(noteAttendue))
@@ -80,6 +88,8 @@ public class ProgressEnigmeSystem : MonoBehaviour
         isFinish = true;
         RuntimeManager.PlayOneShot("event:/Musics/Win");
         onEnigmeResolve.Invoke();
+
+
 
         waitRoutine = null;
     }

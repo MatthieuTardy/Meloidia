@@ -909,6 +909,11 @@ GameObject:
   - component: {fileID: 6024722720021230136}
   - component: {fileID: 6362571068175176926}
   - component: {fileID: 3100197965172866101}
+  - component: {fileID: 5369100623598532811}
+  - component: {fileID: 1524314929202240133}
+  - component: {fileID: 5023606481628117607}
+  - component: {fileID: 4206371950892979323}
+  - component: {fileID: 4077727414049042957}
   - component: {fileID: 1465372352898977428}
   - component: {fileID: 381049125000471393}
   - component: {fileID: 4897971502853944837}
@@ -985,8 +990,8 @@ MonoBehaviour:
   Specisme4: 50
   Specisme5: 50
   bonheur: 50
-  SadPercent: 0
-  HappyPercent: 0
+  SadPercent: 10
+  HappyPercent: 80
   melogumesSingingManager: {fileID: 4955155072589143327}
   legumeType: 1
   deathTimer: 15
@@ -994,6 +999,7 @@ MonoBehaviour:
   finCalme: 30
   colere: 0
   isStartRageTimer: -1
+  CurrentTarget: {fileID: 0}
   walkRadius: 8
   intervalleAttente: 5
   vitesse: 5
@@ -1016,18 +1022,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6d29ecb4fecaee419b1e6ed258cf419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultPattern: 
-  DefaultSpeed: 0
-  HappyPattern: 
-  HappySpeed: 0
-  AngryPattern: 
-  AngrySpeed: 0
-  SadPattern: 
-  SadSpeed: 0
+  DefaultPattern: 000000000200000004000000
+  DefaultSpeed: 1
+  HappyPattern: 00000000010000000000000002000000
+  HappySpeed: 1
+  AngryPattern: 0000000000000000000000000000000000000000
+  AngrySpeed: 5
+  SadPattern: 0300000004000000
+  SadSpeed: 0.5
   noteParticlePrefab: {fileID: 7207747035653287744, guid: d256ed55c50dfab4caa9fe50f22ab646,
     type: 3}
   particleSpawnPoint: {fileID: 0}
-  noteSpeed: 0
+  noteSpeed: 1
   CustomDictionary:
   - ID: 0
     Emitter: {fileID: 6024722720021230136}
@@ -1039,19 +1045,19 @@ MonoBehaviour:
     Emitter: {fileID: 3100197965172866101}
     Mat: {fileID: 2100000, guid: 46cfea4fd9fac544b8a29173f070546d, type: 2}
   - ID: 3
-    Emitter: {fileID: 6024722720021230136}
+    Emitter: {fileID: 5369100623598532811}
     Mat: {fileID: 2100000, guid: eb91b6957e83b3b4da08dce87a40faf3, type: 2}
   - ID: 4
-    Emitter: {fileID: 6024722720021230136}
+    Emitter: {fileID: 1524314929202240133}
     Mat: {fileID: 2100000, guid: b78facef082e5d44bb01a05f40eb815c, type: 2}
   - ID: 5
-    Emitter: {fileID: 6024722720021230136}
+    Emitter: {fileID: 5023606481628117607}
     Mat: {fileID: 2100000, guid: 2ef3858852947d9469a058a08d7e6872, type: 2}
   - ID: 6
-    Emitter: {fileID: 6024722720021230136}
+    Emitter: {fileID: 4206371950892979323}
     Mat: {fileID: 2100000, guid: de2cb0beb2add714f84b97bd89432920, type: 2}
   - ID: 7
-    Emitter: {fileID: 6024722720021230136}
+    Emitter: {fileID: 4077727414049042957}
     Mat: {fileID: 2100000, guid: e875aa8922dde7845b9d8c2933bd93b7, type: 2}
   legumeManager: {fileID: 3783696505960282223}
 --- !u!114 &6024722720021230136
@@ -1076,15 +1082,15 @@ MonoBehaviour:
     Path: event:/SFX/Croc-note/DO
   Event: 
   EventPlayTrigger: 0
-  EventStopTrigger: 0
+  EventStopTrigger: 2
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0
   NonRigidbodyVelocity: 0
   Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
+  OverrideAttenuation: 1
+  OverrideMinDistance: 5
+  OverrideMaxDistance: 50
 --- !u!114 &6362571068175176926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1107,15 +1113,15 @@ MonoBehaviour:
     Path: event:/SFX/Croc-note/RE
   Event: 
   EventPlayTrigger: 0
-  EventStopTrigger: 0
+  EventStopTrigger: 2
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0
   NonRigidbodyVelocity: 0
   Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
+  OverrideAttenuation: 1
+  OverrideMinDistance: 5
+  OverrideMaxDistance: 50
 --- !u!114 &3100197965172866101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1138,15 +1144,170 @@ MonoBehaviour:
     Path: event:/SFX/Croc-note/MI
   Event: 
   EventPlayTrigger: 0
-  EventStopTrigger: 0
+  EventStopTrigger: 2
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0
   NonRigidbodyVelocity: 0
   Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
+  OverrideAttenuation: 1
+  OverrideMinDistance: 5
+  OverrideMaxDistance: 50
+--- !u!114 &5369100623598532811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3794085633981771437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 352314010
+      Data2: 1256172865
+      Data3: -403930710
+      Data4: 728312434
+    Path: event:/SFX/Croc-note/FA
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 5
+  OverrideMaxDistance: 50
+--- !u!114 &1524314929202240133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3794085633981771437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -799580361
+      Data2: 1334636694
+      Data3: 881466041
+      Data4: -66375443
+    Path: event:/SFX/Croc-note/SOL
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 5
+  OverrideMaxDistance: 50
+--- !u!114 &5023606481628117607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3794085633981771437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1526544668
+      Data2: 1086668150
+      Data3: 503296168
+      Data4: 352620140
+    Path: event:/SFX/Croc-note/LA
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 5
+  OverrideMaxDistance: 50
+--- !u!114 &4206371950892979323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3794085633981771437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 132270451
+      Data2: 1078259222
+      Data3: -34434657
+      Data4: 633859951
+    Path: event:/SFX/Croc-note/SI
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 5
+  OverrideMaxDistance: 50
+--- !u!114 &4077727414049042957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3794085633981771437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1039853874
+      Data2: 1078310672
+      Data3: -354637683
+      Data4: -1750269827
+    Path: event:/SFX/Croc-note/DO2
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 5
+  OverrideMaxDistance: 50
 --- !u!195 &1465372352898977428
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1157,13 +1318,13 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 2
-  m_Speed: 3.5
+  m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
+  m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 1.08

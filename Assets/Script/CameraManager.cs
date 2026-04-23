@@ -20,6 +20,11 @@ public class CameraManager : MonoBehaviour
         {
             CameraFunction();
         }
+        else
+        {
+            freeLook.m_YAxis.m_InputAxisName = "";
+            freeLook.m_XAxis.m_InputAxisName = "";
+        }
 
     }
 
@@ -29,6 +34,7 @@ public class CameraManager : MonoBehaviour
     public void ManageToggleSing()
     {
         float value = Input.GetAxisRaw("ToggleSing");
+        bool isNotPC = value > 0;
         value += Input.GetAxisRaw("SongPC");
         if (value > 0 && !triggerPressed)
         {
@@ -37,11 +43,11 @@ public class CameraManager : MonoBehaviour
 
             if (IsToggleSing)
             {
-                LockCam(false);
+                LockCam(false,!isNotPC);
             }
             else
             {
-                LockCam(true);
+                LockCam(true,!isNotPC);
             }
         }
 
@@ -51,14 +57,18 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    void LockCam( bool enable)
+    void LockCam(bool enable,bool IsPC)
     {
-        freeLook.enabled = enable;
-        GameManager.Instance.playerManager.LockControl(enable);
-        //Debug.Log("enable = " + enable);
-            Cursor.visible = !enable; 
-        Cursor.lockState = CursorLockMode.Confined;
-          //  Cursor.lockState = CursorLockMode.Confined;
+        // freeLook.enabled = enable;
+        freeLook.m_XAxis.Reset();
+        freeLook.m_YAxis.Reset();
+        // GameManager.Instance.playerManager.LockControl(enable);
+        Cursor.lockState = CursorLockMode.Locked;
+        if (IsPC)
+        {
+            Cursor.visible = !enable;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
     }
 
     //LA FONCTION SE LANCE QUAND LE JOUEUR N'EST PAS EN CHANT

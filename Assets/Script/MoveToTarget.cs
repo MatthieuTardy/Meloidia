@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MoveToTarget : MonoBehaviour
 {
-    public Transform target;
+    public Transform[] targets;
     public float speed = 5f;
     public ProgressEnigmeSystem enigmeSystem;
 
@@ -33,7 +33,7 @@ public class MoveToTarget : MonoBehaviour
 
     void Update()
     {
-        if (enigmeSystem == null || target == null) return;
+        if (enigmeSystem == null || targets == null || targets.Length == 0) return;
 
         if (enigmeSystem.ratio > previousRatio)
         {
@@ -49,15 +49,44 @@ public class MoveToTarget : MonoBehaviour
 
     public void MoveToRatio(float targetRatio)
     {
-        Vector3 targetPos = Vector3.Lerp(initialPos, target.position, targetRatio);
-        Quaternion targetRot = Quaternion.Lerp(initialRot, target.rotation, targetRatio);
-        Vector3 targetScale = Vector3.Lerp(initialScale, target.localScale, targetRatio);
+        GetTargetState(targetRatio, out Vector3 targetPos, out Quaternion targetRot, out Vector3 targetScale);
 
         if (moveCoroutine != null)
         {
             StopCoroutine(moveCoroutine);
         }
         moveCoroutine = StartCoroutine(MoveRoutine(targetPos, targetRot, targetScale));
+    }
+
+    private void GetTargetState(float ratio, out Vector3 outPos, out Quaternion outRot, out Vector3 outScale)
+    {
+        if (ratio <= 0f)
+        {
+            outPos = initialPos; outRot = initialRot; outScale = initialScale;
+            return;
+        }
+
+        if (ratio >= 1f)
+        {
+            Transform lastTarget = targets[targets.Length - 1];
+            outPos = lastTarget.position; outRot = lastTarget.rotation; outScale = lastTarget.localScale;
+            return;
+        }
+
+        int totalSegments = targets.Length;
+        float continuousIndex = ratio * totalSegments;
+        int index = Mathf.Clamp(Mathf.FloorToInt(continuousIndex), 0, totalSegments - 1);
+        float segmentRatio = continuousIndex - index;
+
+        Vector3 startPos = (index == 0) ? initialPos : targets[index - 1].position;
+        Quaternion startRot = (index == 0) ? initialRot : targets[index - 1].rotation;
+        Vector3 startScale = (index == 0) ? initialScale : targets[index - 1].localScale;
+
+        Transform endTarget = targets[index];
+
+        outPos = Vector3.Lerp(startPos, endTarget.position, segmentRatio);
+        outRot = Quaternion.Lerp(startRot, endTarget.rotation, segmentRatio);
+        outScale = Vector3.Lerp(startScale, endTarget.localScale, segmentRatio);
     }
 
     private IEnumerator MoveRoutine(Vector3 tPos, Quaternion tRot, Vector3 tScale)

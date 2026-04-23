@@ -24,6 +24,7 @@ public class MelogumeSingingManager : MonoBehaviour
     public Coroutine SingRoutine;
     private bool _isGameManagerReady = false;
     [SerializeField] LegumeManager legumeManager;
+    int OldNotePlayer = -1;
 
 
 
@@ -44,6 +45,11 @@ public class MelogumeSingingManager : MonoBehaviour
         currentSingPattern = DefaultPattern;
         noteSpeed = 1f;
         SingRoutine = StartCoroutine(SingPattern(currentSingPattern));
+    }
+
+    private void Update()
+    {
+        FollowPlayerNote();
     }
 
     // Arr�te tous les sons jou�s par ce script
@@ -226,6 +232,29 @@ public class MelogumeSingingManager : MonoBehaviour
     }
 
 
+    void FollowPlayerNote()
+    {
+        if (legumeManager.CurrentTarget != null)
+        {
+            if(GameManager.Instance.playerManager.noteSystem.playedPartition.Count > 0)
+            {
+                int notePlayer = GameManager.Instance.playerManager.noteSystem.GetLastNoteIndex();
+                if (notePlayer >= 0)
+                {
+                    if(notePlayer != OldNotePlayer)
+                    PlayNoteWithParticles(CustomDictionary[notePlayer].Emitter, CustomDictionary[notePlayer].Mat);
+                    StartCoroutine(StopEmitterAfterTime(.5f,CustomDictionary[notePlayer].Emitter));
+                    OldNotePlayer = GameManager.Instance.playerManager.noteSystem.GetLastNoteIndex();
+                }
+            }
+        }
+    }
+
+    IEnumerator StopEmitterAfterTime(float time,FMODUnity.StudioEventEmitter emitter)
+    {
+        yield return new WaitForSeconds(time);
+        emitter.Stop();
+    }
 }
 
 [System.Serializable]

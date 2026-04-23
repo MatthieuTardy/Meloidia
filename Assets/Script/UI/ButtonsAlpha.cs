@@ -12,7 +12,7 @@ public class ButtonsAlpha : MonoBehaviour
     {
         for(int i = 0; i < images.Length; i++)
         {
-            images[i].alphaHitTestMinimumThreshold = 1f;
+           // images[i].alphaHitTestMinimumThreshold = 1f;
         }
     }
 
