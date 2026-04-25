@@ -12,18 +12,21 @@ public class PropPusher : MonoBehaviour
         Vector3 startPos = transform.position;
         Quaternion startRot = transform.rotation;
 
+        Vector3 targetPos = finalState.position;
+        Quaternion targetRot = finalState.rotation;
+
         while (t < 1f)
         {
             t += Time.deltaTime / pushDuration;
             float normalizedTime = Mathf.Clamp01(t);
 
-            transform.position = Vector3.Lerp(startPos, finalState.position, normalizedTime);
-            transform.rotation = Quaternion.Lerp(startRot, finalState.rotation, normalizedTime);
+            transform.position = Vector3.Lerp(startPos, targetPos, normalizedTime);
+            transform.rotation = Quaternion.Lerp(startRot, targetRot, normalizedTime);
 
             yield return null;
         }
 
-        transform.position = finalState.position;
-        transform.rotation = finalState.rotation;
+        transform.position = targetPos;
+        transform.rotation = targetRot;
     }
 }

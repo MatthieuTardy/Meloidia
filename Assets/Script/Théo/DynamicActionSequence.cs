@@ -6,25 +6,41 @@ public class DynamicActionSequence : MonoBehaviour
 {
     public Vector3 targetPosition;
     public EnigmeGroupAction manager;
-    public float groupArrivalTolerance = 0.5f;
+    public float sequenceOffset;   // Left/Right offset
+    public float sequenceOffsetZ;  // Front/Back offset (Rows)
+    public float groupArrivalTolerance = 1.0f;
 
     private NavMeshAgent agent;
     private Animator animator;
     private LegumeManager legumeManager;
-    private float baseSpeed;
+    private Rigidbody rb;
+    private Collider col;
+    private bool isPushing = false;
 
     public void StartSequence()
     {
         agent = GetComponent<NavMeshAgent>();
         legumeManager = GetComponent<LegumeManager>();
+        rb = GetComponent<Rigidbody>();
+        col = GetComponent<Collider>();
 
         if (legumeManager != null)
         {
             animator = legumeManager.animator;
-            baseSpeed = legumeManager.vitesse;
         }
-
         StartCoroutine(MoveToTarget());
+    }
+
+    private void Update()
+    {
+        // Make sure the NameBoard keeps looking at the camera while LegumeManager is disabled
+        if (legumeManager != null && legumeManager.NameBoard != null)
+        {
+            if (GameManager.Instance != null && GameManager.Instance.playerManager != null && GameManager.Instance.playerManager.Camera != null)
+            {
+                legumeManager.NameBoard.transform.LookAt(GameManager.Instance.playerManager.Camera);
+            }
+        }
     }
 
     private IEnumerator MoveToTarget()
@@ -35,73 +51,96 @@ public class DynamicActionSequence : MonoBehaviour
             legumeManager.enabled = false;
         }
 
-        if (agent != null)
+        if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
         {
             agent.ResetPath();
-            agent.isStopped = false;
-            agent.speed = baseSpeed;
-            agent.acceleration = 20f;
+        }
+
+        if (rb != null) rb.isKinematic = true;
+        if (col != null) col.enabled = false;
+
+        if (agent != null)
+        {
+            while (!agent.isOnNavMesh) yield return null;
+
+            agent.radius = 0.1f;
+            agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
             agent.SetDestination(targetPosition);
         }
 
-        float timeoutTimer = 0f;
-        float maxWaitTime = 7f;
+        yield return null;
 
-        while (true)
+        while (agent != null && agent.enabled && agent.isOnNavMesh)
         {
-            Vector3 flatPos = new Vector3(transform.position.x, 0f, transform.position.z);
-            Vector3 flatTarget = new Vector3(targetPosition.x, 0f, targetPosition.z);
+            float dist = Vector2.Distance(
+                new Vector2(transform.position.x, transform.position.z),
+                new Vector2(targetPosition.x, targetPosition.z)
+            );
 
-            if (Vector3.Distance(flatPos, flatTarget) <= (agent.stoppingDistance + groupArrivalTolerance))
+            if (dist <= groupArrivalTolerance)
             {
                 break;
             }
 
-            timeoutTimer += Time.deltaTime;
-            if (timeoutTimer >= maxWaitTime) break;
-
-            if (agent != null) agent.SetDestination(targetPosition);
-
-            if (animator != null)
-            {
-                animator.speed = 1f;
-                animator.SetBool("walk", agent.velocity.sqrMagnitude > 0.01f);
-            }
+            if (animator != null) animator.SetBool("walk", true);
             yield return null;
-        }
-
-        if (agent != null)
-        {
-            agent.velocity = Vector3.zero;
-            agent.isStopped = true;
         }
 
         if (animator != null) animator.SetBool("walk", false);
 
-        if (manager != null)
+        if (agent != null)
         {
-            transform.rotation = Quaternion.LookRotation(manager.targetPoint.forward);
-
-            if (manager.propToPush != null)
+            // --- FIX: Ensure agent is active and on navmesh before stopping ---
+            if (agent.isActiveAndEnabled && agent.isOnNavMesh)
             {
-                transform.SetParent(manager.propToPush.transform);
+                agent.isStopped = true;
             }
+            agent.enabled = false;
+        }
 
+        if (manager != null && manager.propToPush != null)
+        {
+            transform.SetParent(manager.propToPush.transform, true);
+
+            // Calculate exact position using both X (left/right) and Z (front/back) offsets
+            Vector3 exactPos = manager.targetPoint.position
+                             + (manager.targetPoint.right * sequenceOffset)
+                             + (manager.targetPoint.forward * sequenceOffsetZ);
+            exactPos.y = manager.targetPoint.position.y;
+
+            transform.position = exactPos;
+            transform.rotation = Quaternion.LookRotation(manager.targetPoint.forward);
+            transform.Rotate(0, manager.rotationOffset, 0);
+
+            manager.OnCrocNoteArrived(this);
+        }
+        else if (manager != null)
+        {
             manager.OnCrocNoteArrived(this);
         }
     }
 
     public void StartPushing()
     {
-        if (animator != null)
+        isPushing = true;
+        StartCoroutine(ForcePushAnimation());
+    }
+
+    private IEnumerator ForcePushAnimation()
+    {
+        while (isPushing)
         {
-            animator.speed = 1f;
-            animator.SetBool("walk", true);
+            if (animator != null)
+            {
+                animator.SetBool("walk", true);
+            }
+            yield return null;
         }
     }
 
     public void FinishAndReturn()
     {
+        isPushing = false;
         StartCoroutine(ReturnRoutine());
     }
 
@@ -109,28 +148,29 @@ public class DynamicActionSequence : MonoBehaviour
     {
         transform.SetParent(null);
 
-        if (animator != null) animator.SetBool("walk", false);
-
-        if (agent != null)
-        {
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(transform.position, out hit, 4.0f, NavMesh.AllAreas))
-            {
-                agent.Warp(hit.position);
-            }
-
-            agent.isStopped = false;
-            agent.ResetPath();
-        }
+        if (agent != null) agent.enabled = false;
 
         yield return null;
 
-        if (legumeManager != null)
+        if (rb != null) rb.isKinematic = false;
+        if (col != null) col.enabled = true;
+
+        if (agent != null)
         {
-            legumeManager.enabled = true;
-            legumeManager.StartFollowingLocation(GameManager.Instance.playerManager.transform);
+            agent.enabled = true;
+            yield return new WaitForFixedUpdate();
         }
 
+        if (legumeManager != null)
+        {
+            if (animator != null) animator.SetBool("walk", false);
+            legumeManager.enabled = true;
+
+            if (GameManager.Instance != null && GameManager.Instance.playerManager != null)
+            {
+                legumeManager.StartFollowingLocation(GameManager.Instance.playerManager.transform);
+            }
+        }
         Destroy(this);
     }
 }

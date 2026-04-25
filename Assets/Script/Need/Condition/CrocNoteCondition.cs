@@ -66,9 +66,42 @@ public class CrocNoteCondition : Condition
         }
         return temps;
     }
-    
 
 
+    public List<LegumeManager> GetParticipatingCrocNotes()
+    {
+        List<LegumeManager> participants = new List<LegumeManager>();
+
+        if (!haveType)
+        {
+            for (int i = 0; i < WantedCount; i++)
+            {
+                if (i < proximity.CrocNoteInProximity.Count)
+                {
+                    participants.Add(proximity.CrocNoteInProximity[i]);
+                }
+            }
+        }
+        else
+        {
+            Dictionary<CrocNoteType, int> remainingNeeded = new Dictionary<CrocNoteType, int>();
+            foreach (var amount in amounts)
+            {
+                remainingNeeded[amount.type] = amount.amount;
+            }
+
+            foreach (var croc in proximity.CrocNoteInProximity)
+            {
+                if (remainingNeeded.ContainsKey(croc.legumeType) && remainingNeeded[croc.legumeType] > 0)
+                {
+                    participants.Add(croc);
+                    remainingNeeded[croc.legumeType]--;
+                }
+            }
+        }
+
+        return participants;
+    }
 
 
 }
