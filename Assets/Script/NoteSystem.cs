@@ -545,7 +545,7 @@ public class NoteSystem : MonoBehaviour
     {
         if (playedPartition.TakeLast(Pattern.Count).SequenceEqual(Pattern))
         {
-            ClearPartition();
+            ClearPartitionAfterDelay(0.2f);
             return true;
         }
         else
@@ -554,7 +554,11 @@ public class NoteSystem : MonoBehaviour
         }
     }
 
-
+    IEnumerator ClearPartitionAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ClearPartition();
+    }
 
     void clearHoldedNote()
     {
