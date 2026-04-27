@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.AI;
+using Unity.AI.Navigation;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -114,18 +116,18 @@ public class EasyBoundary : MonoBehaviour
         }
     }
 
-    [ContextMenu("Générer les Colliders (Confirmer)")]
+    [ContextMenu("Générer les Volumes (Confirmer)")]
     public void GenererColliders()
     {
         NettoyerLiaisons();
 
         if (liaisons.Count == 0)
         {
-            Debug.LogWarning("No links available to generate walls.");
+            Debug.LogWarning("Aucune liaison disponible.");
             return;
         }
 
-        GameObject dossierPrincipal = new GameObject("Colliders_Generes");
+        GameObject dossierPrincipal = new GameObject("Volumes_NavMesh_Generes");
         dossierPrincipal.transform.SetParent(this.transform);
 
         Dictionary<GroupeBordure, Transform> sousDossiers = new Dictionary<GroupeBordure, Transform>();
@@ -138,27 +140,22 @@ public class EasyBoundary : MonoBehaviour
             GroupeBordure groupe = TrouverGroupeDuNoeud(p1);
             if (groupe == null) continue;
 
-            Transform parentActuel = dossierPrincipal.transform;
             if (!sousDossiers.ContainsKey(groupe))
             {
-                GameObject sd = new GameObject($"Murs_{groupe.parentDesPoints.name}");
+                GameObject sd = new GameObject($"Volumes_{groupe.parentDesPoints.name}");
                 sd.transform.SetParent(dossierPrincipal.transform);
                 sousDossiers[groupe] = sd.transform;
             }
-            parentActuel = sousDossiers[groupe];
+            Transform parentActuel = sousDossiers[groupe];
 
             int layerID = LayerMask.NameToLayer(groupe.layerDesMurs);
-            if (layerID == -1)
-            {
-                Debug.LogWarning($"Layer '{groupe.layerDesMurs}' not found for group '{groupe.parentDesPoints.name}'. Using Default layer.");
-                layerID = 0;
-            }
+            if (layerID == -1) layerID = 0;
 
             Vector3 direction = p2.position - p1.position;
             float distance = direction.magnitude;
             Vector3 centre = p1.position + (direction / 2f);
 
-            GameObject mur = new GameObject($"Mur_{p1.name}_a_{p2.name}");
+            GameObject mur = new GameObject($"Volume_{p1.name}_a_{p2.name}");
             mur.transform.SetParent(parentActuel);
             mur.transform.position = centre;
             mur.layer = layerID;
@@ -169,15 +166,20 @@ public class EasyBoundary : MonoBehaviour
             }
 
             BoxCollider box = mur.AddComponent<BoxCollider>();
-            box.size = new Vector3(groupe.epaisseurMur, groupe.hauteurMur, distance);
+            Vector3 size = new Vector3(groupe.epaisseurMur, groupe.hauteurMur, distance);
+            box.size = size;
 
             if (groupe.physicsMaterial != null)
             {
                 box.material = groupe.physicsMaterial;
             }
+
+            NavMeshModifierVolume vol = mur.AddComponent<NavMeshModifierVolume>();
+            vol.size = size;
+            vol.area = NavMesh.GetAreaFromName("Not Walkable");
         }
 
-        Debug.Log($"{liaisons.Count} invisible walls generated successfully!");
+        Debug.Log($"{liaisons.Count} volumes NavMeshModifierVolume générés !");
     }
 
     [ContextMenu("Auto-Link Sequential (Hierarchy Order)")]
@@ -219,14 +221,8 @@ public class EasyBoundaryEditor : Editor
 
                 if (Handles.Button(point.position, Quaternion.identity, tailleNoeud, tailleNoeud, Handles.SphereHandleCap))
                 {
-                    if (noeudSelectionne == null)
-                    {
-                        noeudSelectionne = point;
-                    }
-                    else if (noeudSelectionne == point)
-                    {
-                        noeudSelectionne = null;
-                    }
+                    if (noeudSelectionne == null) noeudSelectionne = point;
+                    else if (noeudSelectionne == point) noeudSelectionne = null;
                     else
                     {
                         Undo.RecordObject(script, "Add Link");

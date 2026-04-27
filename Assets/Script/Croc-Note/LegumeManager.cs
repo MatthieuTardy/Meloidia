@@ -61,6 +61,11 @@ public class LegumeManager : MonoBehaviour
     public NavMeshAgent myNavAgent;
     private Coroutine move;
 
+    ///Théo
+    private float lastPathCheckTime;
+    private float pathCheckInterval = 0.5f;
+    ///Théo
+
     [Header("Effets de 'Juice' - Respiration")]
     public float amplitudeRespiration = 0.05f;
     public float vitesseRespiration = 2f;
@@ -130,7 +135,21 @@ public class LegumeManager : MonoBehaviour
         }
         if (!CanMoveFreely && CurrentTarget != null)
         {
-            myNavAgent.SetDestination(CurrentTarget.position);
+            ///Théo
+            if (Time.time >= lastPathCheckTime + pathCheckInterval)
+            {
+                lastPathCheckTime = Time.time;
+                NavMeshPath path = new NavMeshPath();
+                if (myNavAgent.CalculatePath(CurrentTarget.position, path) && path.status == NavMeshPathStatus.PathComplete)
+                {
+                    myNavAgent.SetDestination(CurrentTarget.position);
+                }
+                else
+                {
+                    myNavAgent.ResetPath();
+                }
+            }
+            ///Théo
             if (Vector3.Distance(this.transform.position, CurrentTarget.position) <= 2.1f)
             {
                 animator.SetBool("walk", false);
@@ -214,8 +233,15 @@ public class LegumeManager : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(1, 5));
             animator.SetBool("walk", true);
             finalPos = RandomNavmeshLocation(walkRadius);
-            myNavAgent.SetDestination(finalPos);
-            yield return new WaitUntil(() => Vector3.Distance(this.transform.position,finalPos) <= 2.1f);
+
+            ///Théo
+            if (finalPos != Vector3.zero)
+            {
+                myNavAgent.SetDestination(finalPos);
+                yield return new WaitUntil(() => Vector3.Distance(this.transform.position, finalPos) <= 2.1f);
+            }
+            ///Théo
+
             animator.SetBool("walk", false);
             move = StartCoroutine(RandomMove());
         }
@@ -229,7 +255,13 @@ public class LegumeManager : MonoBehaviour
         Vector3 finalPosition = Vector3.zero;
         if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
         {
-            finalPosition = hit.position;
+            ///Théo
+            NavMeshPath path = new NavMeshPath();
+            if (myNavAgent.CalculatePath(hit.position, path) && path.status == NavMeshPathStatus.PathComplete)
+            {
+                finalPosition = hit.position;
+            }
+            ///Théo
         }
         return finalPosition;
     }
