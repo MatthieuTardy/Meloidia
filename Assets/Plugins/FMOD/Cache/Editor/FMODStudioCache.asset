@@ -67,10 +67,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639129669138187182
+  lastModified: 639129864555576516
   FileSizes:
   - Name: Desktop
-    Value: 4006
+    Value: 4050
   Exists: 1
 --- !u!114 &-8120172108296925034
 MonoBehaviour:
@@ -1338,13 +1338,14 @@ MonoBehaviour:
   - {fileID: -2336245218474188465}
   - {fileID: 8040215054866128711}
   - {fileID: 5449539441569626935}
+  - {fileID: 8614313464846287268}
   EditorParameters: []
   MasterBanks:
   - {fileID: -4243545848318456464}
   StringsBanks:
   - {fileID: -8397885059187387692}
   cacheVersion: 131849
-  cacheTime: 639129669140826404
+  cacheTime: 639129864559711153
   SerializableEventsDict:
   - key: event:/Musics/Win
     index: 0
@@ -1476,6 +1477,8 @@ MonoBehaviour:
     index: 63
   - key: event:/Musics/Mus industrielle
     index: 64
+  - key: event:/SFX/Usine/UsineSFX
+    index: 65
 --- !u!114 &209723335646530673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2130,10 +2133,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639129669140826404
+  lastModified: 639129864559711153
   FileSizes:
   - Name: Desktop
-    Value: 4338880
+    Value: 10541856
   Exists: 1
 --- !u!114 &5191202134173285223
 MonoBehaviour:
@@ -2390,10 +2393,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639129669140557015
+  lastModified: 639129864558777476
   FileSizes:
   - Name: Desktop
-    Value: 35196960
+    Value: 35196736
   Exists: 1
 --- !u!114 &6872846678141497769
 MonoBehaviour:
@@ -2631,6 +2634,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4394
+--- !u!114 &8614313464846287268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Usine/UsineSFX
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Usine/UsineSFX
+  Guid:
+    Data1: 1742078036
+    Data2: 1202678163
+    Data3: 671621789
+    Data4: 1180431718
+  Banks:
+  - {fileID: 5131200953825651899}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 519384
 --- !u!114 &9146284351196836443
 MonoBehaviour:
   m_ObjectHideFlags: 0
