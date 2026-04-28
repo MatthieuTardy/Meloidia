@@ -39,7 +39,7 @@ public class LegumeManager : MonoBehaviour
 
     [Header("Gestion de la mort")]
     public float deathTimer = 15;
-    public int chanceToDie = 5;
+
 
     [Header("Gestion de la colère")]
     public float finCalme = 30;
@@ -319,7 +319,7 @@ public class LegumeManager : MonoBehaviour
     {
         isStartRageTimer = 1;
         melogumesSingingManager.StopHappyness();
-        StartCoroutine(EndOfRageDelay(deathTimer, chanceToDie));
+        StartCoroutine(EndOfRageDelay(deathTimer));
         melogumesSingingManager.StartRage();
         colere = true;
         Debug.Log("Colère !");
@@ -331,10 +331,9 @@ public class LegumeManager : MonoBehaviour
         calmeTimer = 0;
         //remettre la marche
     }
-    IEnumerator EndOfRageDelay(float EndOfRageTimer, int deathChance)
+    IEnumerator EndOfRageDelay(float EndOfRageTimer)
     {
         yield return new WaitForSeconds(EndOfRageTimer);
-        int jetDeConstitution = Random.Range(0, 100);
 
             SetBonheur(GetBonheur() - 5);
             colere = false;
