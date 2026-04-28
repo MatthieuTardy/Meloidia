@@ -335,21 +335,9 @@ public class LegumeManager : MonoBehaviour
     {
         yield return new WaitForSeconds(EndOfRageTimer);
         int jetDeConstitution = Random.Range(0, 100);
-        if (jetDeConstitution < deathChance && colere == true)
-        {
 
-            Die();
-        }
-        else if (jetDeConstitution >= deathChance && colere == true)
-        {
             SetBonheur(GetBonheur() - 5);
             colere = false;
-        }
-        else
-        {
-            colere = false;
-        }
-
     }
     #endregion
     #region BonheurVariation
@@ -372,23 +360,4 @@ public class LegumeManager : MonoBehaviour
 
     #endregion BonheurVariation
 
-
-    #region Die Management
-    [SerializeField] GameObject DeadCN;
-    private void Die()
-    {
-        if (Application.isPlaying)
-        {
-            GameObject c = Instantiate(DeadCN, this.transform.position, this.transform.rotation);
-            c.GetComponentInChildren<DeadCrocNote>().Init(gameObject.name);
-            Destroy(gameObject);
-        }
-    }
-
-    [Button("Die")]
-    void destroyDebug()
-    {
-        Die();
-    }
-    #endregion
 }
