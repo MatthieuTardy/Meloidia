@@ -67,10 +67,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639115014025801135
+  lastModified: 639129399747751724
   FileSizes:
   - Name: Desktop
-    Value: 3958
+    Value: 4006
   Exists: 1
 --- !u!114 &-8120172108296925034
 MonoBehaviour:
@@ -1121,6 +1121,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 110
+--- !u!114 &-712880210003634680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Mus industrielle/Melodie1
+  m_EditorClassIdentifier: 
+  Name: Melodie1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2174529035
+    data2: 2748854950
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-685347595314079847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1313,13 +1337,14 @@ MonoBehaviour:
   - {fileID: -7249675652793395380}
   - {fileID: -2336245218474188465}
   - {fileID: 8040215054866128711}
+  - {fileID: 5449539441569626935}
   EditorParameters: []
   MasterBanks:
   - {fileID: -4243545848318456464}
   StringsBanks:
   - {fileID: -8397885059187387692}
   cacheVersion: 131849
-  cacheTime: 639127501583352340
+  cacheTime: 639129399750392727
   SerializableEventsDict:
   - key: event:/Musics/Win
     index: 0
@@ -1449,6 +1474,8 @@ MonoBehaviour:
     index: 62
   - key: event:/SFX/Build/Validation
     index: 63
+  - key: event:/Musics/Mus industrielle
+    index: 64
 --- !u!114 &209723335646530673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2103,10 +2130,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639127501583352340
+  lastModified: 639129399750392727
   FileSizes:
   - Name: Desktop
-    Value: 4338848
+    Value: 4338880
   Exists: 1
 --- !u!114 &5191202134173285223
 MonoBehaviour:
@@ -2163,6 +2190,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 620
+--- !u!114 &5449539441569626935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Musics/Mus industrielle
+  m_EditorClassIdentifier: 
+  Path: event:/Musics/Mus industrielle
+  Guid:
+    Data1: 1257933711
+    Data2: 1150299492
+    Data3: 151732407
+    Data4: 94258941
+  Banks:
+  - {fileID: 6687332708865479522}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -712880210003634680}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 141766
 --- !u!114 &5536139415922626612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2335,10 +2390,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639127500243587415
+  lastModified: 639129399750059560
   FileSizes:
   - Name: Desktop
-    Value: 31215904
+    Value: 35196960
   Exists: 1
 --- !u!114 &6872846678141497769
 MonoBehaviour:
