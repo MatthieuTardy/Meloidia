@@ -8,6 +8,10 @@ Shader "Roystan/Toon/GeometryGrass_URP" {
         _TipColor("Tip Color", Color) = (0.5, 1.0, 0.3, 1)
         _MainTex("Texture", 2D) = "white" {}
 
+        [Header(Color Variation)]
+        _Color2("Variation Color (Patches)", Color) = (0.7, 0.8, 0.4, 1)
+        _ColorNoiseScale("Patch Noise Scale", Range(0.01, 2.0)) = 0.1
+
         [Header(Grass Shape)]
         _Height("Grass Height", float) = 3
         _Width("Grass Width", range(0, 0.2)) = 0.08
@@ -17,7 +21,9 @@ Shader "Roystan/Toon/GeometryGrass_URP" {
 
         [Header(Toon Lighting)]
         _ToonOffset("Toon Ramp Offset", Range(0, 1)) = 0.3
+        _ToonOffsetPoint("Toon Ramp Offset (Point Lights)", Range(0, 1)) = 0.3
         _ToonSmooth("Toon Ramp Smoothness", Range(0.01, 0.5)) = 0.1
+        _ToonTint("Toon Ramp Tinting", Color) = (0,0,0,0)
 
         [Header(Wind)]
         _WindDirection("Wind Direction (X,Z)", Vector) = (1, 0, 0, 0)
@@ -57,14 +63,15 @@ Shader "Roystan/Toon/GeometryGrass_URP" {
 
                 #pragma target 4.5
 
-                #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
-                #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-                #pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
-                #pragma multi_compile _ _SHADOWS_SOFT
-                #pragma multi_compile_fog
+            // Multi-compiles pour les ombres et les lumières
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+            #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+            #pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
+            #pragma multi_compile _ _SHADOWS_SOFT
+            #pragma multi_compile_fog
 
-                #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-                #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
             // ==========================================
             // RANDOM & NOISE
@@ -146,6 +153,7 @@ Shader "Roystan/Toon/GeometryGrass_URP" {
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
                 float fogFactor : TEXCOORD2;
+                float colorVar : TEXCOORD3; // <-- Nouvelle variable pour la variation de couleur
             };
 
             // ==========================================
@@ -159,10 +167,19 @@ Shader "Roystan/Toon/GeometryGrass_URP" {
                 float4 _MainTex_ST;
                 float4 _Color;
                 float4 _Albedo1, _Albedo2, _AOColor, _TipColor, _FogColor;
+
+                // Variations
+                float4 _Color2;
+                float _ColorNoiseScale;
+
                 float _FogDensity, _FogOffset;
                 float _Height, _Width;
                 float _Curvature, _Roundness, _BulgeAmount;
-                float _ToonOffset, _ToonSmooth;
+
+                float _ToonOffset;
+                float _ToonOffsetPoint;
+                float _ToonSmooth;
+                float4 _ToonTint;
 
                 float4 _WindDirection;
                 float _WindSpeed;
@@ -173,7 +190,7 @@ Shader "Roystan/Toon/GeometryGrass_URP" {
                 float _InteractorStrength;
             CBUFFER_END
 
-                // Position globale depuis le script
+                // Position globale depuis le script (doit rester hors du CBUFFER)
                 float4 _InteractorPosition;
 
             // ==========================================
@@ -205,7 +222,7 @@ Shader "Roystan/Toon/GeometryGrass_URP" {
 
             float BulgeProfile(float t, float roundness, float bulge) {
                 float belly = sin(t * PI) * bulge;
-                float closeCurve = 1.0 - pow(t, lerp(1.0, 4.0, roundness));
+                float closeCurve = sqrt(max(0.0, 1.0 - pow(t, lerp(1.5, 4.0, roundness))));
                 float openCurve = smoothstep(0.0, 0.15, t);
                 return (closeCurve + belly) * openCurve;
             }
@@ -217,7 +234,7 @@ Shader "Roystan/Toon/GeometryGrass_URP" {
             [maxvertexcount(60)]
             void gp(point v2g points[1], inout TriangleStream<g2f> triStream) {
                 int i;
-                float4 root = points[0].vertex; // En espace LOCAL
+                float4 root = points[0].vertex;
 
                 float idHash = randValue(abs(root.x * 10000 + root.y * 100 + root.z * 0.05f + 2));
                 idHash = randValue(idHash * 100000);
@@ -232,6 +249,13 @@ Shader "Roystan/Toon/GeometryGrass_URP" {
                 float cz = sin(curveAngle * PI / 180.0);
                 float curveMagnitude = _Curvature * grassHeight * 0.4;
 
+                // --- VARIATION DE COULEUR (PATCHES + RANDOM) ---
+                // On utilise la position du brin dans le monde pour générer des taches de couleur douces
+                float3 worldRootPos = TransformObjectToWorld(root.xyz);
+                float colorNoise = snoise(worldRootPos * _ColorNoiseScale) * 0.5 + 0.5;
+                // On mélange le bruit (70%) avec le random individuel (30%) pour plus de naturel
+                float finalColorVar = saturate(colorNoise * 0.7 + idHash2 * 0.3);
+
                 // --- VENT ---
                 float2 windDir = normalize(_WindDirection.xz + float2(0.001, 0.001));
                 float2 windUV = root.xz * _WindScale * 0.1 - windDir * _Time.y * _WindSpeed;
@@ -240,13 +264,10 @@ Shader "Roystan/Toon/GeometryGrass_URP" {
                 float totalWindStrength = (windGust + microJitter) * _WindStrength * grassHeight;
                 float2 windDisplacement = windDir * totalWindStrength;
 
-                // --- INTERACTION (ÉCRASEMENT FIXÉ) ---
-                // Convertir la position MONDE du joueur en position LOCALE de l'objet herbe
+                // --- INTERACTION ---
                 float3 localInteractorPos = TransformWorldToObject(_InteractorPosition.xyz);
-
                 float distToInteractor = distance(root.xz, localInteractorPos.xz);
                 float interactFalloff = 1.0 - saturate(distToInteractor / _InteractorRadius);
-
                 float2 pushDirXZ = normalize(root.xz - localInteractorPos.xz + float2(0.001, 0.001));
                 float3 interactionDisplacement = float3(pushDirXZ.x, -0.8, pushDirXZ.y) * interactFalloff * _InteractorStrength * grassHeight;
 
@@ -273,13 +294,15 @@ Shader "Roystan/Toon/GeometryGrass_URP" {
 
                 g2f v[vertexCount];
                 for (i = 0; i < vertexCount; ++i) {
-                    v[i].vertex = 0.0f; v[i].uv = 0.0f; v[i].worldPos = 0.0f; v[i].fogFactor = 0.0f;
+                    v[i].vertex = 0.0f; v[i].uv = 0.0f; v[i].worldPos = 0.0f; v[i].fogFactor = 0.0f; v[i].colorVar = 0.0f;
                 }
 
                 float rotation = idHash3 * 180.0f;
 
                 for (i = 0; i <= SEGMENTS; ++i) {
-                    float t = float(i) / float(SEGMENTS);
+                    float t_linear = float(i) / float(SEGMENTS);
+                    float t = sin(t_linear * PI * 0.5); // Arrondi de la pointe
+
                     float3 curvePos = CubicBezier(p0, p1, p2, p3, t);
 
                     float widthMultiplier = BulgeProfile(t, _Roundness, _BulgeAmount);
@@ -304,8 +327,20 @@ Shader "Roystan/Toon/GeometryGrass_URP" {
                     float4 clipRight = TransformWorldToHClip(worldRight);
 
                     int idx = i * 2;
-                    v[idx].vertex = clipLeft; v[idx].uv = float2(0, t); v[idx].worldPos = worldLeft; v[idx].fogFactor = ComputeFogFactor(clipLeft.z);
-                    v[idx + 1].vertex = clipRight; v[idx + 1].uv = float2(1, t); v[idx + 1].worldPos = worldRight; v[idx + 1].fogFactor = ComputeFogFactor(clipRight.z);
+
+                    // Assignation Vertex Gauche
+                    v[idx].vertex = clipLeft;
+                    v[idx].uv = float2(0, t);
+                    v[idx].worldPos = worldLeft;
+                    v[idx].fogFactor = ComputeFogFactor(clipLeft.z);
+                    v[idx].colorVar = finalColorVar; // Transmission de la variation
+
+                    // Assignation Vertex Droit
+                    v[idx + 1].vertex = clipRight;
+                    v[idx + 1].uv = float2(1, t);
+                    v[idx + 1].worldPos = worldRight;
+                    v[idx + 1].fogFactor = ComputeFogFactor(clipRight.z);
+                    v[idx + 1].colorVar = finalColorVar; // Transmission de la variation
                 }
 
                 for (i = 0; i < SEGMENTS; ++i) {
@@ -322,6 +357,7 @@ Shader "Roystan/Toon/GeometryGrass_URP" {
             // ==========================================
 
             half4 fp(g2f i) : SV_Target {
+                // --- Base Color ---
                 float4 grassCol = lerp(_Albedo1, _Albedo2, i.uv.y);
                 float aoMask = smoothstep(0.0, 0.4, i.uv.y);
                 float4 ao = lerp(_AOColor, float4(1,1,1,1), aoMask);
@@ -330,17 +366,53 @@ Shader "Roystan/Toon/GeometryGrass_URP" {
 
                 float4 baseColor = (grassCol + tip) * ao;
 
-                float3 stableNormal = float3(0, 1, 0);
-                float NdotL = dot(stableNormal, normalize(_MainLightPosition.xyz)) * 0.5 + 0.5;
-
-                float toonRamp = smoothstep(_ToonOffset, _ToonOffset + _ToonSmooth, NdotL);
-                float3 light = toonRamp * _MainLightColor.rgb;
+                // --- Application de la variation ---
+                float4 globalTint = lerp(_Color, _Color2, i.colorVar);
 
                 float2 texUV = i.uv * _MainTex_ST.xy + _MainTex_ST.zw;
                 float4 texCol = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, texUV);
 
-                float3 finalRGB = (baseColor.rgb * texCol.rgb * _Color.rgb) * (light + unity_AmbientSky.rgb);
+                // Mélange final de la couleur
+                float3 finalAlbedo = baseColor.rgb * texCol.rgb * globalTint.rgb;
 
+                // --- TOON LIGHTING & SHADOWS ---
+                float3 stableNormal = float3(0, 1, 0);
+
+                #if defined(_MAIN_LIGHT_SHADOWS_SCREEN) && !defined(_SURFACE_TYPE_TRANSPARENT)
+                    float4 shadowCoord = ComputeScreenPos(i.vertex);
+                #else
+                    float4 shadowCoord = TransformWorldToShadowCoord(i.worldPos);
+                #endif
+
+                Light mainLight = GetMainLight(shadowCoord);
+
+                half dMain = dot(stableNormal, mainLight.direction) * 0.5 + 0.5;
+                half toonRampMain = smoothstep(_ToonOffset, _ToonOffset + _ToonSmooth, dMain);
+                toonRampMain *= mainLight.shadowAttenuation;
+
+                float3 toonLighting = mainLight.color * (toonRampMain + _ToonTint.rgb);
+
+                // --- POINT LIGHTS / SPOT LIGHTS ---
+                float3 extraLights = float3(0, 0, 0);
+                int pixelLightCount = GetAdditionalLightsCount();
+
+                for (int j = 0; j < pixelLightCount; ++j) {
+                    Light aLight = GetAdditionalLight(j, i.worldPos, half4(1, 1, 1, 1));
+
+                    float3 attenuatedLightColor = aLight.color * (aLight.distanceAttenuation * aLight.shadowAttenuation);
+
+                    half dExtra = dot(stableNormal, aLight.direction) * 0.5 + 0.5;
+                    half toonRampExtra = smoothstep(_ToonOffsetPoint, _ToonOffsetPoint + _ToonSmooth, dExtra);
+
+                    extraLights += attenuatedLightColor * toonRampExtra;
+                }
+
+                toonLighting += extraLights;
+                toonLighting += unity_AmbientSky.rgb;
+
+                float3 finalRGB = finalAlbedo * toonLighting;
+
+                // --- FOG ---
                 float viewDistance = length(GetCameraPositionWS() - i.worldPos);
                 float fogFactor = (_FogDensity / sqrt(log(2))) * (max(0.0f, viewDistance - _FogOffset));
                 fogFactor = exp2(-fogFactor * fogFactor);

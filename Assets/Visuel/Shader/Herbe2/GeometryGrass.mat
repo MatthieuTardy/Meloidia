@@ -19,7 +19,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties: _ToonTint
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -65,8 +65,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BulgeAmount: 0.83
+    - _BulgeAmount: 0.68
     - _BumpScale: 1
+    - _ColorNoiseScale: 0.11
     - _CullingBias: 0.55
     - _Curvature: 0
     - _Cutoff: 0.5
@@ -77,7 +78,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Height: 0.81
+    - _Height: 1.16
     - _InteractorRadius: 2.14
     - _InteractorStrength: 1.19
     - _LODCutoff: 100
@@ -91,25 +92,28 @@ Material:
     - _SrcBlend: 1
     - _ToonBrightness: 1
     - _ToonOffset: 0
+    - _ToonOffsetPoint: 0.3
     - _ToonSmooth: 0.01
     - _ToonSteps: 5
     - _UVSec: 0
-    - _Width: 0.057
+    - _Width: 0.11
     - _WindDirection: 4
     - _WindFrequency: 0.1
-    - _WindScale: 1
-    - _WindSpeed: 0.48
-    - _WindStrength: 0.51
+    - _WindScale: 0.7
+    - _WindSpeed: 0.54
+    - _WindStrength: 0.62
     - _WindTurbulence: 0.02
     - _ZWrite: 1
     m_Colors:
-    - _AOColor: {r: 0.94766045, g: 1, b: 0.25, a: 1}
+    - _AOColor: {r: 1, g: 1, b: 1, a: 1}
     - _Albedo1: {r: 0.7372549, g: 0.8941177, b: 0.38431376, a: 1}
     - _Albedo2: {r: 0.91003746, g: 0.9607843, b: 0, a: 1}
-    - _Color: {r: 0.8150711, g: 0.9433962, b: 0.52954787, a: 1}
+    - _Color: {r: 0.81012934, g: 0.8113208, b: 0.8074938, a: 1}
+    - _Color2: {r: 0.8962264, g: 0.870201, b: 0.063412234, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FogColor: {r: 0.75488394, g: 0.8867924, b: 0.29699183, a: 1}
     - _InteractorPosition: {r: 0, g: -1000, b: 0, a: 0}
     - _TipColor: {r: 0.14603516, g: 0.4245283, b: 0.054067288, a: 1}
-    - _WindDirection: {r: 1, g: 0, b: 0, a: 0}
+    - _ToonTint: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
+    - _WindDirection: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
