@@ -64,8 +64,22 @@ public class InventoryManager : MonoBehaviour
 
     public int GetQuantity(TypeOfRessources type)
     {
-        return -1;
-        /// foreach()
+        Debug.Log(type);
+        foreach (ItemSlot item in items)
+        {
+            if (item.CurrentQuantity > 0)
+            {
+
+                Debug.Log(item.CurrentItem.type);
+                if (item.CurrentItem.type == type)
+                {
+                    Debug.Log("return");
+                    return item.CurrentQuantity;
+                }
+            }
+        }
+
+        return 0;
     }
 
     #endregion
