@@ -135,22 +135,34 @@ public class LegumeManager : MonoBehaviour
         }
         if (!CanMoveFreely && CurrentTarget != null)
         {
-            ///Théo
-            if (Time.time >= lastPathCheckTime + pathCheckInterval)
+            ///Modif théo
+            float distanceToTarget = Vector3.Distance(transform.position, CurrentTarget.position);
+
+            if (distanceToTarget <= 20f)
+            {
+                pathCheckInterval = 0.5f;
+            }
+            else
+            {
+                pathCheckInterval = Mathf.Clamp((distanceToTarget - 20f) * 0.5f, 1f, 25f);
+            }
+
+            bool reachedDestination = !myNavAgent.pathPending && myNavAgent.remainingDistance <= 0.5f;
+
+            if (Time.time >= lastPathCheckTime + pathCheckInterval || reachedDestination)
             {
                 lastPathCheckTime = Time.time;
-                NavMeshPath path = new NavMeshPath();
-                if (myNavAgent.CalculatePath(CurrentTarget.position, path) && path.status == NavMeshPathStatus.PathComplete)
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(CurrentTarget.position, out hit, 100f, NavMesh.AllAreas))
                 {
-                    myNavAgent.SetDestination(CurrentTarget.position);
-                }
-                else
-                {
-                    myNavAgent.ResetPath();
+                    if (Vector3.Distance(myNavAgent.destination, hit.position) > 1.0f)
+                    {
+                        myNavAgent.SetDestination(hit.position);
+                    }
                 }
             }
-            ///Théo
-            if (Vector3.Distance(this.transform.position, CurrentTarget.position) <= 2.1f)
+
+            if (Vector3.Distance(this.transform.position, CurrentTarget.position) <= 2.1f || reachedDestination)
             {
                 animator.SetBool("walk", false);
             }
@@ -158,6 +170,7 @@ public class LegumeManager : MonoBehaviour
             {
                 animator.SetBool("walk", true);
             }
+            ///Modif théo
         }
         NameBoard.transform.LookAt(GameManager.Instance.playerManager.Camera); 
             //= Quaternion.Euler(new Vector3(0,0,0));
