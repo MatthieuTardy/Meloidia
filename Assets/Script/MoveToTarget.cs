@@ -41,7 +41,14 @@ public class MoveToTarget : MonoBehaviour
         }
         else if (enigmeSystem.ratio == 0 && previousRatio > 0)
         {
-            MoveToRatio(0f);
+            if (moveCoroutine != null)
+            {
+                StopCoroutine(moveCoroutine);
+            }
+            GetTargetState(0f, out Vector3 targetPos, out Quaternion targetRot, out Vector3 targetScale);
+            transform.position = targetPos;
+            transform.rotation = targetRot;
+            transform.localScale = targetScale;
         }
 
         previousRatio = enigmeSystem.ratio;

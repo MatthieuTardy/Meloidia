@@ -50,24 +50,33 @@ public class AnimatedEnigmaProp : MonoBehaviour
     {
         if (enigmeSystem != null)
         {
-            if (enigmeSystem.ratio > previousRatio)
+            ///Théo Modi - Start
+            // We now check if the ratio has CHANGED at all, not just if it went up.
+            // This prevents the bug where the first note doesn't animate because the old ratio was 1.0.
+            if (enigmeSystem.ratio != previousRatio)
             {
-                if (enigmeSystem.ratio >= 0.99f)
+                if (enigmeSystem.ratio == 0f)
                 {
+                    // A wrong note was played, reset the prop
+                    isFullyResolved = false;
+                    currentBump = 0f;
+                }
+                else if (enigmeSystem.ratio >= 0.99f)
+                {
+                    // The puzzle is completely solved
                     isFullyResolved = true;
                     effectTimeLeft = 0f;
                 }
                 else
                 {
+                    // A correct note was played!
+                    // We set isFullyResolved to false to ensure it unlocks if it was stuck
+                    isFullyResolved = false;
                     effectTimeLeft = effectDuration;
                     currentBump = bumpPercentage;
                 }
             }
-            else if (enigmeSystem.ratio == 0 && previousRatio > 0)
-            {
-                isFullyResolved = false;
-                currentBump = 0f;
-            }
+            ///Théo Modi - End
 
             previousRatio = enigmeSystem.ratio;
         }

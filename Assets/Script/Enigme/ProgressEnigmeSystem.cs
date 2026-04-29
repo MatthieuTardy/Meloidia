@@ -52,7 +52,10 @@ public class ProgressEnigmeSystem : MonoBehaviour
         int totalNotes = chantEnigme.Count;
         currentStep = 0;
 
-        musicalNotes lastNote = musicalNotes.None;
+        ///Théo Modif 
+        var noteSystem = GameManager.Instance.playerManager.noteSystem;
+        int lastNoteCount = noteSystem.playedPartition.Count;
+        ///Théo Modif
 
         while (currentStep < totalNotes)
         {
@@ -60,10 +63,11 @@ public class ProgressEnigmeSystem : MonoBehaviour
             {
                 musicalNotes noteAttendue = chantEnigme[currentStep];
 
-                yield return new WaitUntil(() => 
-                GameManager.Instance.playerManager.noteSystem.playedPartition.Count > 0 && 
-                GameManager.Instance.playerManager.noteSystem.playedPartition.Last() != lastNote);
-                lastNote = GameManager.Instance.playerManager.noteSystem.playedPartition.Last();
+                ///Théo Modif
+                yield return new WaitUntil(() => noteSystem.playedPartition.Count > lastNoteCount);
+
+                lastNoteCount = noteSystem.playedPartition.Count;
+                ///Théo Modif
 
                 if (GameManager.Instance.playerManager.noteSystem.HasJustPlayed(noteAttendue))
                 {
@@ -73,9 +77,14 @@ public class ProgressEnigmeSystem : MonoBehaviour
                 }
                 else
                 {
-                    currentStep = 0;
-                    ratio = (float)currentStep / totalNotes;
-                    onEnigmeStep.Invoke();
+                    ///Théo Modif
+                    if (totalNotes > 1)
+                    {
+                        currentStep = 0;
+                        ratio = 0f;
+                        onEnigmeStep.Invoke();
+                    }
+                    ///Théo Modif
                 }
 
                 if (currentStep >= totalNotes)
