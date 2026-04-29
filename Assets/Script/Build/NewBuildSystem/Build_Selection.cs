@@ -52,15 +52,17 @@ public class Build_Selection : Interractable
         NameBuild.text = construction[index].MeshPrefab.name;
 
 
-        
-        if(construction[index].RessourceNeeded[0] != null)
+        if (construction[index].RessourceNeeded.Length > 0)
         {
-            Ressouces1.text = construction[index].RessourceNeeded[0].type.ToString();
-            int quantityNeed = construction[index].RessourceNeeded[0].amount;
-            Debug.Log("item 1");
-            int quantityGet = GameManager.Instance.inventoryManager.GetQuantity(construction[index].RessourceNeeded[0].type);
-            Quantity1.text = quantityNeed.ToString() + "/" + quantityGet.ToString();
+            if (construction[index].RessourceNeeded[0] != null)
+            {
+                Ressouces1.text = construction[index].RessourceNeeded[0].type.ToString();
+                int quantityNeed = construction[index].RessourceNeeded[0].amount;
+                Debug.Log("item 1");
+                int quantityGet = GameManager.Instance.inventoryManager.GetQuantity(construction[index].RessourceNeeded[0].type);
+                Quantity1.text = quantityNeed.ToString() + "/" + quantityGet.ToString();
 
+            }
         }
         else
         {
@@ -68,13 +70,17 @@ public class Build_Selection : Interractable
             Quantity1.text = "";
         }
 
-        if (construction[index].RessourceNeeded[1] != null)
+        if (construction[index].RessourceNeeded.Length > 1)
         {
-            Ressources2.text = construction[index].RessourceNeeded[1].type.ToString();
-            int quantityNeed = construction[index].RessourceNeeded[1].amount;
-            Debug.Log("item 2");
-            int quantityGet = GameManager.Instance.inventoryManager.GetQuantity(construction[index].RessourceNeeded[1].type);
-            Quantity2.text = quantityNeed.ToString() + "/" + quantityGet.ToString();
+
+            if (construction[index].RessourceNeeded[1] != null)
+            {
+                Ressources2.text = construction[index].RessourceNeeded[1].type.ToString();
+                int quantityNeed = construction[index].RessourceNeeded[1].amount;
+                Debug.Log("item 2");
+                int quantityGet = GameManager.Instance.inventoryManager.GetQuantity(construction[index].RessourceNeeded[1].type);
+                Quantity2.text = quantityNeed.ToString() + "/" + quantityGet.ToString();
+            }
         }
         else
         {
@@ -82,30 +88,41 @@ public class Build_Selection : Interractable
             Quantity2.text = "";
         }
 
-        if (construction[index].RessourceNeeded[2] != null)
+        if (construction[index].RessourceNeeded.Length > 2)
         {
-            Ressouces3.text = construction[index].RessourceNeeded[2].type.ToString();
-            int quantityNeed = construction[index].RessourceNeeded[2].amount;
-            int quantityGet = GameManager.Instance.inventoryManager.GetQuantity(construction[index].RessourceNeeded[2].type);
-            Quantity3.text = quantityNeed.ToString() + "/" + quantityGet.ToString();
+
+            if (construction[index].RessourceNeeded[2] != null)
+            {
+                Ressouces3.text = construction[index].RessourceNeeded[2].type.ToString();
+                int quantityNeed = construction[index].RessourceNeeded[2].amount;
+                int quantityGet = GameManager.Instance.inventoryManager.GetQuantity(construction[index].RessourceNeeded[2].type);
+                Quantity3.text = quantityNeed.ToString() + "/" + quantityGet.ToString();
+            }
+           
+
         }
         else
         {
             Ressouces3.text = "";
             Quantity3.text = "";
         }
-        if (construction[index].RessourceNeeded[3] != null)
+
+        if (construction[index].RessourceNeeded.Length > 3)
         {
-            Ressources4.text = construction[index].RessourceNeeded[3].type.ToString();
-            int quantityNeed = construction[index].RessourceNeeded[3].amount;
-            int quantityGet = GameManager.Instance.inventoryManager.GetQuantity(construction[index].RessourceNeeded[3].type);
-            Quantity4.text = quantityNeed.ToString() + "/" + quantityGet.ToString();
+            if (construction[index].RessourceNeeded[3] != null)
+            {
+                Ressources4.text = construction[index].RessourceNeeded[3].type.ToString();
+                int quantityNeed = construction[index].RessourceNeeded[3].amount;
+                int quantityGet = GameManager.Instance.inventoryManager.GetQuantity(construction[index].RessourceNeeded[3].type);
+                Quantity4.text = quantityNeed.ToString() + "/" + quantityGet.ToString();
+            }
         }
         else
         {
             Ressources4.text = "";
             Quantity4.text = "";
         }
+
 
     }
     public void ConstructChoosen()

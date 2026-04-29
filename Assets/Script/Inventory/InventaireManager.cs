@@ -67,14 +67,18 @@ public class InventoryManager : MonoBehaviour
         Debug.Log(type);
         foreach (ItemSlot item in items)
         {
-            if (item.CurrentQuantity > 0)
+            if (item != null)
             {
 
-                Debug.Log(item.CurrentItem.type);
-                if (item.CurrentItem.type == type)
+                if (item.CurrentQuantity > 0)
                 {
-                    Debug.Log("return");
-                    return item.CurrentQuantity;
+
+                    Debug.Log(item.CurrentItem.type);
+                    if (item.CurrentItem.type == type)
+                    {
+                        Debug.Log("return");
+                        return item.CurrentQuantity;
+                    }
                 }
             }
         }
