@@ -11,11 +11,11 @@ public class CameraManager : MonoBehaviour
     private void Start()
     {
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Locked;
+        InputUIevent.instance.IsSinging += ManageToggleSing;
     }
     void Update()
     {
-        ManageToggleSing();
         if (!IsToggleSing)
         {
             CameraFunction();
@@ -33,28 +33,19 @@ public class CameraManager : MonoBehaviour
 
     public void ManageToggleSing()
     {
-        float value = Input.GetAxisRaw("ToggleSing");
-        bool isNotPC = value > 0;
-        value += Input.GetAxisRaw("SongPC");
-        if (value > 0 && !triggerPressed)
-        {
-            triggerPressed = true;
-            IsToggleSing = !IsToggleSing;
+        bool isPC = Input.GetButtonDown("SongPC");
 
-            if (IsToggleSing)
-            {
-                LockCam(false,!isNotPC);
-            }
-            else
-            {
-                LockCam(true,!isNotPC);
-            }
+        IsToggleSing = !IsToggleSing;
+
+        if (IsToggleSing)
+        {
+            LockCam(true, isPC);
+        }
+        else
+        {
+            LockCam(false, isPC);
         }
 
-        if (value < 0.1f)
-        {
-            triggerPressed = false;
-        }
     }
 
     void LockCam(bool enable,bool IsPC)
@@ -63,11 +54,17 @@ public class CameraManager : MonoBehaviour
         freeLook.m_XAxis.Reset();
         freeLook.m_YAxis.Reset();
         // GameManager.Instance.playerManager.LockControl(enable);
-        Cursor.lockState = CursorLockMode.Locked;
+        InputUIevent.HideCursor();
         if (IsPC)
         {
-            Cursor.visible = !enable;
-            Cursor.lockState = CursorLockMode.Confined;
+            if (enable)
+            {
+                InputUIevent.ShowCursor();
+            }
+            else
+            {
+                InputUIevent.HideCursor();
+            }
         }
     }
 

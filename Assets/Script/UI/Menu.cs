@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer.Internal;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,25 +10,30 @@ public class Menu : MonoBehaviour
     [SerializeField] UnityEvent menuSystem;
     [SerializeField] UnityEvent menuClose;
     bool Open = false;
-    void Update()
-    {
-        if (Input.GetButtonDown("Cancel") && !Open)
-        {
-                Open = !Open;
-                menuSystem.Invoke();
-        }
-        else if (Input.GetButtonDown("Cancel") && Open)
-        {
-            Open = !Open;
-            menuClose.Invoke();
-        }
-    }
-
     float DefaultTimeScale;
+
     private void Start()
     {
         DefaultTimeScale = Time.timeScale;    
         Debug.Log(DefaultTimeScale);
+        InputUIevent input = FindAnyObjectByType<InputUIevent>();
+        input.InOption += ManageInput;
+    }
+
+    void ManageInput()
+    {
+        if (!Open)
+        {
+            Open = !Open;
+            menuSystem.Invoke();
+            InputUIevent.ShowCursor();
+        }
+        else
+        {
+            Open = !Open;
+            menuClose.Invoke();
+            InputUIevent.HideCursor();
+        }
     }
     public void StopTime()
     {
@@ -41,18 +47,6 @@ public class Menu : MonoBehaviour
        // Debug.Log(Time.timeScale + "Reset");
         Time.timeScale = DefaultTimeScale;
        // Debug.Log(Time.timeScale + "Reset");
-    }
-
-    public void HideCursor()
-    {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-    }
-
-    public void ShowCursor()
-    {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Confined;
     }
 
     public void Quitter()

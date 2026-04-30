@@ -17,28 +17,15 @@ public class Build_Selection : Interractable
 
     public override void Interract()
     {
-        ShowWheel();
+        //ShowWheel();
+        InputUIevent.instance.OtherUIAction(BuildWheel,true);
     }
 
-    private void Update()
-    {
-        if (Input.GetButtonDown("Cancel"))
-        {
-            HideWheel();
-        }
-    }
     void HideWheel()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        BuildWheel.SetActive(false);
+        InputUIevent.instance.ExitOtherUI();
     }
-    void ShowWheel()
-    {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Confined;
-        BuildWheel.SetActive(true);
-    }
+
     int SelectedIndex = -1;
     public void SelectIndex(int index)
     {
