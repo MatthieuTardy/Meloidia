@@ -39,7 +39,7 @@ public class LegumeManager : MonoBehaviour
 
     [Header("Gestion de la mort")]
     public float deathTimer = 15;
-    public int chanceToDie = 5;
+
 
     [Header("Gestion de la colère")]
     public float finCalme = 30;
@@ -89,7 +89,8 @@ public class LegumeManager : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-        rb.useGravity = true;
+        rb.isKinematic = true;          
+        rb.useGravity = false;
         baseLegume = FindObjectOfType<PlayerManager>().gameObject;
         Rename();
         GameManager.Instance.AddCrocNote(this);
@@ -319,7 +320,7 @@ public class LegumeManager : MonoBehaviour
     {
         isStartRageTimer = 1;
         melogumesSingingManager.StopHappyness();
-        StartCoroutine(EndOfRageDelay(deathTimer, chanceToDie));
+        StartCoroutine(EndOfRageDelay(deathTimer));
         melogumesSingingManager.StartRage();
         colere = true;
         Debug.Log("Colère !");
@@ -331,25 +332,12 @@ public class LegumeManager : MonoBehaviour
         calmeTimer = 0;
         //remettre la marche
     }
-    IEnumerator EndOfRageDelay(float EndOfRageTimer, int deathChance)
+    IEnumerator EndOfRageDelay(float EndOfRageTimer)
     {
         yield return new WaitForSeconds(EndOfRageTimer);
-        int jetDeConstitution = Random.Range(0, 100);
-        if (jetDeConstitution < deathChance && colere == true)
-        {
 
-            Die();
-        }
-        else if (jetDeConstitution >= deathChance && colere == true)
-        {
             SetBonheur(GetBonheur() - 5);
             colere = false;
-        }
-        else
-        {
-            colere = false;
-        }
-
     }
     #endregion
     #region BonheurVariation
@@ -372,23 +360,4 @@ public class LegumeManager : MonoBehaviour
 
     #endregion BonheurVariation
 
-
-    #region Die Management
-    [SerializeField] GameObject DeadCN;
-    private void Die()
-    {
-        if (Application.isPlaying)
-        {
-            GameObject c = Instantiate(DeadCN, this.transform.position, this.transform.rotation);
-            c.GetComponentInChildren<DeadCrocNote>().Init(gameObject.name);
-            Destroy(gameObject);
-        }
-    }
-
-    [Button("Die")]
-    void destroyDebug()
-    {
-        Die();
-    }
-    #endregion
 }

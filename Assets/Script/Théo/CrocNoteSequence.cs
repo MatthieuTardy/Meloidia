@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using Cinemachine;
 
 public class CrocNoteCarrySequence : MonoBehaviour
 {
@@ -23,6 +24,10 @@ public class CrocNoteCarrySequence : MonoBehaviour
     public float carrySpeedMultiplier = 0.8f;
     public float fleeSpeedMultiplier = 2f;
 
+    [Header("Cinematic Camera")]
+    public bool enableCinematicCamera = true;
+    public Transform cinematicCameraPoint;
+
     private NavMeshAgent agent;
     private Animator animator;
     private LegumeManager legumeManager;
@@ -31,6 +36,8 @@ public class CrocNoteCarrySequence : MonoBehaviour
     private float baseSpeed;
     private float originalPropHeight;
     private bool isCarrying;
+
+    private CinemachineVirtualCamera sequenceCam;
 
     private void Start()
     {
@@ -41,6 +48,11 @@ public class CrocNoteCarrySequence : MonoBehaviour
         {
             animator = legumeManager.animator;
             baseSpeed = legumeManager.vitesse;
+        }
+
+        if (baseSpeed <= 0.1f)
+        {
+            baseSpeed = 5f;
         }
 
         if (objectToCarry != null)
@@ -84,30 +96,42 @@ public class CrocNoteCarrySequence : MonoBehaviour
     {
         if (legumeManager != null)
         {
-
-/// Théo a modifier pour nom qui suit pas
             legumeManager.StopAllCoroutines();
             legumeManager.enabled = false;
         }
 
+        // --- CINEMACHINE SETUP ---
+        if (enableCinematicCamera && cinematicCameraPoint != null)
+        {
+            GameObject camObj = new GameObject("CrocNote_CinematicCam");
+            camObj.transform.position = cinematicCameraPoint.position;
+
+            sequenceCam = camObj.AddComponent<CinemachineVirtualCamera>();
+
+            sequenceCam.Follow = cinematicCameraPoint;
+            sequenceCam.LookAt = this.transform;
+            sequenceCam.Priority = 100;
+
+            var transposer = sequenceCam.AddCinemachineComponent<CinemachineTransposer>();
+            transposer.m_FollowOffset = Vector3.zero;
+
+            var composer = sequenceCam.AddCinemachineComponent<CinemachineComposer>();
+            composer.m_TrackedObjectOffset = new Vector3(0, 1f, 0);
+        }
+
         if (agent != null)
         {
+            agent.enabled = true;
             agent.isStopped = false;
+
+            agent.acceleration = 8f;
+            agent.angularSpeed = 120f;
             agent.speed = baseSpeed;
+
             agent.SetDestination(pickupPoint.position);
         }
 
-        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance + 0.2f)
-        {
-            if (animator != null)
-            {
-                animator.speed = 1f;
-                animator.SetBool("walk", agent.velocity.sqrMagnitude > 0.01f);
-            }
-            yield return null;
-        }
-
-        if (animator != null) animator.SetBool("walk", false);
+        yield return StartCoroutine(MoveToDestinationLoop("Pickup"));
 
         transform.LookAt(new Vector3(pickupPoint.position.x, transform.position.y, pickupPoint.position.z));
 
@@ -122,7 +146,15 @@ public class CrocNoteCarrySequence : MonoBehaviour
 
         onPickup?.Invoke();
 
-        yield return new WaitForSeconds(0.2f);
+        // Pause so the player can watch the CrocNote hold the object
+        yield return new WaitForSeconds(1.5f);
+
+        // --- CAMERA GOES BACK TO PLAYER ---
+        // By destroying the camera here, Cinemachine automatically glides back to the player
+        if (sequenceCam != null)
+        {
+            Destroy(sequenceCam.gameObject);
+        }
 
         if (agent != null)
         {
@@ -130,17 +162,7 @@ public class CrocNoteCarrySequence : MonoBehaviour
             agent.SetDestination(dropPoint.position);
         }
 
-        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance + 0.2f)
-        {
-            if (animator != null)
-            {
-                animator.speed = carrySpeedMultiplier;
-                animator.SetBool("walk", agent.velocity.sqrMagnitude > 0.01f);
-            }
-            yield return null;
-        }
-
-        if (animator != null) animator.SetBool("walk", false);
+        yield return StartCoroutine(MoveToDestinationLoop("DropPoint"));
 
         transform.LookAt(new Vector3(dropPoint.position.x, transform.position.y, dropPoint.position.z));
 
@@ -158,8 +180,7 @@ public class CrocNoteCarrySequence : MonoBehaviour
         }
 
         onDrop?.Invoke();
-
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
 
         if (agent != null)
         {
@@ -167,15 +188,7 @@ public class CrocNoteCarrySequence : MonoBehaviour
             agent.SetDestination(fleePoint.position);
         }
 
-        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance + 0.2f)
-        {
-            if (animator != null)
-            {
-                animator.speed = fleeSpeedMultiplier;
-                animator.SetBool("walk", agent.velocity.sqrMagnitude > 0.01f);
-            }
-            yield return null;
-        }
+        yield return StartCoroutine(MoveToDestinationLoop("FleePoint"));
 
         if (animator != null) animator.speed = 1f;
 
@@ -186,5 +199,20 @@ public class CrocNoteCarrySequence : MonoBehaviour
         }
 
         this.enabled = false;
+    }
+
+    private IEnumerator MoveToDestinationLoop(string destinationName)
+    {
+        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance + 0.2f)
+        {
+            if (animator != null)
+            {
+                animator.speed = (destinationName == "FleePoint") ? fleeSpeedMultiplier : (isCarrying ? carrySpeedMultiplier : 1f);
+                animator.SetBool("walk", agent.velocity.sqrMagnitude > 0.01f);
+            }
+            yield return null;
+        }
+
+        if (animator != null) animator.SetBool("walk", false);
     }
 }
