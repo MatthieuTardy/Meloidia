@@ -12,7 +12,7 @@ public class BuildUI : MonoBehaviour
     }
     private void SelectConstructXbox()
     {
-        
+        /*
         float inputX = Input.GetAxis("SongX_Xbox");
         float inputY = Input.GetAxis("SongY_Xbox");
 
@@ -31,5 +31,6 @@ public class BuildUI : MonoBehaviour
 
             build_Selection.ConstructChoosen(buildIndex);
         }
+        */
     }
 } 
