@@ -89,7 +89,8 @@ public class LegumeManager : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-        rb.useGravity = true;
+        rb.isKinematic = true;          
+        rb.useGravity = false;
         baseLegume = FindObjectOfType<PlayerManager>().gameObject;
         Rename();
         GameManager.Instance.AddCrocNote(this);
