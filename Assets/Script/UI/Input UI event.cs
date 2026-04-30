@@ -17,7 +17,7 @@ public class InputUIevent : MonoBehaviour
     public event Action InOtherUI;
     public bool isInOtherUI;
 
-    private void Start()
+    private void Awake()
     {
         if (instance != null) 
         {

@@ -6,20 +6,15 @@ public class RanchManager : MonoBehaviour
 {
     // si des crocs Notes sont dans le ranch
     // on les ajoutes dans une listes -> liste utilisé par les conditions
-    // 
-    public static RanchManager instance;
-    
-    public RanchRessourcesGenerator RanchGenerator;
-    
+
     public List<LegumeManager> CrocNotesInRanch;
+    public List<LegumeManager>[] CNbyType = new List<LegumeManager>[5]; //carotte, navet, poivron, chou, brocoli
+    #region default function
     private void Start()
     {
-        if (instance != null) 
-        {
-            Destroy(instance);
-        }
-        RanchManager.instance = this;
         CrocNotesInRanch = new List<LegumeManager>();
+        for (int i = 0; i < CNbyType.Length; i++) { CNbyType[i] = new List<LegumeManager>(); }
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -29,27 +24,58 @@ public class RanchManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.layer == 7)//legume
-        {
-           DeleteCrocNote(other.GetComponent<LegumeManager>());
-        }
-    }
-
-
+    #endregion
+    #region manage list
     void AddingCrocNote(LegumeManager CN)
     {
-        CrocNotesInRanch.Add(CN);
-        RanchGenerator.UpdateList(CN);
-    }
+        if (!CrocNotesInRanch.Contains(CN))
+        {
 
-    void DeleteCrocNote(LegumeManager CN)
+            CrocNotesInRanch.Add(CN);
+            UpdateList(CN);
+        }
+    }
+    public void UpdateList(LegumeManager CN)
     {
-        CrocNotesInRanch.Remove(CN);
+        if (CN.legumeType == CrocNoteType.un)
+        {
+            CNbyType[0].Add(CN);
+        }
+        else if (CN.legumeType == CrocNoteType.deux)
+        {
+            CNbyType[1].Add(CN);
+        }
+        else if (CN.legumeType == CrocNoteType.trois)
+        {
+            CNbyType[2].Add(CN);
+        }
+        else if (CN.legumeType == CrocNoteType.quatre)
+        {
+            CNbyType[3].Add(CN);
+        }
+        else if (CN.legumeType == CrocNoteType.cinq)
+        {
+            CNbyType[4].Add(CN);
+        }
     }
+    #endregion
 
-    
-
-
+    public int getCNNumberByType(CrocNoteType type)
+    {
+        switch (type)
+        {
+            case CrocNoteType.un:
+                return CNbyType[0].Count;
+            case CrocNoteType.deux:
+                return CNbyType[1].Count;
+            case CrocNoteType.trois:
+                return CNbyType[2].Count;
+            case CrocNoteType.quatre:
+                return CNbyType[3].Count;
+            case CrocNoteType.cinq:
+                return CNbyType[4].Count;
+            default:
+                return 0;
+        }
+    }
 }

@@ -1,60 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Generator : MonoBehaviour
+using TMPro;
+public class Generator : Interractable 
 {
     [SerializeField] CrocNoteType crocNoteType;
+    [SerializeField] RanchManager ranchManager;
 
-    [SerializeField] float MaxTime;
-    [SerializeField] float MinTime;
+    [SerializeField] Transform spawnPoint;
+    [SerializeField] GameObject ressourcesPrefabs;
+    [SerializeField] TextMeshProUGUI NumberOfCNText;
 
-    private void Start()
+    int NumberOfCN = 0;
+    public override void Interract()
     {
-        StartCoroutine(LauchRoutine());
+        SpawnRessources();
     }
 
-    IEnumerator LauchRoutine()
+    
+    void SpawnRessources()
     {
-        
-        switch (crocNoteType)
+        if(ranchManager.getCNNumberByType(crocNoteType) > 0)
         {
-            case CrocNoteType.un:
-                yield return new WaitUntil(() => RanchManager.instance.RanchGenerator.CNbyType[0].Count > 0);
-                StartCoroutine(CreateCrocNote(RanchManager.instance.RanchGenerator.CNbyType[0].Count));
-                    break;
-            case CrocNoteType.deux:
-                yield return new WaitUntil(() => RanchManager.instance.RanchGenerator.CNbyType[1].Count > 0);
-                StartCoroutine(CreateCrocNote(RanchManager.instance.RanchGenerator.CNbyType[1].Count));
-                
-                break;
-            case CrocNoteType.trois:
-                yield return new WaitUntil(() => RanchManager.instance.RanchGenerator.CNbyType[2].Count > 0);
-                StartCoroutine(CreateCrocNote(RanchManager.instance.RanchGenerator.CNbyType[2].Count));
-                
-                break;
-            case CrocNoteType.quatre:
-                yield return new WaitUntil(() => RanchManager.instance.RanchGenerator.CNbyType[3].Count > 0);
-                StartCoroutine(CreateCrocNote(RanchManager.instance.RanchGenerator.CNbyType[3].Count));
-                
-                break;
-            case CrocNoteType.cinq:
-                yield return new WaitUntil(() => RanchManager.instance.RanchGenerator.CNbyType[4].Count > 0);
-                StartCoroutine(CreateCrocNote(RanchManager.instance.RanchGenerator.CNbyType[4].Count));
-                
-                break;
+            int Rnumber = ranchManager.getCNNumberByType(crocNoteType);
+            int delta = NumberOfCN - Rnumber;
+            Mathf.Abs(delta);
+            for (int i = 0; i < delta; i++) 
+            {
+                Instantiate(ressourcesPrefabs, spawnPoint);
+            }
+            NumberOfCN += Rnumber;
+
+            NumberOfCNText.text = NumberOfCN.ToString();
         }
     }
-    [SerializeField] GameObject PrefabRessouces;
-    [SerializeField] Transform SpawnPoint;
-    IEnumerator CreateCrocNote(float CNNb)
-    {
-        yield return null;
-        // on genere la ressouces apres x temps
-        // pour chaque croc note 
-
-        yield return new WaitForSeconds(Mathf.Lerp(MinTime, MaxTime, CNNb));
-        Instantiate(PrefabRessouces, SpawnPoint.position, SpawnPoint.rotation);
-        StartCoroutine(LauchRoutine());
-    }
+    
 }

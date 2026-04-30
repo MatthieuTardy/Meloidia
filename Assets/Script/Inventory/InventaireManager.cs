@@ -6,7 +6,7 @@ public class InventoryManager : MonoBehaviour
 {
     public IReadOnlyList<ItemSlot> Items => items.AsReadOnly();
     [SerializeField]private List<ItemSlot> items;
-    public int InventorySize = 5;
+    public int InventorySize = 7;
     public void Start()
     {
         dictionaryOfItem = new Dictionary<Sprite, GameObject>();
@@ -124,9 +124,10 @@ public class InventoryManager : MonoBehaviour
     }
     private void Update()
     {
-        BrowseInventory();
-        ManageDrop();
+       // BrowseInventory();
+       // ManageDrop();
     }
+    /*
     void BrowseInventory()
     {
         if (Input.GetButtonDown("BrowseInventory"))
@@ -188,10 +189,12 @@ public class InventoryManager : MonoBehaviour
             {
                 Debug.Log("Item " + 0 + " = none");
             }*/
+    /*
             //Debug.Log("Item 0 " + items[0].CurrentItem.type);
         }
     }
-
+    */
+    /*
     void ManageDrop()
     {
         if (Input.GetButtonDown("Drop"))
@@ -200,7 +203,7 @@ public class InventoryManager : MonoBehaviour
             DropItem(0);
         }
     }
-
+    */
     #region adding item
 
 
