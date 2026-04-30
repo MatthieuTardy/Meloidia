@@ -61,7 +61,31 @@ public class InventoryManager : MonoBehaviour
         }
         return false;
     }
-    
+
+    public int GetQuantity(TypeOfRessources type)
+    {
+        Debug.Log(type);
+        foreach (ItemSlot item in items)
+        {
+            if (item != null)
+            {
+
+                if (item.CurrentQuantity > 0)
+                {
+
+                    Debug.Log(item.CurrentItem.type);
+                    if (item.CurrentItem.type == type)
+                    {
+                        Debug.Log("return");
+                        return item.CurrentQuantity;
+                    }
+                }
+            }
+        }
+
+        return 0;
+    }
+
     #endregion
     public bool TryToPickUp(Item newItem)
     {
@@ -385,11 +409,11 @@ public class Item : MonoBehaviour
 
 public enum TypeOfRessources
 {
-    Copeaux = 1,
-    ressourceB = 2,
-    ressourceC = 3,
-    ressourceD = 4,
-    ressourceE = 5,
+    RessourceCarottes = 1,
+    RessourceNavet = 2,
+    RessourcePoivron = 3,
+    ressourceChou = 4,
+    ressourceBrocoli = 5,
     Graine_Carotte = 6,
     Graine_Navet = 7,
     Graine_Poivron = 8,

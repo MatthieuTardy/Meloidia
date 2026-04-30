@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Build_Selection : Interractable
@@ -38,24 +39,114 @@ public class Build_Selection : Interractable
         Cursor.lockState = CursorLockMode.Confined;
         BuildWheel.SetActive(true);
     }
-
-    public void ConstructChoosen(int index)
+    int SelectedIndex = -1;
+    public void SelectIndex(int index)
     {
-        Debug.Log("index : " + index);
+        SelectedIndex = index;
+        ChangeText(index);
+    }
 
-        if (construction[index] != null)
+    [SerializeField] TextMeshProUGUI NameBuild, Ressouces1, Ressources2, Ressouces3, Ressources4, Quantity1, Quantity2, Quantity3, Quantity4;
+    public void ChangeText(int index)
+    {
+        NameBuild.text = construction[index].MeshPrefab.name;
+
+
+        if (construction[index].RessourceNeeded.Length > 0)
         {
-            if (!BuildAlreadySelected && HaveItemInInventory(construction[index]))
+            if (construction[index].RessourceNeeded[0] != null)
             {
-                clone = Instantiate(construction[index].MeshPrefab, BuildSpawn.position, BuildSpawn.rotation, BuildSpawn);
-                BuildAlreadySelected = true;
-                selectedConstruction = construction[index];
-                RemoveItemFromInventory(construction[index]);
+                Ressouces1.text = construction[index].RessourceNeeded[0].type.ToString();
+                int quantityNeed = construction[index].RessourceNeeded[0].amount;
+                Debug.Log("item 1");
+                int quantityGet = GameManager.Instance.inventoryManager.GetQuantity(construction[index].RessourceNeeded[0].type);
+                Quantity1.text = quantityNeed.ToString() + "/" + quantityGet.ToString();
+
             }
         }
         else
         {
-            if (index == 4)
+            Ressouces1.text = "";
+            Quantity1.text = "";
+        }
+
+        if (construction[index].RessourceNeeded.Length > 1)
+        {
+
+            if (construction[index].RessourceNeeded[1] != null)
+            {
+                Ressources2.text = construction[index].RessourceNeeded[1].type.ToString();
+                int quantityNeed = construction[index].RessourceNeeded[1].amount;
+                Debug.Log("item 2");
+                int quantityGet = GameManager.Instance.inventoryManager.GetQuantity(construction[index].RessourceNeeded[1].type);
+                Quantity2.text = quantityNeed.ToString() + "/" + quantityGet.ToString();
+            }
+        }
+        else
+        {
+            Ressources2.text = "";
+            Quantity2.text = "";
+        }
+
+        if (construction[index].RessourceNeeded.Length > 2)
+        {
+
+            if (construction[index].RessourceNeeded[2] != null)
+            {
+                Ressouces3.text = construction[index].RessourceNeeded[2].type.ToString();
+                int quantityNeed = construction[index].RessourceNeeded[2].amount;
+                int quantityGet = GameManager.Instance.inventoryManager.GetQuantity(construction[index].RessourceNeeded[2].type);
+                Quantity3.text = quantityNeed.ToString() + "/" + quantityGet.ToString();
+            }
+           
+
+        }
+        else
+        {
+            Ressouces3.text = "";
+            Quantity3.text = "";
+        }
+
+        if (construction[index].RessourceNeeded.Length > 3)
+        {
+            if (construction[index].RessourceNeeded[3] != null)
+            {
+                Ressources4.text = construction[index].RessourceNeeded[3].type.ToString();
+                int quantityNeed = construction[index].RessourceNeeded[3].amount;
+                int quantityGet = GameManager.Instance.inventoryManager.GetQuantity(construction[index].RessourceNeeded[3].type);
+                Quantity4.text = quantityNeed.ToString() + "/" + quantityGet.ToString();
+            }
+        }
+        else
+        {
+            Ressources4.text = "";
+            Quantity4.text = "";
+        }
+
+
+    }
+    public void ConstructChoosen()
+    {
+        Debug.Log("index : " + SelectedIndex);
+
+        if (construction[SelectedIndex] != null)
+        {
+            Debug.Log("aaaaa");
+            Debug.Log(BuildAlreadySelected + " = false");
+            Debug.Log(HaveItemInInventory(construction[SelectedIndex]) + " = false");
+            if (!BuildAlreadySelected && HaveItemInInventory(construction[SelectedIndex]))
+            {
+            Debug.Log("bbbbbb");
+                clone = Instantiate(construction[SelectedIndex].MeshPrefab, BuildSpawn.position, BuildSpawn.rotation, BuildSpawn);
+                BuildAlreadySelected = true;
+                selectedConstruction = construction[SelectedIndex];
+                RemoveItemFromInventory(construction[SelectedIndex]);
+            }
+        }
+        else
+        {
+            Debug.Log("cccc");
+            if (SelectedIndex == 4)
             {
                 DeleteCurrentBuild(selectedConstruction);
                 selectedConstruction = null;
@@ -75,7 +166,7 @@ public class Build_Selection : Interractable
         {
             for (int i = 0; i < item.amount; i++)
             {
-                Instantiate(item.RessourcePrefab, ItemDropSpawn.position, ItemDropSpawn.rotation);
+                Instantiate(item.RessourcePrefab, item.RessourcePrefab.transform.position, item.RessourcePrefab.transform.rotation);
             }
         }
     }
@@ -87,19 +178,23 @@ public class Build_Selection : Interractable
         int quantity = 0;
         if (GameManager.Instance.inventoryManager != null && GameManager.Instance.inventoryManager.Items.Count > 0 && construction != null)
         {
-            // Debug.Log("pass the if");
+             Debug.Log("pass the if");
             foreach (var ressources in construction.RessourceNeeded)
             {
+                Debug.Log("1");
                 foreach (var item in GameManager.Instance.inventoryManager.Items)
                 {
+                Debug.Log("2");
                     if (item != null)
                     {
+                Debug.Log("3");
                         if (ressources.type == item.CurrentItem.type)
                         {
-                            // Debug.Log("HaveItemInInventory");
+                Debug.Log("4");
+                             Debug.Log("HaveItemInInventory");
                             if (item.CurrentQuantity >= ressources.amount)
                             {
-                                // Debug.Log("HaveQuantityNeeded");
+                                Debug.Log("HaveQuantityNeeded");
                                 return true;
                             }
                             else
@@ -121,7 +216,7 @@ public class Build_Selection : Interractable
                 }
             }
         }
-        // Debug.LogWarning("il a pas les items");
+        Debug.LogWarning("il a pas les items");
         return HaveItem;
     }
 
