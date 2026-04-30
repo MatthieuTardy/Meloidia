@@ -16,6 +16,11 @@ public class AnimatedEnigmaProp : MonoBehaviour
     public Vector3 positionalShake = new Vector3(0.1f, 0.1f, 0.1f);
     public Vector3 rotationalShake = new Vector3(0f, 0f, 0f);
 
+    [Header("Continuous Jitter (Non-Reaction)")]
+    public bool enableContinuousJitter = false;
+    public Vector3 continuousPositionalJitter = new Vector3(0.02f, 0.02f, 0.02f);
+    public Vector3 continuousRotationalJitter = new Vector3(0.5f, 0.5f, 0.5f);
+
     private Vector3 startPos;
     private Quaternion startRot;
     private Vector3 startScale;
@@ -51,8 +56,6 @@ public class AnimatedEnigmaProp : MonoBehaviour
         if (enigmeSystem != null)
         {
             ///Théo Modi - Start
-            // We now check if the ratio has CHANGED at all, not just if it went up.
-            // This prevents the bug where the first note doesn't animate because the old ratio was 1.0.
             if (enigmeSystem.ratio != previousRatio)
             {
                 if (enigmeSystem.ratio == 0f)
@@ -70,7 +73,6 @@ public class AnimatedEnigmaProp : MonoBehaviour
                 else
                 {
                     // A correct note was played!
-                    // We set isFullyResolved to false to ensure it unlocks if it was stuck
                     isFullyResolved = false;
                     effectTimeLeft = effectDuration;
                     currentBump = bumpPercentage;
@@ -109,9 +111,10 @@ public class AnimatedEnigmaProp : MonoBehaviour
         Vector3 posOffset = Vector3.zero;
         Quaternion rotOffset = Quaternion.identity;
 
+        // 1. Reaction Effect (Jitter fort temporaire)
         if (effectTimeLeft > 0)
         {
-            posOffset = new Vector3(
+            posOffset += new Vector3(
                 Random.Range(-1f, 1f) * positionalShake.x,
                 Random.Range(-1f, 1f) * positionalShake.y,
                 Random.Range(-1f, 1f) * positionalShake.z
@@ -122,9 +125,26 @@ public class AnimatedEnigmaProp : MonoBehaviour
                 Random.Range(-1f, 1f) * rotationalShake.y,
                 Random.Range(-1f, 1f) * rotationalShake.z
             );
-            rotOffset = Quaternion.Euler(eulerShake);
+            rotOffset *= Quaternion.Euler(eulerShake);
 
             effectTimeLeft -= Time.deltaTime;
+        }
+
+        // 2. Continuous Jitter (Tremblement constant)
+        if (enableContinuousJitter)
+        {
+            posOffset += new Vector3(
+                Random.Range(-1f, 1f) * continuousPositionalJitter.x,
+                Random.Range(-1f, 1f) * continuousPositionalJitter.y,
+                Random.Range(-1f, 1f) * continuousPositionalJitter.z
+            );
+
+            Vector3 eulerContinuous = new Vector3(
+                Random.Range(-1f, 1f) * continuousRotationalJitter.x,
+                Random.Range(-1f, 1f) * continuousRotationalJitter.y,
+                Random.Range(-1f, 1f) * continuousRotationalJitter.z
+            );
+            rotOffset *= Quaternion.Euler(eulerContinuous);
         }
 
         transform.position = currentBasePos + posOffset;
