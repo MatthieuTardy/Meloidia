@@ -15226,6 +15226,10 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5351719513439474315, guid: db193832912c1a441a1356df86b05b53,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 687450586}
     - targetCorrespondingSourceObject: {fileID: 5450316621270749064, guid: db193832912c1a441a1356df86b05b53,
         type: 3}
       insertIndex: -1
@@ -24989,6 +24993,43 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 115235822}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &687450581 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5351719513439474315, guid: db193832912c1a441a1356df86b05b53,
+    type: 3}
+  m_PrefabInstance: {fileID: 450911504}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &687450586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687450581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1725814674
+      Data2: 1299876830
+      Data3: 1194050219
+      Data4: 243887637
+    Path: event:/SFX/Objects/Graines
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!4 &688156301 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5244561350355426862, guid: ac867128800d2c94ba2112f6110de3dc,
