@@ -54,7 +54,7 @@ public class SoundEvent : MonoBehaviour
 
         float ratio = 1f / step;
 
-        if (SFXtoOut.IsPlaying())
+        if (SFXtoOut.IsPlaying() && !SFXtoIn.IsPlaying())
         {
 
             float volumeIn = 0f;
@@ -85,7 +85,7 @@ public class SoundEvent : MonoBehaviour
 
         float ratio = 1f / step;
 
-        if (!SFXtoOut.IsPlaying())
+        if (SFXtoOut.IsPlaying())
         {
             float volumeOut = 1f;
             for (int i = 0; i < step-1; i++)
@@ -106,7 +106,7 @@ public class SoundEvent : MonoBehaviour
 
         float ratio = 1f / step;
 
-        if (!SFXtoOut.IsPlaying())
+        if (!SFXtoIn.IsPlaying())
         {
             float volumeIn = 0f;
             for (int i = 0; i < step - 1; i++)
