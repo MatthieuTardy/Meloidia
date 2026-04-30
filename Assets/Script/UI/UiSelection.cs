@@ -24,11 +24,12 @@ public class UiSelection : MonoBehaviour
         Debug.Log(this.name);
         if (Application.isPlaying)
             UpdateWheelVisibility();
+
+        InputUIevent.instance.IsSinging += ManageToggleSing;
     }
 
     void Update()
     {
-        ManageToggleSing();
         if (IsToggleSing)
         {
             
@@ -42,19 +43,16 @@ public class UiSelection : MonoBehaviour
 
     public void ManageToggleSing()
     {
-        float value = Input.GetAxisRaw("ToggleSing");
-        value += Input.GetAxisRaw("SongPC");
-        if (value > 0 && !triggerPressed)
+        IsToggleSing = !IsToggleSing;
+        wheelRoot.SetActive(IsToggleSing);
+        ResetAllNotesOnCanvas();
+        if (IsToggleSing)
         {
-            triggerPressed = true;
-            IsToggleSing = !IsToggleSing;
-            wheelRoot.SetActive(IsToggleSing);
-            ResetAllNotesOnCanvas();
+            InputUIevent.ShowCursor();
         }
-
-        if (value < 0.1f)
+        else
         {
-            triggerPressed = false;
+            InputUIevent.HideCursor();
         }
     }
 
