@@ -1,4 +1,7 @@
+﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
+using Cinemachine;
 
 public class AnimatedEnigmaProp : MonoBehaviour
 {
@@ -16,10 +19,24 @@ public class AnimatedEnigmaProp : MonoBehaviour
     public Vector3 positionalShake = new Vector3(0.1f, 0.1f, 0.1f);
     public Vector3 rotationalShake = new Vector3(0f, 0f, 0f);
 
-    [Header("Continuous Jitter (Non-Reaction)")]
-    public bool enableContinuousJitter = false;
-    public Vector3 continuousPositionalJitter = new Vector3(0.02f, 0.02f, 0.02f);
-    public Vector3 continuousRotationalJitter = new Vector3(0.5f, 0.5f, 0.5f);
+    [Header("Cinematic Camera (Focus)")]
+    public bool enableCinematicCamera = true;
+    public Transform cinematicCameraPoint;
+    public float cameraFocusDuration = 2f;
+
+    [Header("Camera Shake Settings")]
+    public bool enableCameraShake = false;
+    [Tooltip("Clique sur le petit point à droite pour choisir un profil comme '6D Shake'")]
+    public NoiseSettings cameraNoiseProfile;
+    public float shakeAmplitude = 1.5f;
+    public float shakeFrequency = 2.0f;
+
+    [Header("Chaining Events")]
+    public UnityEvent onEnigmaSolvedImmediate;
+    public UnityEvent onCameraSequenceEnd;
+
+    private CinemachineVirtualCamera sequenceCam;
+    private bool hasTriggeredCamera = false;
 
     private Vector3 startPos;
     private Quaternion startRot;
@@ -55,30 +72,33 @@ public class AnimatedEnigmaProp : MonoBehaviour
     {
         if (enigmeSystem != null)
         {
-            ///Th�o Modi - Start
             if (enigmeSystem.ratio != previousRatio)
             {
                 if (enigmeSystem.ratio == 0f)
                 {
-                    // A wrong note was played, reset the prop
                     isFullyResolved = false;
                     currentBump = 0f;
+                    hasTriggeredCamera = false;
+                    effectTimeLeft = 0f;
                 }
                 else if (enigmeSystem.ratio >= 0.99f)
                 {
-                    // The puzzle is completely solved
                     isFullyResolved = true;
                     effectTimeLeft = 0f;
+
+                    if (!hasTriggeredCamera)
+                    {
+                        onEnigmaSolvedImmediate?.Invoke();
+                        TriggerCameraFocus();
+                    }
                 }
                 else
                 {
-                    // A correct note was played!
                     isFullyResolved = false;
                     effectTimeLeft = effectDuration;
                     currentBump = bumpPercentage;
                 }
             }
-            ///Th�o Modi - End
 
             previousRatio = enigmeSystem.ratio;
         }
@@ -111,8 +131,7 @@ public class AnimatedEnigmaProp : MonoBehaviour
         Vector3 posOffset = Vector3.zero;
         Quaternion rotOffset = Quaternion.identity;
 
-        // 1. Reaction Effect (Jitter fort temporaire)
-        if (effectTimeLeft > 0)
+        if (effectTimeLeft > 0 && !isFullyResolved)
         {
             posOffset += new Vector3(
                 Random.Range(-1f, 1f) * positionalShake.x,
@@ -130,36 +149,84 @@ public class AnimatedEnigmaProp : MonoBehaviour
             effectTimeLeft -= Time.deltaTime;
         }
 
-        // 2. Continuous Jitter (Tremblement constant)
-        if (enableContinuousJitter)
-        {
-            posOffset += new Vector3(
-                Random.Range(-1f, 1f) * continuousPositionalJitter.x,
-                Random.Range(-1f, 1f) * continuousPositionalJitter.y,
-                Random.Range(-1f, 1f) * continuousPositionalJitter.z
-            );
-
-            Vector3 eulerContinuous = new Vector3(
-                Random.Range(-1f, 1f) * continuousRotationalJitter.x,
-                Random.Range(-1f, 1f) * continuousRotationalJitter.y,
-                Random.Range(-1f, 1f) * continuousRotationalJitter.z
-            );
-            rotOffset *= Quaternion.Euler(eulerContinuous);
-        }
-
         transform.position = currentBasePos + posOffset;
         transform.rotation = currentBaseRot * rotOffset;
         transform.localScale = currentBaseScale;
     }
 
-    // --- FONCTIONS POUR LE TOGGLE INTERACTION ---
-    public void OpenProp()
+    private void TriggerCameraFocus()
     {
-        isFullyResolved = true;
+        if (enableCinematicCamera && cinematicCameraPoint != null)
+        {
+            hasTriggeredCamera = true;
+            StartCoroutine(CameraFocusRoutine());
+        }
+        else if (!hasTriggeredCamera)
+        {
+            hasTriggeredCamera = true;
+            onCameraSequenceEnd?.Invoke();
+        }
     }
 
-    public void CloseProp()
+    private IEnumerator CameraFocusRoutine()
+    {
+        GameObject camObj = new GameObject("EnigmaProp_CinematicCam");
+        camObj.transform.position = cinematicCameraPoint.position;
+
+        sequenceCam = camObj.AddComponent<CinemachineVirtualCamera>();
+
+        sequenceCam.Follow = cinematicCameraPoint;
+        sequenceCam.LookAt = this.transform;
+        sequenceCam.Priority = 100;
+
+        var transposer = sequenceCam.AddCinemachineComponent<CinemachineTransposer>();
+        transposer.m_FollowOffset = Vector3.zero;
+
+        var composer = sequenceCam.AddCinemachineComponent<CinemachineComposer>();
+        composer.m_TrackedObjectOffset = new Vector3(0, 0f, 0);
+
+        // --- GESTION DU SHAKE 100% FIABLE ---
+        if (enableCameraShake)
+        {
+            if (cameraNoiseProfile != null)
+            {
+                var noise = sequenceCam.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+                noise.m_NoiseProfile = cameraNoiseProfile;
+                noise.m_AmplitudeGain = shakeAmplitude;
+                noise.m_FrequencyGain = shakeFrequency;
+            }
+            else
+            {
+                Debug.LogWarning("⚠️ Camera Shake est activé sur " + gameObject.name + " mais il manque le fichier dans 'Camera Noise Profile' !");
+            }
+        }
+
+        yield return new WaitForSeconds(cameraFocusDuration);
+
+        if (sequenceCam != null)
+        {
+            Destroy(sequenceCam.gameObject);
+        }
+
+        onCameraSequenceEnd?.Invoke();
+    }
+
+    public void PlayAnimation()
+    {
+        isFullyResolved = true;
+        effectTimeLeft = 0f;
+
+        if (!hasTriggeredCamera)
+        {
+            onEnigmaSolvedImmediate?.Invoke();
+            TriggerCameraFocus();
+        }
+    }
+
+    public void ResetToStart()
     {
         isFullyResolved = false;
+        hasTriggeredCamera = false;
+        effectTimeLeft = 0f;
     }
 }

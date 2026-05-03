@@ -27,6 +27,8 @@ public class CrocNoteCarrySequence : MonoBehaviour
     [Header("Cinematic Camera")]
     public bool enableCinematicCamera = true;
     public Transform cinematicCameraPoint;
+    // --- Modif : Temps que la caméra passe sur la séquence globale ---
+    public float cameraSequenceDuration = 5f;
 
     private NavMeshAgent agent;
     private Animator animator;
@@ -117,6 +119,9 @@ public class CrocNoteCarrySequence : MonoBehaviour
 
             var composer = sequenceCam.AddCinemachineComponent<CinemachineComposer>();
             composer.m_TrackedObjectOffset = new Vector3(0, 1f, 0);
+
+            // --- Modif : On lance le minuteur de la caméra de manière indépendante ---
+            StartCoroutine(CameraDurationRoutine());
         }
 
         if (agent != null)
@@ -146,15 +151,10 @@ public class CrocNoteCarrySequence : MonoBehaviour
 
         onPickup?.Invoke();
 
-        // Pause so the player can watch the CrocNote hold the object
+        // Pause de base du script original pour marquer le coup du ramassage (1.5s)
         yield return new WaitForSeconds(1.5f);
 
-        // --- CAMERA GOES BACK TO PLAYER ---
-        // By destroying the camera here, Cinemachine automatically glides back to the player
-        if (sequenceCam != null)
-        {
-            Destroy(sequenceCam.gameObject);
-        }
+        // La caméra n'est plus détruite ici, elle gère sa propre vie grâce à la coroutine CameraDurationRoutine !
 
         if (agent != null)
         {
@@ -199,6 +199,17 @@ public class CrocNoteCarrySequence : MonoBehaviour
         }
 
         this.enabled = false;
+    }
+
+    // --- Modif : Coroutine indépendante qui détruit la caméra après le temps voulu ---
+    private IEnumerator CameraDurationRoutine()
+    {
+        yield return new WaitForSeconds(cameraSequenceDuration);
+
+        if (sequenceCam != null)
+        {
+            Destroy(sequenceCam.gameObject);
+        }
     }
 
     private IEnumerator MoveToDestinationLoop(string destinationName)

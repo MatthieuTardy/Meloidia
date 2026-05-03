@@ -1,0 +1,453 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+[ExecuteAlways]
+[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
+public class TerrainGrass : MonoBehaviour
+{
+    [Header("Terrains")]
+    public List<Terrain> terrains = new List<Terrain>();
+
+    [Header("Grass Settings")]
+    public Material grassMaterial;
+
+    [Header("Brush Settings")]
+    [Tooltip("Les calques (Layers) sur lesquels le pinceau peut interagir (ex: Ground/Floor)")]
+    public LayerMask paintableLayer = ~0;
+
+    [Range(1f, 50f)]
+    public float brushSize = 10f;
+    [Range(1, 30)]
+    public int brushDensity = 10;
+    [Range(0f, 1f)]
+    public float randomOffset = 0.5f;
+
+    [Header("Placement Filters")]
+    [Range(0f, 90f)]
+    public float maxSlopeAngle = 45f;
+
+    [Header("Culling")]
+    [Tooltip("Distance max de rendu d'un brin")]
+    public float renderDistance = 150f;
+    [Tooltip("Marge autour du frustum en degrés (évite le pop-in)")]
+    [Range(0f, 20f)]
+    public float frustumPadding = 5f;
+
+    [Header("Debug")]
+    public bool showDebugLogs = false;
+
+    [HideInInspector]
+    [SerializeField]
+    private List<Vector3> allGrassPositions = new List<Vector3>();
+
+    [HideInInspector]
+    public List<Vector3> previewGrassPositions = new List<Vector3>();
+
+    private Mesh grassMesh;
+    private Plane[] frustumPlanes = new Plane[6];
+
+    private List<Vector3> visibleVertices = new List<Vector3>();
+    private List<int> visibleIndices = new List<int>();
+
+    private Vector3 lastCamPos;
+    private Quaternion lastCamRot;
+    private int lastVisibleCount;
+
+    // ==========================================
+    // LIFECYCLE
+    // ==========================================
+
+    void OnEnable()
+    {
+        lastCamPos = Vector3.zero; // FORCE LA MISE A JOUR AU LANCEMENT
+        CreateMesh();
+        UpdateVisibleGrass();
+    }
+
+    void Awake()
+    {
+        CreateMesh();
+    }
+
+    void Start()
+    {
+        lastCamPos = Vector3.zero; // FORCE LA MISE A JOUR
+        UpdateVisibleGrass();
+    }
+
+    void LateUpdate()
+    {
+        MeshFilter mf = GetComponent<MeshFilter>();
+        bool meshRecreated = false;
+
+        // On vérifie seulement si le sharedMesh est null pour le recréer
+        if (allGrassPositions.Count > 0 && mf.sharedMesh == null)
+        {
+            CreateMesh();
+            meshRecreated = true;
+        }
+
+        if (!Application.isPlaying) return;
+
+        Camera cam = Camera.main;
+        if (cam == null) return;
+
+        Vector3 camPos = cam.transform.position;
+        Quaternion camRot = cam.transform.rotation;
+
+        // Si le mesh vient d'être recréé OU si la caméra a bougé
+        if (meshRecreated || camPos != lastCamPos || camRot != lastCamRot)
+        {
+            lastCamPos = camPos;
+            lastCamRot = camRot;
+            UpdateVisibleGrassWithCamera(cam);
+        }
+    }
+
+    Camera GetActiveCamera()
+    {
+        if (Application.isPlaying) return Camera.main;
+#if UNITY_EDITOR
+        if (UnityEditor.SceneView.lastActiveSceneView != null)
+            return UnityEditor.SceneView.lastActiveSceneView.camera;
+#endif
+        return null;
+    }
+
+    // ==========================================
+    // ÉDITEUR - appelé par TerrainGrassEditor
+    // ==========================================
+
+    // ==========================================
+    // ÉDITEUR - appelé par TerrainGrassEditor
+    // ==========================================
+
+    public void EditorUpdate(Camera sceneCam)
+    {
+        // --- LA CORRECTION EST ICI ---
+        // Si le jeu est lancé, on bloque la caméra de l'éditeur pour laisser le joueur faire !
+        if (Application.isPlaying) return;
+
+        if (sceneCam == null) return;
+        if (allGrassPositions.Count == 0) return;
+
+        Vector3 camPos = sceneCam.transform.position;
+        Quaternion camRot = sceneCam.transform.rotation;
+
+        if (camPos == lastCamPos && camRot == lastCamRot) return;
+
+        lastCamPos = camPos;
+        lastCamRot = camRot;
+
+        UpdateVisibleGrassWithCamera(sceneCam);
+    }
+
+    // ==========================================
+    // CULLING PAR BRIN
+    // ==========================================
+
+    void UpdateVisibleGrass()
+    {
+        Camera cam = GetActiveCamera();
+        if (cam == null) return;
+        UpdateVisibleGrassWithCamera(cam);
+    }
+
+    void UpdateVisibleGrassWithCamera(Camera cam)
+    {
+        if (grassMesh == null) CreateMesh();
+        if (allGrassPositions.Count == 0)
+        {
+            ClearMesh();
+            return;
+        }
+
+        Matrix4x4 projMatrix = cam.projectionMatrix;
+
+        if (frustumPadding > 0f && !cam.orthographic)
+        {
+            float fovRad = cam.fieldOfView * Mathf.Deg2Rad;
+            float paddedFov = (cam.fieldOfView + frustumPadding * 2f) * Mathf.Deg2Rad;
+            float scale = Mathf.Tan(fovRad * 0.5f) / Mathf.Tan(paddedFov * 0.5f);
+            projMatrix[0, 0] *= scale;
+            projMatrix[1, 1] *= scale;
+        }
+
+        GeometryUtility.CalculateFrustumPlanes(projMatrix * cam.worldToCameraMatrix, frustumPlanes);
+
+        Vector3 camPos = cam.transform.position;
+        float renderDistSq = renderDistance * renderDistance;
+
+        visibleVertices.Clear();
+        visibleIndices.Clear();
+
+        for (int i = 0; i < allGrassPositions.Count; i++)
+        {
+            Vector3 worldPos = allGrassPositions[i];
+
+            float dx = worldPos.x - camPos.x;
+            float dy = worldPos.y - camPos.y;
+            float dz = worldPos.z - camPos.z;
+            float distSq = dx * dx + dy * dy + dz * dz;
+
+            if (distSq > renderDistSq) continue;
+            if (!IsPointInFrustum(worldPos)) continue;
+
+            visibleVertices.Add(transform.InverseTransformPoint(worldPos));
+            visibleIndices.Add(visibleVertices.Count - 1);
+        }
+
+        lastVisibleCount = visibleVertices.Count;
+        grassMesh.Clear();
+
+        if (visibleVertices.Count > 0)
+        {
+            grassMesh.SetVertices(visibleVertices);
+            grassMesh.SetIndices(visibleIndices, MeshTopology.Points, 0);
+
+            grassMesh.RecalculateBounds();
+            Bounds b = grassMesh.bounds;
+            b.Expand(new Vector3(20f, 30f, 20f));
+            grassMesh.bounds = b;
+        }
+
+        MeshRenderer mr = GetComponent<MeshRenderer>();
+        mr.enabled = visibleVertices.Count > 0;
+
+        if (showDebugLogs && Time.frameCount % 60 == 0)
+        {
+            Debug.Log($"[Grass] Visible: {visibleVertices.Count}/{allGrassPositions.Count}");
+        }
+    }
+
+    bool IsPointInFrustum(Vector3 point)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            if (frustumPlanes[i].GetDistanceToPoint(point) < 0f) return false;
+        }
+        return true;
+    }
+
+    // ==========================================
+    // MESH
+    // ==========================================
+
+    void CreateMesh()
+    {
+        MeshFilter mf = GetComponent<MeshFilter>();
+
+        if (mf.sharedMesh != null && mf.sharedMesh.name == "PaintedGrass")
+        {
+            if (Application.isPlaying) Destroy(mf.sharedMesh);
+            else DestroyImmediate(mf.sharedMesh);
+        }
+
+        grassMesh = new Mesh
+        {
+            name = "PaintedGrass",
+            indexFormat = UnityEngine.Rendering.IndexFormat.UInt32
+        };
+        grassMesh.MarkDynamic();
+
+        mf.sharedMesh = grassMesh;
+
+        MeshRenderer mr = GetComponent<MeshRenderer>();
+        if (grassMaterial != null) mr.sharedMaterial = grassMaterial;
+    }
+
+    void ClearMesh()
+    {
+        if (grassMesh != null) grassMesh.Clear();
+    }
+
+    // ==========================================
+    // PEINTURE (PRÉVISUALISATION)
+    // ==========================================
+
+    Terrain GetTerrainAt(float x, float z)
+    {
+        foreach (Terrain t in terrains)
+        {
+            if (t == null) continue;
+
+            Vector3 tPos = t.transform.position;
+            Vector3 tSize = t.terrainData.size;
+
+            if (x >= tPos.x && x <= tPos.x + tSize.x &&
+                z >= tPos.z && z <= tPos.z + tSize.z)
+            {
+                return t;
+            }
+        }
+        return null;
+    }
+
+    public void PaintGrass(Vector3 center)
+    {
+        if (terrains == null || terrains.Count == 0) return;
+
+        float step = brushSize / Mathf.Sqrt(brushDensity * brushSize);
+
+        for (float x = -brushSize; x < brushSize; x += step)
+        {
+            for (float z = -brushSize; z < brushSize; z += step)
+            {
+                float dist = Mathf.Sqrt(x * x + z * z);
+                if (dist > brushSize) continue;
+
+                float edgeFalloff = 1f - (dist / brushSize);
+                if (Random.value > edgeFalloff) continue;
+
+                float offsetX = Random.Range(-randomOffset * step, randomOffset * step);
+                float offsetZ = Random.Range(-randomOffset * step, randomOffset * step);
+
+                float worldX = center.x + x + offsetX;
+                float worldZ = center.z + z + offsetZ;
+
+                Terrain targetTerrain = GetTerrainAt(worldX, worldZ);
+                if (targetTerrain == null) continue;
+
+                TerrainData terrainData = targetTerrain.terrainData;
+                Vector3 terrainPos = targetTerrain.transform.position;
+                Vector3 terrainSize = terrainData.size;
+
+                float localX = worldX - terrainPos.x;
+                float localZ = worldZ - terrainPos.z;
+
+                float normX = localX / terrainSize.x;
+                float normZ = localZ / terrainSize.z;
+
+                float steepness = terrainData.GetSteepness(normX, normZ);
+                if (steepness > maxSlopeAngle) continue;
+
+                float height = terrainData.GetInterpolatedHeight(normX, normZ);
+                Vector3 pos = new Vector3(worldX, height + terrainPos.y, worldZ);
+
+                if (!IsTooClose(pos, step * 0.5f))
+                {
+                    previewGrassPositions.Add(pos);
+                }
+            }
+        }
+    }
+
+    public void EraseGrass(Vector3 center)
+    {
+        float radiusSq = brushSize * brushSize;
+
+        int removed = allGrassPositions.RemoveAll(pos => {
+            float dx = pos.x - center.x;
+            float dz = pos.z - center.z;
+            return (dx * dx + dz * dz) < radiusSq;
+        });
+
+        previewGrassPositions.RemoveAll(pos => {
+            float dx = pos.x - center.x;
+            float dz = pos.z - center.z;
+            return (dx * dx + dz * dz) < radiusSq;
+        });
+
+        if (removed > 0)
+        {
+            lastCamPos = Vector3.zero;
+            UpdateVisibleGrass();
+        }
+    }
+
+    bool IsTooClose(Vector3 pos, float minDist)
+    {
+        float minDistSq = minDist * minDist;
+
+        int startIndex = Mathf.Max(0, allGrassPositions.Count - 500);
+        for (int i = startIndex; i < allGrassPositions.Count; i++)
+        {
+            float dx = allGrassPositions[i].x - pos.x;
+            float dz = allGrassPositions[i].z - pos.z;
+            if (dx * dx + dz * dz < minDistSq) return true;
+        }
+
+        int previewStart = Mathf.Max(0, previewGrassPositions.Count - 500);
+        for (int i = previewStart; i < previewGrassPositions.Count; i++)
+        {
+            float dx = previewGrassPositions[i].x - pos.x;
+            float dz = previewGrassPositions[i].z - pos.z;
+            if (dx * dx + dz * dz < minDistSq) return true;
+        }
+
+        return false;
+    }
+
+    // ==========================================
+    // VALIDATION DE LA PRÉVISUALISATION
+    // ==========================================
+
+    public void ApplyPreviewGrass()
+    {
+        if (previewGrassPositions.Count == 0) return;
+        allGrassPositions.AddRange(previewGrassPositions);
+        previewGrassPositions.Clear();
+        ForceRebuild();
+    }
+
+    public void CancelPreviewGrass()
+    {
+        previewGrassPositions.Clear();
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (previewGrassPositions != null && previewGrassPositions.Count > 0)
+        {
+            Gizmos.color = new Color(0.3f, 1f, 0.3f, 0.8f);
+            foreach (Vector3 pos in previewGrassPositions)
+            {
+                Gizmos.DrawLine(pos, pos + Vector3.up * 0.5f);
+            }
+        }
+    }
+
+    // ==========================================
+    // UTILITAIRES
+    // ==========================================
+
+    public int GrassCount => allGrassPositions.Count;
+
+    public void ClearAllGrass()
+    {
+        allGrassPositions.Clear();
+        previewGrassPositions.Clear();
+        ClearMesh();
+    }
+
+    public void ForceRebuild()
+    {
+        CreateMesh();
+        lastCamPos = Vector3.zero;
+        UpdateVisibleGrass();
+    }
+
+    public void RebuildMesh() => ForceRebuild();
+
+    void OnValidate()
+    {
+#if UNITY_EDITOR
+        if (allGrassPositions.Count > 0)
+        {
+            UnityEditor.EditorApplication.delayCall += () => {
+                if (this != null) ForceRebuild();
+            };
+        }
+#endif
+    }
+
+    void OnDestroy()
+    {
+        MeshFilter mf = GetComponent<MeshFilter>();
+        if (mf != null && mf.sharedMesh != null && mf.sharedMesh.name == "PaintedGrass")
+        {
+            if (Application.isPlaying) Destroy(mf.sharedMesh);
+            else DestroyImmediate(mf.sharedMesh);
+        }
+    }
+}

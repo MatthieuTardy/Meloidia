@@ -178,67 +178,73 @@ public class LegumeManager : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 7 ) //legume
+        if (other.gameObject.layer == 7) //legume
         {
-            if (other.GetComponent<LegumeManager>().calmeTimer >= other.GetComponent<LegumeManager>().finCalme)
+            //modif theo
+            LegumeManager otherLegume = other.GetComponent<LegumeManager>();
+
+            // On vérifie que le composant existe bien avant de l'utiliser pour éviter l'erreur NullReferenceException
+            if (otherLegume != null)
             {
-                jetDeHaine = Random.Range(0, 100);
-                if (other.gameObject.GetComponent<LegumeManager>().colere == false && colere == false)
+                if (otherLegume.calmeTimer >= otherLegume.finCalme)
                 {
-                    switch (other.gameObject.GetComponent<LegumeManager>().legumeType)
+                    jetDeHaine = Random.Range(0, 100);
+                    if (otherLegume.colere == false && colere == false)
                     {
-                        case CrocNoteType.un:
-                            Debug.Log(jetDeHaine);
-                            if (jetDeHaine < Specisme1)
-                            {
-                                StartRageState(other.transform);
-                            }
-                            break;
-                        case CrocNoteType.deux:
-                            Debug.Log(jetDeHaine);
-                            if (jetDeHaine < Specisme2)
-                            {
-                                StartRageState(other.transform);
-                            }
-                            break;
-                        case CrocNoteType.trois:
-                            Debug.Log(jetDeHaine);
-                            if (jetDeHaine < Specisme3)
-                            {
-                                StartRageState(other.transform);
-                            }
-                            break;
-                        case CrocNoteType.quatre:
-                            Debug.Log(jetDeHaine);
-                            if (jetDeHaine < Specisme4)
-                            {
-                                StartRageState(other.transform);
-                            }
-                            break;
-                        case CrocNoteType.cinq:
-                            Debug.Log(jetDeHaine);
-                            if (jetDeHaine < Specisme5)
-                            {
-                                StartRageState(other.transform);
-                            }
-                            break;
+                        switch (otherLegume.legumeType)
+                        {
+                            case CrocNoteType.un:
+                                Debug.Log(jetDeHaine);
+                                if (jetDeHaine < Specisme1)
+                                {
+                                    StartRageState(other.transform);
+                                }
+                                break;
+                            case CrocNoteType.deux:
+                                Debug.Log(jetDeHaine);
+                                if (jetDeHaine < Specisme2)
+                                {
+                                    StartRageState(other.transform);
+                                }
+                                break;
+                            case CrocNoteType.trois:
+                                Debug.Log(jetDeHaine);
+                                if (jetDeHaine < Specisme3)
+                                {
+                                    StartRageState(other.transform);
+                                }
+                                break;
+                            case CrocNoteType.quatre:
+                                Debug.Log(jetDeHaine);
+                                if (jetDeHaine < Specisme4)
+                                {
+                                    StartRageState(other.transform);
+                                }
+                                break;
+                            case CrocNoteType.cinq:
+                                Debug.Log(jetDeHaine);
+                                if (jetDeHaine < Specisme5)
+                                {
+                                    StartRageState(other.transform);
+                                }
+                                break;
+                        }
                     }
+                } //rencontre un autre croc-note - jet de haine
 
-                    
-                }
-            } //rencontre un autre croc-note - jet de haine
+                else if (otherLegume.colere == true && otherLegume.isStartRageTimer > 0f && colere == false)
+                {
+                    StartRageState(other.transform);
 
-            else if (other.gameObject.GetComponent<LegumeManager>().colere == true && other.gameObject.GetComponent<LegumeManager>().isStartRageTimer > 0f && colere == false)
-            {
-                StartRageState(other.transform);
+                } //rejoind la baston si possible
+            }
+            //modif theo
 
-            } //rejoind la baston si possible
         }
-
     }
     #endregion
 
-    #region Movement
+        #region Movement
     public IEnumerator RandomMove()
     {
         //Debug.Log("move routine " + CanMoveFreely);

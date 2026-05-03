@@ -1,244 +1,129 @@
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 [CustomEditor(typeof(TerrainGrass))]
-public class TerrainGrassEditor : Editor {
-
-    private bool isPainting = false;
-    private bool isErasing = false;
-    private Vector3 brushPosition;
-    private bool hasBrushPosition;
-
-    private bool isMouseDown = false;
-    private float paintInterval = 0.05f;
-    private float lastPaintTime;
-
-    private GUIStyle headerStyle;
-
-    private void InitStyles() {
-        if (headerStyle == null) {
-            headerStyle = new GUIStyle(EditorStyles.boldLabel) {
-                fontSize = 14,
-                alignment = TextAnchor.MiddleCenter,
-                normal = { textColor = new Color(0.4f, 0.85f, 0.3f) }
-            };
-        }
-    }
-
+public class TerrainGrassEditor : Editor
+{
     // ==========================================
-    // INSPECTOR
+    // INSPECTEUR (UI)
     // ==========================================
-
-    public override void OnInspectorGUI() {
-        InitStyles();
-        TerrainGrass grass = (TerrainGrass)target;
-
-        EditorGUILayout.Space(5);
-        EditorGUILayout.LabelField("🌿 Grass Painter", headerStyle);
-        EditorGUILayout.Space(5);
-
+    public override void OnInspectorGUI()
+    {
         DrawDefaultInspector();
 
-        EditorGUILayout.Space(10);
+        TerrainGrass grassScript = (TerrainGrass)target;
 
-        // Mode peinture
-        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-        EditorGUILayout.LabelField("Mode de peinture", EditorStyles.boldLabel);
-        EditorGUILayout.Space(3);
+        EditorGUILayout.Space(15);
+        EditorGUILayout.LabelField("Peinture & Validation", EditorStyles.boldLabel);
 
-        EditorGUILayout.BeginHorizontal();
+        if (grassScript.previewGrassPositions.Count > 0)
+        {
+            GUI.color = Color.yellow;
+            EditorGUILayout.HelpBox($"{grassScript.previewGrassPositions.Count} brins en attente de validation.", MessageType.Warning);
+            GUI.color = Color.white;
 
-        GUI.backgroundColor = isPainting ? new Color(0.3f, 1f, 0.3f) : Color.white;
-        if (GUILayout.Button(isPainting ? "✅ PEINTURE ACTIVE" : "🖌 Peindre", GUILayout.Height(35))) {
-            isPainting = !isPainting;
-            if (isPainting) isErasing = false;
-            ActiveEditorTracker.sharedTracker.isLocked = isPainting || isErasing;
-            SceneView.RepaintAll();
+            GUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("Appliquer la peinture", GUILayout.Height(30)))
+            {
+                grassScript.ApplyPreviewGrass();
+                EditorUtility.SetDirty(grassScript); // Sauvegarde
+                SceneView.RepaintAll();
+            }
+
+            if (GUILayout.Button("Annuler", GUILayout.Height(30)))
+            {
+                grassScript.CancelPreviewGrass();
+                EditorUtility.SetDirty(grassScript); // Sauvegarde
+                SceneView.RepaintAll();
+            }
+            GUILayout.EndHorizontal();
         }
-
-        GUI.backgroundColor = isErasing ? new Color(1f, 0.3f, 0.3f) : Color.white;
-        if (GUILayout.Button(isErasing ? "✅ GOMME ACTIVE" : "🧹 Gomme", GUILayout.Height(35))) {
-            isErasing = !isErasing;
-            if (isErasing) isPainting = false;
-            ActiveEditorTracker.sharedTracker.isLocked = isPainting || isErasing;
-            SceneView.RepaintAll();
+        else
+        {
+            EditorGUILayout.HelpBox("Peignez sur le terrain avec Shift+Clic Gauche. Les boutons apparaîtront ici.", MessageType.Info);
         }
-
-        GUI.backgroundColor = Color.white;
-        EditorGUILayout.EndHorizontal();
-
-        if (isPainting || isErasing) {
-            EditorGUILayout.Space(3);
-            EditorGUILayout.HelpBox(
-                (isPainting ? "Mode PEINTURE" : "Mode GOMME") + " activé !\n\n" +
-                "• Clic gauche dans la Scene View pour peindre/effacer\n" +
-                "• Maintiens le clic pour peindre en continu\n" +
-                "• [ et ] pour changer la taille du brush\n" +
-                "• Échap pour désactiver",
-                isPainting ? MessageType.Info : MessageType.Warning
-            );
-        }
-
-        EditorGUILayout.EndVertical();
 
         EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField($"Total d'herbes générées : {grassScript.GrassCount}", EditorStyles.label);
 
-        // Statistiques
-        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-        EditorGUILayout.LabelField("📊 Statistiques", EditorStyles.boldLabel);
-        EditorGUILayout.LabelField($"Brins d'herbe total : {grass.GrassCount:N0}");
-        EditorGUILayout.EndVertical();
-
-        EditorGUILayout.Space(5);
-
-        // Actions
-        EditorGUILayout.BeginHorizontal();
-
-        GUI.backgroundColor = new Color(1f, 0.3f, 0.3f);
-        if (GUILayout.Button("🗑 Tout supprimer", GUILayout.Height(30))) {
-            if (EditorUtility.DisplayDialog(
-                "Supprimer toute l'herbe ?",
-                $"Tu vas supprimer {grass.GrassCount:N0} brins d'herbe.",
-                "Supprimer", "Annuler"
-            )) {
-                Undo.RecordObject(grass, "Clear All Grass");
-                grass.ClearAllGrass();
-                EditorUtility.SetDirty(grass);
+        if (GUILayout.Button("Tout Effacer (Danger)", GUILayout.Height(20)))
+        {
+            if (EditorUtility.DisplayDialog("Confirmer", "Es-tu sûr de vouloir supprimer toute l'herbe de ce script ?", "Oui", "Non"))
+            {
+                grassScript.ClearAllGrass();
+                EditorUtility.SetDirty(grassScript); // Sauvegarde
+                SceneView.RepaintAll();
             }
         }
-
-        GUI.backgroundColor = new Color(0.3f, 0.7f, 1f);
-        if (GUILayout.Button("🔄 Reconstruire", GUILayout.Height(30))) {
-            grass.ForceRebuild();
-            EditorUtility.SetDirty(grass);
-        }
-
-        GUI.backgroundColor = Color.white;
-        EditorGUILayout.EndHorizontal();
     }
 
     // ==========================================
-    // SCENE VIEW
+    // VUE SCÈNE (PINCEAU)
     // ==========================================
+    void OnSceneGUI()
+    {
+        TerrainGrass grassScript = (TerrainGrass)target;
 
-    void OnEnable() {
-        SceneView.duringSceneGui += OnSceneGUI;
-    }
-
-    void OnDisable() {
-        SceneView.duringSceneGui -= OnSceneGUI;
-        ActiveEditorTracker.sharedTracker.isLocked = false;
-    }
-
-    void OnSceneGUI(SceneView sceneView) {
-        TerrainGrass grass = (TerrainGrass)target;
-        if (grass == null) return;
-
-        // ===== TOUJOURS rafraîchir l'herbe visible dans l'éditeur =====
-        if (grass.GrassCount > 0 && sceneView.camera != null) {
-            grass.EditorUpdate(sceneView.camera);
+        if (SceneView.currentDrawingSceneView != null)
+        {
+            grassScript.EditorUpdate(SceneView.currentDrawingSceneView.camera);
         }
-
-        if (!isPainting && !isErasing) return;
-        if (grass.terrain == null) return;
 
         Event e = Event.current;
-        HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
 
-        // Raccourcis
-        if (e.type == EventType.KeyDown) {
-            if (e.keyCode == KeyCode.Escape) {
-                isPainting = false;
-                isErasing = false;
-                ActiveEditorTracker.sharedTracker.isLocked = false;
-                Repaint();
-                e.Use();
-                return;
-            }
-            if (e.keyCode == KeyCode.LeftBracket) {
-                grass.brushSize = Mathf.Max(1f, grass.brushSize - 2f);
-                EditorUtility.SetDirty(grass);
-                Repaint();
-                e.Use();
-            }
-            if (e.keyCode == KeyCode.RightBracket) {
-                grass.brushSize = Mathf.Min(50f, grass.brushSize + 2f);
-                EditorUtility.SetDirty(grass);
-                Repaint();
-                e.Use();
-            }
+        if (e.type == EventType.Layout)
+        {
+            HandleUtility.AddDefaultControl(GUIUtility.GetControlID(GetHashCode(), FocusType.Passive));
         }
 
-        // Raycast
         Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-        RaycastHit hit;
-        hasBrushPosition = false;
+        RaycastHit[] hits = Physics.RaycastAll(ray, Mathf.Infinity, grassScript.paintableLayer);
 
-        if (grass.terrain.GetComponent<Collider>().Raycast(ray, out hit, Mathf.Infinity)) {
-            brushPosition = hit.point;
-            hasBrushPosition = true;
-        }
+        RaycastHit terrainHit = new RaycastHit();
+        bool foundTerrain = false;
 
-        // Dessiner le brush
-        if (hasBrushPosition) {
-            Color brushColor = isPainting
-                ? new Color(0f, 1f, 0f, 0.3f)
-                : new Color(1f, 0f, 0f, 0.3f);
-
-            Color outlineColor = isPainting
-                ? new Color(0f, 1f, 0f, 0.8f)
-                : new Color(1f, 0f, 0f, 0.8f);
-
-            Handles.color = brushColor;
-            Handles.DrawSolidDisc(brushPosition, Vector3.up, grass.brushSize);
-
-            Handles.color = outlineColor;
-            Handles.DrawWireDisc(brushPosition, Vector3.up, grass.brushSize, 2f);
-
-            Handles.color = Color.white;
-            Handles.DrawSolidDisc(brushPosition, Vector3.up, 0.2f);
-
-            Handles.Label(
-                brushPosition + Vector3.up * 3f,
-                isPainting ? $"🖌 Brush: {grass.brushSize:F0}" : $"🧹 Eraser: {grass.brushSize:F0}",
-                new GUIStyle(EditorStyles.boldLabel) {
-                    normal = { textColor = Color.white },
-                    fontSize = 12
-                }
-            );
-        }
-
-        // Clic
-        if (e.type == EventType.MouseDown && e.button == 0 && hasBrushPosition) {
-            isMouseDown = true;
-            DoPaintOrErase(grass);
-            e.Use();
-        }
-
-        if (e.type == EventType.MouseDrag && e.button == 0 && hasBrushPosition && isMouseDown) {
-            if (EditorApplication.timeSinceStartup - lastPaintTime > paintInterval) {
-                DoPaintOrErase(grass);
-                lastPaintTime = (float)EditorApplication.timeSinceStartup;
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.GetComponent<Terrain>() != null)
+            {
+                terrainHit = hit;
+                foundTerrain = true;
+                break;
             }
-            e.Use();
         }
 
-        if (e.type == EventType.MouseUp && e.button == 0) {
-            isMouseDown = false;
-            e.Use();
+        if (foundTerrain)
+        {
+            Handles.color = new Color(0, 1, 0, 0.1f);
+            Handles.DrawSolidDisc(terrainHit.point, terrainHit.normal, grassScript.brushSize);
+            Handles.color = Color.green;
+            Handles.DrawWireDisc(terrainHit.point, terrainHit.normal, grassScript.brushSize);
+
+            // PEINDRE (Shift + Clic gauche) -> Plus de lag de Undo !
+            if ((e.type == EventType.MouseDrag || e.type == EventType.MouseDown) && e.button == 0 && e.shift)
+            {
+                grassScript.PaintGrass(terrainHit.point);
+                e.Use();
+            }
+
+            // EFFACER (Ctrl + Clic gauche) -> Plus de lag de Undo !
+            else if ((e.type == EventType.MouseDrag || e.type == EventType.MouseDown) && e.button == 0 && e.control)
+            {
+                grassScript.EraseGrass(terrainHit.point);
+                e.Use();
+            }
         }
 
-        sceneView.Repaint();
-    }
+        // On continue de sauvegarder la scène (pour de vrai) quand tu relâches le clic
+        if (e.rawType == EventType.MouseUp && e.button == 0)
+        {
+            EditorUtility.SetDirty(grassScript);
+        }
 
-    void DoPaintOrErase(TerrainGrass grass) {
-        Undo.RecordObject(grass, isPainting ? "Paint Grass" : "Erase Grass");
-
-        if (isPainting)
-            grass.PaintGrass(brushPosition);
-        else if (isErasing)
-            grass.EraseGrass(brushPosition);
-
-        EditorUtility.SetDirty(grass);
+        if (e.type == EventType.MouseMove)
+        {
+            SceneView.RepaintAll();
+        }
     }
 }
