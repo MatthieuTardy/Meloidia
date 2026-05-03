@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
 
 [CustomEditor(typeof(TerrainGrass))]
-public class TerrainGrassEditor : Editor {
+public class TerrainGrassEditor : Editor
+{
 
     private bool isPainting = false;
     private bool isErasing = false;
@@ -15,9 +17,12 @@ public class TerrainGrassEditor : Editor {
 
     private GUIStyle headerStyle;
 
-    private void InitStyles() {
-        if (headerStyle == null) {
-            headerStyle = new GUIStyle(EditorStyles.boldLabel) {
+    private void InitStyles()
+    {
+        if (headerStyle == null)
+        {
+            headerStyle = new GUIStyle(EditorStyles.boldLabel)
+            {
                 fontSize = 14,
                 alignment = TextAnchor.MiddleCenter,
                 normal = { textColor = new Color(0.4f, 0.85f, 0.3f) }
@@ -29,7 +34,8 @@ public class TerrainGrassEditor : Editor {
     // INSPECTOR
     // ==========================================
 
-    public override void OnInspectorGUI() {
+    public override void OnInspectorGUI()
+    {
         InitStyles();
         TerrainGrass grass = (TerrainGrass)target;
 
@@ -49,7 +55,8 @@ public class TerrainGrassEditor : Editor {
         EditorGUILayout.BeginHorizontal();
 
         GUI.backgroundColor = isPainting ? new Color(0.3f, 1f, 0.3f) : Color.white;
-        if (GUILayout.Button(isPainting ? "✅ PEINTURE ACTIVE" : "🖌 Peindre", GUILayout.Height(35))) {
+        if (GUILayout.Button(isPainting ? "✅ PEINTURE ACTIVE" : "🖌 Peindre", GUILayout.Height(35)))
+        {
             isPainting = !isPainting;
             if (isPainting) isErasing = false;
             ActiveEditorTracker.sharedTracker.isLocked = isPainting || isErasing;
@@ -57,7 +64,8 @@ public class TerrainGrassEditor : Editor {
         }
 
         GUI.backgroundColor = isErasing ? new Color(1f, 0.3f, 0.3f) : Color.white;
-        if (GUILayout.Button(isErasing ? "✅ GOMME ACTIVE" : "🧹 Gomme", GUILayout.Height(35))) {
+        if (GUILayout.Button(isErasing ? "✅ GOMME ACTIVE" : "🧹 Gomme", GUILayout.Height(35)))
+        {
             isErasing = !isErasing;
             if (isErasing) isPainting = false;
             ActiveEditorTracker.sharedTracker.isLocked = isPainting || isErasing;
@@ -67,7 +75,8 @@ public class TerrainGrassEditor : Editor {
         GUI.backgroundColor = Color.white;
         EditorGUILayout.EndHorizontal();
 
-        if (isPainting || isErasing) {
+        if (isPainting || isErasing)
+        {
             EditorGUILayout.Space(3);
             EditorGUILayout.HelpBox(
                 (isPainting ? "Mode PEINTURE" : "Mode GOMME") + " activé !\n\n" +
@@ -95,12 +104,14 @@ public class TerrainGrassEditor : Editor {
         EditorGUILayout.BeginHorizontal();
 
         GUI.backgroundColor = new Color(1f, 0.3f, 0.3f);
-        if (GUILayout.Button("🗑 Tout supprimer", GUILayout.Height(30))) {
+        if (GUILayout.Button("🗑 Tout supprimer", GUILayout.Height(30)))
+        {
             if (EditorUtility.DisplayDialog(
                 "Supprimer toute l'herbe ?",
                 $"Tu vas supprimer {grass.GrassCount:N0} brins d'herbe.",
                 "Supprimer", "Annuler"
-            )) {
+            ))
+            {
                 Undo.RecordObject(grass, "Clear All Grass");
                 grass.ClearAllGrass();
                 EditorUtility.SetDirty(grass);
@@ -108,7 +119,8 @@ public class TerrainGrassEditor : Editor {
         }
 
         GUI.backgroundColor = new Color(0.3f, 0.7f, 1f);
-        if (GUILayout.Button("🔄 Reconstruire", GUILayout.Height(30))) {
+        if (GUILayout.Button("🔄 Reconstruire", GUILayout.Height(30)))
+        {
             grass.ForceRebuild();
             EditorUtility.SetDirty(grass);
         }
@@ -121,33 +133,39 @@ public class TerrainGrassEditor : Editor {
     // SCENE VIEW
     // ==========================================
 
-    void OnEnable() {
+    void OnEnable()
+    {
         SceneView.duringSceneGui += OnSceneGUI;
     }
 
-    void OnDisable() {
+    void OnDisable()
+    {
         SceneView.duringSceneGui -= OnSceneGUI;
         ActiveEditorTracker.sharedTracker.isLocked = false;
     }
 
-    void OnSceneGUI(SceneView sceneView) {
+    void OnSceneGUI(SceneView sceneView)
+    {
         TerrainGrass grass = (TerrainGrass)target;
         if (grass == null) return;
 
         // ===== TOUJOURS rafraîchir l'herbe visible dans l'éditeur =====
-        if (grass.GrassCount > 0 && sceneView.camera != null) {
+        if (grass.GrassCount > 0 && sceneView.camera != null)
+        {
             grass.EditorUpdate(sceneView.camera);
         }
 
         if (!isPainting && !isErasing) return;
-        if (grass.terrain == null) return;
+        if (grass.terrains == null || grass.terrains.Count == 0) return;
 
         Event e = Event.current;
         HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
 
         // Raccourcis
-        if (e.type == EventType.KeyDown) {
-            if (e.keyCode == KeyCode.Escape) {
+        if (e.type == EventType.KeyDown)
+        {
+            if (e.keyCode == KeyCode.Escape)
+            {
                 isPainting = false;
                 isErasing = false;
                 ActiveEditorTracker.sharedTracker.isLocked = false;
@@ -155,13 +173,15 @@ public class TerrainGrassEditor : Editor {
                 e.Use();
                 return;
             }
-            if (e.keyCode == KeyCode.LeftBracket) {
+            if (e.keyCode == KeyCode.LeftBracket)
+            {
                 grass.brushSize = Mathf.Max(1f, grass.brushSize - 2f);
                 EditorUtility.SetDirty(grass);
                 Repaint();
                 e.Use();
             }
-            if (e.keyCode == KeyCode.RightBracket) {
+            if (e.keyCode == KeyCode.RightBracket)
+            {
                 grass.brushSize = Mathf.Min(50f, grass.brushSize + 2f);
                 EditorUtility.SetDirty(grass);
                 Repaint();
@@ -169,18 +189,37 @@ public class TerrainGrassEditor : Editor {
             }
         }
 
-        // Raycast
+        // Raycast sur TOUS les terrains de la liste
         Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-        RaycastHit hit;
+        RaycastHit bestHit = new RaycastHit();
+        float closestDistance = Mathf.Infinity;
         hasBrushPosition = false;
 
-        if (grass.terrain.GetComponent<Collider>().Raycast(ray, out hit, Mathf.Infinity)) {
-            brushPosition = hit.point;
-            hasBrushPosition = true;
+        foreach (Terrain t in grass.terrains)
+        {
+            if (t != null)
+            {
+                Collider col = t.GetComponent<Collider>();
+                if (col != null && col.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+                {
+                    if (hit.distance < closestDistance)
+                    {
+                        closestDistance = hit.distance;
+                        bestHit = hit;
+                        hasBrushPosition = true;
+                    }
+                }
+            }
+        }
+
+        if (hasBrushPosition)
+        {
+            brushPosition = bestHit.point;
         }
 
         // Dessiner le brush
-        if (hasBrushPosition) {
+        if (hasBrushPosition)
+        {
             Color brushColor = isPainting
                 ? new Color(0f, 1f, 0f, 0.3f)
                 : new Color(1f, 0f, 0f, 0.3f);
@@ -201,7 +240,8 @@ public class TerrainGrassEditor : Editor {
             Handles.Label(
                 brushPosition + Vector3.up * 3f,
                 isPainting ? $"🖌 Brush: {grass.brushSize:F0}" : $"🧹 Eraser: {grass.brushSize:F0}",
-                new GUIStyle(EditorStyles.boldLabel) {
+                new GUIStyle(EditorStyles.boldLabel)
+                {
                     normal = { textColor = Color.white },
                     fontSize = 12
                 }
@@ -209,21 +249,25 @@ public class TerrainGrassEditor : Editor {
         }
 
         // Clic
-        if (e.type == EventType.MouseDown && e.button == 0 && hasBrushPosition) {
+        if (e.type == EventType.MouseDown && e.button == 0 && hasBrushPosition)
+        {
             isMouseDown = true;
             DoPaintOrErase(grass);
             e.Use();
         }
 
-        if (e.type == EventType.MouseDrag && e.button == 0 && hasBrushPosition && isMouseDown) {
-            if (EditorApplication.timeSinceStartup - lastPaintTime > paintInterval) {
+        if (e.type == EventType.MouseDrag && e.button == 0 && hasBrushPosition && isMouseDown)
+        {
+            if (EditorApplication.timeSinceStartup - lastPaintTime > paintInterval)
+            {
                 DoPaintOrErase(grass);
                 lastPaintTime = (float)EditorApplication.timeSinceStartup;
             }
             e.Use();
         }
 
-        if (e.type == EventType.MouseUp && e.button == 0) {
+        if (e.type == EventType.MouseUp && e.button == 0)
+        {
             isMouseDown = false;
             e.Use();
         }
@@ -231,7 +275,8 @@ public class TerrainGrassEditor : Editor {
         sceneView.Repaint();
     }
 
-    void DoPaintOrErase(TerrainGrass grass) {
+    void DoPaintOrErase(TerrainGrass grass)
+    {
         Undo.RecordObject(grass, isPainting ? "Paint Grass" : "Erase Grass");
 
         if (isPainting)

@@ -3,9 +3,10 @@ using UnityEngine;
 
 [ExecuteAlways]
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-public class TerrainGrass : MonoBehaviour {
-    [Header("Terrain")]
-    public Terrain terrain;
+public class TerrainGrass : MonoBehaviour
+{
+    [Header("Terrains")]
+    public List<Terrain> terrains = new List<Terrain>();
 
     [Header("Grass Settings")]
     public Material grassMaterial;
@@ -50,22 +51,27 @@ public class TerrainGrass : MonoBehaviour {
     // LIFECYCLE
     // ==========================================
 
-    void OnEnable() {
+    void OnEnable()
+    {
         CreateMesh();
         UpdateVisibleGrass();
     }
 
-    void Awake() {
+    void Awake()
+    {
         CreateMesh();
     }
 
-    void Start() {
+    void Start()
+    {
         UpdateVisibleGrass();
     }
 
-    void LateUpdate() {
+    void LateUpdate()
+    {
         MeshFilter mf = GetComponent<MeshFilter>();
-        if (allGrassPositions.Count > 0 && (mf.sharedMesh == null || mf.sharedMesh.vertexCount == 0)) {
+        if (allGrassPositions.Count > 0 && (mf.sharedMesh == null || mf.sharedMesh.vertexCount == 0))
+        {
             CreateMesh();
         }
 
@@ -77,21 +83,24 @@ public class TerrainGrass : MonoBehaviour {
         Vector3 camPos = cam.transform.position;
         Quaternion camRot = cam.transform.rotation;
 
-        if (camPos != lastCamPos || camRot != lastCamRot) {
+        if (camPos != lastCamPos || camRot != lastCamRot)
+        {
             lastCamPos = camPos;
             lastCamRot = camRot;
             UpdateVisibleGrassWithCamera(cam);
         }
     }
 
-    Camera GetActiveCamera() {
-        if (Application.isPlaying) {
+    Camera GetActiveCamera()
+    {
+        if (Application.isPlaying)
+        {
             return Camera.main;
         }
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         if (UnityEditor.SceneView.lastActiveSceneView != null)
             return UnityEditor.SceneView.lastActiveSceneView.camera;
-        #endif
+#endif
         return null;
     }
 
@@ -99,7 +108,8 @@ public class TerrainGrass : MonoBehaviour {
     // ÉDITEUR - appelé par TerrainGrassEditor
     // ==========================================
 
-    public void EditorUpdate(Camera sceneCam) {
+    public void EditorUpdate(Camera sceneCam)
+    {
         if (sceneCam == null) return;
         if (allGrassPositions.Count == 0) return;
 
@@ -118,22 +128,26 @@ public class TerrainGrass : MonoBehaviour {
     // CULLING PAR BRIN
     // ==========================================
 
-    void UpdateVisibleGrass() {
+    void UpdateVisibleGrass()
+    {
         Camera cam = GetActiveCamera();
         if (cam == null) return;
         UpdateVisibleGrassWithCamera(cam);
     }
 
-    void UpdateVisibleGrassWithCamera(Camera cam) {
+    void UpdateVisibleGrassWithCamera(Camera cam)
+    {
         if (grassMesh == null) CreateMesh();
-        if (allGrassPositions.Count == 0) {
+        if (allGrassPositions.Count == 0)
+        {
             ClearMesh();
             return;
         }
 
         Matrix4x4 projMatrix = cam.projectionMatrix;
 
-        if (frustumPadding > 0f && !cam.orthographic) {
+        if (frustumPadding > 0f && !cam.orthographic)
+        {
             float fovRad = cam.fieldOfView * Mathf.Deg2Rad;
             float paddedFov = (cam.fieldOfView + frustumPadding * 2f) * Mathf.Deg2Rad;
             float scale = Mathf.Tan(fovRad * 0.5f) / Mathf.Tan(paddedFov * 0.5f);
@@ -149,7 +163,8 @@ public class TerrainGrass : MonoBehaviour {
         visibleVertices.Clear();
         visibleIndices.Clear();
 
-        for (int i = 0; i < allGrassPositions.Count; i++) {
+        for (int i = 0; i < allGrassPositions.Count; i++)
+        {
             Vector3 worldPos = allGrassPositions[i];
 
             float dx = worldPos.x - camPos.x;
@@ -168,7 +183,8 @@ public class TerrainGrass : MonoBehaviour {
 
         grassMesh.Clear();
 
-        if (visibleVertices.Count > 0) {
+        if (visibleVertices.Count > 0)
+        {
             grassMesh.SetVertices(visibleVertices);
             grassMesh.SetIndices(visibleIndices, MeshTopology.Points, 0);
 
@@ -181,13 +197,16 @@ public class TerrainGrass : MonoBehaviour {
         MeshRenderer mr = GetComponent<MeshRenderer>();
         mr.enabled = visibleVertices.Count > 0;
 
-        if (showDebugLogs && Time.frameCount % 60 == 0) {
+        if (showDebugLogs && Time.frameCount % 60 == 0)
+        {
             Debug.Log($"[Grass] Visible: {visibleVertices.Count}/{allGrassPositions.Count}");
         }
     }
 
-    bool IsPointInFrustum(Vector3 point) {
-        for (int i = 0; i < 6; i++) {
+    bool IsPointInFrustum(Vector3 point)
+    {
+        for (int i = 0; i < 6; i++)
+        {
             if (frustumPlanes[i].GetDistanceToPoint(point) < 0f)
                 return false;
         }
@@ -198,15 +217,18 @@ public class TerrainGrass : MonoBehaviour {
     // MESH
     // ==========================================
 
-    void CreateMesh() {
+    void CreateMesh()
+    {
         MeshFilter mf = GetComponent<MeshFilter>();
 
-        if (mf.sharedMesh != null && mf.sharedMesh.name == "PaintedGrass") {
+        if (mf.sharedMesh != null && mf.sharedMesh.name == "PaintedGrass")
+        {
             if (Application.isPlaying) Destroy(mf.sharedMesh);
             else DestroyImmediate(mf.sharedMesh);
         }
 
-        grassMesh = new Mesh {
+        grassMesh = new Mesh
+        {
             name = "PaintedGrass",
             indexFormat = UnityEngine.Rendering.IndexFormat.UInt32
         };
@@ -219,7 +241,8 @@ public class TerrainGrass : MonoBehaviour {
             mr.sharedMaterial = grassMaterial;
     }
 
-    void ClearMesh() {
+    void ClearMesh()
+    {
         if (grassMesh != null)
             grassMesh.Clear();
     }
@@ -228,17 +251,35 @@ public class TerrainGrass : MonoBehaviour {
     // PEINTURE
     // ==========================================
 
-    public void PaintGrass(Vector3 center) {
-        if (terrain == null) return;
+    // Permet de trouver le bon terrain à une position X/Z donnée
+    Terrain GetTerrainAt(float x, float z)
+    {
+        foreach (Terrain t in terrains)
+        {
+            if (t == null) continue;
 
-        TerrainData terrainData = terrain.terrainData;
-        Vector3 terrainPos = terrain.transform.position;
-        Vector3 terrainSize = terrainData.size;
+            Vector3 tPos = t.transform.position;
+            Vector3 tSize = t.terrainData.size;
+
+            if (x >= tPos.x && x <= tPos.x + tSize.x &&
+                z >= tPos.z && z <= tPos.z + tSize.z)
+            {
+                return t;
+            }
+        }
+        return null;
+    }
+
+    public void PaintGrass(Vector3 center)
+    {
+        if (terrains == null || terrains.Count == 0) return;
 
         float step = brushSize / Mathf.Sqrt(brushDensity * brushSize);
 
-        for (float x = -brushSize; x < brushSize; x += step) {
-            for (float z = -brushSize; z < brushSize; z += step) {
+        for (float x = -brushSize; x < brushSize; x += step)
+        {
+            for (float z = -brushSize; z < brushSize; z += step)
+            {
                 float dist = Mathf.Sqrt(x * x + z * z);
                 if (dist > brushSize) continue;
 
@@ -251,11 +292,16 @@ public class TerrainGrass : MonoBehaviour {
                 float worldX = center.x + x + offsetX;
                 float worldZ = center.z + z + offsetZ;
 
+                // On cherche sur quel terrain se trouve ce point précis
+                Terrain targetTerrain = GetTerrainAt(worldX, worldZ);
+                if (targetTerrain == null) continue;
+
+                TerrainData terrainData = targetTerrain.terrainData;
+                Vector3 terrainPos = targetTerrain.transform.position;
+                Vector3 terrainSize = terrainData.size;
+
                 float localX = worldX - terrainPos.x;
                 float localZ = worldZ - terrainPos.z;
-
-                if (localX < 0 || localX > terrainSize.x || localZ < 0 || localZ > terrainSize.z)
-                    continue;
 
                 float normX = localX / terrainSize.x;
                 float normZ = localZ / terrainSize.z;
@@ -266,7 +312,8 @@ public class TerrainGrass : MonoBehaviour {
                 float height = terrainData.GetInterpolatedHeight(normX, normZ);
                 Vector3 pos = new Vector3(worldX, height + terrainPos.y, worldZ);
 
-                if (!IsTooClose(pos, step * 0.5f)) {
+                if (!IsTooClose(pos, step * 0.5f))
+                {
                     allGrassPositions.Add(pos);
                 }
             }
@@ -276,7 +323,8 @@ public class TerrainGrass : MonoBehaviour {
         UpdateVisibleGrass();
     }
 
-    public void EraseGrass(Vector3 center) {
+    public void EraseGrass(Vector3 center)
+    {
         float radiusSq = brushSize * brushSize;
 
         allGrassPositions.RemoveAll(pos => {
@@ -289,10 +337,12 @@ public class TerrainGrass : MonoBehaviour {
         UpdateVisibleGrass();
     }
 
-    bool IsTooClose(Vector3 pos, float minDist) {
+    bool IsTooClose(Vector3 pos, float minDist)
+    {
         float minDistSq = minDist * minDist;
         int startIndex = Mathf.Max(0, allGrassPositions.Count - 500);
-        for (int i = startIndex; i < allGrassPositions.Count; i++) {
+        for (int i = startIndex; i < allGrassPositions.Count; i++)
+        {
             float dx = allGrassPositions[i].x - pos.x;
             float dz = allGrassPositions[i].z - pos.z;
             if (dx * dx + dz * dz < minDistSq)
@@ -307,12 +357,14 @@ public class TerrainGrass : MonoBehaviour {
 
     public int GrassCount => allGrassPositions.Count;
 
-    public void ClearAllGrass() {
+    public void ClearAllGrass()
+    {
         allGrassPositions.Clear();
         ClearMesh();
     }
 
-    public void ForceRebuild() {
+    public void ForceRebuild()
+    {
         CreateMesh();
         lastCamPos = Vector3.zero;
         UpdateVisibleGrass();
@@ -320,19 +372,23 @@ public class TerrainGrass : MonoBehaviour {
 
     public void RebuildMesh() => ForceRebuild();
 
-    void OnValidate() {
-        #if UNITY_EDITOR
-        if (allGrassPositions.Count > 0) {
+    void OnValidate()
+    {
+#if UNITY_EDITOR
+        if (allGrassPositions.Count > 0)
+        {
             UnityEditor.EditorApplication.delayCall += () => {
                 if (this != null) ForceRebuild();
             };
         }
-        #endif
+#endif
     }
 
-    void OnDestroy() {
+    void OnDestroy()
+    {
         MeshFilter mf = GetComponent<MeshFilter>();
-        if (mf != null && mf.sharedMesh != null && mf.sharedMesh.name == "PaintedGrass") {
+        if (mf != null && mf.sharedMesh != null && mf.sharedMesh.name == "PaintedGrass")
+        {
             if (Application.isPlaying) Destroy(mf.sharedMesh);
             else DestroyImmediate(mf.sharedMesh);
         }
