@@ -22,14 +22,18 @@ public class Generator : Interractable
     {
         if(ranchManager.getCNNumberByType(crocNoteType) > 0)
         {
+            Debug.Log("Number of CN = " + NumberOfCN);
             int Rnumber = ranchManager.getCNNumberByType(crocNoteType);
-            int delta = NumberOfCN - Rnumber;
-            Mathf.Abs(delta);
+            Debug.Log("Rnumber = " + Rnumber);
+            int delta = NumberOfCN - Rnumber; 
+            delta = Mathf.Abs(delta);
+            Debug.Log("delta = " + delta);
             for (int i = 0; i < delta; i++) 
             {
-                Instantiate(ressourcesPrefabs, spawnPoint);
+                Instantiate(ressourcesPrefabs, spawnPoint.position,spawnPoint.rotation);
             }
-            NumberOfCN += Rnumber;
+            NumberOfCN += delta;
+            Debug.Log("Number of CN = " + NumberOfCN);
 
             NumberOfCNText.text = NumberOfCN.ToString();
         }
