@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-public class Generator : Interractable 
+public class Generator : MonoBehaviour 
 {
     [SerializeField] CrocNoteType crocNoteType;
     [SerializeField] RanchManager ranchManager;
@@ -12,12 +12,20 @@ public class Generator : Interractable
     [SerializeField] TextMeshProUGUI NumberOfCNText;
 
     int NumberOfCN = 0;
-    public override void Interract()
-    {
-        SpawnRessources();
-    }
 
-    
+
+    private void FixedUpdate()
+    {
+        ShowNumberInUI();
+    }
+    void ShowNumberInUI()
+    {
+        NumberOfCNText.text = ranchManager.getCNNumberByType(crocNoteType).ToString();
+        if(NumberOfCN != ranchManager.getCNNumberByType(crocNoteType))
+        {
+            SpawnRessources();
+        }
+    }
     void SpawnRessources()
     {
         if(ranchManager.getCNNumberByType(crocNoteType) > 0)
@@ -35,7 +43,7 @@ public class Generator : Interractable
             NumberOfCN += delta;
             Debug.Log("Number of CN = " + NumberOfCN);
 
-            NumberOfCNText.text = NumberOfCN.ToString();
+            
         }
     }
     
