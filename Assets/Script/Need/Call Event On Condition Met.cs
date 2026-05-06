@@ -8,7 +8,7 @@ public class CallEventOnConditionMet : MonoBehaviour
     [SerializeField] Condition condition;
     [SerializeField] UnityEvent events;
 
-    private void Start()
+    private void OnEnable()
     {
         StartCoroutine(WaitForCondition());
     }
