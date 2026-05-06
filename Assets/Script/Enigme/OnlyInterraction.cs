@@ -6,19 +6,38 @@ using UnityEngine.Events;
 public class OnlyInterraction : Interractable
 {
     [SerializeField] UnityEvent OnInterract;
+    [SerializeField] Condition condition;
     [SerializeField] bool RepeteEvent;
     bool activate = false;
     public override void Interract()
     {
-        if (RepeteEvent)
+        if (condition == null)
         {
-            OnInterract.Invoke();
-        }
-        else if (!activate) 
-        {
-            OnInterract.Invoke();
-            activate = true;
+            if (RepeteEvent)
+            {
+                OnInterract.Invoke();
+            }
+            else if (!activate)
+            {
+                OnInterract.Invoke();
+                activate = true;
 
+            }
+        }
+        else
+        {
+            if (condition.CheckCondition())
+            {
+                if (RepeteEvent)
+                {
+                    OnInterract.Invoke();
+                }
+                else if (!activate)
+                {
+                    OnInterract.Invoke();
+                    activate = true;
+                }
+            }
         }
     }
 
