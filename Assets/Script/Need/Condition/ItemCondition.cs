@@ -5,9 +5,6 @@ using UnityEngine;
 public class ItemCondition : Condition
 {
     [SerializeField] RessourceAmount[] RessourcesNeed;
-
-
-
     [SerializeField] bool Useitems;
 
     bool haveItem()
@@ -31,7 +28,7 @@ public class ItemCondition : Condition
                             if (item.CurrentQuantity >= ressources.amount)
                             {
                                 // Debug.Log("HaveQuantityNeeded");
-                                HaveItem  = true;
+                                HaveItem = true;
                                 break;
                             }
                             else
@@ -73,6 +70,7 @@ public class ItemCondition : Condition
                     foreach (var ressources in RessourcesNeed)
                     {
                         int quantity = ressources.amount;
+                        /*
                         foreach (var item in GameManager.Instance.inventoryManager.Items)
                         {
                             // Debug.Log("Quantity of ressources needed: " +  quantity);
@@ -105,12 +103,41 @@ public class ItemCondition : Condition
                             {
                                 Debug.Log("Item is null");
                             }
+                        }*/
+                        for (int i = GameManager.Instance.inventoryManager.Items.Count - 1; i >= 0; i--)
+                        {
+                            var item = GameManager.Instance.inventoryManager.Items[i];
+                            if (item != null)
+                            {
+                                // Debug.Log("looping in item " + item.CurrentItem.type + item.CurrentQuantity);
+                                if (ressources.type == item.CurrentItem.type)
+                                {
+                                    // Debug.Log("Item type is equal at ressources type : "+ressources.type);
+                                    if (item.CurrentQuantity >= quantity)
+                                    {
+                                        // Debug.Log("item.CurrentQuantity >= ressources.amount" + item.CurrentQuantity + " >= " + quantity);
+                                        // Debug.Log("Removing easy way");
+                                        GameManager.Instance.inventoryManager.UseItem(ressources.type, quantity);
+                                        break;
+                                    }
+                                    else //inferieur
+                                    {
+                                        //Debug.Log("item.CurrentQuantity < ressources.amount" + item.CurrentQuantity + " < " + quantity);
+                                        if (quantity >= item.CurrentQuantity && item.CurrentQuantity > 0)
+                                        {
+                                            quantity -= item.CurrentQuantity; //3
+                                            GameManager.Instance.inventoryManager.UseItem(ressources.type, item.CurrentQuantity, false);
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
+            return ConditionMet;
         }
-        return ConditionMet;
+        return false;
     }
 }
 
