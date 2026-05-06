@@ -10,7 +10,6 @@ public class OnlyInterraction : Interractable
     bool activate = false;
     public override void Interract()
     {
-        Debug.Log("test");
         if (RepeteEvent)
         {
             OnInterract.Invoke();
@@ -19,6 +18,7 @@ public class OnlyInterraction : Interractable
         {
             OnInterract.Invoke();
             activate = true;
+
         }
     }
 
