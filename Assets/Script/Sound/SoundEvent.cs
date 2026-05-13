@@ -109,7 +109,7 @@ public class SoundEvent : MonoBehaviour
         if (!SFXtoIn.IsPlaying())
         {
             float volumeIn = 0f;
-            //SFXtoIn.Play();
+            SFXtoIn.Play();
             for (int i = 0; i < step - 1; i++)
             {
                 volumeIn += ratio;
