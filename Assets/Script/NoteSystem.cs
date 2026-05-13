@@ -202,14 +202,14 @@ public class NoteSystem : MonoBehaviour
             else 
             {
                 volumeT1 += ratio;
-                FMOD.RESULT result = music.EventInstance.setParameterByName("Melodie1", volumeT1); 
+                FMOD.RESULT result = music.EventInstance.setParameterByName("Melodie1", volumeT1);
             }
             yield return new WaitForSeconds(time / 4);
         }
-        if (!FadeIn)
+        /*if (!FadeIn)
         {
             FMOD.RESULT result = music.EventInstance.setParameterByName("Melodie1", 0);
-        }
+        }*/
 
         IsTrackOneToggle = false;
     }

@@ -194,7 +194,6 @@ public class LegumeManager : MonoBehaviour
                         switch (otherLegume.legumeType)
                         {
                             case CrocNoteType.un:
-                                Debug.Log(jetDeHaine);
                                 if (jetDeHaine < Specisme1)
                                 {
                                     StartRageState(other.transform);
