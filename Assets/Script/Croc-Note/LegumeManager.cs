@@ -78,10 +78,15 @@ public class LegumeManager : MonoBehaviour
 
 
     #endregion
-    private void Rename()
+    public void Rename()
     {
         this.gameObject.name = NameCreator.NewName();
         NameBoard.GetComponent<TextMeshPro>().text = this.gameObject.name;
+    }
+
+    void ClearName()
+    {
+        NameBoard.GetComponent<TextMeshPro>().text = "";
     }
     #region Unity default function
 
@@ -92,7 +97,8 @@ public class LegumeManager : MonoBehaviour
         rb.isKinematic = true;          
         rb.useGravity = false;
         baseLegume = FindObjectOfType<PlayerManager>().gameObject;
-        Rename();
+        //Rename();
+        ClearName();
         GameManager.Instance.AddCrocNote(this);
 
         etatActuel = Etat.Attente;
