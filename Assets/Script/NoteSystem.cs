@@ -194,6 +194,7 @@ public class NoteSystem : MonoBehaviour
 
         for (int i = 0; i < step; i++)
         {
+            Debug.Log("T1 volume : " + volumeT1);
             if (!FadeIn)
             {
                 volumeT1 -= ratio;
