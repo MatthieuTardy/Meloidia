@@ -20,7 +20,9 @@ public class RanchManager : MonoBehaviour
     {
         if(other.gameObject.layer == 7)//legume
         {
-            AddingCrocNote(other.GetComponent<LegumeManager>());
+            LegumeManager CN = other.GetComponent<LegumeManager>();
+            CN.Rename();
+            AddingCrocNote(CN);
         }
     }
 
