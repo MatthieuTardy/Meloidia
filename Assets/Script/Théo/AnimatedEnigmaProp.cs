@@ -46,21 +46,18 @@ public class AnimatedEnigmaProp : MonoBehaviour
     private Quaternion currentBaseRot;
     private Vector3 currentBaseScale;
 
+    private Vector3 targetPos;
+    private Quaternion targetRot;
+    private Vector3 targetScale;
+
     private float previousRatio = 0f;
     private float effectTimeLeft = 0f;
-
     private float currentBump = 0f;
     private bool isFullyResolved = false;
 
     void Start()
     {
-        startPos = transform.position;
-        startRot = transform.rotation;
-        startScale = transform.localScale;
-
-        currentBasePos = startPos;
-        currentBaseRot = startRot;
-        currentBaseScale = startScale;
+        InitializeTransforms();
 
         if (enigmeSystem != null)
         {
@@ -70,42 +67,71 @@ public class AnimatedEnigmaProp : MonoBehaviour
 
     void Update()
     {
-        if (enigmeSystem != null)
+        CheckEnigmaProgress();
+        CalculateTargetTransform();
+        ApplyMovementAndEffects();
+    }
+
+    private void InitializeTransforms()
+    {
+        startPos = transform.position;
+        startRot = transform.rotation;
+        startScale = transform.localScale;
+
+        currentBasePos = startPos;
+        currentBaseRot = startRot;
+        currentBaseScale = startScale;
+
+        targetPos = startPos;
+        targetRot = startRot;
+        targetScale = startScale;
+    }
+
+    private void CheckEnigmaProgress()
+    {
+        if (enigmeSystem == null || Mathf.Approximately(enigmeSystem.ratio, previousRatio))
+            return;
+
+        if (enigmeSystem.ratio == 0f)
         {
-            if (enigmeSystem.ratio != previousRatio)
-            {
-                if (enigmeSystem.ratio == 0f)
-                {
-                    isFullyResolved = false;
-                    currentBump = 0f;
-                    hasTriggeredCamera = false;
-                    effectTimeLeft = 0f;
-                }
-                else if (enigmeSystem.ratio >= 0.99f)
-                {
-                    isFullyResolved = true;
-                    effectTimeLeft = 0f;
-
-                    if (!hasTriggeredCamera)
-                    {
-                        onEnigmaSolvedImmediate?.Invoke();
-                        TriggerCameraFocus();
-                    }
-                }
-                else
-                {
-                    isFullyResolved = false;
-                    effectTimeLeft = effectDuration;
-                    currentBump = bumpPercentage;
-                }
-            }
-
-            previousRatio = enigmeSystem.ratio;
+            ResetToStart();
+        }
+        else if (enigmeSystem.ratio >= 0.99f)
+        {
+            HandleEnigmaResolved();
+        }
+        else
+        {
+            HandleEnigmaProgressing();
         }
 
-        Vector3 targetPos = startPos;
-        Quaternion targetRot = startRot;
-        Vector3 targetScale = startScale;
+        previousRatio = enigmeSystem.ratio;
+    }
+
+    private void HandleEnigmaResolved()
+    {
+        isFullyResolved = true;
+        effectTimeLeft = 0f;
+
+        if (!hasTriggeredCamera)
+        {
+            onEnigmaSolvedImmediate?.Invoke();
+            TriggerCameraFocus();
+        }
+    }
+
+    private void HandleEnigmaProgressing()
+    {
+        isFullyResolved = false;
+        effectTimeLeft = effectDuration;
+        currentBump = bumpPercentage;
+    }
+
+    private void CalculateTargetTransform()
+    {
+        targetPos = startPos;
+        targetRot = startRot;
+        targetScale = startScale;
 
         if (finalTarget != null)
         {
@@ -123,7 +149,10 @@ public class AnimatedEnigmaProp : MonoBehaviour
                 targetScale = Vector3.Lerp(startScale, finalTarget.localScale, currentBump);
             }
         }
+    }
 
+    private void ApplyMovementAndEffects()
+    {
         currentBasePos = Vector3.Lerp(currentBasePos, targetPos, moveSpeed * Time.deltaTime);
         currentBaseRot = Quaternion.Lerp(currentBaseRot, targetRot, moveSpeed * Time.deltaTime);
         currentBaseScale = Vector3.Lerp(currentBaseScale, targetScale, moveSpeed * Time.deltaTime);
@@ -133,7 +162,7 @@ public class AnimatedEnigmaProp : MonoBehaviour
 
         if (effectTimeLeft > 0 && !isFullyResolved)
         {
-            posOffset += new Vector3(
+            posOffset = new Vector3(
                 Random.Range(-1f, 1f) * positionalShake.x,
                 Random.Range(-1f, 1f) * positionalShake.y,
                 Random.Range(-1f, 1f) * positionalShake.z
@@ -144,7 +173,7 @@ public class AnimatedEnigmaProp : MonoBehaviour
                 Random.Range(-1f, 1f) * rotationalShake.y,
                 Random.Range(-1f, 1f) * rotationalShake.z
             );
-            rotOffset *= Quaternion.Euler(eulerShake);
+            rotOffset = Quaternion.Euler(eulerShake);
 
             effectTimeLeft -= Time.deltaTime;
         }
@@ -185,7 +214,6 @@ public class AnimatedEnigmaProp : MonoBehaviour
         var composer = sequenceCam.AddCinemachineComponent<CinemachineComposer>();
         composer.m_TrackedObjectOffset = new Vector3(0, 0f, 0);
 
-        // --- GESTION DU SHAKE 100% FIABLE ---
         if (enableCameraShake)
         {
             if (cameraNoiseProfile != null)
@@ -197,7 +225,7 @@ public class AnimatedEnigmaProp : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("⚠️ Camera Shake est activé sur " + gameObject.name + " mais il manque le fichier dans 'Camera Noise Profile' !");
+                Debug.LogWarning($"Camera Shake est activé sur {gameObject.name} mais il manque le fichier dans 'Camera Noise Profile' !");
             }
         }
 
@@ -228,5 +256,6 @@ public class AnimatedEnigmaProp : MonoBehaviour
         isFullyResolved = false;
         hasTriggeredCamera = false;
         effectTimeLeft = 0f;
+        currentBump = 0f;
     }
 }

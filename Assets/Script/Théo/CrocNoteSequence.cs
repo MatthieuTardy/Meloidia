@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -27,7 +26,6 @@ public class CrocNoteCarrySequence : MonoBehaviour
     [Header("Cinematic Camera")]
     public bool enableCinematicCamera = true;
     public Transform cinematicCameraPoint;
-    // --- Modif : Temps que la caméra passe sur la séquence globale ---
     public float cameraSequenceDuration = 5f;
 
     private NavMeshAgent agent;
@@ -38,8 +36,13 @@ public class CrocNoteCarrySequence : MonoBehaviour
     private float baseSpeed;
     private float originalPropHeight;
     private bool isCarrying;
-
     private CinemachineVirtualCamera sequenceCam;
+
+    private enum SequenceState { Idle, MovingToPickup, PickupPause, MovingToDrop, DropPause, Fleeing, Done }
+    private SequenceState currentState = SequenceState.Idle;
+
+    private float stateTimer = 0f;
+    private float cameraTimer = 0f;
 
     private void Start()
     {
@@ -62,6 +65,128 @@ public class CrocNoteCarrySequence : MonoBehaviour
             originalPropHeight = objectToCarry.transform.position.y;
             carriedRb = objectToCarry.GetComponent<Rigidbody>();
             carriedCollider = objectToCarry.GetComponent<Collider>();
+        }
+    }
+
+    private void Update()
+    {
+        if (sequenceCam != null)
+        {
+            cameraTimer -= Time.deltaTime;
+            if (cameraTimer <= 0f)
+            {
+                Destroy(sequenceCam.gameObject);
+            }
+        }
+
+        if (currentState == SequenceState.Idle || currentState == SequenceState.Done)
+            return;
+
+        if (animator != null)
+        {
+            if (currentState == SequenceState.Fleeing)
+                animator.speed = fleeSpeedMultiplier;
+            else
+                animator.speed = isCarrying ? carrySpeedMultiplier : 1f;
+
+            animator.SetBool("walk", agent.velocity.sqrMagnitude > 0.01f);
+        }
+
+        switch (currentState)
+        {
+            case SequenceState.MovingToPickup:
+                if (HasReachedDestination())
+                {
+                    transform.LookAt(new Vector3(pickupPoint.position.x, transform.position.y, pickupPoint.position.z));
+
+                    if (objectToCarry != null)
+                    {
+                        if (carriedRb != null) carriedRb.isKinematic = true;
+                        if (carriedCollider != null) carriedCollider.enabled = false;
+
+                        objectToCarry.transform.SetParent(transform);
+                        isCarrying = true;
+                    }
+
+                    if (animator != null) animator.SetBool("walk", false);
+                    onPickup?.Invoke();
+
+                    stateTimer = 1.5f;
+                    currentState = SequenceState.PickupPause;
+                }
+                break;
+
+            case SequenceState.PickupPause:
+                stateTimer -= Time.deltaTime;
+                if (stateTimer <= 0f)
+                {
+                    if (agent != null)
+                    {
+                        agent.speed = baseSpeed * carrySpeedMultiplier;
+                        agent.SetDestination(dropPoint.position);
+                    }
+                    currentState = SequenceState.MovingToDrop;
+                }
+                break;
+
+            case SequenceState.MovingToDrop:
+                if (HasReachedDestination())
+                {
+                    transform.LookAt(new Vector3(dropPoint.position.x, transform.position.y, dropPoint.position.z));
+
+                    if (objectToCarry != null)
+                    {
+                        isCarrying = false;
+                        objectToCarry.transform.SetParent(null);
+
+                        Vector3 finalDropPosition = objectToCarry.transform.position;
+                        finalDropPosition.y = originalPropHeight;
+                        objectToCarry.transform.position = finalDropPosition;
+
+                        if (carriedRb != null) carriedRb.isKinematic = false;
+                        if (carriedCollider != null) carriedCollider.enabled = true;
+                    }
+
+                    if (animator != null) animator.SetBool("walk", false);
+                    onDrop?.Invoke();
+
+                    stateTimer = 0.5f;
+                    currentState = SequenceState.DropPause;
+                }
+                break;
+
+            case SequenceState.DropPause:
+                stateTimer -= Time.deltaTime;
+                if (stateTimer <= 0f)
+                {
+                    if (agent != null)
+                    {
+                        agent.speed = baseSpeed * fleeSpeedMultiplier;
+                        agent.SetDestination(fleePoint.position);
+                    }
+                    currentState = SequenceState.Fleeing;
+                }
+                break;
+
+            case SequenceState.Fleeing:
+                if (HasReachedDestination())
+                {
+                    if (animator != null)
+                    {
+                        animator.speed = 1f;
+                        animator.SetBool("walk", false);
+                    }
+
+                    if (legumeManager != null)
+                    {
+                        legumeManager.enabled = true;
+                        legumeManager.StopFollowingLocation();
+                    }
+
+                    currentState = SequenceState.Done;
+                    this.enabled = false;
+                }
+                break;
         }
     }
 
@@ -91,25 +216,18 @@ public class CrocNoteCarrySequence : MonoBehaviour
 
     public void StartSequence()
     {
-        StartCoroutine(SequenceRoutine());
-    }
-
-    private IEnumerator SequenceRoutine()
-    {
         if (legumeManager != null)
         {
             legumeManager.StopAllCoroutines();
             legumeManager.enabled = false;
         }
 
-        // --- CINEMACHINE SETUP ---
         if (enableCinematicCamera && cinematicCameraPoint != null)
         {
             GameObject camObj = new GameObject("CrocNote_CinematicCam");
             camObj.transform.position = cinematicCameraPoint.position;
 
             sequenceCam = camObj.AddComponent<CinemachineVirtualCamera>();
-
             sequenceCam.Follow = cinematicCameraPoint;
             sequenceCam.LookAt = this.transform;
             sequenceCam.Priority = 100;
@@ -120,110 +238,24 @@ public class CrocNoteCarrySequence : MonoBehaviour
             var composer = sequenceCam.AddCinemachineComponent<CinemachineComposer>();
             composer.m_TrackedObjectOffset = new Vector3(0, 1f, 0);
 
-            // --- Modif : On lance le minuteur de la caméra de manière indépendante ---
-            StartCoroutine(CameraDurationRoutine());
+            cameraTimer = cameraSequenceDuration;
         }
 
         if (agent != null)
         {
             agent.enabled = true;
             agent.isStopped = false;
-
             agent.acceleration = 8f;
             agent.angularSpeed = 120f;
             agent.speed = baseSpeed;
-
             agent.SetDestination(pickupPoint.position);
         }
 
-        yield return StartCoroutine(MoveToDestinationLoop("Pickup"));
-
-        transform.LookAt(new Vector3(pickupPoint.position.x, transform.position.y, pickupPoint.position.z));
-
-        if (objectToCarry != null)
-        {
-            if (carriedRb != null) carriedRb.isKinematic = true;
-            if (carriedCollider != null) carriedCollider.enabled = false;
-
-            objectToCarry.transform.SetParent(transform);
-            isCarrying = true;
-        }
-
-        onPickup?.Invoke();
-
-        // Pause de base du script original pour marquer le coup du ramassage (1.5s)
-        yield return new WaitForSeconds(1.5f);
-
-        // La caméra n'est plus détruite ici, elle gère sa propre vie grâce à la coroutine CameraDurationRoutine !
-
-        if (agent != null)
-        {
-            agent.speed = baseSpeed * carrySpeedMultiplier;
-            agent.SetDestination(dropPoint.position);
-        }
-
-        yield return StartCoroutine(MoveToDestinationLoop("DropPoint"));
-
-        transform.LookAt(new Vector3(dropPoint.position.x, transform.position.y, dropPoint.position.z));
-
-        if (objectToCarry != null)
-        {
-            isCarrying = false;
-            objectToCarry.transform.SetParent(null);
-
-            Vector3 finalDropPosition = objectToCarry.transform.position;
-            finalDropPosition.y = originalPropHeight;
-            objectToCarry.transform.position = finalDropPosition;
-
-            if (carriedRb != null) carriedRb.isKinematic = false;
-            if (carriedCollider != null) carriedCollider.enabled = true;
-        }
-
-        onDrop?.Invoke();
-        yield return new WaitForSeconds(0.5f);
-
-        if (agent != null)
-        {
-            agent.speed = baseSpeed * fleeSpeedMultiplier;
-            agent.SetDestination(fleePoint.position);
-        }
-
-        yield return StartCoroutine(MoveToDestinationLoop("FleePoint"));
-
-        if (animator != null) animator.speed = 1f;
-
-        if (legumeManager != null)
-        {
-            legumeManager.enabled = true;
-            legumeManager.StopFollowingLocation();
-        }
-
-        this.enabled = false;
+        currentState = SequenceState.MovingToPickup;
     }
 
-    // --- Modif : Coroutine indépendante qui détruit la caméra après le temps voulu ---
-    private IEnumerator CameraDurationRoutine()
+    private bool HasReachedDestination()
     {
-        yield return new WaitForSeconds(cameraSequenceDuration);
-
-        if (sequenceCam != null)
-        {
-            Destroy(sequenceCam.gameObject);
-        }
-    }
-
-    private IEnumerator MoveToDestinationLoop(string destinationName)
-    {
-        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance + 0.2f)
-        {
-            if (animator != null)
-            {
-                animator.speed = (destinationName == "FleePoint") ? fleeSpeedMultiplier : (isCarrying ? carrySpeedMultiplier : 1f);
-                animator.SetBool("walk", agent.velocity.sqrMagnitude > 0.01f);
-            }
-            yield return null;
-        }
-
-        if (animator != null) animator.SetBool("walk", false);
+        return !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 0.2f;
     }
 }
