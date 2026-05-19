@@ -67,10 +67,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639142854885327532
+  lastModified: 639147834960027209
   FileSizes:
   - Name: Desktop
-    Value: 4238
+    Value: 4294
   Exists: 1
 --- !u!114 &-8120172108296925034
 MonoBehaviour:
@@ -415,6 +415,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 11800
+--- !u!114 &-6556910240180627934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Croc-note/Croc-note Yipi
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Croc-note/Croc-note Yipi
+  Guid:
+    Data1: -180537276
+    Data2: 1316918040
+    Data3: -171260228
+    Data4: -1420712409
+  Banks:
+  - {fileID: -4243545848318456464}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 900
 --- !u!114 &-6418191078185869472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -706,10 +733,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639142854885296620
+  lastModified: 639147834959991809
   FileSizes:
   - Name: Desktop
-    Value: 427712
+    Value: 502080
   Exists: 1
 --- !u!114 &-4021323117545652381
 MonoBehaviour:
@@ -1399,13 +1426,14 @@ MonoBehaviour:
   - {fileID: 8639977518819601821}
   - {fileID: -4300767202926429914}
   - {fileID: -8048489765252327871}
+  - {fileID: -6556910240180627934}
   EditorParameters: []
   MasterBanks:
   - {fileID: -4243545848318456464}
   StringsBanks:
   - {fileID: -8397885059187387692}
   cacheVersion: 131849
-  cacheTime: 639142855156778853
+  cacheTime: 639147834964398533
   SerializableEventsDict:
   - key: event:/Musics/Win
     index: 0
@@ -1545,6 +1573,8 @@ MonoBehaviour:
     index: 67
   - key: event:/SFX/Objects/ObjectSpwan
     index: 68
+  - key: event:/SFX/Croc-note/Croc-note Yipi
+    index: 69
 --- !u!114 &209723335646530673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2199,7 +2229,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639142855156778853
+  lastModified: 639147834964398533
   FileSizes:
   - Name: Desktop
     Value: 10776992
