@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public Transform playerVisuals;
     public Transform cameraTransform;
     public ParticleSystem sprintParticles;
+    [SerializeField] AnimationSound animationSound;
 
     [Tooltip("Glisse ton composant Animator ici")]
     public Animator animator;
@@ -469,4 +470,10 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         animator.SetBool("isaction", false);
     }
+
+    private void PlayerFootStep()
+    {
+        animationSound.PlayerFootStep();
+    }
+
 }

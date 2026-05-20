@@ -36,7 +36,9 @@ public class NoteSystem : MonoBehaviour
 
     float singDelay;
     bool isPlaying;
-    public StudioEventEmitter music;
+    public StudioEventEmitter musicTuto;
+    public StudioEventEmitter musicZone1;
+
 
 
 
@@ -168,9 +170,17 @@ public class NoteSystem : MonoBehaviour
     public void ToggleTrackOne(bool active)
     {
 
-        if (music != null)
+        if (musicTuto != null)
         {
-            if (music.IsPlaying())
+            if (musicTuto.IsPlaying())
+            {
+                StartCoroutine(FadeSound(0.5f, active));
+                IsTrackOneToggle = true;
+            }
+        }
+        else if (musicZone1 != null) 
+        {
+            if (musicZone1.IsPlaying())
             {
                 StartCoroutine(FadeSound(0.5f, active));
                 IsTrackOneToggle = true;
@@ -186,8 +196,7 @@ public class NoteSystem : MonoBehaviour
     IEnumerator FadeSound(float time, bool FadeIn)
     {
         int step = 5;
-        //A voir (Test)
-        volumeT1 = FadeIn ? 1f : 0.5f;
+        volumeT1 = FadeIn ? 1f : 0.4f;
 
 
         float ratio = 1 / step;
@@ -197,12 +206,27 @@ public class NoteSystem : MonoBehaviour
             if (!FadeIn)
             {
                 volumeT1 -= ratio;
-                FMOD.RESULT result = music.EventInstance.setParameterByName("Melodie1", volumeT1);
+                if (musicTuto.IsPlaying())
+                {
+                    FMOD.RESULT result = musicTuto.EventInstance.setParameterByName("Melodie1", volumeT1);
+                }
+                if (musicZone1.IsPlaying())
+                {
+                    FMOD.RESULT result2 = musicZone1.EventInstance.setParameterByName("Melodie2", volumeT1);
+                }
+
             }
             else 
             {
                 volumeT1 += ratio;
-                FMOD.RESULT result = music.EventInstance.setParameterByName("Melodie1", volumeT1);
+                if (musicTuto.IsPlaying())
+                {
+                    FMOD.RESULT result = musicTuto.EventInstance.setParameterByName("Melodie1", volumeT1);
+                }
+                if (musicZone1.IsPlaying())
+                {
+                    FMOD.RESULT result2 = musicZone1.EventInstance.setParameterByName("Melodie2", volumeT1);
+                }
             }
             yield return new WaitForSeconds(time / 4);
         }

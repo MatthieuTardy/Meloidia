@@ -67,10 +67,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639142701447747562
+  lastModified: 639148107008966664
   FileSizes:
   - Name: Desktop
-    Value: 4194
+    Value: 4382
   Exists: 1
 --- !u!114 &-8120172108296925034
 MonoBehaviour:
@@ -415,6 +415,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 11800
+--- !u!114 &-6556910240180627934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Croc-note/Croc-note Yipi
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Croc-note/Croc-note Yipi
+  Guid:
+    Data1: -180537276
+    Data2: 1316918040
+    Data3: -171260228
+    Data4: -1420712409
+  Banks:
+  - {fileID: -4243545848318456464}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 900
 --- !u!114 &-6418191078185869472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -706,10 +733,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639142701447731791
+  lastModified: 639148107008961658
   FileSizes:
   - Name: Desktop
-    Value: 427712
+    Value: 502016
   Exists: 1
 --- !u!114 &-4021323117545652381
 MonoBehaviour:
@@ -1088,7 +1115,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Jingle.bank
   Name: Jingle
   StudioPath: bank:/Jingle
-  lastModified: 639142704339746973
+  lastModified: 639148107008931603
   FileSizes:
   - Name: Desktop
     Value: 41696
@@ -1202,30 +1229,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 110
---- !u!114 &-712880210003634680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Mus industrielle/Melodie1
-  m_EditorClassIdentifier: 
-  Name: Melodie1
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 2174529035
-    data2: 2748854950
-  Type: 0
-  IsGlobal: 0
-  Labels: []
-  Exists: 1
 --- !u!114 &-685347595314079847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1423,13 +1426,15 @@ MonoBehaviour:
   - {fileID: 8639977518819601821}
   - {fileID: -4300767202926429914}
   - {fileID: -8048489765252327871}
+  - {fileID: -6556910240180627934}
+  - {fileID: 5419411633263080348}
   EditorParameters: []
   MasterBanks:
   - {fileID: -4243545848318456464}
   StringsBanks:
   - {fileID: -8397885059187387692}
   cacheVersion: 131849
-  cacheTime: 639142706146093841
+  cacheTime: 639148107011900363
   SerializableEventsDict:
   - key: event:/Musics/Win
     index: 0
@@ -1569,6 +1574,10 @@ MonoBehaviour:
     index: 67
   - key: event:/SFX/Objects/ObjectSpwan
     index: 68
+  - key: event:/SFX/Croc-note/Croc-note Yipi
+    index: 69
+  - key: event:/SFX/Robot/Robot_Action/Robot_Footstep
+    index: 70
 --- !u!114 &209723335646530673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2129,6 +2138,32 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 650
+--- !u!114 &4626261770272035711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Robot_Footstep/Footsteps_Robot
+  m_EditorClassIdentifier: 
+  Name: Footsteps_Robot
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2261081319
+    data2: 194505557
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Normal
+  - Grass
+  Exists: 1
 --- !u!114 &4894288492747517272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2223,10 +2258,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639142706146093841
+  lastModified: 639148107011900363
   FileSizes:
   - Name: Desktop
-    Value: 10776896
+    Value: 10823232
   Exists: 1
 --- !u!114 &5191202134173285223
 MonoBehaviour:
@@ -2283,6 +2318,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 620
+--- !u!114 &5419411633263080348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Robot/Robot_Action/Robot_Footstep
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Robot/Robot_Action/Robot_Footstep
+  Guid:
+    Data1: 622077374
+    Data2: 1222361156
+    Data3: 1207241617
+    Data4: 1004240799
+  Banks:
+  - {fileID: 5131200953825651899}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 4626261770272035711}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &5449539441569626935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2307,7 +2370,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: -712880210003634680}
+  - {fileID: 8154281412061854523}
   MinDistance: 1
   MaxDistance: 20
   Length: 141766
@@ -2483,10 +2546,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639142704409855580
+  lastModified: 639148107011209812
   FileSizes:
   - Name: Desktop
-    Value: 35196736
+    Value: 35196800
   Exists: 1
 --- !u!114 &6872846678141497769
 MonoBehaviour:
@@ -2642,6 +2705,30 @@ MonoBehaviour:
   IsGlobal: 0
   Labels:
   - Pickup
+  Exists: 1
+--- !u!114 &8154281412061854523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Mus industrielle/Melodie2
+  m_EditorClassIdentifier: 
+  Name: Melodie2
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3883295088
+    data2: 258753518
+  Type: 0
+  IsGlobal: 0
+  Labels: []
   Exists: 1
 --- !u!114 &8262150411304624783
 MonoBehaviour:
