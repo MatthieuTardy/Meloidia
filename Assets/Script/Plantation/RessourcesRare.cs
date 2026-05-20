@@ -27,22 +27,22 @@ public class RessourcesRare : Interractable
     IEnumerator Spawn()
     {
         yield return new WaitForSeconds(SpawnDuration);
-        ActivateRessources(currentStack,true);
+        ActivateRessources(currentStack, true);
         currentStack++;
         StartSpawnRoutine();
     }
 
     public override void Interract()
     {
-        if(currentStack > 0 && GameManager.Instance.inventoryManager.HaveSlotAvailable())
-        { 
+        if (currentStack > 0 && GameManager.Instance.inventoryManager.HaveSlotAvailable())
+        {
             StopAllCoroutines();
             for (int i = 1; i <= currentStack; i++)
             {
                 bool success = GameManager.Instance.inventoryManager.TryToPickUp(newRessources());
                 if (success)
                 {
-                    Debug.Log("success to pick " + newRessources().type  +" " +i) ;
+                    Debug.Log("success to pick " + newRessources().type + " " + i);
                     currentStack--;
                     ActivateRessources(currentStack, false);
                 }
@@ -55,7 +55,10 @@ public class RessourcesRare : Interractable
 
     Ressources newRessources()
     {
-        Ressources r = new Ressources();
+        ///ttheo
+        GameObject tempObj = new GameObject("Temp_Loot");
+        Ressources r = tempObj.AddComponent<Ressources>();
+        ///ttheo
         r.type = typeOfRessources;
         r.amount = 1;
         r.MaxStack = MaxStack;
@@ -64,9 +67,12 @@ public class RessourcesRare : Interractable
     }
     void ActivateRessources(int index, bool actif)
     {
-        Debug.Log(index);
-        RessourcesObjects[index].SetActive(actif);
+        ///ttheo
+        if (index >= 0 && index < RessourcesObjects.Length)
+        {
+            Debug.Log(index);
+            RessourcesObjects[index].SetActive(actif);
+        }
+        ///ttheo
     }
 }
-
-
