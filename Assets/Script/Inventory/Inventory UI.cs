@@ -7,6 +7,7 @@ using TMPro;
 public class InventoryUI : MonoBehaviour
 {
     [SerializeField] GameObject[] UISlots;
+    [SerializeField] GameObject[] UIImages;
     [SerializeField] GameObject UIContaineur;
     [SerializeField] TextMeshProUGUI[] UINumber;
     private void Start()
@@ -33,7 +34,7 @@ public class InventoryUI : MonoBehaviour
                     OneItem = true;
                     UIContaineur.SetActive(true);
                     UISlots[i].SetActive(true);
-                    UISlots[i].GetComponent<Image>().sprite = GameManager.Instance.inventoryManager.Items[i].CurrentItem.sprite;
+                    UIImages[i].GetComponent<Image>().sprite = GameManager.Instance.inventoryManager.Items[i].CurrentItem.sprite;
                     UINumber[i].text = GameManager.Instance.inventoryManager.Items[i].CurrentQuantity.ToString();
                 }
             }
