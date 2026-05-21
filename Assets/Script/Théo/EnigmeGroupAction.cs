@@ -14,9 +14,9 @@ public class EnigmeGroupAction : MonoBehaviour
     public PropPusher propToPush;
 
     [Header("Formation Settings")]
-    public float spacing = 1.2f;       // Space between them left/right
-    public int maxCrocNotesPerLine = 4; // How many on the first line before starting a new one
-    public float rowSpacing = 1.2f;    // Space between the front row and back row
+    public float spacing = 1.2f;
+    public int maxCrocNotesPerLine = 4;
+    public float rowSpacing = 1.2f;
     public float rotationOffset = 0f;
 
     public UnityEvent onPropPushed;
@@ -54,14 +54,13 @@ public class EnigmeGroupAction : MonoBehaviour
 
                     DynamicActionSequence sequence = crocNote.gameObject.AddComponent<DynamicActionSequence>();
 
-                    // --- Grid Formation Calculation ---
                     int row = index / maxCrocNotesPerLine;
                     int col = index % maxCrocNotesPerLine;
 
                     int itemsInThisRow = Mathf.Min(maxCrocNotesPerLine, totalCrocNotes - (row * maxCrocNotesPerLine));
 
                     float offsetX = (col - (itemsInThisRow - 1) / 2f) * spacing;
-                    float offsetZ = -row * rowSpacing; // Negative so rows build backwards
+                    float offsetZ = -row * rowSpacing;
 
                     sequence.sequenceOffset = offsetX;
                     sequence.sequenceOffsetZ = offsetZ;
@@ -135,7 +134,16 @@ public class EnigmeGroupAction : MonoBehaviour
 
         foreach (DynamicActionSequence seq in activeSequences)
         {
-            if (seq != null) seq.StartPushing();
+            if (seq != null)
+            {
+                seq.StartPushing();
+
+                Animator anim = seq.GetComponentInChildren<Animator>();
+                if (anim != null)
+                {
+                    anim.Play("walk__pousse");
+                }
+            }
         }
 
         if (propToPush != null)
@@ -147,7 +155,10 @@ public class EnigmeGroupAction : MonoBehaviour
 
         foreach (DynamicActionSequence seq in activeSequences)
         {
-            if (seq != null) seq.FinishAndReturn();
+            if (seq != null)
+            {
+                seq.FinishAndReturn();
+            }
         }
 
         isActionRunning = false;

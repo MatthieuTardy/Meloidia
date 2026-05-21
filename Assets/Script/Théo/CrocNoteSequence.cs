@@ -200,7 +200,7 @@ public class CrocNoteCarrySequence : MonoBehaviour
             }
             else
             {
-                float bounce = (animator != null && animator.GetBool("walk")) ? Mathf.Abs(Mathf.Sin(Time.time * 15f)) * 0.15f : 0f;
+                float bounce = (animator != null && animator.GetBool("walk_bras_levé")) ? Mathf.Abs(Mathf.Sin(Time.time * 15f)) * 0.15f : 0f;
                 objectToCarry.transform.localPosition = new Vector3(0f, carryHeightOffset + bounce, 0f);
             }
         }
