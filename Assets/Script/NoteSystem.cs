@@ -174,11 +174,12 @@ public class NoteSystem : MonoBehaviour
         {
             if (musicTuto.IsPlaying())
             {
-                StartCoroutine(FadeSound(0.5f, active));
+                StartCoroutine(FadeSound(1f, active));
                 IsTrackOneToggle = true;
             }
+
         }
-        else if (musicZone1 != null) 
+        if (musicZone1 != null) 
         {
             if (musicZone1.IsPlaying())
             {
@@ -195,9 +196,9 @@ public class NoteSystem : MonoBehaviour
 
     IEnumerator FadeSound(float time, bool FadeIn)
     {
-        int step = 5;
+        int step = 100;
         volumeT1 = FadeIn ? 1f : 0.4f;
-
+        time = time / 100;
 
         float ratio = 1 / step;
 
@@ -228,7 +229,7 @@ public class NoteSystem : MonoBehaviour
                     FMOD.RESULT result2 = musicZone1.EventInstance.setParameterByName("Melodie2", volumeT1);
                 }
             }
-            yield return new WaitForSeconds(time / 4);
+            yield return new WaitForSeconds(time);
         }
         /*if (!FadeIn)
         {

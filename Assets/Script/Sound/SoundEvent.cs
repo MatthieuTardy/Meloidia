@@ -50,7 +50,7 @@ public class SoundEvent : MonoBehaviour
 
 
 
-        int step = 20;
+        int step = 100;
 
         float ratio = 1f / step;
 
@@ -67,7 +67,7 @@ public class SoundEvent : MonoBehaviour
 
                 FMOD.RESULT result = SFXtoIn.EventInstance.setVolume(volumeIn);
 
-                if (volumeOut <= 0f)
+                if (volumeOut >= 0f)
                 {
                     FMOD.RESULT result2 = SFXtoOut.EventInstance.setVolume(volumeOut);
                 }
@@ -81,7 +81,7 @@ public class SoundEvent : MonoBehaviour
     }
     private IEnumerator OutSound(float time)
     {
-        int step = 20;
+        int step = 100;
 
         float ratio = 1f / step;
 
@@ -91,7 +91,7 @@ public class SoundEvent : MonoBehaviour
             for (int i = 0; i < step-1; i++)
             {
                 volumeOut -= ratio;
-                if (volumeOut <= 0f)
+                if (volumeOut >= 0f)
                 {
                     FMOD.RESULT result2 = SFXtoOut.EventInstance.setVolume(volumeOut);
                 }
@@ -102,7 +102,7 @@ public class SoundEvent : MonoBehaviour
     }
     private IEnumerator InSound(float time)
     {
-        int step = 20;
+        int step = 100;
 
         float ratio = 1f / step;
 
