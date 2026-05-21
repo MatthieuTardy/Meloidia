@@ -109,7 +109,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1679617408574649265}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0226}
+  m_LocalPosition: {x: 0, y: 0, z: -0.029}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -117,7 +117,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.0164, y: 0.5386}
+  m_AnchoredPosition: {x: -1.254, y: 0.317}
   m_SizeDelta: {x: 2.0026, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3793677934731992613
@@ -316,6 +316,7 @@ GameObject:
   - component: {fileID: 252570814479753043}
   - component: {fileID: 1344605645155555018}
   - component: {fileID: 6048823470242700044}
+  - component: {fileID: 2535174766666734187}
   m_Layer: 11
   m_Name: Parcelle Canotte
   m_TagString: Untagged
@@ -485,6 +486,21 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: -0.82, y: -0.62, z: 0}
+--- !u!114 &2535174766666734187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968066030017934412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27e942000f35aa3488ce4ad63a880ef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourcesToTrack:
+  - ressourceToTrack: 6
+    worldText: {fileID: 5383033312963019892}
 --- !u!1 &2408375333366208949
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,7 +961,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3789320647785348748}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.1333}
+  m_LocalPosition: {x: 0, y: 0, z: -0.185}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -953,7 +969,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.2207, y: 0.1745}
+  m_AnchoredPosition: {x: -0.017, y: -0.047}
   m_SizeDelta: {x: 5.7784, y: 2.7485}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4682975972092935000
@@ -1780,7 +1796,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5307495547566843111}
   m_LocalRotation: {x: -0, y: -0, z: 0.00000002235174, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.07099563}
+  m_LocalPosition: {x: 0, y: 0, z: -0.123}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1788,7 +1804,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.21097064, y: -0.57199866}
+  m_AnchoredPosition: {x: -0.449, y: -0.794}
   m_SizeDelta: {x: 2.0026, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3053641191837104267
@@ -2388,7 +2404,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6b4c931c1bd3150429890530da80b017, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a29cde4f5f34333478fc23ea3ff12166, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

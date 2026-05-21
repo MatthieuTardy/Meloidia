@@ -14,7 +14,7 @@ public class DetectionZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 9) //collectable
+        if (other.gameObject.layer == 9) //collectable
         {
             //Debug.Log("PickUp " + other.gameObject.name);
             //GameManager.Instance.inventoryManager.TryToPickUp(other.GetComponent<Item>());
@@ -34,15 +34,15 @@ public class DetectionZone : MonoBehaviour
             interractableObject = null;
 
         }
-        else if(other.gameObject.layer == 11)
+        else if (other.gameObject.layer == 11)
         {
             interractableObject = null;
         }
-        else if(other.gameObject.layer == 9)
+        else if (other.gameObject.layer == 9)
         {
             collectableObjects.Remove(other.GetComponent<Item>());
         }
-        
+
     }
 
     private void OnTriggerStay(Collider other)
@@ -59,6 +59,9 @@ public class DetectionZone : MonoBehaviour
 
     private void Update()
     {
+        ///ttheo
+        collectableObjects.RemoveAll(item => item == null);
+        ///ttheo
         if (Input.GetButtonDown("Interract"))
         {
             // Debug.Log(interractableObject.name);
@@ -102,16 +105,16 @@ public class DetectionZone : MonoBehaviour
             }
 
             //if (Input.GetButtonDown("Interract"))
-            
-                if (collectableObjects.Count > 0)
+
+            if (collectableObjects.Count > 0)
+            {
+                bool success = GameManager.Instance.inventoryManager.TryToPickUp(collectableObjects[0]);
+                if (success)
                 {
-                    bool success = GameManager.Instance.inventoryManager.TryToPickUp(collectableObjects[0]);
-                    if (success)
-                    {
-                        collectableObjects.RemoveAt(0);
-                    }
+                    collectableObjects.RemoveAt(0);
                 }
-            
+            }
+
         }
     }
 }
