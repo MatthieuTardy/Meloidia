@@ -99,6 +99,12 @@ public class EnigmeGroupAction : MonoBehaviour
             if (seq != null)
             {
                 seq.FinishAndReturn();
+
+                Animator anim = seq.GetComponentInChildren<Animator>();
+                if (anim != null)
+                {
+                    anim.SetBool("walk__pousse", false);
+                }
             }
         }
         activeSequences.Clear();
@@ -141,7 +147,7 @@ public class EnigmeGroupAction : MonoBehaviour
                 Animator anim = seq.GetComponentInChildren<Animator>();
                 if (anim != null)
                 {
-                    anim.Play("walk__pousse");
+                    anim.SetBool("walk__pousse", true);
                 }
             }
         }
@@ -158,6 +164,12 @@ public class EnigmeGroupAction : MonoBehaviour
             if (seq != null)
             {
                 seq.FinishAndReturn();
+
+                Animator anim = seq.GetComponentInChildren<Animator>();
+                if (anim != null)
+                {
+                    anim.SetBool("walk__pousse", false);
+                }
             }
         }
 

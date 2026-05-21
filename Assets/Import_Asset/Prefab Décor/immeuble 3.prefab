@@ -43,6 +43,8 @@ GameObject:
   - component: {fileID: 3840641875549200977}
   - component: {fileID: 208125433619066356}
   - component: {fileID: 2668276896487594302}
+  - component: {fileID: 3511910864988925818}
+  - component: {fileID: 8366688036853885367}
   m_Layer: 0
   m_Name: "immeuble 3 d\xE9truit+props fix"
   m_TagString: Untagged
@@ -115,3 +117,40 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &3511910864988925818
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4469650846357518571}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 32.954002, y: 82.926, z: 42.736004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 1.2340001, y: 0.397, z: -4.303}
+  m_TimeToStationary: 0.5
+--- !u!65 &8366688036853885367
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4469650846357518571}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 65.9082, y: 165.85162, z: 85.47243}
+  m_Center: {x: 1.2335205, y: 0.3971939, z: -4.3027267}
