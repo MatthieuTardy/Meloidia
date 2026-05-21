@@ -79,6 +79,8 @@ public class NoteSystem : MonoBehaviour
     public List<musicalNotes> chantDuDiab = new List<musicalNotes> { musicalNotes.Do ,musicalNotes.Ré, musicalNotes.Mi  };
     public List<musicalNotes> chantDuBonheur = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Ré, musicalNotes.Do, musicalNotes.Ré };
     public List<musicalNotes> chantDuBirthday = new List<musicalNotes> { musicalNotes.Do, musicalNotes.Do, musicalNotes.Ré, musicalNotes.Do, musicalNotes.Fa, musicalNotes.Mi };
+    //private List<musicalNotes> playedPartition;
+    //public IReadOnlyList<musicalNotes> PlayedPartition => playedPartition;
     public List<musicalNotes> playedPartition;
 
     bool toggleTrackBool;
@@ -519,7 +521,7 @@ public class NoteSystem : MonoBehaviour
                 StartChant(index);
             }
 
-            if (singDelay != 0.00f)
+            if (singDelay > 0f)
             {
                 isPlaying = false;
                 noteCurrent = GetNoteFromIndex(index);
@@ -546,10 +548,6 @@ public class NoteSystem : MonoBehaviour
                     }
                     // ------------------------
                 }
-
-                if (playedPartition.TakeLast(3).SequenceEqual(chantDuDiab)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du diabète"); StartCoroutine(GameManager.Instance.playerManager.SetSingingStateCalme(15)); }
-                else if (playedPartition.TakeLast(4).SequenceEqual(chantDuBonheur)) { StartCoroutine(VictoryPlay()); Debug.LogWarning("Chant du Bonheur"); }
-                else if (playedPartition.SequenceEqual(chantDuBirthday)) { Debug.LogWarning("Chant de l'anniversaire"); }
             }
             else
             {
