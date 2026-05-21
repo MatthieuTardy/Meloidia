@@ -51,7 +51,7 @@ public class RessourcesRare : Interractable
         }
     }
 
-
+    
 
     Ressources newRessources()
     {
@@ -61,7 +61,7 @@ public class RessourcesRare : Interractable
         ///ttheo
         r.type = typeOfRessources;
         r.amount = 1;
-        r.MaxStack = MaxStack;
+        r.MaxStack = 99999;
         r.sprite = ItemSprite;
         return r;
     }
