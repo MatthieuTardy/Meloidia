@@ -11,39 +11,31 @@ public class ProgressEnigmeSystem : MonoBehaviour
     [SerializeField] UnityEvent onEnigmeResolve;
     [SerializeField] UnityEvent onEnigmeStep;
 
-
-
     public float ratio;
-    private bool isFinish;
-    private Coroutine waitRoutine;
+    private bool isResolved;
+    private Coroutine songCoroutine;
     private int currentStep = 0;
+
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 8)
+
+        Debug.Log("trigger");
+        if (other.gameObject.layer == 8 && !isResolved && songCoroutine == null)
         {
-            if (!isFinish)
-            {
-                if (waitRoutine != null)
-                {
-                    StopCoroutine(waitRoutine);
-                }
-                GameManager.Instance.playerManager.noteSystem.ClearPartition();
-                waitRoutine = StartCoroutine(ChantLogic());
-            }
+            Debug.Log("joueur");
+            GameManager.Instance.playerManager.noteSystem.ClearPartition();
+            songCoroutine = StartCoroutine(ChantLogic());
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 8 && waitRoutine != null)
+        if (other.gameObject.layer == 8 && songCoroutine != null)
         {
-            if (!isFinish)
-            {
-                StopCoroutine(waitRoutine);
-                waitRoutine = null;
-                currentStep = 0;
-            }
+            StopCoroutine(songCoroutine);
+            songCoroutine = null;
+            currentStep = 0;
         }
     }
 
@@ -59,7 +51,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
 
         while (currentStep < totalNotes)
         {
-            if (GameManager.Instance.playerManager.noteSystem.playedPartition.Count > 0 && !isFinish)
+            if (noteSystem.playedPartition.Count > 0 && !isResolved)
             {
                 musicalNotes noteAttendue = chantEnigme[currentStep];
 
@@ -69,7 +61,7 @@ public class ProgressEnigmeSystem : MonoBehaviour
                 lastNoteCount = noteSystem.playedPartition.Count;
                 ///Théo Modif
 
-                if (GameManager.Instance.playerManager.noteSystem.HasJustPlayed(noteAttendue))
+                if (noteSystem.HasJustPlayed(noteAttendue))
                 {
                     currentStep++;
                     ratio = (float)currentStep / totalNotes;
@@ -94,12 +86,10 @@ public class ProgressEnigmeSystem : MonoBehaviour
             }
             yield return new WaitForSeconds(0.1f);
         }
-        isFinish = true;
+        isResolved = true;
         RuntimeManager.PlayOneShot("event:/Musics/Win");
         onEnigmeResolve.Invoke();
 
-
-
-        waitRoutine = null;
+        songCoroutine = null;
     }
 }
