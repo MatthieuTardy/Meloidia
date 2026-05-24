@@ -26,12 +26,12 @@ public class LegumeManager : MonoBehaviour
     public int Specisme5 = 50;
 
     [Header("Bonheur")]
-    [Range(0, 100)] [SerializeField] int bonheur = 50;
+    [Range(0, 100)][SerializeField] int bonheur = 50;
     [InfoBox("A partir de combien de bonheur ce CN est considerer comme triste ou heureux")]
-    [Range(0, 100)] [SerializeField] int SadPercent, HappyPercent;
+    [Range(0, 100)][SerializeField] int SadPercent, HappyPercent;
     public MelogumeSingingManager melogumesSingingManager;
     private GameObject baseLegume;
-   
+
 
     public CrocNoteType legumeType;
     private string legumeName;
@@ -64,6 +64,7 @@ public class LegumeManager : MonoBehaviour
     ///Théo
     private float lastPathCheckTime;
     private float pathCheckInterval = 0.5f;
+    private bool hasBeenRenamed = false;
     ///Théo
 
     [Header("Effets de 'Juice' - Respiration")]
@@ -80,8 +81,14 @@ public class LegumeManager : MonoBehaviour
     #endregion
     public void Rename()
     {
-        this.gameObject.name = NameCreator.NewName();
-        NameBoard.GetComponent<TextMeshPro>().text = this.gameObject.name;
+        ///Théo
+        if (!hasBeenRenamed)
+        {
+            this.gameObject.name = NameCreator.NewName();
+            NameBoard.GetComponent<TextMeshPro>().text = this.gameObject.name;
+            hasBeenRenamed = true;
+        }
+        ///Théo
     }
 
     void ClearName()
@@ -94,7 +101,7 @@ public class LegumeManager : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-        rb.isKinematic = true;          
+        rb.isKinematic = true;
         rb.useGravity = false;
         baseLegume = FindObjectOfType<PlayerManager>().gameObject;
         //Rename();
@@ -179,8 +186,8 @@ public class LegumeManager : MonoBehaviour
             }
             ///Modif théo
         }
-        NameBoard.transform.LookAt(GameManager.Instance.playerManager.Camera); 
-            //= Quaternion.Euler(new Vector3(0,0,0));
+        NameBoard.transform.LookAt(GameManager.Instance.playerManager.Camera);
+        //= Quaternion.Euler(new Vector3(0,0,0));
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -249,7 +256,7 @@ public class LegumeManager : MonoBehaviour
     }
     #endregion
 
-        #region Movement
+    #region Movement
     public IEnumerator RandomMove()
     {
         //Debug.Log("move routine " + CanMoveFreely);
@@ -335,7 +342,7 @@ public class LegumeManager : MonoBehaviour
         melogumesSingingManager.StartRage();
         colere = true;
         Debug.Log("Colère !");
-        yield return new WaitUntil(()=> colere == false);
+        yield return new WaitUntil(() => colere == false);
         melogumesSingingManager.StopRage();
         melogumesSingingManager.StartHappyness();
         move = StartCoroutine(RandomMove());
@@ -347,8 +354,8 @@ public class LegumeManager : MonoBehaviour
     {
         yield return new WaitForSeconds(EndOfRageTimer);
 
-            SetBonheur(GetBonheur() - 5);
-            colere = false;
+        SetBonheur(GetBonheur() - 5);
+        colere = false;
     }
     #endregion
     #region BonheurVariation

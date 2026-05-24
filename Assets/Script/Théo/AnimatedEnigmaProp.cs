@@ -23,10 +23,10 @@ public class AnimatedEnigmaProp : MonoBehaviour
     public bool enableCinematicCamera = true;
     public Transform cinematicCameraPoint;
     public float cameraFocusDuration = 2f;
+    public GameObject objectToDeactivateOnStart;
 
     [Header("Camera Shake Settings")]
     public bool enableCameraShake = false;
-    [Tooltip("Clique sur le petit point à droite pour choisir un profil comme '6D Shake'")]
     public NoiseSettings cameraNoiseProfile;
     public float shakeAmplitude = 1.5f;
     public float shakeFrequency = 2.0f;
@@ -37,6 +37,7 @@ public class AnimatedEnigmaProp : MonoBehaviour
 
     private CinemachineVirtualCamera sequenceCam;
     private bool hasTriggeredCamera = false;
+    private bool isCinematicPlaying = false;
 
     private Vector3 startPos;
     private Quaternion startRot;
@@ -67,6 +68,16 @@ public class AnimatedEnigmaProp : MonoBehaviour
 
     void Update()
     {
+        if (objectToDeactivateOnStart == null)
+        {
+            objectToDeactivateOnStart = GameObject.Find("Wheel");
+        }
+
+        if (isCinematicPlaying && objectToDeactivateOnStart != null && objectToDeactivateOnStart.activeInHierarchy)
+        {
+            objectToDeactivateOnStart.SetActive(false);
+        }
+
         CheckEnigmaProgress();
         CalculateTargetTransform();
         ApplyMovementAndEffects();
@@ -185,6 +196,11 @@ public class AnimatedEnigmaProp : MonoBehaviour
 
     private void TriggerCameraFocus()
     {
+        if (objectToDeactivateOnStart != null)
+        {
+            objectToDeactivateOnStart.SetActive(false);
+        }
+
         if (enableCinematicCamera && cinematicCameraPoint != null)
         {
             hasTriggeredCamera = true;
@@ -199,6 +215,8 @@ public class AnimatedEnigmaProp : MonoBehaviour
 
     private IEnumerator CameraFocusRoutine()
     {
+        isCinematicPlaying = true;
+
         GameObject camObj = new GameObject("EnigmaProp_CinematicCam");
         camObj.transform.position = cinematicCameraPoint.position;
 
@@ -223,10 +241,6 @@ public class AnimatedEnigmaProp : MonoBehaviour
                 noise.m_AmplitudeGain = shakeAmplitude;
                 noise.m_FrequencyGain = shakeFrequency;
             }
-            else
-            {
-                Debug.LogWarning($"Camera Shake est activé sur {gameObject.name} mais il manque le fichier dans 'Camera Noise Profile' !");
-            }
         }
 
         yield return new WaitForSeconds(cameraFocusDuration);
@@ -236,6 +250,7 @@ public class AnimatedEnigmaProp : MonoBehaviour
             Destroy(sequenceCam.gameObject);
         }
 
+        isCinematicPlaying = false;
         onCameraSequenceEnd?.Invoke();
     }
 
@@ -255,6 +270,7 @@ public class AnimatedEnigmaProp : MonoBehaviour
     {
         isFullyResolved = false;
         hasTriggeredCamera = false;
+        isCinematicPlaying = false;
         effectTimeLeft = 0f;
         currentBump = 0f;
     }

@@ -22,6 +22,8 @@ public class CrocNoteCarrySequence : MonoBehaviour
     [Header("Settings")]
     public float carrySpeedMultiplier = 0.8f;
     public float fleeSpeedMultiplier = 2f;
+    [Tooltip("Objet à désactiver dès que la séquence démarre")]
+    public GameObject objectToDeactivateOnStart;
 
     [Header("Cinematic Camera")]
     public bool enableCinematicCamera = true;
@@ -90,6 +92,7 @@ public class CrocNoteCarrySequence : MonoBehaviour
                 animator.speed = isCarrying ? carrySpeedMultiplier : 1f;
 
             animator.SetBool("walk", agent.velocity.sqrMagnitude > 0.01f);
+            animator.SetBool("walkporte", isCarrying);
         }
 
         switch (currentState)
@@ -200,7 +203,7 @@ public class CrocNoteCarrySequence : MonoBehaviour
             }
             else
             {
-                float bounce = (animator != null && animator.GetBool("walk_bras_levé")) ? Mathf.Abs(Mathf.Sin(Time.time * 15f)) * 0.15f : 0f;
+                float bounce = (animator != null && animator.GetBool("walkporte")) ? Mathf.Abs(Mathf.Sin(Time.time * 15f)) * 0.15f : 0f;
                 objectToCarry.transform.localPosition = new Vector3(0f, carryHeightOffset + bounce, 0f);
             }
         }
@@ -216,6 +219,11 @@ public class CrocNoteCarrySequence : MonoBehaviour
 
     public void StartSequence()
     {
+        if (objectToDeactivateOnStart != null)
+        {
+            objectToDeactivateOnStart.SetActive(false);
+        }
+
         if (legumeManager != null)
         {
             legumeManager.StopAllCoroutines();

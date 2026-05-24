@@ -9,6 +9,7 @@ public class OnlyInterraction : Interractable
     [SerializeField] Condition condition;
     [SerializeField] bool RepeteEvent;
     bool activate = false;
+
     public override void Interract()
     {
         if (condition == null)
@@ -21,7 +22,6 @@ public class OnlyInterraction : Interractable
             {
                 OnInterract.Invoke();
                 activate = true;
-
             }
         }
         else
@@ -44,5 +44,13 @@ public class OnlyInterraction : Interractable
     public void DebugFunction()
     {
         Debug.Log(" Interraction ");
+    }
+
+    public void DestroyTarget(GameObject target)
+    {
+        if (target != null)
+        {
+            Destroy(target);
+        }
     }
 }
