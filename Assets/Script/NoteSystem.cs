@@ -83,12 +83,44 @@ public class NoteSystem : MonoBehaviour
     //public IReadOnlyList<musicalNotes> PlayedPartition => playedPartition;
     public List<musicalNotes> playedPartition;
 
+    // ================== AJOUT CERCLE ==================
+    [Header("Cercles d'animation (un par note, dans le même ordre que l'enum)")]
+    [Tooltip("Chaque entrée = GameObject du cercle (MeshRenderer) pour la note correspondante")]
+    public GameObject[] circleObjects; // à assigner dans l'inspector
+    private Material[] circleMaterials; // Le material de chaque cercle, récupéré dynamiquement au Start
+
+    [SerializeField, Tooltip("Durée (en secondes) de l'apparition du cercle (smooth)")]
+    private float circleAppearDuration = 0.3f;
+    // ==================================================
+
     bool toggleTrackBool;
     private void Start()
     {
         toggleTrackBool = true;
         ToggleTrackOne(true);
         WheelCenter = FindAnyObjectByType<UiSelection>().wheelRoot.transform;
+        
+        // =============== AJOUT CERCLE : récupérer tous les matériaux et sette _CircleFill à 0 ==================
+        if (circleObjects != null && circleObjects.Length > 0)
+        {
+            circleMaterials = new Material[circleObjects.Length];
+            for (int i = 0; i < circleObjects.Length; i++)
+            {
+                if (circleObjects[i] != null)
+                {
+                    var renderer = circleObjects[i].GetComponent<Renderer>();
+                    if (renderer != null)
+                    {
+                        // Duplique le material (Sinon ils seraient partagés)
+                        renderer.material = Instantiate(renderer.material);
+                        circleMaterials[i] = renderer.material;
+                        // Mets _CircleFill à 0 donc invisible par défaut
+                        circleMaterials[i].SetFloat("_CircleFill", 0f);
+                    }
+                }
+            }
+        }
+        // =======================================================================================================
     }
 
     void Update()
@@ -548,6 +580,15 @@ public class NoteSystem : MonoBehaviour
                     }
                     // ------------------------
                 }
+
+                // -------- AJOUT CERCLE : animer ce cercle de 0 à 1 ---------
+                if (circleMaterials != null && index >= 0 && index < circleMaterials.Length && circleMaterials[index] != null)
+                {
+                    // Remet direct à 0 avant d’animer au cas où la note est spam
+                    circleMaterials[index].SetFloat("_CircleFill", 0f);
+                    StartCoroutine(AnimateCircleFill(circleMaterials[index]));
+                }
+                // ----------------------------------------------------------
             }
             else
             {
@@ -557,6 +598,28 @@ public class NoteSystem : MonoBehaviour
 
         playedTime = 0;
     }
+
+    // -------- AJOUT CERCLE : animation du shader _CircleFill smoothStep de 0 à 1 puis reset à 0 ---------
+    private IEnumerator AnimateCircleFill(Material mat, float? overrideDuration = null, float visibleTime = 0.1f)
+    {
+        if (mat == null) yield break;
+        float duration = overrideDuration ?? circleAppearDuration;
+
+        float t = 0f;
+        mat.SetFloat("_CircleFill", 0f);
+        while (t < duration)
+        {
+            float progress = Mathf.Clamp01(t / duration);
+            float smooth = Mathf.SmoothStep(0f, 1f, progress);
+            mat.SetFloat("_CircleFill", smooth);
+            t += Time.deltaTime;
+            yield return null;
+        }
+        mat.SetFloat("_CircleFill", 1f); // S’assure que ça finit "plein"
+        yield return new WaitForSeconds(visibleTime); // optionnel : laisse visible un court instant
+        mat.SetFloat("_CircleFill", 0f); // Cache à la fin
+    }
+    // ------------------------------------------------------------------------
 
     IEnumerator VictoryPlay()
     {
