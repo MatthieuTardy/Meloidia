@@ -9,6 +9,11 @@ public class PlayerController : MonoBehaviour
     public Transform playerVisuals;
     public Transform cameraTransform;
     public ParticleSystem sprintParticles;
+
+    // Nouveau : particule pour atterrissage
+    [Header("Particules Atterrissage")]
+    public ParticleSystem landingParticles;
+
     [SerializeField] AnimationSound animationSound;
 
     [Tooltip("Glisse ton composant Animator ici")]
@@ -20,7 +25,6 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Contrôle la glissade à l'arrêt. 0 = arrêt net. 0.2 = légère glissade.")]
     public float decelerationSmoothness = 0.15f;
 
-    // #esteban - Nouvelles variables pour gérer la tolérance sur les pentes
     [Header("Tolérance Pentes (#esteban)")]
     public float groundCheckDistance = 0.3f;
     public float groundCheckRadius = 0.25f;
@@ -60,8 +64,8 @@ public class PlayerController : MonoBehaviour
     private float targetRotation;
     private float currentRotation;
 
-    //private CameraShake _cameraShake;
-
+    // Pour détecter l'atterrissage
+    private bool wasGrounded;
 
     void OnSomething()
     {
@@ -95,13 +99,26 @@ public class PlayerController : MonoBehaviour
         body.freezeRotation = true;
 
         ResetIdleTimer();
+
+        // Initialisation wasGrounded
+        CheckGrounded();
+        wasGrounded = isGrounded;
     }
+
     void Update()
     {
         //if (GameManager.Instance.playerManager.Lock)
         {
             HandleInputs();
             CheckGrounded();
+
+            // --- Ajout : détection atterrissage ---
+            if (!wasGrounded && isGrounded)
+            {
+                PlayLandingParticles();
+            }
+            wasGrounded = isGrounded;
+            // --- Fin Ajout ---
 
             if (GameManager.Instance.playerManager.Lock)
             {
@@ -150,7 +167,6 @@ public class PlayerController : MonoBehaviour
             }
             HandleRotation();
         }
-
     }
 
     private void ApplyBetterGravity()
@@ -233,7 +249,6 @@ public class PlayerController : MonoBehaviour
             idleTimer += Time.deltaTime;
             if (idleTimer >= currentIdleThreshold)
             {
-                // Choisir aléatoirement entre les 2 idles
                 int randomIdle = UnityEngine.Random.Range(0, 2);
                 if (randomIdle == 0)
                 {
@@ -266,7 +281,6 @@ public class PlayerController : MonoBehaviour
         {
             if (inputDirection.magnitude >= 0.1f)
             {
-                // Retour au mouvement simple sans Raycast ni projection
                 Vector3 targetVelocity = inputDirection * currentSpeed;
                 body.velocity = new Vector3(targetVelocity.x, body.velocity.y, targetVelocity.z);
             }
@@ -281,25 +295,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        // #esteban - On désactive isGrounded ici pour ne pas interférer avec le SphereCast
-        // isGrounded = true;
-
-        // #esteban - Remplacement de Vector2.Dot par Vector3.Dot pour un jeu 3D
-        // if (Vector2.Dot(Vector2.up, collision.contacts[0].normal) > 0.7f)
         if (Vector3.Dot(Vector3.up, collision.contacts[0].normal) > 0.7f)
         {
             HandleMovement();
-
-
         }
-        // On est bien sur un sol presque hori
-        /* else
-        {
-            float currentSpeed = isSprinting ? sprintSpeed : speed;
-            Vector3 targetVelocity = inputDirection * currentSpeed;
-            body.velocity = new Vector3(-targetVelocity.x, body.velocity.y, body.velocity.z);
-        }
-        */
     }
     private void OnCollisionExit(Collision collision)
     {
@@ -338,9 +337,6 @@ public class PlayerController : MonoBehaviour
 
     private void CheckGrounded()
     {
-        // isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
-
-        // #esteban - Ajout du SphereCast avec la tolérance
         Vector3 origin = transform.position + (Vector3.up * groundCheckOffset);
         isGrounded = Physics.SphereCast(origin, groundCheckRadius, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayer);
         Debug.DrawLine(origin, origin + Vector3.down * groundCheckDistance, isGrounded ? Color.green : Color.red);
@@ -397,40 +393,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /*
-        private void HandleToolsInput()
-        {
-            // (Conditions d'input inchangées)
-            if (Input.GetButtonDown("Outils 1") && GameManager.Instance.playerManager.outils != 0 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") >= 0.8 && GameManager.Instance.playerManager.outils != 0 && GameManager.Instance.playerManager.havingTools == true)
-            {
-                SetTool(0, true, false, false, false);
-            }
-            else if (Input.GetButtonDown("Outils 2") && GameManager.Instance.playerManager.outils != 1 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") >= 0.8 && GameManager.Instance.playerManager.outils != 1 && GameManager.Instance.playerManager.havingTools == true)
-            {
-                SetTool(1, false, true, false, false);
-            }
-            else if (Input.GetButtonDown("Outils 3") && GameManager.Instance.playerManager.outils != 2 && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsY_Xbox") <= -0.8 && GameManager.Instance.playerManager.outils != 2 && GameManager.Instance.playerManager.havingTools == true)
-            {
-                SetTool(2, false, false, true, false);
-            }
-            else if (Input.GetButtonDown("Outils 4") && GameManager.Instance.playerManager.havingTools == true || Input.GetAxis("OutilsX_Xbox") <= -0.8 && GameManager.Instance.playerManager.havingTools == true && !GameManager.Instance.playerManager.isBuildMode)
-            {
-                if (GameManager.Instance.playerManager.outils != 3 && GameManager.Instance.playerManager.havingTools == true)
-                {
-                    GameManager.Instance.playerManager.outils = 3;
-                    GameManager.Instance.playerManager.isBuildMode = true;
-                    SetTool(3, false, false, false, true);
-                }
-                if (!GameManager.Instance.buildManager.isBuilding)
-                {
-                   // SetTool(0, true, false, false, false);
-                }
-                OnBuildMode.Invoke();
-                Debug.Log("Build Mode Enable");
-            }
-        }
-    */
-
     private void SetTool(int outilIndex, bool gant, bool pelle, bool arrosoir, bool marteau)
     {
         if (outilIndex >= 0) GameManager.Instance.playerManager.outils = outilIndex;
@@ -476,4 +438,10 @@ public class PlayerController : MonoBehaviour
         animationSound.PlayerFootStep();
     }
 
+    // ==== NOUVEAU ====
+    private void PlayLandingParticles()
+    {
+        if (landingParticles != null)
+            landingParticles.Play();
+    }
 }

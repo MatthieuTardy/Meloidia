@@ -10,8 +10,28 @@ public class OnlyInterraction : Interractable
     [SerializeField] bool RepeteEvent;
     bool activate = false;
 
+    // === AJOUT POUR ANIMATION ===
+    private Animator playerAnimator;
+    private PlayerController playerController;
+
+    private void Start()
+    {
+        playerController = FindObjectOfType<PlayerController>();
+        if (playerController != null)
+        {
+            playerAnimator = playerController.animator;
+        }
+    }
+
     public override void Interract()
     {
+        // === AJOUT : Active INTERACT sur l'animator du player ===
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetBool("interact", true);
+            StartCoroutine(ResetInteractBool());
+        }
+
         if (condition == null)
         {
             if (RepeteEvent)
@@ -38,6 +58,16 @@ public class OnlyInterraction : Interractable
                     activate = true;
                 }
             }
+        }
+    }
+
+    // === AJOUT : Coroutine pour remettre interact à false ===
+    private IEnumerator ResetInteractBool()
+    {
+        yield return new WaitForSeconds(0.2f);
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetBool("interact", false);
         }
     }
 

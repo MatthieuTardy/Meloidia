@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Collections; // Ajout pour IEnumerator
 
 public class InventoryManager : MonoBehaviour
 {
@@ -8,11 +9,22 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private List<ItemSlot> items;
     public int InventorySize = 7;
 
+    // --- Ajout pour référence automatique à l'Animator du joueur ---
+    private Animator playerAnimator; 
+    private PlayerController playerController;
+
     public void Start()
     {
         dictionaryOfItem = new Dictionary<Sprite, GameObject>();
         InitDictionnary();
         InitInventory();
+
+        // --- Recherche automatique du PlayerController et de l'Animator ---
+        playerController = FindObjectOfType<PlayerController>();
+        if (playerController != null)
+        {
+            playerAnimator = playerController.animator;
+        }
     }
 
     public void InitInventory()
@@ -107,9 +119,26 @@ public class InventoryManager : MonoBehaviour
         if (succesToPickUp)
         {
             newItem.OnPickUp();
+
+            // --- Active l'anim "interact" puis la désactive (petit délai)
+            if (playerAnimator != null)
+            {
+                playerAnimator.SetBool("interact", true);
+                StartCoroutine(ResetInteractBool());
+            }
         }
 
         return succesToPickUp;
+    }
+
+    // Ajout : Coroutine pour remettre interact à false après un petit délai
+    private IEnumerator ResetInteractBool()
+    {
+        yield return new WaitForSeconds(0.2f);
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetBool("interact", false);
+        }
     }
 
     private void Update()
