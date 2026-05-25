@@ -31,7 +31,8 @@ public class WorldTreeManager : MonoBehaviour
     public Transform[] stageParticleSpawnPoints;
     public WorldTreeNoteDictionary[] customDictionary;
 
-    [Header("Final Event")]
+    [Header("Events")]
+    public UnityEvent onFirstStageCameraFinished;
     public UnityEvent onGameFinished;
 
     private CinemachineVirtualCamera sequenceCam;
@@ -97,6 +98,7 @@ public class WorldTreeManager : MonoBehaviour
     private IEnumerator GrowthSequence()
     {
         isCinematicPlaying = true;
+        int startingStage = currentStage;
 
         if (objectToDeactivateOnStart != null)
         {
@@ -141,6 +143,11 @@ public class WorldTreeManager : MonoBehaviour
         }
 
         isCinematicPlaying = false;
+
+        if (startingStage == 0 && currentStage == 1)
+        {
+            onFirstStageCameraFinished?.Invoke();
+        }
 
         if (currentStage == treeStages.Length - 1 && !isWaitingForPlayerMelody)
         {
