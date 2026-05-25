@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7123900863869133727}
   - component: {fileID: 2247536145505090017}
   - component: {fileID: 8000731553208664272}
+  - component: {fileID: 2481885581340448454}
   m_Layer: 6
   m_Name: benne_a_ordure
   m_TagString: Untagged
@@ -105,3 +106,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.048383176, y: 0.022087816, z: 0.035416733}
   m_Center: {x: -0.000008239411, y: 0.0025205417, z: 0.00022052783}
+--- !u!208 &2481885581340448454
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7368205155695436815}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.024, y: 0.011000001, z: 0.018000001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.003, z: 0}
+  m_TimeToStationary: 0.5

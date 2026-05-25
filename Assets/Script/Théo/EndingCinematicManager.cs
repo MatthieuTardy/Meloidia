@@ -48,12 +48,13 @@ public class EndingCinematicManager : MonoBehaviour
 
     private IEnumerator CinematicRoutine()
     {
+        // CHANGEMENT 1 : On met l'alpha à 0 mais on les laisse INACTIFS pour le moment
         foreach (var ui in uiElementsToFadeIn)
         {
             if (ui != null)
             {
                 ui.alpha = 0f;
-                ui.gameObject.SetActive(true);
+                ui.gameObject.SetActive(false);
             }
         }
 
@@ -188,21 +189,42 @@ public class EndingCinematicManager : MonoBehaviour
                     }
                 }
 
+                // --- GESTION DES FADES UI DE FIN ---
                 if (isFadingUI)
                 {
                     if (currentUiIndex < uiElementsToFadeIn.Length)
                     {
-                        fadeTimer += Time.deltaTime;
-                        float alpha = Mathf.Clamp01(fadeTimer / uiFadeDuration);
+                        CanvasGroup currentUi = uiElementsToFadeIn[currentUiIndex];
 
-                        if (uiElementsToFadeIn[currentUiIndex] != null)
+                        if (currentUi != null)
                         {
-                            uiElementsToFadeIn[currentUiIndex].alpha = alpha;
+                            // CHANGEMENT 2 : On active l'élément uniquement au moment où son fondu commence
+                            if (!currentUi.gameObject.activeSelf)
+                            {
+                                currentUi.gameObject.SetActive(true);
+                            }
+
+                            fadeTimer += Time.deltaTime;
+                            float alpha = Mathf.Clamp01(fadeTimer / uiFadeDuration);
+                            currentUi.alpha = alpha;
+
+                            if (fadeTimer >= uiFadeDuration)
+                            {
+                                currentUi.alpha = 1f; // Sécurité alpha max
+
+                                // CHANGEMENT 3 : LE FADE EST FINI, ON COMMENCE LE SCROLL ICI !
+                                CreditsManager credits = currentUi.GetComponentInChildren<CreditsManager>();
+                                if (credits != null)
+                                {
+                                    credits.StartCredits();
+                                }
+
+                                fadeTimer = 0f;
+                                currentUiIndex++;
+                            }
                         }
-
-                        if (fadeTimer >= uiFadeDuration)
+                        else
                         {
-                            fadeTimer = 0f;
                             currentUiIndex++;
                         }
                     }
