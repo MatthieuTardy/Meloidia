@@ -309,6 +309,7 @@ GameObject:
   - component: {fileID: 6028069894518270394}
   - component: {fileID: 8893727957192152370}
   - component: {fileID: 1510909722472803957}
+  - component: {fileID: 4756690414956288176}
   - component: {fileID: 3321191653870125889}
   m_Layer: 11
   m_Name: Parcelle Poivron
@@ -398,13 +399,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 532703178455918289}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 6028069894518270394}
+        m_TargetAssemblyTypeName: OnlyInterraction, Assembly-CSharp
+        m_MethodName: DestroyTarget
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 8476994932174419384}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -460,6 +461,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NameBoard: {fileID: 532703178455918289}
+--- !u!114 &4756690414956288176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743315561379146791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27e942000f35aa3488ce4ad63a880ef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourcesToTrack:
+  - ressourceToTrack: 8
+    worldText: {fileID: 7542152430365031404}
+  - ressourceToTrack: 10
+    worldText: {fileID: 6354908104610919570}
 --- !u!136 &3321191653870125889
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -548,7 +566,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f68d58f07f175747994b38604d40c65, type: 2}
   m_sharedMaterial: {fileID: -2553128384996881793, guid: 8f68d58f07f175747994b38604d40c65,
@@ -863,6 +881,7 @@ MonoBehaviour:
   enableCinematicCamera: 1
   cinematicCameraPoint: {fileID: 8374954793955777654}
   cameraFocusDuration: 4
+  objectToDeactivateOnStart: {fileID: 0}
   enableCameraShake: 0
   cameraNoiseProfile: {fileID: 0}
   shakeAmplitude: 1.5
@@ -913,6 +932,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: WorldTreeManager, Assembly-CSharp
+        m_MethodName: OnRegularTreeCompleted
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1026,7 +1057,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6b4c931c1bd3150429890530da80b017, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9f8bf92e4957c76448a38b3b9b38da70, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3766,6 +3797,7 @@ MonoBehaviour:
   enableCinematicCamera: 1
   cinematicCameraPoint: {fileID: 6956614697119107363}
   cameraFocusDuration: 4
+  objectToDeactivateOnStart: {fileID: 0}
   enableCameraShake: 1
   cameraNoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
   shakeAmplitude: 5
