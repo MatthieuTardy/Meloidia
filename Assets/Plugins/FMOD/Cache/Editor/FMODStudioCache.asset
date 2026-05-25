@@ -67,10 +67,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639152712743683661
+  lastModified: 639153290853409189
   FileSizes:
   - Name: Desktop
-    Value: 4382
+    Value: 4466
   Exists: 1
 --- !u!114 &-8120172108296925034
 MonoBehaviour:
@@ -126,6 +126,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 350
+--- !u!114 &-8049133593251343026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Robot/Robot_Action/Saut_Robot
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Robot/Robot_Action/Saut_Robot
+  Guid:
+    Data1: -429624076
+    Data2: 1123221201
+    Data3: -762230117
+    Data4: -1429836326
+  Banks:
+  - {fileID: 5131200953825651899}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1500
 --- !u!114 &-8048489765252327871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -733,10 +760,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639152712743671636
+  lastModified: 639153290853399181
   FileSizes:
   - Name: Desktop
-    Value: 502080
+    Value: 502016
   Exists: 1
 --- !u!114 &-4021323117545652381
 MonoBehaviour:
@@ -1115,7 +1142,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Jingle.bank
   Name: Jingle
   StudioPath: bank:/Jingle
-  lastModified: 639150786840331638
+  lastModified: 639153290853358092
   FileSizes:
   - Name: Desktop
     Value: 41696
@@ -1428,13 +1455,15 @@ MonoBehaviour:
   - {fileID: -8048489765252327871}
   - {fileID: -6556910240180627934}
   - {fileID: 5419411633263080348}
+  - {fileID: 8114711833744349886}
+  - {fileID: -8049133593251343026}
   EditorParameters: []
   MasterBanks:
   - {fileID: -4243545848318456464}
   StringsBanks:
   - {fileID: -8397885059187387692}
   cacheVersion: 131849
-  cacheTime: 639152712746549684
+  cacheTime: 639153290855888134
   SerializableEventsDict:
   - key: event:/Musics/Win
     index: 0
@@ -1578,6 +1607,10 @@ MonoBehaviour:
     index: 69
   - key: event:/SFX/Robot/Robot_Action/Robot_Footstep
     index: 70
+  - key: event:/SFX/Robot/Robot_Action/Chute_robot
+    index: 71
+  - key: event:/SFX/Robot/Robot_Action/Saut_Robot
+    index: 72
 --- !u!114 &209723335646530673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2258,10 +2291,10 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639152712746549684
+  lastModified: 639153290855888134
   FileSizes:
   - Name: Desktop
-    Value: 10865792
+    Value: 10943168
   Exists: 1
 --- !u!114 &5191202134173285223
 MonoBehaviour:
@@ -2546,7 +2579,7 @@ MonoBehaviour:
   Path: Fmod Douby/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639152712745912067
+  lastModified: 639153290855310056
   FileSizes:
   - Name: Desktop
     Value: 35196800
@@ -2706,6 +2739,33 @@ MonoBehaviour:
   Labels:
   - Pickup
   Exists: 1
+--- !u!114 &8114711833744349886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Robot/Robot_Action/Chute_robot
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Robot/Robot_Action/Chute_robot
+  Guid:
+    Data1: -666677686
+    Data2: 1223508558
+    Data3: 451868337
+    Data4: -1222379936
+  Banks:
+  - {fileID: 5131200953825651899}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2040
 --- !u!114 &8154281412061854523
 MonoBehaviour:
   m_ObjectHideFlags: 0

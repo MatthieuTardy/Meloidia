@@ -1,35 +1,35 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
+using TMPro;
 
 public class CreditsManager : MonoBehaviour
 {
     public CanvasGroup canvasGroup;
-    public ScrollRect scrollRect;
+    public TextMeshProUGUI creditsText;
+
     public float fadeDuration = 2f;
-    public float delayBeforeScroll = 2f;
-    public float scrollSpeed = 0.05f;
+    public float scrollSpeed = 50f;
+
     public UnityEvent onCreditsFinished;
 
     public void StartCredits()
     {
-        StartCoroutine(CreditsRoutine());
-    }
-
-    private IEnumerator CreditsRoutine()
-    {
+        // On initialise le groupe à 0
         if (canvasGroup != null)
         {
             canvasGroup.alpha = 0f;
             canvasGroup.gameObject.SetActive(true);
         }
 
-        if (scrollRect != null)
-        {
-            scrollRect.verticalNormalizedPosition = 1f;
-        }
+        // On lance les deux actions en même temps (en parallèle)
+        StartCoroutine(FadeRoutine());
+        StartCoroutine(ScrollRoutine());
+    }
 
+    // --- COROUTINE 1 : Gère uniquement l'apparition de 0 à 1 ---
+    private IEnumerator FadeRoutine()
+    {
         float timer = 0f;
         while (timer < fadeDuration)
         {
@@ -41,17 +41,38 @@ public class CreditsManager : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(delayBeforeScroll);
+        // Sécurité pour bien finir à 1
+        if (canvasGroup != null) canvasGroup.alpha = 1f;
+    }
 
-        if (scrollRect != null)
+    // --- COROUTINE 2 : Gère l'attente puis le défilement ---
+    private IEnumerator ScrollRoutine()
+    {
+        // 1. On met la coroutine en pause TANT QUE l'opacité est en dessous de 0.5
+        while (canvasGroup != null && canvasGroup.alpha < 0.5f)
         {
-            while (scrollRect.verticalNormalizedPosition > 0f)
+            yield return null; // On attend la frame suivante
+        }
+
+        // --- À partir d'ici, l'opacité a atteint 0.5, le texte démarre ! ---
+
+        // 2. Défilement du texte vers le haut
+        if (creditsText != null)
+        {
+            RectTransform textRect = creditsText.rectTransform;
+            float textHeight = creditsText.preferredHeight;
+            float startY = textRect.anchoredPosition.y;
+            float targetY = startY + textHeight + 500f;
+
+            // Le texte défile tant qu'il n'a pas atteint sa cible
+            while (textRect.anchoredPosition.y < targetY)
             {
-                scrollRect.verticalNormalizedPosition -= scrollSpeed * Time.deltaTime;
+                textRect.anchoredPosition += Vector2.up * (scrollSpeed * Time.deltaTime);
                 yield return null;
             }
         }
 
+        // 3. Fin des crédits
         onCreditsFinished?.Invoke();
     }
 }
