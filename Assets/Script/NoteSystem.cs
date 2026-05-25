@@ -99,7 +99,7 @@ public class NoteSystem : MonoBehaviour
         toggleTrackBool = true;
         ToggleTrackOne(true);
         WheelCenter = FindAnyObjectByType<UiSelection>().wheelRoot.transform;
-        
+        InputUIevent.instance.IsSinging += ResetSingButton;
         // =============== AJOUT CERCLE : récupérer tous les matériaux et sette _CircleFill à 0 ==================
         if (circleObjects != null && circleObjects.Length > 0)
         {
@@ -122,7 +122,11 @@ public class NoteSystem : MonoBehaviour
         }
         // =======================================================================================================
     }
-
+    void ResetSingButton()
+    {
+        isSinging = !isSinging;
+        IsToggleSing = false;
+    }
     void Update()
     {
 
