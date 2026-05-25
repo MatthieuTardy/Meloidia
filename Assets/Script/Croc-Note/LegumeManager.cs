@@ -321,7 +321,11 @@ public class LegumeManager : MonoBehaviour
     #region rage
     void StartRageState(Transform other)
     {
-        StopCoroutine(move);
+        if (move != null)
+        {
+            StopCoroutine(move);
+        }
+
         transform.LookAt(other);
 
         StartCoroutine(RageState());
