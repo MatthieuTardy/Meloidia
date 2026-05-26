@@ -90,8 +90,8 @@ public class SingingOnCrocNote : MonoBehaviour
         isPlayingGetOutAnim = true;
 
         Transform tempTarget = Lmanager.CurrentTarget;
+        Lmanager.isTeleporting = true;
         Lmanager.CurrentTarget = null;
-
         if (Lmanager.myNavAgent.isOnNavMesh)
         {
             Lmanager.myNavAgent.isStopped = true;
@@ -119,6 +119,7 @@ public class SingingOnCrocNote : MonoBehaviour
 
         Lmanager.animator.SetBool("getout", false);
         Lmanager.CurrentTarget = tempTarget;
+        Lmanager.isTeleporting = false;
 
         if (Lmanager.myNavAgent.isOnNavMesh)
         {

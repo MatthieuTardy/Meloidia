@@ -116,6 +116,12 @@ public class MelogumeSingingManager : MonoBehaviour
         {
             yield return new WaitUntil(() => legumeManager.CurrentTarget == null);
         }
+
+        if (legumeManager.isTeleporting)
+        {
+            yield return new WaitUntil(() => legumeManager.isTeleporting == false);
+
+        }
         // --- S�quence musicale avec particules ---
         legumeManager.animator.SetBool("walk", false);
         legumeManager.animator.SetBool("sing", true);

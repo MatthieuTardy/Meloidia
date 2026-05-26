@@ -32,6 +32,8 @@ public class LegumeManager : MonoBehaviour
     public MelogumeSingingManager melogumesSingingManager;
     private GameObject baseLegume;
 
+    public bool isTeleporting = false;
+
 
     public CrocNoteType legumeType;
     private string legumeName;
@@ -213,28 +215,25 @@ public class LegumeManager : MonoBehaviour
                                 }
                                 break;
                             case CrocNoteType.deux:
-                                Debug.Log(jetDeHaine);
                                 if (jetDeHaine < Specisme2)
                                 {
                                     StartRageState(other.transform);
                                 }
                                 break;
                             case CrocNoteType.trois:
-                                Debug.Log(jetDeHaine);
+
                                 if (jetDeHaine < Specisme3)
                                 {
                                     StartRageState(other.transform);
                                 }
                                 break;
                             case CrocNoteType.quatre:
-                                Debug.Log(jetDeHaine);
                                 if (jetDeHaine < Specisme4)
                                 {
                                     StartRageState(other.transform);
                                 }
                                 break;
                             case CrocNoteType.cinq:
-                                Debug.Log(jetDeHaine);
                                 if (jetDeHaine < Specisme5)
                                 {
                                     StartRageState(other.transform);
