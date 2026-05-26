@@ -29,6 +29,10 @@ public class WorldTreeManager : MonoBehaviour
     public float timeBetweenLoops = 4f;
     public GameObject noteParticlePrefab;
     public Transform[] stageParticleSpawnPoints;
+
+    [Tooltip("Place ici l'Empty GameObject d'où sortiront les particules lors de la mélodie finale")]
+    public Transform finalPhaseParticleSpawnPoint; // <-- NOUVELLE VARIABLE ICI
+
     public WorldTreeNoteDictionary[] customDictionary;
 
     [Header("Events")]
@@ -246,7 +250,14 @@ public class WorldTreeManager : MonoBehaviour
         {
             Vector3 spawnPosition = transform.position;
 
-            if (stageParticleSpawnPoints != null && currentStage < stageParticleSpawnPoints.Length && stageParticleSpawnPoints[currentStage] != null)
+            // --- NOUVELLE LOGIQUE ICI ---
+            // On vérifie d'abord si on est dans la phase finale ET qu'un point spécifique a été assigné
+            if (isWaitingForPlayerMelody && finalPhaseParticleSpawnPoint != null)
+            {
+                spawnPosition = finalPhaseParticleSpawnPoint.position;
+            }
+            // Sinon, on retombe sur l'ancien système (le tableau) s'il est configuré
+            else if (stageParticleSpawnPoints != null && currentStage < stageParticleSpawnPoints.Length && stageParticleSpawnPoints[currentStage] != null)
             {
                 spawnPosition = stageParticleSpawnPoints[currentStage].position;
             }

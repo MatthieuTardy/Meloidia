@@ -1,53 +1,35 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
+using TMPro;
 
 public class CreditsManager : MonoBehaviour
 {
-    public CanvasGroup canvasGroup;
-    public ScrollRect scrollRect;
-    public float fadeDuration = 2f;
-    public float delayBeforeScroll = 2f;
-    public float scrollSpeed = 0.05f;
+    public TextMeshProUGUI creditsText;
+    public float scrollSpeed = 50f;
     public UnityEvent onCreditsFinished;
 
+    // Cette fonction sera appelée par le EndingCinematicManager dès que le Fade In est fini
     public void StartCredits()
     {
-        StartCoroutine(CreditsRoutine());
+        StartCoroutine(ScrollRoutine());
     }
 
-    private IEnumerator CreditsRoutine()
+    private IEnumerator ScrollRoutine()
     {
-        if (canvasGroup != null)
+        if (creditsText != null)
         {
-            canvasGroup.alpha = 0f;
-            canvasGroup.gameObject.SetActive(true);
-        }
+            RectTransform textRect = creditsText.rectTransform;
+            float textHeight = creditsText.preferredHeight;
+            float startY = textRect.anchoredPosition.y;
 
-        if (scrollRect != null)
-        {
-            scrollRect.verticalNormalizedPosition = 1f;
-        }
+            // Point d'arrivée hors de l'écran avec marge de sécurité
+            float targetY = startY + textHeight + 500f;
 
-        float timer = 0f;
-        while (timer < fadeDuration)
-        {
-            timer += Time.deltaTime;
-            if (canvasGroup != null)
+            // Défilement continu en continu sans s'arrêter
+            while (textRect.anchoredPosition.y < targetY)
             {
-                canvasGroup.alpha = Mathf.Clamp01(timer / fadeDuration);
-            }
-            yield return null;
-        }
-
-        yield return new WaitForSeconds(delayBeforeScroll);
-
-        if (scrollRect != null)
-        {
-            while (scrollRect.verticalNormalizedPosition > 0f)
-            {
-                scrollRect.verticalNormalizedPosition -= scrollSpeed * Time.deltaTime;
+                textRect.anchoredPosition += Vector2.up * (scrollSpeed * Time.deltaTime);
                 yield return null;
             }
         }

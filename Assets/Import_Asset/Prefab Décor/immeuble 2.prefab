@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 8596522482791977105}
   - component: {fileID: 5811909540570555483}
   - component: {fileID: 9064464359688215366}
+  - component: {fileID: 5464870367611196624}
   m_Layer: 15
   m_Name: "immeuble 2 d\xE9truit+props fix"
   m_TagString: Untagged
@@ -137,3 +138,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 108.04498, y: 97.71203, z: 87.238014}
   m_Center: {x: -2.3184202, y: 2.4254835, z: -3.6779916}
+--- !u!208 &5464870367611196624
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5451871914736141710}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 54.022003, y: 48.856003, z: 43.619003}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -2.318, y: 2.4250002, z: -3.6780002}
+  m_TimeToStationary: 0.5

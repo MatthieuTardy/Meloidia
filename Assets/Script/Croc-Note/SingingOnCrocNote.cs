@@ -11,7 +11,7 @@ public class SingingOnCrocNote : MonoBehaviour
 
     ///Théo
     public float detectionRadius = 5f;
-    public float teleportDistance = 100f;
+    public float teleportDistance = 60f;
     public float getoutAnimDuration = 1.5f;
     private Transform wanderTarget;
     private Coroutine wanderRoutine;

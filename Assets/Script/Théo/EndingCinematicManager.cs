@@ -7,8 +7,13 @@ using Cinemachine;
 [System.Serializable]
 public class FocusChange
 {
-    public float timeDelay;
+    public float triggerWaypointIndex;
     public Transform newLookAt;
+    public float transitionDuration = 1f;
+    [Space(10)]
+    public bool revertFocus;
+    public float keepFocusForWaypoints = 1f;
+    public Transform revertLookAtTarget;
 }
 
 [System.Serializable]
@@ -43,12 +48,13 @@ public class EndingCinematicManager : MonoBehaviour
 
     private IEnumerator CinematicRoutine()
     {
+        // CHANGEMENT 1 : On met l'alpha à 0 mais on les laisse INACTIFS pour le moment
         foreach (var ui in uiElementsToFadeIn)
         {
             if (ui != null)
             {
                 ui.alpha = 0f;
-                ui.gameObject.SetActive(true);
+                ui.gameObject.SetActive(false);
             }
         }
 
@@ -67,16 +73,7 @@ public class EndingCinematicManager : MonoBehaviour
             var transposer = sequenceCam.AddCinemachineComponent<CinemachineTransposer>();
             transposer.m_FollowOffset = Vector3.zero;
 
-            if (shot.lookAtTarget != null)
-            {
-                sequenceCam.LookAt = shot.lookAtTarget;
-                var composer = sequenceCam.AddCinemachineComponent<CinemachineComposer>();
-                composer.m_TrackedObjectOffset = Vector3.zero;
-            }
-            else
-            {
-                sequenceCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
-            }
+            SetCameraFocus(sequenceCam, shot.lookAtTarget);
 
             shot.onShotStart?.Invoke();
 
@@ -88,7 +85,16 @@ public class EndingCinematicManager : MonoBehaviour
             float endTrackTimer = 0f;
             float maxCartPos = 0f;
             bool isFadingUI = false;
+            bool isWaitingForInput = false;
             float fadeTimer = 0f;
+            int currentUiIndex = 0;
+
+            GameObject proxyObj = new GameObject("Ending_LookAtProxy");
+            Transform currentLookTarget = shot.lookAtTarget;
+            Transform previousLookTarget = shot.lookAtTarget;
+            bool isTransitioning = false;
+            float transitionTimer = 0f;
+            float currentTransitionDuration = 0f;
 
             if (cart != null && cart.m_Path != null)
             {
@@ -103,26 +109,66 @@ public class EndingCinematicManager : MonoBehaviour
             while (true)
             {
                 timer += Time.deltaTime;
+                float currentWaypointPos = 0f;
+
+                if (cart != null && cart.m_Path != null)
+                {
+                    currentWaypointPos = cart.m_Path.ToNativePathUnits(cart.m_Position, cart.m_PositionUnits);
+                }
 
                 for (int i = pendingFocusChanges.Count - 1; i >= 0; i--)
                 {
-                    if (timer >= pendingFocusChanges[i].timeDelay)
+                    FocusChange focus = pendingFocusChanges[i];
+
+                    if (currentWaypointPos >= focus.triggerWaypointIndex)
                     {
-                        if (sequenceCam != null && pendingFocusChanges[i].newLookAt != null)
+                        previousLookTarget = currentLookTarget;
+                        currentLookTarget = focus.newLookAt;
+                        currentTransitionDuration = focus.transitionDuration;
+
+                        if (currentTransitionDuration > 0f)
                         {
-                            sequenceCam.LookAt = pendingFocusChanges[i].newLookAt;
-
-                            var composer = sequenceCam.GetCinemachineComponent<CinemachineComposer>();
-                            if (composer == null)
-                            {
-                                var sameAsFollow = sequenceCam.GetComponent<CinemachineSameAsFollowTarget>();
-                                if (sameAsFollow != null) Destroy(sameAsFollow);
-
-                                composer = sequenceCam.AddCinemachineComponent<CinemachineComposer>();
-                                composer.m_TrackedObjectOffset = Vector3.zero;
-                            }
+                            isTransitioning = true;
+                            transitionTimer = 0f;
+                            SetCameraFocus(sequenceCam, proxyObj.transform);
                         }
+                        else
+                        {
+                            isTransitioning = false;
+                            SetCameraFocus(sequenceCam, currentLookTarget);
+                        }
+
+                        if (focus.revertFocus)
+                        {
+                            FocusChange revertChange = new FocusChange
+                            {
+                                triggerWaypointIndex = focus.triggerWaypointIndex + focus.keepFocusForWaypoints,
+                                newLookAt = focus.revertLookAtTarget,
+                                transitionDuration = focus.transitionDuration,
+                                revertFocus = false
+                            };
+                            pendingFocusChanges.Add(revertChange);
+                        }
+
                         pendingFocusChanges.RemoveAt(i);
+                    }
+                }
+
+                if (isTransitioning)
+                {
+                    Vector3 startPos = previousLookTarget != null ? previousLookTarget.position : shot.cameraPoint.position + shot.cameraPoint.forward * 30f;
+                    Vector3 endPos = currentLookTarget != null ? currentLookTarget.position : shot.cameraPoint.position + shot.cameraPoint.forward * 30f;
+
+                    transitionTimer += Time.deltaTime;
+                    float t = Mathf.Clamp01(transitionTimer / currentTransitionDuration);
+                    t = t * t * (3f - 2f * t);
+
+                    proxyObj.transform.position = Vector3.Lerp(startPos, endPos, t);
+
+                    if (transitionTimer >= currentTransitionDuration)
+                    {
+                        isTransitioning = false;
+                        SetCameraFocus(sequenceCam, currentLookTarget);
                     }
                 }
 
@@ -143,25 +189,48 @@ public class EndingCinematicManager : MonoBehaviour
                     }
                 }
 
+                // --- GESTION DES FADES UI DE FIN ---
                 if (isFadingUI)
                 {
-                    fadeTimer += Time.deltaTime;
-                    float alpha = Mathf.Clamp01(fadeTimer / uiFadeDuration);
-
-                    foreach (var ui in uiElementsToFadeIn)
+                    if (currentUiIndex < uiElementsToFadeIn.Length)
                     {
-                        if (ui != null)
+                        CanvasGroup currentUi = uiElementsToFadeIn[currentUiIndex];
+
+                        if (currentUi != null)
                         {
-                            ui.alpha = alpha;
+                            // CHANGEMENT 2 : On active l'élément uniquement au moment où son fondu commence
+                            if (!currentUi.gameObject.activeSelf)
+                            {
+                                currentUi.gameObject.SetActive(true);
+                            }
+
+                            fadeTimer += Time.deltaTime;
+                            float alpha = Mathf.Clamp01(fadeTimer / uiFadeDuration);
+                            currentUi.alpha = alpha;
+
+                            if (fadeTimer >= uiFadeDuration)
+                            {
+                                currentUi.alpha = 1f; // Sécurité alpha max
+
+                                // CHANGEMENT 3 : LE FADE EST FINI, ON COMMENCE LE SCROLL ICI !
+                                CreditsManager credits = currentUi.GetComponentInChildren<CreditsManager>();
+                                if (credits != null)
+                                {
+                                    credits.StartCredits();
+                                }
+
+                                fadeTimer = 0f;
+                                currentUiIndex++;
+                            }
+                        }
+                        else
+                        {
+                            currentUiIndex++;
                         }
                     }
-
-                    if (fadeTimer >= uiFadeDuration)
+                    else
                     {
-                        Destroy(camObj);
-                        onCinematicFinished?.Invoke();
-                        cinematicRoutine = null;
-                        yield break;
+                        isWaitingForInput = true;
                     }
                 }
                 else if (!isAtEndOfTrack && timer >= shot.duration)
@@ -169,13 +238,52 @@ public class EndingCinematicManager : MonoBehaviour
                     break;
                 }
 
+                if (isWaitingForInput && Input.anyKeyDown)
+                {
+                    onCinematicFinished?.Invoke();
+                    cinematicRoutine = null;
+                    yield break;
+                }
+
                 yield return null;
             }
 
+            Destroy(proxyObj);
             Destroy(camObj);
         }
 
         onCinematicFinished?.Invoke();
         cinematicRoutine = null;
+    }
+
+    private void SetCameraFocus(CinemachineVirtualCamera cam, Transform target)
+    {
+        if (cam == null) return;
+
+        cam.LookAt = target;
+
+        if (target != null)
+        {
+            var composer = cam.GetCinemachineComponent<CinemachineComposer>();
+            if (composer == null)
+            {
+                var sameAsFollow = cam.GetCinemachineComponent<CinemachineSameAsFollowTarget>();
+                if (sameAsFollow != null) Destroy(sameAsFollow);
+
+                composer = cam.AddCinemachineComponent<CinemachineComposer>();
+                composer.m_TrackedObjectOffset = Vector3.zero;
+            }
+        }
+        else
+        {
+            var composer = cam.GetCinemachineComponent<CinemachineComposer>();
+            if (composer != null) Destroy(composer);
+
+            var sameAsFollow = cam.GetCinemachineComponent<CinemachineSameAsFollowTarget>();
+            if (sameAsFollow == null)
+            {
+                cam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
+            }
+        }
     }
 }

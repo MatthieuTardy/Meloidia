@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using FMODUnity;
 
 public class PlayerController : MonoBehaviour
 {
@@ -104,7 +105,6 @@ public class PlayerController : MonoBehaviour
         CheckGrounded();
         wasGrounded = isGrounded;
     }
-
     void Update()
     {
         //if (GameManager.Instance.playerManager.Lock)
@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour
             if (!wasGrounded && isGrounded)
             {
                 PlayLandingParticles();
+                RuntimeManager.PlayOneShot("event:/SFX/Robot/Robot_Action/Chute_robot");
             }
             wasGrounded = isGrounded;
             // --- Fin Ajout ---
@@ -125,6 +126,7 @@ public class PlayerController : MonoBehaviour
                 if (Input.GetButtonDown("Jump") && isGrounded && Time.time >= lastJumpTime + jumpCooldown)
                 {
                     Jump();
+                    RuntimeManager.PlayOneShot("event:/SFX/Robot/Robot_Action/Saut_Robot");
                 }
                 else if (Input.GetButton("Jump") && isJumping)
                 {
