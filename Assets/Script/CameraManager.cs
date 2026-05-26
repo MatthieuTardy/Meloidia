@@ -24,6 +24,8 @@ public class CameraManager : MonoBehaviour
         {
             freeLook.m_YAxis.m_InputAxisName = "";
             freeLook.m_XAxis.m_InputAxisName = "";
+            freeLook.m_XAxis.m_InputAxisValue = 0f;
+            freeLook.m_YAxis.m_InputAxisValue = 0f;
         }
 
     }
@@ -35,8 +37,8 @@ public class CameraManager : MonoBehaviour
     {
         bool isPC = Input.GetButtonDown("SongPC");
 
+        
         IsToggleSing = !IsToggleSing;
-
         if (IsToggleSing)
         {
             LockCam(true, isPC);
@@ -53,6 +55,7 @@ public class CameraManager : MonoBehaviour
         // freeLook.enabled = enable;
         freeLook.m_XAxis.Reset();
         freeLook.m_YAxis.Reset();
+        
         // GameManager.Instance.playerManager.LockControl(enable);
         InputUIevent.HideCursor();
         if (IsPC)
