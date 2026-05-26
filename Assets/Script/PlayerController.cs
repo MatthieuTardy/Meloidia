@@ -163,7 +163,7 @@ public class PlayerController : MonoBehaviour
         ApplyBetterGravity();
         if (GameManager.Instance.playerManager.Lock)
         {
-            if (!isGrounded)
+            if (!isGrounded && jumpHoldTimer<0.5f)
             {
                 HandleMovement();
             }
@@ -305,7 +305,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         // #esteban - On désactive isGrounded = false ici aussi
-        // isGrounded = false;
+        isGrounded = false;
     }
     private void HandleSprintVisuals()
     {
@@ -364,6 +364,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DelayedJumpPhysics()
     {
+        
         yield return new WaitForSeconds(jumpDelay);
         body.velocity = new Vector3(body.velocity.x, 0, body.velocity.z);
 
@@ -378,7 +379,9 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        body.AddForce(Vector3.up * currentJumpForce, ForceMode.Impulse);
+            body.AddForce(Vector3.up * currentJumpForce, ForceMode.Impulse);
+
+
 
         if (sprintParticles != null)
         {
