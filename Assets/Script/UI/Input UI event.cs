@@ -35,6 +35,17 @@ public class InputUIevent : MonoBehaviour
         ManageEscape();
         ManageSinging();
     }
+    public void DesactivateWheel()
+    {
+        if (SingWheelActive)
+        {
+            isSinging = false;
+            SingWheelActive = false;
+            IsSinging.Invoke();
+            HideCursor();
+            GameManager.Instance.playerManager.noteSystem.ChangeToggleTrackBool(true);
+        }
+    }
 
     void ManageSinging()
     {
@@ -44,7 +55,6 @@ public class InputUIevent : MonoBehaviour
             value += Input.GetAxisRaw("SongPC");
             if (value > 0 && !isSinging)
             {
-                Debug.Log("Invoke");
                 isSinging = true;
                 SingWheelActive = !SingWheelActive;
                 IsSinging?.Invoke();

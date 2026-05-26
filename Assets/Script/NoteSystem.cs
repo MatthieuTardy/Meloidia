@@ -96,7 +96,7 @@ public class NoteSystem : MonoBehaviour
     bool toggleTrackBool;
     private void Start()
     {
-        toggleTrackBool = true;
+        toggleTrackBool = false;
         ToggleTrackOne(true);
         WheelCenter = FindAnyObjectByType<UiSelection>().wheelRoot.transform;
         InputUIevent.instance.IsSinging += ResetSingButton;
@@ -122,16 +122,23 @@ public class NoteSystem : MonoBehaviour
         }
         // =======================================================================================================
     }
+
+    public void ChangeToggleTrackBool(bool toggle)
+    {
+        toggleTrackBool = toggle;
+    }
+
     void ResetSingButton()
     {
         isSinging = !isSinging;
         IsToggleSing = false;
+        ToggleTrackSpecial();
     }
     void Update()
     {
 
         playedTime += Time.deltaTime;
-
+        /*
         float value = Input.GetAxisRaw("ToggleSing");
         value += Input.GetAxisRaw("SongPC");
         if (value > 0 && !IsToggleSing)
@@ -139,13 +146,13 @@ public class NoteSystem : MonoBehaviour
             isSinging = !isSinging;
             IsToggleSing = true;
         }
-
         if (value < 0.1f)
         {
+
             IsToggleSing = false;
         }
-
-        if(Input.GetAxis("ValidateNote") == 0f)
+        */
+        if (Input.GetAxis("ValidateNote") == 0f)
         {
             noteBefore = musicalNotes.None;
         }
@@ -183,13 +190,13 @@ public class NoteSystem : MonoBehaviour
                 singDelay = 0;
             }
         }
-
+        /*
         if (Input.GetButtonDown("SongPC"))
         {
             toggleTrackBool = !toggleTrackBool;
             ToggleTrackOne(toggleTrackBool);
         }
-
+        */
         
     }
     public void ClearPartition()
@@ -228,9 +235,9 @@ public class NoteSystem : MonoBehaviour
         
     }
     private float volumeT1;
-    private bool isSinging;
+    private bool isSinging = false;
 
-    public bool IsToggleSing;
+    public bool IsToggleSing = false;
 
     IEnumerator FadeSound(float time, bool FadeIn)
     {

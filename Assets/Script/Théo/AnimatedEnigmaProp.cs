@@ -70,12 +70,13 @@ public class AnimatedEnigmaProp : MonoBehaviour
     {
         if (objectToDeactivateOnStart == null)
         {
-            objectToDeactivateOnStart = GameObject.Find("Wheel");
+           // objectToDeactivateOnStart = GameObject.Find("Wheel");
         }
 
         if (isCinematicPlaying && objectToDeactivateOnStart != null && objectToDeactivateOnStart.activeInHierarchy)
         {
-            objectToDeactivateOnStart.SetActive(false);
+           // objectToDeactivateOnStart.SetActive(false);
+           InputUIevent.instance.DesactivateWheel();
         }
 
         CheckEnigmaProgress();
@@ -198,9 +199,9 @@ public class AnimatedEnigmaProp : MonoBehaviour
     {
         if (objectToDeactivateOnStart != null)
         {
-            objectToDeactivateOnStart.SetActive(false);
+            //objectToDeactivateOnStart.SetActive(false);
         }
-
+        InputUIevent.instance.DesactivateWheel();
         if (enableCinematicCamera && cinematicCameraPoint != null)
         {
             hasTriggeredCamera = true;
