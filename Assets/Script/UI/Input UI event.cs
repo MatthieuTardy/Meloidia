@@ -43,7 +43,7 @@ public class InputUIevent : MonoBehaviour
             SingWheelActive = false;
             IsSinging.Invoke();
             HideCursor();
-            GameManager.Instance.playerManager.noteSystem.ChangeToggleTrackBool(true);
+           // GameManager.Instance.playerManager.noteSystem.ChangeToggleTrackBool(true);
         }
     }
 

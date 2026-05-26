@@ -96,7 +96,7 @@ public class NoteSystem : MonoBehaviour
     bool toggleTrackBool;
     private void Start()
     {
-        toggleTrackBool = false;
+        toggleTrackBool = true;
         ToggleTrackOne(true);
         WheelCenter = FindAnyObjectByType<UiSelection>().wheelRoot.transform;
         InputUIevent.instance.IsSinging += ResetSingButton;
@@ -132,7 +132,10 @@ public class NoteSystem : MonoBehaviour
     {
         isSinging = !isSinging;
         IsToggleSing = false;
-        ToggleTrackSpecial();
+        //IsTrackOneToggle = !IsTrackOneToggle;
+        //ToggleTrackSpecial();
+        toggleTrackBool = !toggleTrackBool;
+        ToggleTrackOne(toggleTrackBool);
     }
     void Update()
     {
@@ -190,13 +193,12 @@ public class NoteSystem : MonoBehaviour
                 singDelay = 0;
             }
         }
-        /*
+        
         if (Input.GetButtonDown("SongPC"))
         {
-            toggleTrackBool = !toggleTrackBool;
-            ToggleTrackOne(toggleTrackBool);
+            
         }
-        */
+        
         
     }
     public void ClearPartition()
