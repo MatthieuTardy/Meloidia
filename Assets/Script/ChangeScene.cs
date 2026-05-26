@@ -22,17 +22,7 @@ public class ChangeScene : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton pour persister entre les scènes
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+       
     }
 
     private void Start()
